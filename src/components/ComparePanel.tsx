@@ -3,6 +3,8 @@ import { ArrowRightLeft, Check, Trash2, X } from 'lucide-react';
 import { t } from '../i18n';
 import type { CompareEntry, LocaleConfig } from '../types';
 import { formatMeasurement } from '../utils/measurements';
+import { Modal } from './ui/Modal';
+import { stoneTypes } from '../data';
 
 interface ComparePanelProps {
   items: CompareEntry[];
@@ -11,7 +13,20 @@ interface ComparePanelProps {
   onClear: () => void;
 }
 
-function value(entry: CompareEntry, field: 'material' | 'dimensions' | 'thickness' | 'finish' | 'application'): string {
+type CompareField = 'material' | 'dimensions' | 'thickness' | 'finish' | 'hardness' | 'absorption' | 'heat' | 'application';
+
+function materialReference(material: string) {
+  return stoneTypes.find((item) => item.name === material);
+}
+
+function value(entry: CompareEntry, field: CompareField): string {
+  const material = entry.kind === 'product' ? entry.item.material : entry.item.material;
+  const reference = materialReference(material);
+  if (field === 'hardness') return reference?.hardness || 'Product-specific';
+  if (field === 'absorption') return reference?.absorption || 'Product-specific';
+  if (field === 'heat') return ['Quartz', 'Engineered Marble'].includes(material)
+    ? 'Avoid direct high heat; use a trivet and follow product guidance.'
+    : 'Review thermal shock risk and use a trivet for hot cookware.';
   if (entry.kind === 'product') {
     const item = entry.item;
     if (field === 'material') return item.material;
@@ -44,6 +59,9 @@ export const ComparePanel: React.FC<ComparePanelProps> = ({ items, locale, onRem
     ['dimensions', t(locale, 'dimensions')],
     ['thickness', t(locale, 'thickness')],
     ['finish', t(locale, 'finish')],
+    ['hardness', 'Mohs hardness'],
+    ['absorption', 'Water absorption'],
+    ['heat', 'Heat guidance'],
     ['application', t(locale, 'application')]
   ] as const;
 
@@ -58,8 +76,7 @@ export const ComparePanel: React.FC<ComparePanelProps> = ({ items, locale, onRem
       </aside>
 
       {isOpen && (
-        <div className="wr-modal-backdrop" role="dialog" aria-modal="true" aria-label={t(locale, 'compare')}>
-          <div className="wr-compare-dialog">
+        <Modal onClose={() => setIsOpen(false)} ariaLabel={t(locale, 'compare')} panelClassName="wr-compare-dialog">
             <header><div><span className="wr-eyebrow">B2B shortlist</span><h2>{t(locale, 'compare')}</h2></div><button className="wr-icon-button" onClick={() => setIsOpen(false)} aria-label="Close comparison"><X /></button></header>
             <div className="wr-compare-media-grid" style={{ '--compare-columns': items.length } as React.CSSProperties}>
               {items.map((entry) => {
@@ -91,8 +108,7 @@ export const ComparePanel: React.FC<ComparePanelProps> = ({ items, locale, onRem
               ))}
             </div>
             <footer><button className="wr-button wr-button--ghost" onClick={onClear}><Trash2 /> {t(locale, 'clear')}</button><button className="wr-button wr-button--primary" onClick={() => setIsOpen(false)}>Done</button></footer>
-          </div>
-        </div>
+        </Modal>
       )}
     </>
   );

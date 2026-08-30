@@ -100,8 +100,14 @@ export interface StoneTypeInfo {
   imageCaption: string;
   hardness: string;
   absorption: string;
+  density: string;
+  flexuralStrength: string;
   maintenance: string;
+  suitability: string[];
   applications: string[];
+  applicationImage: string;
+  applicationAlt: string;
+  applicationCaption: string;
   caveat: string;
 }
 

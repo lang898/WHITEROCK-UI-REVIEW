@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   X,
   Plus,
@@ -10,12 +10,15 @@ import {
   Package,
   ShieldCheck,
   CheckCircle2,
-  Share2
+  ZoomIn,
+  ZoomOut,
+  RotateCcw
 } from 'lucide-react';
 import type { ColorItem } from '../types';
 import { ShareButton } from './ShareButton';
 import type { ShareContent } from './SocialShareModal';
 import { formatMeasurement } from '../utils/measurements';
+import { Modal } from './ui/Modal';
 
 interface ColorModalProps {
   color: ColorItem | null;
@@ -30,6 +33,14 @@ export const ColorModal: React.FC<ColorModalProps> = ({
   onRequestSample,
   onShare,
 }) => {
+  const [zoom, setZoom] = useState(1);
+  const [focus, setFocus] = useState({ x: 50, y: 50 });
+
+  useEffect(() => {
+    setZoom(1);
+    setFocus({ x: 50, y: 50 });
+  }, [color?.slug]);
+
   if (!color) return null;
 
   const shareContent: ShareContent = {
@@ -42,11 +53,11 @@ export const ColorModal: React.FC<ColorModalProps> = ({
   };
 
   return (
-    <div className="wr-modal-backdrop" role="dialog" aria-modal="true" aria-label={`${color.name} color details`} onClick={onClose}>
-      <div
-        className="relative bg-white rounded-[2rem] w-full max-w-3xl shadow-2xl text-[#1d1d1f] overflow-hidden max-h-[92vh] flex flex-col border border-black/[0.08]"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal
+      onClose={onClose}
+      ariaLabel={`${color.name} color details`}
+      panelClassName="wr-detail-dialog wr-detail-dialog--color"
+    >
         {/* Header */}
         <div className="wr-modal-header">
           <div className="flex items-center gap-3">
@@ -71,18 +82,21 @@ export const ColorModal: React.FC<ColorModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Swatch Image */}
             <div className="space-y-3">
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-stone-100 border border-black/[0.06] group shadow-xs">
+              <div
+                className="wr-texture-viewer relative aspect-square overflow-hidden bg-stone-100 border border-black/[0.06] group shadow-xs"
+                onPointerMove={(event) => {
+                  if (zoom === 1) return;
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  setFocus({ x: ((event.clientX - rect.left) / rect.width) * 100, y: ((event.clientY - rect.top) / rect.height) * 100 });
+                }}
+              >
                 <img
                   src={color.swatchImage}
                   alt={`${color.name} digital swatch`}
                   width={720}
                   height={720}
-                  loading="lazy"
-                  className="wr-media-zoom"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%23f5f5f7"/><circle cx="200" cy="200" r="140" fill="%23e5e5ea" stroke="%23d1d1d6" stroke-width="2"/><text x="50%25" y="48%25" dominant-baseline="middle" text-anchor="middle" fill="%23b45309" font-family="sans-serif" font-size="18" font-weight="bold">${color.name}</text><text x="50%25" y="58%25" dominant-baseline="middle" text-anchor="middle" fill="%2386868b" font-family="sans-serif" font-size="13">${color.material} - ${color.colorFamily}</text></svg>`;
-                  }}
+                  loading="eager"
+                  style={{ transform: `scale(${zoom})`, transformOrigin: `${focus.x}% ${focus.y}%` }}
                 />
                 <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-semibold text-[#1d1d1f] shadow-xs">
                   {color.colorFamily} Palette
@@ -92,6 +106,11 @@ export const ColorModal: React.FC<ColorModalProps> = ({
                     {color.caption}
                   </div>
                 )}
+                <div className="wr-texture-viewer__controls" aria-label="Texture zoom controls">
+                  <button className="wr-icon-button" onClick={() => setZoom((value) => Math.min(3, Number((value + 0.5).toFixed(1))))} aria-label="Zoom in"><ZoomIn /></button>
+                  <button className="wr-icon-button" onClick={() => setZoom((value) => Math.max(1, Number((value - 0.5).toFixed(1))))} aria-label="Zoom out"><ZoomOut /></button>
+                  <button className="wr-icon-button" onClick={() => { setZoom(1); setFocus({ x: 50, y: 50 }); }} aria-label="Reset texture view"><RotateCcw /></button>
+                </div>
               </div>
 
               <p className="text-xs text-[#6e6e73] leading-relaxed">
@@ -180,7 +199,6 @@ export const ColorModal: React.FC<ColorModalProps> = ({
             <span>Order sample</span>
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };

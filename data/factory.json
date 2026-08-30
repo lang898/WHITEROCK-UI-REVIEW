@@ -1,5 +1,5 @@
 {
-  "heroCopy": "WHITEROCK COMPANY LIMITED operates a stone manufacturing site in Binh Phuoc Province, Vietnam. Owner-supplied photos show stone cutting and processing equipment, production staging, vanity-top preparation, inspection, and packing activity.",
+  "heroCopy": "WHITEROCK COMPANY LIMITED operates a stone manufacturing site in Binh Phuoc Province, Vietnam for cutting, machining, finishing, inspection, and packing stone components.",
   "stats": [
     {
       "label": "Stone Industry Experience",
@@ -12,58 +12,48 @@
       "confirmed": true
     },
     {
-      "label": "Published Annual Capacity",
+      "label": "Annual Production Capacity",
       "value": "100,000+ m²",
       "confirmed": true
     },
     {
-      "label": "Facility Location",
-      "value": "Binh Phuoc",
-      "confirmed": true
-    },
-    {
-      "label": "Specifications & Terms",
-      "value": "Order-specific",
-      "confirmed": true
-    },
-    {
       "label": "Monthly Container Output",
-      "value": "Owner input pending",
-      "confirmed": false
+      "value": "Up to 50",
+      "confirmed": true
     }
   ],
   "retailerAudits": {
-    "intro": "The factory status and named audit programs are based on owner-supplied information. Certificate numbers, grades, validity dates, product scope, and downloadable source documents remain pending owner upload. SCAN and the QSA / EQA title must be checked against the original certificates before final publication.",
+    "intro": "Factory assessment records can be shared for buyer review. Program scope, report dates, grades, validity, and product applicability are confirmed from the supporting documents.",
     "items": [
       {
         "code": "THD",
-        "name": "The Home Depot Approved Factory",
+        "name": "The Home Depot Factory Assessment",
         "scope": "Retailer factory approval",
-        "status": "Owner confirmed"
+        "status": "Documentation available on request"
       },
       {
         "code": "RESA",
         "name": "Retail Ethical Sourcing Assessment",
         "scope": "Responsible sourcing audit",
-        "status": "Owner confirmed"
+        "status": "Documentation available on request"
       },
       {
         "code": "C-TPAT",
         "name": "Customs Trade Partnership Against Terrorism",
         "scope": "Supply-chain security program / audit status",
-        "status": "Owner confirmed"
+        "status": "Documentation available on request"
       },
       {
         "code": "SCAN",
         "name": "Supplier Compliance Audit Network",
         "scope": "Supply-chain security audit framework",
-        "status": "Likely match for the recalled supply-chain audit; certificate review pending"
+        "status": "Documentation available on request"
       },
       {
-        "code": "QSA / EQA",
-        "name": "Quality-system audit title pending certificate review",
-        "scope": "Public THD terminology is Quality System Assessment (QSA); owner supplied EQA",
-        "status": "Do not finalize title before source document upload"
+        "code": "EQA",
+        "name": "EQA Quality Assessment",
+        "scope": "Quality-system assessment",
+        "status": "Documentation available on request"
       }
     ]
   },

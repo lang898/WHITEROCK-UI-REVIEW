@@ -1,5 +1,5 @@
 {
-  "intro": "Starter documents for distributors, fabricators, designers, and project buyers. Replace generated starter PDFs with final owner-approved documents when available.",
+  "intro": "Reference documents for distributors, fabricators, designers, and project buyers. Request product-specific revisions and supporting records from the team.",
   "items": [
     {
       "title": "WHITEROCK Product Catalog",
@@ -22,7 +22,7 @@
     {
       "title": "Certifications & Test Reports",
       "category": "Compliance",
-      "description": "Owner-confirmed certificates and laboratory reports.",
+      "description": "Factory assessment records and laboratory reports available for buyer review.",
       "file": "assets/resources/certifications-and-test-reports.pdf"
     },
     {

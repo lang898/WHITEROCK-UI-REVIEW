@@ -17,6 +17,7 @@ import type { ProductItem } from '../types';
 import { ShareButton } from './ShareButton';
 import type { ShareContent } from './SocialShareModal';
 import { formatMeasurement } from '../utils/measurements';
+import { Modal } from './ui/Modal';
 
 interface ProductModalProps {
   product: ProductItem | null;
@@ -43,11 +44,11 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   };
 
   return (
-    <div className="wr-modal-backdrop" role="dialog" aria-modal="true" aria-label={`${product.title} specifications`} onClick={onClose}>
-      <div
-        className="relative bg-white rounded-[2rem] w-full max-w-4xl shadow-2xl text-[#1d1d1f] overflow-hidden max-h-[92vh] flex flex-col border border-black/[0.08]"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal
+      onClose={onClose}
+      ariaLabel={`${product.title} specifications`}
+      panelClassName="wr-detail-dialog wr-detail-dialog--product"
+    >
         {/* Modal Header */}
         <div className="wr-modal-header">
           <div className="flex items-center gap-3">
@@ -183,7 +184,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             <span>Add SKU to RFQ Inquiries</span>
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };

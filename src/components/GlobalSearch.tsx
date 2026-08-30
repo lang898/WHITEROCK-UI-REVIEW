@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Gem, Layers, Package, Search, X } from 'lucide-react';
+import { ArrowRight, FileText, Gem, Layers, Package, Search, X } from 'lucide-react';
 import { colors, products } from '../data';
 import { t } from '../i18n';
 import type { ColorItem, LocaleConfig, ProductItem } from '../types';
+import { Modal } from './ui/Modal';
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -22,35 +23,66 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   useEffect(() => {
     if (!isOpen) return;
     const timer = window.setTimeout(() => inputRef.current?.focus(), 50);
-    const closeOnEscape = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
-    window.addEventListener('keydown', closeOnEscape);
-    return () => {
-      window.clearTimeout(timer);
-      window.removeEventListener('keydown', closeOnEscape);
-    };
-  }, [isOpen, onClose]);
+    return () => window.clearTimeout(timer);
+  }, [isOpen]);
+
+  const pageEntries = [
+    ['products', 'Products and collections'],
+    ['colors', 'Color and material library'],
+    ['applications', 'Applications and inspiration'],
+    ['factory', 'Factory and manufacturing'],
+    ['resources', 'Technical resources'],
+    ['samples', 'Order stone samples'],
+    ['contact', 'Contact and request a quote'],
+  ];
+
+  const fuzzyScore = (value: string, search: string) => {
+    const haystack = value.toLowerCase();
+    if (!search) return 1;
+    const directIndex = haystack.indexOf(search);
+    if (directIndex >= 0) return 100 - directIndex;
+    let searchIndex = 0;
+    let score = 0;
+    for (let index = 0; index < haystack.length && searchIndex < search.length; index += 1) {
+      if (haystack[index] === search[searchIndex]) {
+        score += index > 0 && haystack[index - 1] === search[Math.max(0, searchIndex - 1)] ? 3 : 1;
+        searchIndex += 1;
+      }
+    }
+    return searchIndex === search.length ? score : 0;
+  };
+
+  const Highlight = ({ text }: { text: string }) => {
+    if (!normalized) return <>{text}</>;
+    const directIndex = text.toLowerCase().indexOf(normalized);
+    if (directIndex >= 0) return <>{text.slice(0, directIndex)}<mark>{text.slice(directIndex, directIndex + normalized.length)}</mark>{text.slice(directIndex + normalized.length)}</>;
+    let searchIndex = 0;
+    return <>{Array.from(text).map((character, index) => {
+      const matched = searchIndex < normalized.length && character.toLowerCase() === normalized[searchIndex];
+      if (matched) searchIndex += 1;
+      return matched ? <mark key={`${character}-${index}`}>{character}</mark> : character;
+    })}</>;
+  };
 
   const normalized = query.trim().toLowerCase();
   const results = useMemo(() => {
     if (!normalized) return { products: products.slice(0, 4), colors: colors.slice(0, 4), materials: [] as string[] };
-    const productResults = products.filter((item) =>
-      [item.title, item.sku, item.category, item.material, item.description].join(' ').toLowerCase().includes(normalized)
-    ).slice(0, 6);
-    const colorResults = colors.filter((item) =>
-      [item.name, item.material, item.colorFamily, item.description].join(' ').toLowerCase().includes(normalized)
-    ).slice(0, 6);
+    const productResults = products.map((item) => ({ item, score: fuzzyScore([item.title, item.sku, item.category, item.material, item.description].join(' '), normalized) }))
+      .filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, 6).map(({ item }) => item);
+    const colorResults = colors.map((item) => ({ item, score: fuzzyScore([item.name, item.material, item.colorFamily, item.description].join(' '), normalized) }))
+      .filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, 6).map(({ item }) => item);
     const materials = Array.from(new Set([...products.map((item) => item.material), ...colors.map((item) => item.material)]))
-      .filter((item) => item.toLowerCase().includes(normalized)).slice(0, 4);
-    return { products: productResults, colors: colorResults, materials };
+      .map((item) => ({ item, score: fuzzyScore(item, normalized) })).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, 4).map(({ item }) => item);
+    const pages = pageEntries.map(([route, label]) => ({ route, label, score: fuzzyScore(label, normalized) })).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, 4);
+    return { products: productResults, colors: colorResults, materials, pages };
   }, [normalized]);
 
   if (!isOpen) return null;
 
-  const noResults = !results.products.length && !results.colors.length && !results.materials.length;
+  const noResults = !results.products.length && !results.colors.length && !results.materials.length && !results.pages?.length;
 
   return (
-    <div className="wr-modal-backdrop wr-search-backdrop" role="dialog" aria-modal="true" aria-label={t(locale, 'search')}>
-      <div className="wr-search-panel">
+    <Modal onClose={onClose} ariaLabel={t(locale, 'search')} className="wr-search-backdrop" panelClassName="wr-search-panel">
         <div className="wr-search-field">
           <Search aria-hidden="true" />
           <input
@@ -72,7 +104,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
               <div className="wr-search-list">
                 {results.products.map((product) => (
                   <button key={product.sku} onClick={() => { onSelectProduct(product); onClose(); }}>
-                    <span><strong>{product.title}</strong><small>{product.sku} · {product.material}</small></span><ArrowRight />
+                    <span><strong><Highlight text={product.title} /></strong><small><Highlight text={`${product.sku} · ${product.material}`} /></small></span><ArrowRight />
                   </button>
                 ))}
               </div>
@@ -85,7 +117,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
               <div className="wr-search-list">
                 {results.colors.map((color) => (
                   <button key={color.slug} onClick={() => { onSelectColor(color); onClose(); }}>
-                    <span><strong>{color.name}</strong><small>{color.material} · {color.colorFamily}</small></span><ArrowRight />
+                    <span><strong><Highlight text={color.name} /></strong><small><Highlight text={`${color.material} · ${color.colorFamily}`} /></small></span><ArrowRight />
                   </button>
                 ))}
               </div>
@@ -98,14 +130,26 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
               <div className="wr-search-list">
                 {results.materials.map((material) => (
                   <button key={material} onClick={() => { onNavigate('colors'); onClose(); }}>
-                    <span><strong>{material}</strong><small>Browse related colors and products</small></span><ArrowRight />
+                    <span><strong><Highlight text={material} /></strong><small>Browse related colors and products</small></span><ArrowRight />
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {!!results.pages?.length && (
+            <section aria-labelledby="search-pages-title">
+              <h2 id="search-pages-title"><FileText /> Pages</h2>
+              <div className="wr-search-list">
+                {results.pages.map((page) => (
+                  <button key={page.route} onClick={() => { onNavigate(page.route); onClose(); }}>
+                    <span><strong><Highlight text={page.label} /></strong><small>Open page</small></span><ArrowRight />
                   </button>
                 ))}
               </div>
             </section>
           )}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };

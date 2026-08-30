@@ -21,6 +21,7 @@ import {
   FacebookIcon
 } from './SocialIcons';
 import { siteConfig } from '../data';
+import { Modal } from './ui/Modal';
 
 export interface ShareContent {
   title: string;
@@ -110,11 +111,7 @@ Direct Inquiries: ${siteConfig.email} | WhatsApp: ${siteConfig.whatsapp}
   };
 
   return (
-    <div className="wr-modal-backdrop">
-      <div
-        className="relative bg-white rounded-[2rem] w-full max-w-lg shadow-2xl text-[#1d1d1f] overflow-hidden border border-black/[0.08] flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal onClose={onClose} ariaLabel="Share WHITEROCK specification" panelClassName="wr-detail-dialog wr-share-dialog">
         {/* Header */}
         <div className="px-6 py-5 border-b border-black/[0.06] flex items-center justify-between bg-[#fbfbfd]">
           <div className="flex items-center gap-2.5">
@@ -320,7 +317,6 @@ Direct Inquiries: ${siteConfig.email} | WhatsApp: ${siteConfig.whatsapp}
             Close
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };

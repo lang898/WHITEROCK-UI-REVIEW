@@ -144,6 +144,27 @@ function AppContent() {
     return () => document.removeEventListener('click', openContentImage);
   }, []);
 
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const targets = Array.from(document.querySelectorAll<HTMLElement>('main > div > section:not(.wr-hero):not(.wr-factory-page__hero), main .wr-section-heading'));
+      targets.forEach((target) => target.classList.add('wr-reveal'));
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      targets.forEach((target) => observer.observe(target));
+      (window as Window & { __wrRevealObserver?: IntersectionObserver }).__wrRevealObserver?.disconnect();
+      (window as Window & { __wrRevealObserver?: IntersectionObserver }).__wrRevealObserver = observer;
+    });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      (window as Window & { __wrRevealObserver?: IntersectionObserver }).__wrRevealObserver?.disconnect();
+    };
+  }, [currentTab]);
+
   const toggleCompare = (entry: CompareEntry) => {
     setCompareItems((current) => {
       if (current.some((item) => item.id === entry.id)) return current.filter((item) => item.id !== entry.id);
@@ -301,6 +322,7 @@ function AppContent() {
             currentLocale={currentLocale}
             onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })}
             compareIds={compareItems.map((item) => item.id)}
+            setCurrentTab={handleTabChange}
           />
         )}
 

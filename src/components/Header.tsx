@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChevronDown, FileText, Globe, Mail, Menu, Package, Search, X } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
 import { locales, siteConfig } from '../data/site';
@@ -24,6 +24,21 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateHeader = () => setIsScrolled(window.scrollY > 24);
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    return () => window.removeEventListener('scroll', updateHeader);
+  }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => event.key === 'Escape' && setMobileMenuOpen(false);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [mobileMenuOpen]);
 
   const navGroups = [
     { label: t(currentLocale, 'collections'), items: [
@@ -59,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="wr-header">
+    <header className={`wr-header ${isScrolled ? 'is-scrolled' : ''}`.trim()}>
       <div className="wr-header__utility">
         <p>WHITEROCK COMPANY LIMITED · Binh Phuoc, Vietnam</p>
         <div>

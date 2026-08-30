@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarX, Mail } from 'lucide-react';
+import { CalendarDays, Mail } from 'lucide-react';
 import type { LocaleConfig } from '../types';
 
 interface EventsViewProps {
@@ -10,14 +10,14 @@ interface EventsViewProps {
 export const EventsView: React.FC<EventsViewProps> = ({ setCurrentTab }) => (
   <div className="wr-events-page">
     <header className="wr-catalog-hero wr-catalog-hero--centered">
-      <div><span className="wr-eyebrow">Fairs & events</span><h1>No WHITEROCK trade-fair participation is currently published.</h1></div>
-      <p>WHITEROCK has not provided any past or upcoming exhibition participation record. This page remains available only as a controlled framework for owner-approved announcements.</p>
+      <div><span className="wr-eyebrow">Fairs & events</span><h1>Meet WHITEROCK through direct factory conversations.</h1></div>
+      <p>Upcoming exhibition schedules and meeting opportunities will be announced here when dates and locations are confirmed.</p>
     </header>
     <section className="wr-events-empty">
-      <CalendarX />
-      <span className="wr-eyebrow">No event schedule</span>
-      <h2>Direct factory conversations remain available year-round.</h2>
-      <p>No fair names, booth numbers, dates, venues, sponsorships, or attendance claims will be added without written owner confirmation.</p>
+      <CalendarDays />
+      <span className="wr-eyebrow">Factory contact</span>
+      <h2>Discuss your program directly with the manufacturing team.</h2>
+      <p>Share your material shortlist, drawings, expected quantity, destination, and target schedule to begin a project review.</p>
       <button className="wr-button wr-button--primary" onClick={() => setCurrentTab('contact')}><Mail />Contact the factory team</button>
     </section>
   </div>

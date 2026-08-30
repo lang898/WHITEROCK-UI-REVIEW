@@ -3,6 +3,8 @@ import { Check, CheckCircle2, ChevronLeft, ChevronRight, File, FileText, Minus, 
 import { siteConfig } from '../data';
 import { t } from '../i18n';
 import type { LocaleConfig, RfqCartItem } from '../types';
+import { Modal } from './ui/Modal';
+import { Input } from './ui/Input';
 
 interface RfqModalProps {
   isOpen: boolean;
@@ -62,7 +64,7 @@ export const RfqModal: React.FC<RfqModalProps> = ({
       } else {
         const body = encodeURIComponent(`Contact\n${formData.name}\n${formData.company}\n${formData.email}\n${formData.country}\n${formData.destinationPort}\n\nSelected items\n${itemSummary}\n\nSelected drawing files\n${drawingFiles.map((file) => `${file.name} (${Math.ceil(file.size / 1024 / 1024)} MB)`).join('\n') || 'None'}\n\nNotes\n${formData.customNotes}\n\nAttach the selected files to this email before sending.`);
         window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(`WHITEROCK RFQ - ${formData.company || formData.name}`)}&body=${body}`;
-        setSubmissionNote('An email draft was opened because the website form access key has not yet been configured.');
+        setSubmissionNote('An email draft has opened so you can attach the selected drawings before sending.');
       }
       setStep('success');
     } catch {
@@ -74,20 +76,20 @@ export const RfqModal: React.FC<RfqModalProps> = ({
 
   const addDrawingFiles = (files: FileList | null) => {
     if (!files) return;
-    const acceptedTypes = new Set(['application/pdf', 'image/jpeg']);
+    const acceptedTypes = new Set(['application/pdf', 'image/jpeg', 'image/png']);
     const incoming = Array.from(files);
     if (drawingFiles.length + incoming.length > 3) {
-      setFileError('Upload up to 3 files in total.');
+      setFileError(t(currentLocale, 'uploadTooMany'));
       return;
     }
-    const invalidType = incoming.find((file) => !acceptedTypes.has(file.type) && !/\.(pdf|jpe?g)$/i.test(file.name));
+    const invalidType = incoming.find((file) => !acceptedTypes.has(file.type) && !/\.(pdf|jpe?g|png)$/i.test(file.name));
     if (invalidType) {
-      setFileError('Only JPG, JPEG, and PDF files are accepted.');
+      setFileError(t(currentLocale, 'uploadInvalid'));
       return;
     }
     const oversized = incoming.find((file) => file.size > 30 * 1024 * 1024);
     if (oversized) {
-      setFileError(`${oversized.name} exceeds the 30 MB per-file limit.`);
+      setFileError(`${oversized.name}: ${t(currentLocale, 'uploadInvalid')}`);
       return;
     }
     setDrawingFiles((current) => [...current, ...incoming]);
@@ -106,8 +108,7 @@ export const RfqModal: React.FC<RfqModalProps> = ({
   ];
 
   return (
-    <div className="wr-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="rfq-title">
-      <div className="wr-rfq-dialog">
+    <Modal onClose={close} ariaLabelledBy="rfq-title" panelClassName="wr-rfq-dialog" closeOnBackdrop={false}>
         <header className="wr-modal-header">
           <div><span className="wr-eyebrow">B2B inquiry builder</span><h2 id="rfq-title">{t(currentLocale, 'rfq')} & sample list</h2></div>
           <button className="wr-icon-button" onClick={close} aria-label="Close RFQ"><X /></button>
@@ -134,17 +135,17 @@ export const RfqModal: React.FC<RfqModalProps> = ({
             <form className="wr-rfq-form" onSubmit={(event) => { event.preventDefault(); setStep('review'); }}>
               <div className="wr-rfq-section-title"><div><h3>Buyer and project details</h3><p>Fields marked with * are required for a useful response.</p></div></div>
               <div className="wr-form-grid">
-                <label><span>Full name *</span><input required value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} /></label>
-                <label><span>Work email *</span><input type="email" required value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} /></label>
-                <label><span>Company *</span><input required value={formData.company} onChange={(event) => setFormData({ ...formData, company: event.target.value })} /></label>
-                <label><span>Country / region *</span><input required value={formData.country} onChange={(event) => setFormData({ ...formData, country: event.target.value })} /></label>
-                <label><span>Destination port</span><input value={formData.destinationPort} onChange={(event) => setFormData({ ...formData, destinationPort: event.target.value })} /></label>
-                <label><span>Project type</span><input value={formData.projectType} onChange={(event) => setFormData({ ...formData, projectType: event.target.value })} /></label>
-                <label><span>Target timeline</span><input value={formData.targetTimeline} onChange={(event) => setFormData({ ...formData, targetTimeline: event.target.value })} /></label>
+                <Input label="Full name *" required value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} />
+                <Input label="Work email *" type="email" required value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} />
+                <Input label="Company *" required value={formData.company} onChange={(event) => setFormData({ ...formData, company: event.target.value })} />
+                <Input label="Country / region *" required value={formData.country} onChange={(event) => setFormData({ ...formData, country: event.target.value })} />
+                <Input label="Destination port" value={formData.destinationPort} onChange={(event) => setFormData({ ...formData, destinationPort: event.target.value })} />
+                <Input label="Project type" value={formData.projectType} onChange={(event) => setFormData({ ...formData, projectType: event.target.value })} />
+                <Input label="Target timeline" value={formData.targetTimeline} onChange={(event) => setFormData({ ...formData, targetTimeline: event.target.value })} />
                 <div className="wr-file-upload wr-form-grid__wide">
-                  <label><UploadCloud /><span><strong>Upload drawings</strong><small>JPG or PDF · up to 3 files · 30 MB each</small></span><input type="file" accept=".jpg,.jpeg,.pdf,image/jpeg,application/pdf" multiple onChange={(event) => { addDrawingFiles(event.target.files); event.currentTarget.value = ''; }} /></label>
+                  <label><UploadCloud /><span><strong>Upload drawings</strong><small>{t(currentLocale, 'uploadHelper')}</small></span><input type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" multiple onChange={(event) => { addDrawingFiles(event.target.files); event.currentTarget.value = ''; }} /></label>
                   {drawingFiles.length > 0 && <ul>{drawingFiles.map((file, index) => <li key={`${file.name}-${file.lastModified}`}><File /><span>{file.name}<small>{(file.size / 1024 / 1024).toFixed(1)} MB</small></span><button type="button" className="wr-icon-button" onClick={() => setDrawingFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))} aria-label={`Remove ${file.name}`}><X /></button></li>)}</ul>}
-                  {fileError && <p className="wr-form-error">{fileError}</p>}
+                  {fileError && <p className="wr-form-error" role="alert" aria-live="assertive">{fileError}</p>}
                 </div>
                 <label className="wr-form-grid__wide"><span>Notes, drawings, edge details, or required documents</span><textarea rows={4} value={formData.customNotes} onChange={(event) => setFormData({ ...formData, customNotes: event.target.value })} /></label>
               </div>
@@ -164,7 +165,6 @@ export const RfqModal: React.FC<RfqModalProps> = ({
 
           {step === 'success' && <section className="wr-rfq-success"><CheckCircle2 /><span className="wr-eyebrow">Inquiry prepared</span><h3>Thank you, {formData.name}.</h3><p>{submissionNote}</p><button className="wr-button wr-button--primary" onClick={close}>Close</button></section>}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };

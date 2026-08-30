@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, Bath, Building2, Check, CookingPot, GitCompare, Plus, Search, TableProperties } from 'lucide-react';
+import { ArrowRight, Check, GitCompare, Plus, Search } from 'lucide-react';
 import { products } from '../data';
 import { t } from '../i18n';
 import { formatMeasurement } from '../utils/measurements';
@@ -18,13 +18,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const productPrograms = useMemo(() => [
-    { id: 'Vanity Tops', icon: Bath, description: 'Single and double bowl programs, cutouts, backsplashes, and packaged sets.' },
-    { id: 'Kitchen Countertops', icon: CookingPot, description: 'Cut-to-size counters, islands, waterfall ends, and coordinated backsplashes.' },
-    { id: 'Furniture Tops', icon: TableProperties, description: 'Custom dining, coffee, console, and occasional-table surfaces by drawing.' },
-    { id: 'Project Products', icon: Building2, description: 'Hospitality, multi-family, commercial, waterjet, and architectural stone packages.' }
-  ], []);
-  const categories = useMemo(() => ['All', ...productPrograms.map((program) => program.id)], [productPrograms]);
+  const categories = useMemo(() => ['All', 'Vanity Tops', 'Kitchen Countertops', 'Furniture Tops', 'Project Products'], []);
   const representativeSkus = useMemo(() => [
     'WR-VT24', 'WR-VT31', 'WR-KT-QC', 'WR-KT-NS',
     'WR-FR-RM', 'WR-FR-OT', 'WR-HT', 'WR-WJ-MED'
@@ -49,19 +43,9 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   return (
     <div className="wr-catalog-page">
       <header className="wr-catalog-hero wr-catalog-hero--centered">
-        <div><span className="wr-eyebrow">{t(currentLocale, 'productCatalog')} · B2B</span><h1>Four core product programs, built around your drawings.</h1></div>
-        <p>Vanity tops, kitchen countertops, furniture tops, and project products form the core WHITEROCK offer. Dimensions, stone selection, fabrication details, quantity, and packing are confirmed for each quotation.</p>
+        <div><span className="wr-eyebrow">{t(currentLocale, 'productCatalog')}</span><h1>Products</h1></div>
+        <p>Browse the range, then open any item for dimensions, materials, finishes, packing, and quotation details.</p>
       </header>
-
-      <section className="wr-product-programs" aria-label="Core product programs">
-        {productPrograms.map(({ id, icon: Icon, description }) => (
-          <button key={id} className={selectedCategory === id ? 'is-active' : ''} onClick={() => setSelectedCategory(id)}>
-            <Icon aria-hidden="true" />
-            <span><strong>{id}</strong><small>{description}</small></span>
-            <ArrowRight aria-hidden="true" />
-          </button>
-        ))}
-      </section>
 
       <div className="wr-catalog-layout">
         <aside className="wr-filter-rail" aria-label="Product filters">
@@ -83,7 +67,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   <span className="wr-catalog-card__sku">{product.sku}</span>
                 </button>
                 <div className="wr-catalog-card__body">
-                  {product.imageType === 'render' && <span className="wr-catalog-card__render-note">Illustrative render · not actual product</span>}
+                  {product.imageType === 'render' && <span className="wr-catalog-card__render-note">Illustrative render</span>}
                   <small>{productProgramFor(product)} · {product.material}</small>
                   <h2>{product.title}</h2>
                   <p>{formatMeasurement(product.description)}</p>
@@ -104,6 +88,21 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           {!displayedProducts.length && <div className="wr-empty-state"><h2>{t(currentLocale, 'noResults')}</h2><button className="wr-button wr-button--secondary" onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}>{t(currentLocale, 'clear')}</button></div>}
         </main>
       </div>
+
+      <section className="wr-size-reference" aria-labelledby="size-reference-title">
+        <div><span className="wr-eyebrow">Common size reference</span><h2 id="size-reference-title">North American vanity and counter dimensions.</h2><p>Use these dimensions to begin the discussion. Sink model, cabinet, overhang, backsplash, finished edge, and final drawing govern production.</p></div>
+        <div className="wr-size-reference__table" role="table" aria-label="Common North American stone top sizes">
+          <div role="row"><strong role="columnheader">Program</strong><strong role="columnheader">Inches</strong><strong role="columnheader">Millimetres</strong></div>
+          {[
+            ['Single vanity', '25 × 22 in', '635 × 559 mm'],
+            ['Single vanity', '31 × 22 in', '787 × 559 mm'],
+            ['Single vanity', '37 × 22 in', '940 × 559 mm'],
+            ['Single / offset vanity', '49 × 22 in', '1245 × 559 mm'],
+            ['Double vanity', '61 × 22 in', '1549 × 559 mm'],
+            ['Kitchen counter depth', '25½ in', '648 mm'],
+          ].map(([program, imperial, metric]) => <div role="row" key={`${program}-${imperial}`}><span role="cell">{program}</span><span role="cell">{imperial}</span><span role="cell">{metric}</span></div>)}
+        </div>
+      </section>
     </div>
   );
 };

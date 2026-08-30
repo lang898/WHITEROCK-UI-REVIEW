@@ -23,7 +23,7 @@ const scenes: Scene[] = [
     name: 'Kitchen island',
     category: 'Kitchen',
     image: '/assets/owner/countertops/waterfall-kitchen-island.jpg',
-    alt: 'Owner-supplied waterfall kitchen island application',
+    alt: 'Waterfall kitchen island application',
     mask: 'polygon(0 48%, 72% 28%, 100% 37%, 100% 67%, 29% 88%, 0 76%)'
   },
   {
@@ -47,7 +47,7 @@ const scenes: Scene[] = [
     name: 'Furniture top',
     category: 'Furniture',
     image: '/assets/owner/countertops/marble-coffee-top-living-room.jpg',
-    alt: 'Owner-supplied marble coffee table application',
+    alt: 'Marble coffee table application',
     mask: 'polygon(2% 61%, 93% 45%, 100% 62%, 9% 82%)'
   }
 ];

@@ -16,7 +16,9 @@ const copy = {
     compare: 'Compare', compared: 'Selected', addRfq: 'Add to RFQ', fullSpecs: 'Full specs', sample: 'Request sample',
     all: 'All', material: 'Material', dimensions: 'Dimensions', thickness: 'Thickness', finish: 'Finish', application: 'Application',
     searchPlaceholder: 'Search products, colors, or materials', noResults: 'No matching results', clear: 'Clear', review: 'Review',
-    details: 'Details', submit: 'Submit', back: 'Back', continue: 'Continue', remove: 'Remove', quantity: 'Quantity'
+    details: 'Details', submit: 'Submit', back: 'Back', continue: 'Continue', remove: 'Remove', quantity: 'Quantity',
+    uploadInvalid: 'File too large or unsupported format. Please upload PDF, JPG, or PNG under 30 MB.',
+    uploadTooMany: 'Upload up to 3 files in total.', uploadHelper: 'PDF, JPG, or PNG · up to 3 files · 30 MB each'
   },
   vi: {
     home: 'Trang chủ', collections: 'Bộ sưu tập', products: 'Sản phẩm', colors: 'Màu đá', finishes: 'Bề mặt & cạnh',
@@ -33,7 +35,9 @@ const copy = {
     compare: 'So sánh', compared: 'Đã chọn', addRfq: 'Thêm báo giá', fullSpecs: 'Thông số', sample: 'Yêu cầu mẫu',
     all: 'Tất cả', material: 'Vật liệu', dimensions: 'Kích thước', thickness: 'Độ dày', finish: 'Bề mặt', application: 'Ứng dụng',
     searchPlaceholder: 'Tìm sản phẩm, màu hoặc vật liệu', noResults: 'Không tìm thấy kết quả', clear: 'Xóa', review: 'Kiểm tra',
-    details: 'Thông tin', submit: 'Gửi', back: 'Quay lại', continue: 'Tiếp tục', remove: 'Xóa', quantity: 'Số lượng'
+    details: 'Thông tin', submit: 'Gửi', back: 'Quay lại', continue: 'Tiếp tục', remove: 'Xóa', quantity: 'Số lượng',
+    uploadInvalid: 'Tệp quá lớn hoặc không đúng định dạng. Vui lòng tải PDF, JPG hoặc PNG dưới 30 MB.',
+    uploadTooMany: 'Tải lên tối đa 3 tệp.', uploadHelper: 'PDF, JPG hoặc PNG · tối đa 3 tệp · 30 MB mỗi tệp'
   }
 } as const;
 

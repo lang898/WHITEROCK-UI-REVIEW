@@ -65,7 +65,8 @@ export const colors: ColorItem[] = (colorsData.colors as ColorItem[]).map((item)
 }));
 export const stoneTypes: StoneTypeInfo[] = (stoneTypesData.items as StoneTypeInfo[]).map((item) => ({
   ...item,
-  image: publicAsset(item.image) || ''
+  image: publicAsset(item.image) || '',
+  applicationImage: publicAsset(item.applicationImage) || ''
 }));
 export const finishes: FinishItem[] = (finishesData.finishes as FinishItem[]).map((item) => ({ ...item, image: publicAsset(item.image) || '' }));
 export const edges: EdgeItem[] = (edgesData.edges as EdgeItem[]).map((item) => ({ ...item, image: publicAsset(item.image) || '' }));

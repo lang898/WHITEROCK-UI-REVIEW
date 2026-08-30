@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, GitCompare, Package, Search } from 'lucide-react';
+import { ArrowRight, Check, GitCompare, Package, Search } from 'lucide-react';
 import { colors } from '../data';
 import { t } from '../i18n';
 import { formatMeasurement } from '../utils/measurements';
@@ -12,16 +12,20 @@ interface ColorsViewProps {
   currentLocale: LocaleConfig;
   onToggleCompare: (color: ColorItem) => void;
   compareIds: string[];
+  setCurrentTab: (tab: string) => void;
 }
 
 export const ColorsView: React.FC<ColorsViewProps> = ({
-  onSelectColor, onAddColorSample, currentLocale, onToggleCompare, compareIds
+  onSelectColor, onAddColorSample, currentLocale, onToggleCompare, compareIds, setCurrentTab
 }) => {
   const [selectedMaterial, setSelectedMaterial] = useState('All');
   const [selectedFamily, setSelectedFamily] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const materials = ['All', 'Marble', 'Granite', 'Quartz', 'Quartzite', 'Travertine', 'Engineered Marble'];
   const families = ['All', 'White', 'Grey', 'Black', 'Beige', 'Green'];
+  const materialRoute: Record<string, string> = {
+    Marble: 'stone-marble', Granite: 'stone-granite', Quartz: 'stone-quartz', Quartzite: 'stone-quartzite', Travertine: 'stone-travertine', 'Engineered Marble': 'stone-engineered-marble'
+  };
 
   const filteredColors = colors.filter((color) => {
     const search = searchQuery.trim().toLowerCase();
@@ -55,11 +59,13 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
                   <img src={color.swatchImage} alt={`${color.name} illustrative digital swatch`} width="800" height="800" loading="lazy" />
-                  <span className="wr-media-disclosure">Illustrative digital swatch · confirm by sample</span>
+                  <span className="wr-media-disclosure">Digital swatch</span>
                 </button>
                 <div className="wr-swatch-card__body">
                   <small>{color.material} · {color.colorFamily}</small><h2>{color.name}</h2><p>{color.description}</p>
+                  <div className="wr-swatch-card__tags">{color.suitability?.slice(0, 2).map((item) => <span key={item}>{item}</span>)}</div>
                   <dl><div><dt>{t(currentLocale, 'finish')}</dt><dd>{color.finishes.join(', ')}</dd></div><div><dt>{t(currentLocale, 'thickness')}</dt><dd>{formatMeasurement(color.thicknesses.join(', '))}</dd></div><div><dt>Suitability</dt><dd>{color.suitability?.join(', ')}</dd></div><div><dt>Maintenance</dt><dd>{color.maintenanceLevel}</dd></div></dl>
+                  <button className="wr-swatch-card__stone-link" onClick={() => setCurrentTab(materialRoute[color.material])}>View all {color.material.toLowerCase()} colors<ArrowRight /></button>
                   <div className="wr-catalog-card__actions"><button className="wr-button wr-button--primary" onClick={() => onAddColorSample(color)}><Package />Order sample</button><button className={`wr-button wr-button--ghost ${compared ? 'is-active' : ''}`} onClick={() => onToggleCompare(color)}><GitCompare />{compared ? t(currentLocale, 'compared') : t(currentLocale, 'compare')}</button></div>
                 </div>
               </article>

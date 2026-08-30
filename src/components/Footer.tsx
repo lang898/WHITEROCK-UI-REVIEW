@@ -75,6 +75,8 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
         </div>
       </div>
 
+      <p className="wr-footer__material-note"><strong>Color and sample note.</strong> Digital textures are visual references. Natural stone varies by block and lot, and engineered surfaces may vary by batch. Confirm the final material, range, finish, and thickness with a physical sample and order documents.</p>
+
       <div className="wr-footer__bottom">
         <p>© {new Date().getFullYear()} WHITEROCK COMPANY LIMITED. All rights reserved.</p>
         <button onClick={() => setCurrentTab('admin')}><Settings />Website administration</button>

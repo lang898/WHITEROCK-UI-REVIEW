@@ -20,7 +20,7 @@
       ],
       "swatchImage": "assets/colors/alpine-carrara.jpg",
       "imageType": "render",
-      "description": "Cool white marble direction with soft grey movement for vanity tops, furniture, and hospitality interiors.",
+      "description": "Cool white marble animated by soft grey movement for vanity tops, furniture, and hospitality interiors.",
       "techSheetPdf": "assets/resources/colors/alpine-carrara-technical-sheet.pdf",
       "relatedProducts": [
         "Bathroom vanity tops",
@@ -48,7 +48,7 @@
       ],
       "swatchImage": "assets/colors/calacatta-crest.jpg",
       "imageType": "render",
-      "description": "Bright quartz direction with broad grey and warm mineral veining for North American countertop programs.",
+      "description": "Bright quartz crossed by broad grey and warm mineral veining for North American countertop programs.",
       "techSheetPdf": "assets/resources/colors/calacatta-crest-technical-sheet.pdf",
       "relatedProducts": [
         "Bathroom vanity tops",
@@ -104,7 +104,7 @@
       ],
       "swatchImage": "assets/colors/dove-concrete.jpg",
       "imageType": "render",
-      "description": "Soft concrete-grey direction for contemporary kitchens, commercial counters, and hospitality vanities.",
+      "description": "Soft concrete grey creates a quiet architectural surface for kitchens, commercial counters, and hospitality vanities.",
       "techSheetPdf": "assets/resources/colors/dove-concrete-technical-sheet.pdf",
       "relatedProducts": [
         "Kitchen countertops",
@@ -132,7 +132,7 @@
       ],
       "swatchImage": "assets/colors/graphite-crystal.jpg",
       "imageType": "render",
-      "description": "Dense charcoal granite direction with fine mineral depth for durable counters and outdoor furniture.",
+      "description": "Dense charcoal granite with fine mineral depth for durable counters and outdoor furniture.",
       "techSheetPdf": "assets/resources/colors/graphite-crystal-technical-sheet.pdf",
       "relatedProducts": [
         "Restaurant counters",
@@ -160,7 +160,7 @@
       ],
       "swatchImage": "assets/colors/silver-ash.jpg",
       "imageType": "render",
-      "description": "Balanced mid-grey granite direction with fine black and silver mineral structure.",
+      "description": "Balanced mid-grey granite with a fine black and silver mineral structure.",
       "techSheetPdf": "assets/resources/colors/silver-ash-technical-sheet.pdf",
       "relatedProducts": [
         "Kitchen countertops",
@@ -187,7 +187,7 @@
       ],
       "swatchImage": "assets/colors/warm-ivory.jpg",
       "imageType": "render",
-      "description": "Warm off-white engineered marble direction for volume vanity and apartment programs.",
+      "description": "Warm off-white engineered marble brings visual consistency to volume vanity and apartment programs.",
       "techSheetPdf": "assets/resources/colors/warm-ivory-technical-sheet.pdf",
       "relatedProducts": [
         "Bathroom vanity tops",
@@ -215,7 +215,7 @@
       ],
       "swatchImage": "assets/colors/verde-forest.jpg",
       "imageType": "render",
-      "description": "Deep green marble direction with fine white mineral lines for statement furniture and interiors.",
+      "description": "Deep green marble traced by fine white mineral lines for statement furniture and interiors.",
       "techSheetPdf": "assets/resources/colors/verde-forest-technical-sheet.pdf",
       "relatedProducts": [
         "Feature furniture",
@@ -245,7 +245,7 @@
       "swatchImage": "assets/colors/snow-drift.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Soft white quartz direction with very light mineral movement for builder and retail programs.",
+      "description": "Soft white quartz with restrained mineral movement for builder and retail programs.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Kitchen countertops",
@@ -272,7 +272,7 @@
       "swatchImage": "assets/colors/pearl-carrara.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Pearled Carrara-style marble direction with fine grey movement for vanity and feature-surface planning.",
+      "description": "Pearled Carrara-style marble with fine grey movement for vanities and feature surfaces.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Kitchen countertops",
@@ -298,7 +298,7 @@
       "swatchImage": "assets/colors/arctic-calcite.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Clean engineered-marble direction for repeat bathroom vanity programs and value-focused retail collections.",
+      "description": "Clean engineered marble designed for repeat bathroom vanity programs and value-focused retail collections.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Kitchen countertops",
@@ -326,7 +326,7 @@
       "swatchImage": "assets/colors/bianco-mist.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "A quiet white quartz direction with fine mist veining for kitchens, bath tops, and hospitality rooms.",
+      "description": "Quiet white quartz with fine mist veining for kitchens, bath tops, and hospitality rooms.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Kitchen countertops",
@@ -353,7 +353,7 @@
       "swatchImage": "assets/colors/mist-grey.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Light grey granite direction with speckled mineral structure for durable work surfaces.",
+      "description": "Light grey granite with a speckled mineral structure for durable work surfaces.",
       "relatedProducts": [
         "Kitchen countertops",
         "Commercial counters",
@@ -380,7 +380,7 @@
       "swatchImage": "assets/colors/smoke-terrazzo.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Grey terrazzo-inspired engineered direction for commercial bath and showroom concepts.",
+      "description": "A grey terrazzo-inspired engineered surface for commercial baths and showroom concepts.",
       "relatedProducts": [
         "Kitchen countertops",
         "Commercial counters",
@@ -406,7 +406,7 @@
       "swatchImage": "assets/colors/steel-cloud.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Cool grey quartz direction for contemporary kitchens, service counters, and multi-family programs.",
+      "description": "Cool grey quartz gives contemporary kitchens, service counters, and multi-family programs a calm base.",
       "relatedProducts": [
         "Kitchen countertops",
         "Commercial counters",
@@ -433,7 +433,7 @@
       "swatchImage": "assets/colors/storm-basalt.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Deep basalt-grey granite direction for durable counters, tables, and outdoor-adjacent uses by review.",
+      "description": "Deep basalt-grey granite for durable counters, tables, and sheltered exterior uses by review.",
       "relatedProducts": [
         "Kitchen countertops",
         "Commercial counters",
@@ -460,7 +460,7 @@
       "swatchImage": "assets/colors/midnight-pearl.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Black granite direction with subtle pearled mineral points for restaurant counters and furniture tops.",
+      "description": "Black granite with subtle pearled mineral points for restaurant counters and furniture tops.",
       "relatedProducts": [
         "Restaurant counters",
         "Stone furniture",
@@ -487,7 +487,7 @@
       "swatchImage": "assets/colors/noir-marquina.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Black marble direction with bright linear veining for statement vanities, furniture, and hospitality accents.",
+      "description": "Black marble cut by bright linear veining for statement vanities, furniture, and hospitality accents.",
       "relatedProducts": [
         "Restaurant counters",
         "Stone furniture",
@@ -515,7 +515,7 @@
       "swatchImage": "assets/colors/sand-dune.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Warm beige quartz direction for transitional kitchens, bath vanities, and hospitality programs.",
+      "description": "Warm beige quartz softens transitional kitchens, bath vanities, and hospitality programs.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Builder programs",
@@ -542,7 +542,7 @@
       "swatchImage": "assets/colors/crema-luna.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Cream marble direction with soft movement for hotel bathrooms and warm residential interiors.",
+      "description": "Cream marble with gentle movement for hotel bathrooms and warm residential interiors.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Builder programs",
@@ -568,7 +568,7 @@
       "swatchImage": "assets/colors/taupe-limestone.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Taupe limestone-inspired engineered direction for calm multi-family and hospitality bath programs.",
+      "description": "A taupe limestone-inspired engineered surface for calm multi-family and hospitality bath programs.",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Builder programs",
@@ -595,7 +595,7 @@
       "swatchImage": "assets/colors/sage-verde.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Soft green marble direction for feature furniture, bath accents, and boutique hospitality concepts.",
+      "description": "Soft green marble introduces a muted natural note to furniture, bath accents, and boutique hospitality spaces.",
       "relatedProducts": [
         "Feature furniture",
         "Reception counters",
@@ -621,7 +621,7 @@
       "swatchImage": "assets/colors/jade-river.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Jade-green marble direction with pale river veining for premium accent programs.",
+      "description": "Jade-green marble with pale river-like veining for premium accent programs.",
       "relatedProducts": [
         "Feature furniture",
         "Reception counters",
@@ -648,7 +648,7 @@
       "swatchImage": "assets/colors/moss-agate.jpg",
       "imageType": "render",
       "caption": "Illustrative digital swatch - confirm with physical sample.",
-      "description": "Deep green-black granite direction with agate-like mineral structure for tables and counters.",
+      "description": "Deep green-black granite with an agate-like mineral structure for tables and counters.",
       "relatedProducts": [
         "Feature furniture",
         "Reception counters",

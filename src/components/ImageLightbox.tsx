@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { X, ZoomIn } from 'lucide-react';
+import { Modal } from './ui/Modal';
 
 export interface LightboxImage {
   src: string;
@@ -12,24 +13,15 @@ interface ImageLightboxProps {
 }
 
 export const ImageLightbox: React.FC<ImageLightboxProps> = ({ image, onClose }) => {
-  useEffect(() => {
-    if (!image) return undefined;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
-  }, [image, onClose]);
-
   if (!image) return null;
 
   return (
-    <div className="wr-image-lightbox" role="dialog" aria-modal="true" aria-label={image.alt || 'Expanded image'} onClick={onClose}>
+    <Modal onClose={onClose} ariaLabel={image.alt || 'Expanded image'} className="wr-image-lightbox" panelClassName="wr-image-lightbox__panel">
       <button className="wr-icon-button" onClick={onClose} aria-label="Close expanded image"><X /></button>
-      <figure onClick={(event) => event.stopPropagation()}>
-        <img src={image.src} alt={image.alt} />
+      <figure>
+        <img src={image.src} alt={image.alt} width="1600" height="1200" />
         {image.alt && <figcaption><ZoomIn />{image.alt}</figcaption>}
       </figure>
-    </div>
+    </Modal>
   );
 };
