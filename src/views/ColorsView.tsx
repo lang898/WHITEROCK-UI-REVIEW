@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, Check, GitCompare, Package, Search } from 'lucide-react';
 import { colors } from '../data';
 import { t } from '../i18n';
@@ -15,12 +15,16 @@ interface ColorsViewProps {
   setCurrentTab: (tab: string) => void;
 }
 
+const INITIAL_VISIBLE = 12;
+const LOAD_STEP = 12;
+
 export const ColorsView: React.FC<ColorsViewProps> = ({
   onSelectColor, onAddColorSample, currentLocale, onToggleCompare, compareIds, setCurrentTab
 }) => {
   const [selectedMaterial, setSelectedMaterial] = useState('All');
   const [selectedFamily, setSelectedFamily] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const materials = ['All', 'Marble', 'Granite', 'Quartz', 'Quartzite', 'Travertine', 'Engineered Marble'];
   const families = ['All', 'White', 'Grey', 'Black', 'Beige', 'Green'];
   const materialRoute: Record<string, string> = {
@@ -33,6 +37,9 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
       (selectedFamily === 'All' || color.colorFamily === selectedFamily) &&
       (!search || [color.name, color.description, color.colorFamily, color.material].join(' ').toLowerCase().includes(search));
   });
+  const displayedColors = filteredColors.slice(0, visibleCount);
+
+  useEffect(() => setVisibleCount(INITIAL_VISIBLE), [selectedMaterial, selectedFamily, searchQuery]);
 
   return (
     <div className="wr-catalog-page wr-color-page">
@@ -40,8 +47,6 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
         <div><span className="wr-eyebrow">{t(currentLocale, 'colorLibrary')}</span><h1>Color is the first decision. A physical sample is the final one.</h1></div>
         <p>{t(currentLocale, 'colorIntro')} Digital textures are illustrative references and do not guarantee slab or batch appearance.</p>
       </header>
-
-      <StoneVisualizer currentLocale={currentLocale} onRequestSample={onAddColorSample} />
 
       <div className="wr-catalog-layout">
         <aside className="wr-filter-rail" aria-label="Color filters">
@@ -53,12 +58,12 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
         </aside>
 
         <main className="wr-swatch-grid" aria-live="polite">
-          {filteredColors.map((color) => {
+          {displayedColors.map((color) => {
             const compared = compareIds.includes(`color:${color.slug}`);
             return (
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <img src={color.swatchImage} alt={`${color.name} illustrative digital swatch`} width="800" height="800" loading="lazy" />
+                  <img src={color.swatchImage} alt={`${color.name} ${color.material} illustrative digital swatch`} width="800" height="800" loading="lazy" />
                   <span className="wr-media-disclosure">Digital swatch</span>
                 </button>
                 <div className="wr-swatch-card__body">
@@ -72,8 +77,13 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
             );
           })}
           {!filteredColors.length && <div className="wr-empty-state"><h2>{t(currentLocale, 'noResults')}</h2><button className="wr-button wr-button--secondary" onClick={() => { setSelectedMaterial('All'); setSelectedFamily('All'); setSearchQuery(''); }}>{t(currentLocale, 'clear')}</button></div>}
+          {visibleCount < filteredColors.length && <div className="wr-color-load-more"><p>Showing {displayedColors.length} of {filteredColors.length} colors</p><button className="wr-button wr-button--secondary" onClick={() => setVisibleCount((current) => current + LOAD_STEP)}>Load More Colors<ArrowRight /></button></div>}
         </main>
       </div>
+
+      <section className="wr-color-visualizer-section" aria-label="Material visualizer">
+        <StoneVisualizer currentLocale={currentLocale} onRequestSample={onAddColorSample} />
+      </section>
     </div>
   );
 };

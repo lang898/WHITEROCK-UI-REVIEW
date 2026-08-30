@@ -1,0 +1,16 @@
+.wr-color-load-more {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--wr-line);
+  background: var(--wr-mist);
+}
+.wr-color-load-more p { margin: 0; color: var(--wr-muted); font-size: 0.875rem; }
+.wr-color-visualizer-section { padding-top: 2rem; }
+@media (max-width: 700px) {
+  .wr-color-load-more { display: block; }
+  .wr-color-load-more .wr-button { width: 100%; margin-top: 0.8rem; }
+}
