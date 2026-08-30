@@ -1,7 +1,6 @@
 import React from 'react';
-import { ArrowUpRight, Mail, MapPin, Phone, Settings, Share2 } from 'lucide-react';
-import { WhatsAppIcon } from './SocialIcons';
-import { FacebookIcon, InstagramIcon, LinkedInIcon, PinterestIcon, XIcon } from './SocialIcons';
+import { ArrowUpRight, Mail, MapPin, Phone, Share2 } from 'lucide-react';
+import { WhatsAppIcon, FacebookIcon, InstagramIcon, LinkedInIcon, PinterestIcon, XIcon } from './SocialIcons';
 import { siteConfig } from '../data/site';
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
@@ -13,6 +12,17 @@ interface FooterProps {
   showInquiryCta?: boolean;
 }
 
+const isRealSocialProfile = (href?: string) => {
+  if (!href) return false;
+  try {
+    const url = new URL(href);
+    const path = url.pathname.replace(/\/+$/, '');
+    return path.length > 0;
+  } catch {
+    return false;
+  }
+};
+
 export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, onOpenShare, showInquiryCta = true }) => {
   const socialLinks = [
     { label: 'Facebook', href: siteConfig.social.facebook, Icon: FacebookIcon },
@@ -20,20 +30,18 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
     { label: 'LinkedIn', href: siteConfig.social.linkedin, Icon: LinkedInIcon },
     { label: 'Pinterest', href: siteConfig.social.pinterest, Icon: PinterestIcon },
     { label: 'X', href: siteConfig.social.x, Icon: XIcon }
-  ];
+  ].filter((item) => isRealSocialProfile(item.href));
+
   const sitemap = [
-    { title: t(currentLocale, 'collections'), links: [
-      ['products', t(currentLocale, 'products')], ['colors', t(currentLocale, 'colors')], ['finishes', t(currentLocale, 'finishes')]
+    { title: 'Products', links: [
+      ['products', 'Product Programs'], ['applications', 'Applications'], ['samples', 'Order Samples']
     ] },
-    { title: t(currentLocale, 'stoneTypes'), links: [
-      ['stone-marble', 'Marble'], ['stone-granite', 'Granite'], ['stone-quartz', 'Quartz'], ['stone-quartzite', 'Quartzite'], ['stone-travertine', 'Travertine'], ['stone-engineered-marble', 'Engineered Marble']
+    { title: 'Materials', links: [
+      ['colors', 'Color Library'], ['stone-marble', 'Marble'], ['stone-granite', 'Granite'], ['stone-quartz', 'Quartz'], ['stone-quartzite', 'Quartzite'], ['stone-travertine', 'Travertine'], ['stone-engineered-marble', 'Engineered Marble'], ['finishes', 'Finishes & Edges']
     ] },
-    { title: t(currentLocale, 'company'), links: [
-      ['about', t(currentLocale, 'about')], ['factory', t(currentLocale, 'factory')], ['events', t(currentLocale, 'events')]
+    { title: 'Company', links: [
+      ['about', 'About WHITEROCK'], ['factory', 'Factory'], ['resources', 'Resources'], ['contact', 'Contact']
     ] },
-    { title: t(currentLocale, 'trade'), links: [
-      ['applications', t(currentLocale, 'applications')], ['partners', t(currentLocale, 'partners')], ['samples', t(currentLocale, 'samples')], ['resources', t(currentLocale, 'resources')], ['contact', t(currentLocale, 'contact')]
-    ] }
   ];
 
   return (
@@ -45,20 +53,18 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
 
       <div className="wr-footer__main">
         <div className="wr-footer__brand">
-          <img className="wr-footer__logo" src="/assets/brand/whiterock-logo-refined.svg" alt="WHITEROCK Marble &amp; Granite" width="360" height="82" />
+          <img className="wr-footer__logo" src="/assets/brand/whiterock-logo-refined.svg" alt="WHITEROCK Natural and Engineered Stone" width="360" height="82" />
           <p>Natural and engineered stone manufacturing in Binh Phuoc Province, Vietnam. Product specifications, availability, documentation, and commercial terms are confirmed in writing for each order.</p>
           <address>
             <span><MapPin />{siteConfig.address}</span>
             <a href={`mailto:${siteConfig.email}`}><Mail />{siteConfig.email}</a>
             <a href={`tel:${siteConfig.telHref}`}><Phone />{siteConfig.tel}</a>
           </address>
-          <nav className="wr-footer__socials" aria-label="Social media">
+          {socialLinks.length > 0 && <nav className="wr-footer__socials" aria-label="Social media">
             {socialLinks.map(({ label, href, Icon }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} (opens in a new tab)`} title={label}>
-                <Icon />
-              </a>
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} (opens in a new tab)`} title={label}><Icon /></a>
             ))}
-          </nav>
+          </nav>}
         </div>
 
         <nav className="wr-footer__sitemap" aria-label="Footer sitemap">
@@ -79,7 +85,6 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
 
       <div className="wr-footer__bottom">
         <p>© {new Date().getFullYear()} WHITEROCK COMPANY LIMITED. All rights reserved.</p>
-        <button onClick={() => setCurrentTab('admin')}><Settings />Website administration</button>
       </div>
     </footer>
   );
