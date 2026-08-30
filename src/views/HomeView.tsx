@@ -28,6 +28,7 @@ const materialRoutes = [
 ] as const;
 
 const productProgramLabels: Record<string, string> = {
+  'Bathroom Vanity Top': 'Vanity Tops',
   'Vanity Top': 'Vanity Tops',
   'Kitchen Countertop': 'Kitchen Countertops',
   'Furniture Top': 'Furniture Tops',
@@ -42,11 +43,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onAddToCart,
   onAddColorSample,
 }) => {
+  const knownProgramCategories = ['Bathroom Vanity Top', 'Vanity Top', 'Kitchen Countertop', 'Furniture Top', 'Stone Furniture'];
   const productPrograms = [
-    products.find((product) => product.category === 'Vanity Top'),
+    products.find((product) => product.category === 'Bathroom Vanity Top' || product.category === 'Vanity Top'),
     products.find((product) => product.category === 'Kitchen Countertop'),
     products.find((product) => product.category === 'Furniture Top' || product.category === 'Stone Furniture'),
-    products.find((product) => !['Vanity Top', 'Kitchen Countertop', 'Furniture Top', 'Stone Furniture'].includes(product.category)),
+    products.find((product) => !knownProgramCategories.includes(product.category)),
   ].filter((product, index, list): product is ProductItem => Boolean(product) && list.indexOf(product) === index);
 
   const stats = factory.stats.slice(0, 4);
