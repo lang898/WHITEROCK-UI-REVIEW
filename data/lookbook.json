@@ -1,0 +1,65 @@
+{
+  "items": [
+    {
+      "title": "Vietnam production floor — stone components on racks",
+      "image": "assets/owner/enhanced/production-hall-aisle-enhanced.jpg",
+      "imageWebp": "assets/owner/enhanced/production-hall-aisle-enhanced-720.webp",
+      "alt": "Real photo of stone components stored on racks inside the WHITEROCK Vietnam factory",
+      "category": "Factory operations",
+      "imageType": "real"
+    },
+    {
+      "title": "Vietnam machining area — fabrication in progress",
+      "image": "assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
+      "imageWebp": "assets/owner/enhanced/cnc-cutting-line-enhanced-720.webp",
+      "alt": "Real photo of fabrication equipment and stone components inside the WHITEROCK Vietnam factory",
+      "category": "Factory operations",
+      "imageType": "real"
+    },
+    {
+      "title": "Vietnam factory yard and outdoor storage area",
+      "image": "assets/owner/enhanced/factory-exterior-enhanced.jpg",
+      "imageWebp": "assets/owner/enhanced/factory-exterior-enhanced-720.webp",
+      "alt": "Real photo of the yard and outdoor storage area at the WHITEROCK Vietnam factory",
+      "category": "Factory exterior",
+      "imageType": "real"
+    },
+    {
+      "title": "Vietnam fabrication area — finished components on racks",
+      "image": "assets/owner/enhanced/material-staging-hall-enhanced.jpg",
+      "imageWebp": "assets/owner/enhanced/material-staging-hall-enhanced-720.webp",
+      "alt": "Real photo of fabricated stone components on racks inside the WHITEROCK Vietnam factory",
+      "category": "Factory operations",
+      "imageType": "real"
+    },
+    {
+      "title": "WHITEROCK Vietnam factory entrance",
+      "image": "assets/owner/enhanced/vanity-production-hall-enhanced.jpg",
+      "imageWebp": "assets/owner/enhanced/vanity-production-hall-enhanced-720.webp",
+      "alt": "Real exterior photo of the entrance to the WHITEROCK Vietnam factory",
+      "category": "Factory exterior",
+      "imageType": "real"
+    },
+    {
+      "title": "Vanity top program render",
+      "image": "assets/products/WR-VT49-render-v3.jpg",
+      "alt": "illustrative render of quartz vanity top program",
+      "category": "Product render",
+      "imageType": "render"
+    },
+    {
+      "title": "Kitchen countertop program render",
+      "image": "assets/products/WR-KT-QC-render-v3.jpg",
+      "alt": "illustrative render of Calacatta quartz countertop program",
+      "category": "Product render",
+      "imageType": "render"
+    },
+    {
+      "title": "Sample kit render",
+      "image": "assets/products/WR-SM-render-v3.jpg",
+      "alt": "illustrative render of WHITEROCK material sample kit",
+      "category": "Sample program",
+      "imageType": "render"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "home": {
+    "eyebrow": "Buyer Routing",
+    "title": "Start with the path that matches your stone program.",
+    "intro": "A faster path helps buyers decide what to send first: color direction, product dimensions, drawings, or a distributor brief.",
+    "paths": [
+      {
+        "title": "Distributor / Wholesaler",
+        "summary": "Build a repeatable color and SKU program for showroom, retail, or regional trade sales.",
+        "bestStart": "Sample kit + core SKU shortlist",
+        "href": "partners.html",
+        "ctaLabel": "Review trade program",
+        "highlights": [
+          "MOQ and lead-time guidance",
+          "Private-label packing discussion",
+          "Repeatable color range planning"
+        ]
+      },
+      {
+        "title": "Builder / Multi-family",
+        "summary": "Quote vanity tops, countertops, backsplashes, and thresholds from drawings or unit schedules.",
+        "bestStart": "Drawings + quantity schedule",
+        "href": "products.html",
+        "ctaLabel": "Compare products",
+        "highlights": [
+          "Standard North American vanity sizes",
+          "Edge, sink, and backsplash options",
+          "Inspection and packing notes"
+        ]
+      },
+      {
+        "title": "Hospitality / Commercial",
+        "summary": "Coordinate cut-to-size stone products for hotels, apartments, model homes, and contract interiors.",
+        "bestStart": "BOQ + material direction",
+        "href": "factory.html",
+        "ctaLabel": "Check factory capability",
+        "highlights": [
+          "Project-based fabrication",
+          "Labeled export crates",
+          "Third-party inspection support"
+        ]
+      },
+      {
+        "title": "Fabricator / Designer",
+        "summary": "Select materials, finishes, edge profiles, and samples before final drawings are locked.",
+        "bestStart": "Color library + edge reference",
+        "href": "colors.html",
+        "ctaLabel": "Browse colors",
+        "highlights": [
+          "Finish and edge visual reference",
+          "Sample kit request flow",
+          "Spec sheet download slots"
+        ]
+      }
+    ]
+  },
+  "decisionPanel": {
+    "eyebrow": "Fast Start",
+    "title": "What should you prepare first?",
+    "steps": [
+      {
+        "title": "Need color approval?",
+        "copy": "Select up to four surfaces and request a physical sample kit before committing to a production lot.",
+        "metric": "7-15 days for available colors",
+        "href": "colors.html#sample-kit",
+        "ctaLabel": "Build sample kit"
+      },
+      {
+        "title": "Need pricing?",
+        "copy": "Send product type, dimensions or drawings, material, edge, finish, quantity, packaging needs, and destination.",
+        "metric": "Quote-ready checklist",
+        "href": "contact.html#inquiry",
+        "ctaLabel": "Request quote"
+      },
+      {
+        "title": "Need a trade partner?",
+        "copy": "Share region, business type, expected monthly volume, and target product categories.",
+        "metric": "Distributor onboarding",
+        "href": "partners.html",
+        "ctaLabel": "Become a partner"
+      }
+    ]
+  },
+  "proof": {
+    "eyebrow": "Why Buyers Trust This Process",
+    "title": "Clear specification before production reduces avoidable risk.",
+    "points": [
+      {
+        "title": "Sample-first approval",
+        "copy": "Colors, finishes, thicknesses, and variation expectations are confirmed before production."
+      },
+      {
+        "title": "Drawing-based fabrication",
+        "copy": "Cutouts, edge profiles, backsplash pieces, packaging, and labels can be matched to buyer drawings."
+      },
+      {
+        "title": "Export-focused QC",
+        "copy": "Orders can be checked for dimensions, finish, edge detail, packing, and shipment labeling."
+      },
+      {
+        "title": "Document-ready workflow",
+        "copy": "Resources, safety notes, spec sheet slots, and compliance documents are organized for buyer review."
+      }
+    ]
+  },
+  "products": {
+    "eyebrow": "Product Selection Guide",
+    "title": "Shortlist faster before you send a quote request.",
+    "intro": "Use these buying paths to decide which SKU family to compare first. Final pricing depends on material, drawing, quantity, packing, and destination.",
+    "cards": [
+      {
+        "title": "Fastest retail program",
+        "copy": "Start with 25, 31, 49, and 61 inch vanity tops in quartz or engineered marble.",
+        "filter": "Bathroom Vanity Top",
+        "ctaLabel": "Show vanity tops"
+      },
+      {
+        "title": "Project fabrication",
+        "copy": "Use custom countertop, backsplash, and hotel vanity programs when drawings or BOQs are available.",
+        "filter": "Commercial Project",
+        "ctaLabel": "Show project SKUs"
+      },
+      {
+        "title": "Premium furniture range",
+        "copy": "Review stone tables for hotel, retail, and lifestyle furniture programs that need a stronger visual story.",
+        "filter": "Stone Furniture",
+        "ctaLabel": "Show furniture"
+      }
+    ]
+  },
+  "quoteChecklist": {
+    "eyebrow": "Quote Readiness",
+    "title": "Send these details for a faster reply.",
+    "items": [
+      "Product type or SKU family",
+      "Material, color, finish, and thickness",
+      "Dimensions, drawings, cutouts, and edge profile",
+      "Quantity, packing preference, and destination",
+      "Target timeline, inspection needs, and document requests"
+    ]
+  },
+  "colors": {
+    "eyebrow": "Popular Color Routes",
+    "title": "Use color family shortcuts to build a balanced sample kit.",
+    "routes": [
+      {
+        "family": "White",
+        "title": "White / Carrara",
+        "copy": "Best for vanity tops, builder programs, and marble-look quartz demand."
+      },
+      {
+        "family": "Grey",
+        "title": "Grey / Concrete",
+        "copy": "Useful for modern kitchens, hospitality counters, and neutral commercial schemes."
+      },
+      {
+        "family": "Black",
+        "title": "Black / Graphite",
+        "copy": "A strong option for accents, furniture, premium baths, and durable granite looks."
+      },
+      {
+        "family": "Beige",
+        "title": "Beige / Warm Ivory",
+        "copy": "Good for warmer residential, hotel, and renovation programs."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Before You Send",
+    "title": "A complete brief helps the factory quote the right path.",
+    "copy": "You can send an early idea, but the fastest quotations include drawings or dimensions, material direction, quantity, packing requirements, destination, and any inspection or document needs."
+  }
+}

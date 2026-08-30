@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /
+
+# Serve real assets and files directly; send application routes to the SPA shell.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

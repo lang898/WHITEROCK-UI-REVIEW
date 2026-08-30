@@ -1,0 +1,79 @@
+<main>
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Colors</span></nav>
+  <section class="page-hero color-hero">
+    <div>
+      <p class="eyebrow">Color & Design Library</p>
+      <h1>Start with the surface direction your market needs.</h1>
+      <p>Filter by material, color family, and finish. Confirm final color, lot, thickness, and availability with a physical sample before ordering.</p>
+      <a class="button primary" href="#sample-kit">Build a sample kit</a>
+    </div>
+    <img loading="lazy" decoding="async" src="assets/colors/calacatta-crest.jpg" alt="Calacatta Crest stone surface illustrative render" width="1536" height="1024" />
+  </section>
+
+  <section class="section color-library" aria-labelledby="colors-heading">
+    <div class="section-heading">
+      <p class="eyebrow">Browse Surfaces</p>
+      <h2 id="colors-heading">Compare colors across the WHITEROCK material range.</h2>
+      <p class="visual-disclosure">Digital swatches are illustrative renders for specification planning, not physical samples or installed-project photography.</p>
+    </div>
+    <div class="color-route-panel" aria-labelledby="color-routes-title">
+      <div>
+        <p class="eyebrow">{{colorRoutesEyebrow}}</p>
+        <h3 id="color-routes-title">{{colorRoutesTitle}}</h3>
+      </div>
+      <div class="color-route-grid">{{colorRoutes}}</div>
+    </div>
+    <div class="library-layout">
+      <aside class="filter-rail" aria-label="Color filters">
+        <div class="filter-field"><label for="colorMaterialFilter">Material</label><select id="colorMaterialFilter"><option value="All">All materials</option></select></div>
+        <div class="filter-field"><label for="colorFamilyFilter">Color family</label><select id="colorFamilyFilter"><option value="All">All colors</option></select></div>
+        <div class="filter-field"><label for="colorFinishFilter">Finish</label><select id="colorFinishFilter"><option value="All">All finishes</option></select></div>
+        <button class="text-button" id="clearColorFilters" type="button">Clear filters</button>
+      </aside>
+      <div>
+        <p class="results-count" id="colorResults" aria-live="polite"></p>
+        <div class="swatch-grid" id="colorGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sample-builder" id="sample-kit" aria-labelledby="sample-heading">
+    <div class="sample-copy">
+      <p class="eyebrow">Sample Kit</p>
+      <h2 id="sample-heading">Choose up to four surface directions.</h2>
+      <p>We will confirm sample format, availability, shipping cost, and timing before dispatch. Natural stone samples vary by lot.</p>
+      <p class="sample-playbook">Practical kit mix: one hero white, one warm neutral, one grey or concrete look, and one darker accent for contrast.</p>
+      <div class="selected-samples" id="selectedSamples" aria-live="polite"><p>No colors selected yet.</p></div>
+    </div>
+    <form class="inquiry-form web3forms-form" id="sampleKitForm">
+      <input type="hidden" name="access_key" value="{{web3FormsAccessKey}}" />
+      <input type="hidden" name="subject" value="WHITEROCK sample kit request" />
+      <input type="hidden" name="selected_colors" id="selectedColorsInput" value="" />
+      <input class="honeypot" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+      <div class="form-grid">
+        <label>Contact name<input name="name" required autocomplete="name" /></label>
+        <label>Company<input name="company" required autocomplete="organization" /></label>
+        <label>Business email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Country / region<input name="region" required autocomplete="country-name" /></label>
+      </div>
+      <label>Program notes<textarea name="message" rows="4" placeholder="Product type, expected volume, target market, or timing"></textarea></label>
+      <button class="button primary" type="submit">Request selected samples</button>
+      <p class="form-note" data-form-note>Select one to four colors above before submitting.</p>
+    </form>
+  </section>
+
+  <div class="modal" id="colorModal" aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close="color"></div>
+    <section class="modal-card color-modal-card" role="dialog" aria-modal="true" aria-labelledby="colorModalName">
+      <button class="modal-close" type="button" data-modal-close="color" aria-label="Close color details">×</button>
+      <figure class="modal-visual"><img id="colorModalImage" data-dynamic-image loading="lazy" src="assets/brand/hero-stone-v2.webp" alt="Selected color detail" width="1536" height="1024" /><figcaption id="colorModalCaption">Illustrative render — not actual product.</figcaption></figure>
+      <div class="modal-copy">
+        <p class="eyebrow" id="colorModalMeta"></p>
+        <h2 id="colorModalName"></h2>
+        <p id="colorModalDescription"></p>
+        <dl class="modal-specs"><dt>Finishes</dt><dd id="colorModalFinishes"></dd><dt>Thicknesses</dt><dd id="colorModalThicknesses"></dd><dt>Sizes</dt><dd id="colorModalSizes"></dd><dt>Related products</dt><dd id="colorModalRelatedProducts"></dd></dl>
+        <div class="modal-actions"><button class="button primary" id="colorSampleButton" type="button">Add to sample kit</button><a class="button" id="colorRelatedProducts" href="products.html">Related products</a><a class="button" id="colorTechSheet" href="#" download hidden>Download spec sheet (PDF)</a></div>
+      </div>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,55 @@
+<main>
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Contact</span></nav>
+      <section class="page-hero">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h1>Send drawings, sizes, material ideas, or sample requests.</h1>
+          <p>For the fastest quote, include product type, material, dimensions, edge, sink cutouts, quantity, packaging needs, and destination.</p>
+        </div>
+        <picture><source srcset="assets/materials/white-marble-v2.webp" type="image/webp" /><img loading="lazy" decoding="async" src="assets/materials/white-marble-v2.jpg" alt="White Carrara marble surface" width="1254" height="1254" /></picture>
+      </section>
+
+      <section class="section quote-section" id="inquiry">
+        <div class="quote-copy">
+          <p class="eyebrow">Request a Quote</p>
+          <h2>Contact the WHITEROCK Vietnam team.</h2>
+          <p>Share your drawings, quantities, material direction, target market, and required delivery window so the team can review the program.</p>
+          <div class="company-contact-grid">{{siteLegalName}} · {{siteEmail}} · {{siteTel}}</div>
+        </div>
+        <aside class="quote-prep-panel" aria-labelledby="contact-prep-title">
+          <p class="eyebrow">{{contactPrepEyebrow}}</p>
+          <h2 id="contact-prep-title">{{contactPrepTitle}}</h2>
+          <p>{{contactPrepCopy}}</p>
+          {{quoteChecklist}}
+        </aside>
+        <form class="inquiry-form" id="inquiryForm">
+          <!-- Get a free access key at https://web3forms.com and paste it below; submissions are emailed to lynn@whiterockstone.com -->
+          <input type="hidden" name="access_key" value="{{web3FormsAccessKey}}" />
+          <input type="hidden" name="subject" value="New WHITEROCK website inquiry" />
+          <input type="hidden" name="from_name" value="WHITEROCK Website" />
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="form-row">
+            <label>Name<input required name="name" autocomplete="name" /></label>
+            <label>Email<input required type="email" name="email" autocomplete="email" /></label>
+          </div>
+          <div class="form-row">
+            <label>Company<input name="company" autocomplete="organization" /></label>
+            <label>Country / Region<input name="country" autocomplete="country-name" /></label>
+          </div>
+          <label>Product Interest
+            <select name="interest">
+              <option>Bathroom vanity tops</option>
+              <option>Kitchen countertops</option>
+              <option>Stone furniture</option>
+              <option>Custom commercial project</option>
+              <option>Material samples</option>
+            </select>
+          </label>
+          <label>Project Details
+            <textarea required name="message" rows="5" placeholder="Material, size, quantity, drawings, destination, timeline..."></textarea>
+          </label>
+          <button class="button primary" type="submit">Send Inquiry</button>
+          <p class="form-note" id="formNote">We typically reply within one business day.</p>
+        </form>
+      </section>
+    </main>

@@ -1,0 +1,35 @@
+{
+  "locales": [
+    {
+      "id": "en",
+      "htmlLang": "en-US",
+      "hreflang": "en",
+      "outputDir": "",
+      "urlPath": "",
+      "domain": "https://www.whiterockstone.com",
+      "label": "English (US)",
+      "switchLabel": "EN",
+      "brand": "WHITEROCK SURFACES",
+      "brandMark": "WR",
+      "tagline": "Direct Vietnam Stone Manufacturer",
+      "legalName": "WHITEROCK COMPANY LIMITED (VIETNAM)",
+      "contactId": "vietnam",
+      "default": true
+    },
+    {
+      "id": "vi",
+      "htmlLang": "vi",
+      "hreflang": "vi",
+      "outputDir": "vi",
+      "urlPath": "vi",
+      "domain": "https://www.whiterockstone.com",
+      "label": "Tiếng Việt",
+      "switchLabel": "VI",
+      "brand": "WHITEROCK SURFACES",
+      "brandMark": "WR",
+      "tagline": "Nhà máy sản xuất đá cẩm thạch & thạch anh xuất khẩu",
+      "legalName": "CONG TY TNHH WHITEROCK",
+      "contactId": "vietnam"
+    }
+  ]
+}

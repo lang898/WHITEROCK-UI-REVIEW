@@ -1,0 +1,104 @@
+{
+  "items": [
+    {
+      "id": "furniture-top-01",
+      "title": "Fluted Dining Table Top",
+      "form": "Dining surface",
+      "image": "assets/owner/countertops/fluted-travertine-dining-top.jpg",
+      "imageWebp": "assets/owner/countertops/fluted-travertine-dining-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/fluted-travertine-dining-top-1280.avif",
+      "alt": "Light natural stone dining table top with fluted twin supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-02",
+      "title": "White Marble Dining Top",
+      "form": "Dining surface",
+      "image": "assets/owner/countertops/white-marble-dining-top.jpg",
+      "imageWebp": "assets/owner/countertops/white-marble-dining-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/white-marble-dining-top-1280.avif",
+      "alt": "White marble dining table top on two fluted stone supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-03",
+      "title": "Rectangular Travertine Top",
+      "form": "Dining or console surface",
+      "image": "assets/owner/countertops/rectangular-travertine-top.jpg",
+      "imageWebp": "assets/owner/countertops/rectangular-travertine-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/rectangular-travertine-top-1280.avif",
+      "alt": "Rectangular light travertine furniture top with architectural supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-04",
+      "title": "Rosso Console Top",
+      "form": "Console or dining surface",
+      "image": "assets/owner/countertops/rosso-console-top.jpg",
+      "imageWebp": "assets/owner/countertops/rosso-console-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/rosso-console-top-1280.avif",
+      "alt": "Deep red natural stone console top on two matching supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-05",
+      "title": "Breccia Block Dining Top",
+      "form": "Dining surface",
+      "image": "assets/owner/countertops/breccia-block-dining-top.jpg",
+      "imageWebp": "assets/owner/countertops/breccia-block-dining-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/breccia-block-dining-top-1280.avif",
+      "alt": "Statement breccia stone dining top with broad block supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-06",
+      "title": "Oval Travertine Coffee Top",
+      "form": "Coffee table surface",
+      "image": "assets/owner/countertops/oval-travertine-coffee-top.jpg",
+      "imageWebp": "assets/owner/countertops/oval-travertine-coffee-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/oval-travertine-coffee-top-1280.avif",
+      "alt": "Oval light travertine coffee table top with fluted supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-07",
+      "title": "Organic Marble Coffee Top",
+      "form": "Coffee table surface",
+      "image": "assets/owner/countertops/organic-marble-coffee-top.jpg",
+      "imageWebp": "assets/owner/countertops/organic-marble-coffee-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/organic-marble-coffee-top-1280.avif",
+      "alt": "Rounded organic natural stone coffee table top with mixed marble character",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-08",
+      "title": "Mixed Marble Column Top",
+      "form": "Dining or meeting surface",
+      "image": "assets/owner/countertops/mixed-marble-column-top.jpg",
+      "imageWebp": "assets/owner/countertops/mixed-marble-column-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/mixed-marble-column-top-1280.avif",
+      "alt": "Natural stone table top supported by contrasting cylindrical stone columns",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-09",
+      "title": "Sculptural Breccia Top",
+      "form": "Console surface",
+      "image": "assets/owner/countertops/sculptural-breccia-top.jpg",
+      "imageWebp": "assets/owner/countertops/sculptural-breccia-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/sculptural-breccia-top-1280.avif",
+      "alt": "Sculptural stone console top with rounded mixed-marble supports",
+      "caption": "Owner-supplied previous website image"
+    },
+    {
+      "id": "furniture-top-10",
+      "title": "Rectangular Breccia Top",
+      "form": "Dining surface",
+      "image": "assets/owner/countertops/rectangular-breccia-top.jpg",
+      "imageWebp": "assets/owner/countertops/rectangular-breccia-top-1280.webp",
+      "imageAvif": "assets/owner/countertops/rectangular-breccia-top-1280.avif",
+      "alt": "Rectangular breccia natural stone top with geometric slab supports",
+      "caption": "Owner-supplied previous website image"
+    }
+  ]
+}

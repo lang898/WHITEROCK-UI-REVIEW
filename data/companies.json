@@ -1,0 +1,21 @@
+{
+  "companies": [
+    {
+      "id": "vietnam-main",
+      "country": "Vietnam",
+      "role": "Manufacturing and export contact",
+      "companyName": "WHITEROCK COMPANY LIMITED",
+      "localNameLabel": "Vietnamese legal name",
+      "localName": "CÔNG TY TNHH WHITEROCK",
+      "address": "Quoc Lo 14, Doi 2, Ap 3, Xa Dong Tien, Huyen Dong Phu, Tinh Binh Phuoc, Vietnam",
+      "contactPerson": "Export sales team",
+      "tel": "+84 0798 858 220",
+      "telHref": "+840798858220",
+      "email": "llang@whiterockstone.com",
+      "domain": "https://www.whiterockstone.com",
+      "image": "/assets/owner/enhanced/factory-exterior-enhanced.jpg",
+      "imageAlt": "Owner-supplied photo of the WHITEROCK Vietnam site entrance",
+      "notes": "Additional legal entities or logistics locations must be added only after owner confirmation."
+    }
+  ]
+}

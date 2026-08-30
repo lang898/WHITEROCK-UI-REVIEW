@@ -1,0 +1,55 @@
+<main>
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Distributor Program</span></nav>
+  <section class="page-hero partner-hero">
+    <div><p class="eyebrow">{{partnerEyebrow}}</p><h1>{{partnerTitle}}</h1><p>{{partnerIntro}}</p><a class="button primary" href="#partner-inquiry">Discuss your market</a></div>
+    <img loading="lazy" decoding="async" src="assets/products/kitchen-countertop-render-v2.jpg" alt="Stone countertop illustrative render" width="1536" height="1024" />
+  </section>
+  <section class="section partner-overview">
+    <div><p class="eyebrow">Target Markets</p><h2>Trade support for qualified regional programs.</h2>{{partnerRegions}}</div>
+    <div class="trade-terms">{{partnerTerms}}</div>
+  </section>
+  <section class="section partner-benefits" aria-labelledby="partner-benefits-title">
+    <div class="section-heading">
+      <p class="eyebrow">Program Benefits</p>
+      <h2 id="partner-benefits-title">Support designed for repeat B2B buyers.</h2>
+      <p>Benefits below are indicative and should be confirmed by region, product scope, order volume, and launch calendar.</p>
+    </div>
+    <div class="benefit-grid">
+      <article><h3>Sample and color support</h3><p>Build a focused sample kit for dealers, builders, designers, or project approvals.</p></article>
+      <article><h3>Quote by program</h3><p>Review standard sizes, private-label requirements, drawings, packaging, and repeat-order planning together.</p></article>
+      <article><h3>Retail-ready packaging review</h3><p>Discuss carton marks, labels, crate marks, SKU lists, and product protection before production.</p></article>
+      <article><h3>Market launch assets</h3><p>Use editable product data, color swatches, spec sheets, care notes, and buyer-guide content as a starting point.</p></article>
+    </div>
+  </section>
+  <section class="section partner-tier-section" aria-labelledby="partner-tier-title">
+    <div class="section-heading">
+      <p class="eyebrow">Support Tiers</p>
+      <h2 id="partner-tier-title">Indicative trade support by buying pattern.</h2>
+    </div>
+    <div class="tier-table" role="table" aria-label="Indicative distributor support tiers">
+      <div role="row" class="tier-row tier-head"><span role="columnheader">Buyer type</span><span role="columnheader">Best fit</span><span role="columnheader">Support focus</span></div>
+      <div role="row" class="tier-row"><span role="cell">Starter dealer</span><span role="cell">Sample kit and small program review</span><span role="cell">Color selection, RFQ setup, packaging guidance</span></div>
+      <div role="row" class="tier-row"><span role="cell">Regional distributor</span><span role="cell">Repeat containers or category launch</span><span role="cell">SKU planning, private labels, inspection workflow</span></div>
+      <div role="row" class="tier-row"><span role="cell">Project buyer</span><span role="cell">BOQ or drawing-based procurement</span><span role="cell">Material matching, cut-to-size review, shipment coordination</span></div>
+    </div>
+  </section>
+  <section class="section partner-inquiry" id="partner-inquiry">
+    <div><p class="eyebrow">Partner Inquiry</p><h2>Tell us how you buy and where you sell.</h2><p>We will use your program type, region, and estimated volume to prepare the right product, sample, and quotation path.</p></div>
+    <form class="inquiry-form web3forms-form" id="partnerForm">
+      <input type="hidden" name="access_key" value="{{web3FormsAccessKey}}" />
+      <input type="hidden" name="subject" value="WHITEROCK distributor program inquiry" />
+      <input class="honeypot" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+      <div class="form-grid">
+        <label>Company<input name="company" required autocomplete="organization" /></label>
+        <label>Contact name<input name="name" required autocomplete="name" /></label>
+        <label>Business email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Region / market<input name="region" required autocomplete="country-name" /></label>
+        <label>Business type<select name="business_type" required><option value="">Select one</option>{{partnerBusinessOptions}}</select></label>
+        <label>Estimated annual volume<input name="annual_volume" placeholder="Pieces, containers, or project value" /></label>
+      </div>
+      <label>Program details<textarea name="message" rows="5" required placeholder="Products, materials, sizes, target price level, and launch timing"></textarea></label>
+      <button class="button primary" type="submit">Submit partner inquiry</button>
+      <p class="form-note" data-form-note>We typically reply within one business day.</p>
+    </form>
+  </section>
+</main>

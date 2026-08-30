@@ -1,0 +1,41 @@
+{
+  "intro": "Draft technical guides and procurement checklists for stone distributors, multi-family developers, and commercial general contractors.",
+  "items": [
+    {
+      "slug": "stone-sample-approval-checklist",
+      "title": "B2B Stone Sample & Mockup Approval Protocol",
+      "date": "2026-06-29",
+      "category": "Procurement Guide",
+      "excerpt": "Key dimensional and aesthetic checkpoints before signing off on full container slab runs.",
+      "body": "Before authorizing container production, verify the physical 4x4\" or 12x12\" control sample against your master specification: confirm resin clarity, quartz aggregate distribution, edge profile radius, water absorption test results, and packaging label references. Retain the counter-signed control sample for final factory dry-lay inspection.",
+      "image": "assets/news/stone-sample-approval-checklist.jpg",
+      "imageAlt": "Stone samples, color fan, calipers, and approval sheet technical review",
+      "imageType": "render",
+      "caption": "Physical stone sample verification kit."
+    },
+    {
+      "slug": "prepare-stone-rfq-drawings",
+      "title": "How to Prepare CAD & DXF Drawings for Rapid Stone RFQ Turnaround",
+      "date": "2026-06-29",
+      "category": "Engineering & CAD",
+      "excerpt": "Essential drawing callouts, sink template reveals, and takeoff schedules that minimize revision cycles.",
+      "body": "Accelerate your factory quotation turnaround by providing fully dimensioned PDF or AutoCAD DXF shop drawings. Clearly denote exposed edge profiles, undermount sink centerlines, faucet drill spreads (Single, 4\" Centerset, or 8\" Widespread), 4\" backsplash lengths, end-splash orientations, and crate tagging schedules.",
+      "image": "assets/news/prepare-stone-rfq-drawings.jpg",
+      "imageAlt": "Stone countertop shop drawings and technical specification schematics",
+      "imageType": "render",
+      "caption": "CAD takeoff and sink reveal drawing sample."
+    },
+    {
+      "slug": "factory-audit-trade-evaluation-checklist",
+      "title": "Factory Audit & Quality Assurance Guide for International Stone Importers",
+      "date": "2026-07-08",
+      "category": "Quality Assurance",
+      "excerpt": "Essential criteria when auditing Vietnamese stone fabrication facilities for North American commercial projects.",
+      "body": "When evaluating direct stone manufacturers, audit five critical production pillars: raw material slab slab-yard inventory, CNC multi-axis cutting precision, linear continuous edge polishing consistency, structural undermount sink mounting pull-tests, and ISPM-15 heat-treated export crate crating integrity.",
+      "image": "assets/news/trade-show-visit-draft.jpg",
+      "imageAlt": "Industrial stone fabrication floor quality inspection",
+      "imageType": "render",
+      "caption": "CNC precision inspection and dimensional audit."
+    }
+  ]
+}

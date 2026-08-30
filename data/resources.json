@@ -1,0 +1,41 @@
+{
+  "intro": "Starter documents for distributors, fabricators, designers, and project buyers. Replace generated starter PDFs with final owner-approved documents when available.",
+  "items": [
+    {
+      "title": "WHITEROCK Product Catalog",
+      "category": "Catalog",
+      "description": "Product families, materials, standard dimensions, and customization options.",
+      "file": "assets/resources/whiterock-product-catalog.pdf"
+    },
+    {
+      "title": "Stone Care & Maintenance Guide",
+      "category": "Care",
+      "description": "Cleaning, sealing, stain response, and care guidance by material type.",
+      "file": "assets/resources/stone-care-and-maintenance-guide.pdf"
+    },
+    {
+      "title": "Warranty Statement",
+      "category": "Warranty",
+      "description": "Approved warranty scope, exclusions, and claims process.",
+      "file": "assets/resources/warranty-statement.pdf"
+    },
+    {
+      "title": "Certifications & Test Reports",
+      "category": "Compliance",
+      "description": "Owner-confirmed certificates and laboratory reports.",
+      "file": "assets/resources/certifications-and-test-reports.pdf"
+    },
+    {
+      "title": "California Proposition 65 Notice",
+      "category": "Safety",
+      "description": "Product-specific California warning information when applicable.",
+      "file": "assets/resources/california-proposition-65-notice.pdf"
+    },
+    {
+      "title": "Crystalline Silica Fabrication Safety",
+      "category": "Safety",
+      "description": "Wet cutting, local exhaust, respiratory protection, housekeeping, and SDS references for fabricators.",
+      "file": "assets/resources/crystalline-silica-fabrication-safety.pdf"
+    }
+  ]
+}

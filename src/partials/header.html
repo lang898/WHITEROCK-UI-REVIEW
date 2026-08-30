@@ -1,0 +1,16 @@
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="{{brand}} home">
+    <span class="brand-mark">{{brandMark}}</span>
+    <span><strong>{{brand}}</strong><small>{{tagline}}</small></span>
+  </a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {{nav}}
+  </nav>
+  <div class="header-actions">
+    {{languageSwitch}}
+    {{searchButton}}
+    <a class="button primary small" href="{{quoteHref}}">Request a Quote</a>
+    <button class="menu-button" id="menuToggle" aria-label="Open menu" aria-controls="mobilePanel" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-panel" id="mobilePanel" aria-label="Mobile navigation" aria-hidden="true">{{mobileNav}}</nav>

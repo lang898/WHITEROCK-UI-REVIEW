@@ -1,0 +1,46 @@
+{
+  "edges": [
+    {
+      "slug": "eased",
+      "name": "Eased",
+      "description": "A clean, lightly softened edge for modern vanity and countertop programs.",
+      "image": "assets/edges/eased-render.jpg",
+      "imageType": "render"
+    },
+    {
+      "slug": "bevel",
+      "name": "Bevel",
+      "description": "An angled top edge that adds a crisp highlight and visible definition.",
+      "image": "assets/edges/bevel-render.jpg",
+      "imageType": "render"
+    },
+    {
+      "slug": "bullnose",
+      "name": "Bullnose",
+      "description": "A fully rounded profile suited to classic programs and softer touch points.",
+      "image": "assets/edges/bullnose-render.jpg",
+      "imageType": "render"
+    },
+    {
+      "slug": "ogee",
+      "name": "Ogee",
+      "description": "A decorative S-shaped profile for traditional furniture, islands, and premium vanities.",
+      "image": "assets/edges/ogee-render.jpg",
+      "imageType": "render"
+    },
+    {
+      "slug": "mitered",
+      "name": "Mitered / Laminated",
+      "description": "A built-up edge that creates the appearance of a thicker slab with a controlled joint.",
+      "image": "assets/edges/mitered-render.jpg",
+      "imageType": "render"
+    },
+    {
+      "slug": "waterfall",
+      "name": "Waterfall",
+      "description": "A continuous vertical return used for islands, furniture ends, and architectural counters.",
+      "image": "assets/edges/waterfall-render.jpg",
+      "imageType": "render"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "brand": "WHITEROCK SURFACES",
+  "legalName": "WHITEROCK COMPANY LIMITED (CÔNG TY TNHH WHITEROCK)",
+  "tagline": "Direct Manufacturer of Quartz & Marble Surfaces (Vietnam)",
+  "productionDomain": "https://www.whiterockstone.com",
+  "email": "llang@whiterockstone.com",
+  "salesEmail": "sales@whiterockstone.com",
+  "tel": "+84 0798 858 220",
+  "telHref": "+840798858220",
+  "whatsapp": "+84 798 858 220",
+  "address": "Quoc Lo 14, Doi 2, Ap 3, Xa Dong Tien, Huyen Dong Phu, Tinh Binh Phuoc, Vietnam",
+  "port": "Cat Lai Port, Ho Chi Minh City (45 km)",
+  "zip": "830000",
+  "web3FormsAccessKey": "",
+  "ogImage": "assets/brand/og-image.jpg",
+  "favicon": "assets/brand/favicon.png",
+  "social": {
+    "facebook": "https://www.facebook.com/",
+    "instagram": "https://www.instagram.com/",
+    "linkedin": "https://www.linkedin.com/",
+    "pinterest": "https://www.pinterest.com/",
+    "x": "https://twitter.com/"
+  },
+  "analyticsPlaceholder": "<!-- Analytics snippet placeholder: add GA4 or privacy-first analytics before launch if needed. -->"
+}

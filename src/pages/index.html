@@ -1,0 +1,139 @@
+<main id="home">
+      <section class="hero video-hero">
+        <video class="hero-video" autoplay muted loop playsinline poster="assets/factory/vietnam-factory-exterior.jpg" aria-hidden="true">
+          <source src="{{factoryTourVideo}}" type="video/mp4" />
+        </video>
+        <img class="hero-video-fallback" data-dynamic-image loading="eager" fetchpriority="high" decoding="async" src="assets/factory/vietnam-factory-exterior.jpg" alt="WHITEROCK Vietnam factory exterior" width="1200" height="900" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">{{homeHeroEyebrow}}</p>
+          <h1>{{homeHeroTitle}}</h1>
+          <p class="hero-copy">{{homeHeroCopy}}</p>
+          <div class="hero-actions">
+            <a class="button primary" href="colors.html">Explore Colors</a>
+            <a class="button ghost" href="contact.html#inquiry">Request a Quote</a>
+          </div>
+          <div class="hero-stats" aria-label="Company highlights">
+            <span><strong>20,000 m²</strong> Vietnam factory area</span>
+            <span><strong>100,000+ m²</strong> published capacity</span>
+            <span><strong>20+ years</strong> stone industry experience</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip home-trust-band" aria-label="Buyer trust signals">
+        <span>Export-ready packing</span>
+        <span>Sample approval workflow</span>
+        <span>Cut-to-size fabrication</span>
+        <span>Owner-supplied factory media</span>
+        <span>Trade program support</span>
+      </section>
+
+      <section class="section home-production-bases" aria-labelledby="production-bases-title">
+        <div class="section-heading editorial-heading">
+          <p class="eyebrow">Vietnam Manufacturing</p>
+          <h2 id="production-bases-title">Binh Phuoc production for international stone programs.</h2>
+          <p>Give buyers a clear route from material direction to factory review, packed shipment, and repeat program planning.</p>
+        </div>
+        <div class="production-base-grid">{{vietnamProductionCard}}</div>
+      </section>
+
+      <section class="section featured-colors-band" aria-labelledby="featured-colors-title">
+        <div class="section-heading editorial-heading">
+          <p class="eyebrow">Featured Colors</p>
+          <h2 id="featured-colors-title">Shop by surface direction before choosing the product type.</h2>
+          <p>Digital swatches are illustrative. Confirm final color, lot, finish, and thickness with physical samples before ordering.</p>
+        </div>
+        <div class="featured-color-scroller" aria-label="Featured WHITEROCK color directions">{{featuredColorStrip}}</div>
+        <div class="section-footer-action"><a class="button primary" href="colors.html#sample-kit">Build a sample kit</a></div>
+      </section>
+
+      <section class="section product-category-section" id="products" aria-labelledby="category-title">
+        <div class="section-heading editorial-heading">
+          <p class="eyebrow">Product Categories</p>
+          <h2 id="category-title">Start from the buying program, then confirm material and fabrication.</h2>
+        </div>
+        <div class="category-feature-grid">{{productCategoryCards}}</div>
+      </section>
+
+      <section class="section home-factory-section" aria-labelledby="factory-strip-title">
+        <div class="section-heading editorial-heading">
+          <p class="eyebrow">Factory Reality</p>
+          <h2 id="factory-strip-title">Real owner-supplied photos from production, packing, and equipment areas.</h2>
+          <p>No synthetic facility photos are used for factory capability. Equipment claims remain tied to owner-supplied media and confirmation-gated notes.</p>
+        </div>
+        <div class="factory-gallery home-factory-gallery">{{homeFactoryStrip}}</div>
+        <div class="section-footer-action"><a class="button" href="factory.html">Review factory capability</a></div>
+      </section>
+
+      <section class="section how-buying-works" aria-labelledby="buying-title">
+        <div class="section-heading editorial-heading">
+          <p class="eyebrow">How Buying Works</p>
+          <h2 id="buying-title">A practical path for distributors, builders, and project buyers.</h2>
+        </div>
+        <div class="program-grid">
+          <article><span>01</span><h3>Choose a direction</h3><p>Use colors, applications, and materials to narrow the look, finish, and price level your market needs.</p></article>
+          <article><span>02</span><h3>Approve sample + drawing</h3><p>Confirm the physical sample, thickness, finish, edge, cutouts, dimensions, packaging, and target shipment route.</p></article>
+          <article><span>03</span><h3>Fabricate + inspect</h3><p>Production follows approved drawings with dimensional checks, finish review, labeling, and buyer inspection options.</p></article>
+          <article><span>04</span><h3>Pack + ship</h3><p>Products are protected with cartons, foam, crates, pallets, or A-frames according to SKU and shipment method.</p></article>
+        </div>
+      </section>
+
+      <section class="section home-applications-section" aria-labelledby="applications-title">
+        <div class="section-heading editorial-heading">
+          <p class="eyebrow">Application Inspiration</p>
+          <h2 id="applications-title">Room scenes for planning discussions, not project claims.</h2>
+          <p>Use these generated mood scenes to discuss color families and product types before replacing them with real project photography.</p>
+        </div>
+        <div class="home-application-carousel">{{homeApplications}}</div>
+        <div class="section-footer-action"><a class="button" href="applications.html">View all applications</a></div>
+      </section>
+
+      <section class="section compliance-callout">
+        <div><p class="eyebrow">{{complianceEyebrow}}</p><h2>{{complianceTitle}}</h2></div>
+        <article><h3>{{silicaTitle}}</h3><p>{{silicaCopy}}</p></article>
+        <a class="button" href="resources.html">Review compliance resources</a>
+      </section>
+
+      <section class="section quote-section" id="inquiry">
+        <div class="quote-copy">
+          <p class="eyebrow">Request a Quote</p>
+          <h2>Tell us what you need. We will prepare the right product path.</h2>
+          <p>For faster quotation, include dimensions, material, edge profile, sink/cutout details, quantity, destination port, and any drawings or reference photos.</p>
+          <div class="contact-card">
+            <strong>{{siteLegalName}}</strong>
+            <span>Factory: {{siteAddress}}</span>
+            <a href="mailto:{{siteEmail}}">{{siteEmail}}</a>
+            <a href="tel:{{siteTelHref}}">{{siteTel}}</a>
+          </div>
+        </div>
+        <form class="inquiry-form" id="inquiryForm">
+          <input type="hidden" name="access_key" value="{{web3FormsAccessKey}}" />
+          <input type="hidden" name="subject" value="New WHITEROCK website inquiry" />
+          <input type="hidden" name="from_name" value="WHITEROCK Website" />
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="form-row">
+            <label>Name<input required name="name" autocomplete="name" /></label>
+            <label>Email<input required type="email" name="email" autocomplete="email" /></label>
+          </div>
+          <div class="form-row">
+            <label>Company<input name="company" autocomplete="organization" /></label>
+            <label>Country / Region<input name="country" autocomplete="country-name" /></label>
+          </div>
+          <label>Product Interest
+            <select name="interest">
+              <option>Bathroom vanity tops</option>
+              <option>Kitchen countertops</option>
+              <option>Stone furniture</option>
+              <option>Custom commercial project</option>
+              <option>Material samples</option>
+            </select>
+          </label>
+          <label>Project Details
+            <textarea required name="message" rows="5" placeholder="Material, size, quantity, drawings, destination, timeline..."></textarea>
+          </label>
+          <button class="button primary" type="submit">Send Inquiry</button>
+          <p class="form-note" id="formNote">We typically reply within one business day.</p>
+        </form>
+      </section>
+    </main>

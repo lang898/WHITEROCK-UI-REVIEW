@@ -1,0 +1,65 @@
+{
+  "intro": "Practical procurement guidance for stone buyers. Final specifications, quantities, schedules, certifications, shipping terms, and compliance documents are confirmed in the written quotation and purchase order.",
+  "items": [
+    {
+      "category": "Import Planning",
+      "question": "How should buyers determine import duties and destination charges?",
+      "answer": "Duty treatment depends on product classification, material, declared origin, valuation, destination, and current trade rules. Ask a licensed customs broker to confirm the applicable rates and documents before placing an order. Website planning tools are estimates only."
+    },
+    {
+      "category": "Factory Information",
+      "question": "What public factory information is currently available?",
+      "answer": "Owner-provided information describes a 20,000 m² manufacturing site in Binh Phuoc Province, Vietnam and annual stone fabrication capacity above 100,000 m². Buyers may request current facility, equipment, and capacity confirmation during quotation review."
+    },
+    {
+      "category": "Quotation & Drawings",
+      "question": "What information is needed for a commercial quotation?",
+      "answer": "Provide dimensioned drawings, material or color requirements, finish and edge details, sink and faucet models where applicable, estimated quantity, destination, packing preference, inspection requirements, and requested schedule."
+    },
+    {
+      "category": "Quotation & Drawings",
+      "question": "What drawing formats can be reviewed?",
+      "answer": "DWG, DXF, and dimensioned PDF files can be submitted for review. Production dimensions and cutouts are not final until both parties approve the shop drawings and product schedule."
+    },
+    {
+      "category": "Sizes & Sinks",
+      "question": "Can WHITEROCK quote common North American vanity sizes?",
+      "answer": "Yes. Common vanity depths, cabinet widths, backsplashes, faucet layouts, and single- or double-bowl configurations can be quoted. Availability and final dimensions are confirmed against the approved drawings."
+    },
+    {
+      "category": "Sizes & Sinks",
+      "question": "Can sinks be supplied or mounted at the factory?",
+      "answer": "Sink cutouts and optional factory assembly can be quoted against the buyer-approved sink model and mounting specification. Any requested product certification must be supported by current documentation for the exact sink supplied."
+    },
+    {
+      "category": "Samples",
+      "question": "How can buyers request stone samples?",
+      "answer": "Use the RFQ or contact form to identify the requested colors, finishes, sample dimensions, and delivery address. Availability, courier cost, and dispatch timing are confirmed before shipment."
+    },
+    {
+      "category": "Fabrication",
+      "question": "How are dimensional tolerances agreed?",
+      "answer": "Tolerances vary by material, product geometry, edge detail, cutout, and inspection method. Required limits must be written into the approved shop drawings, quality plan, and purchase order before production."
+    },
+    {
+      "category": "Packing & Logistics",
+      "question": "How are stone products packed for export?",
+      "answer": "Packing is selected according to product geometry, weight, transport method, and buyer requirements. The quotation can specify protective foam, corner protection, cartons, crates, racks, labeling, and moisture protection as applicable."
+    },
+    {
+      "category": "Packing & Logistics",
+      "question": "How is container loading quantity calculated?",
+      "answer": "Load quantity depends on product dimensions, material density, crate design, container payload limits, and route requirements. A loading plan is prepared from the confirmed bill of materials rather than a fixed website number."
+    },
+    {
+      "category": "Inspection",
+      "question": "Can a buyer arrange third-party inspection?",
+      "answer": "Buyer-appointed inspection can be discussed before order confirmation. The purchase order should state the inspection scope, acceptance criteria, timing, access requirements, and responsibility for inspection fees."
+    },
+    {
+      "category": "Compliance & Safety",
+      "question": "How are product compliance documents handled?",
+      "answer": "Tell the sales team which test reports, declarations, labels, or destination-market documents are required. WHITEROCK will identify which current documents are available for the exact material and product; unsupported certifications will not be claimed."
+    }
+  ]
+}

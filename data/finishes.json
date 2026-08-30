@@ -1,0 +1,40 @@
+{
+  "finishes": [
+    {
+      "slug": "polished",
+      "name": "Polished",
+      "description": "A reflective finish that increases color depth and highlights mineral movement. Common for vanity tops, counters, and furniture.",
+      "image": "assets/finishes/polished-render.jpg",
+      "imageType": "render",
+      "recommendedFor": [
+        "Indoor countertops",
+        "Vanity tops",
+        "Furniture tops"
+      ]
+    },
+    {
+      "slug": "honed",
+      "name": "Honed",
+      "description": "A smooth low-sheen finish with softer light reflection and a calm architectural appearance.",
+      "image": "assets/finishes/honed-render.jpg",
+      "imageType": "render",
+      "recommendedFor": [
+        "Contemporary interiors",
+        "Bathroom vanities",
+        "Wall panels"
+      ]
+    },
+    {
+      "slug": "leathered",
+      "name": "Leathered / Brushed",
+      "description": "A tactile low-gloss finish that emphasizes natural grain and helps reduce visible fingerprints on darker stone.",
+      "image": "assets/finishes/leathered-render.jpg",
+      "imageType": "render",
+      "recommendedFor": [
+        "Granite counters",
+        "Hospitality surfaces",
+        "Outdoor furniture"
+      ]
+    }
+  ]
+}

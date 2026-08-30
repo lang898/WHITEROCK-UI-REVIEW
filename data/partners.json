@@ -1,0 +1,38 @@
+{
+  "eyebrow": "Distributor & Trade Program",
+  "title": "Build a reliable stone program with a manufacturing partner in Vietnam.",
+  "intro": "WHITEROCK supports distributors, home-center suppliers, fabricators, builders, hospitality buyers, and project contractors with samples, drawings, repeat production, export packing, and shipment coordination.",
+  "targetRegions": [
+    "United States & Canada",
+    "Caribbean & Latin America",
+    "Australia & New Zealand",
+    "Middle East",
+    "Europe and other qualified markets"
+  ],
+  "businessTypes": [
+    "Distributor / wholesaler",
+    "Fabricator",
+    "Builder / developer",
+    "Retail or home-center supplier",
+    "Hospitality / commercial buyer",
+    "Designer / specification firm"
+  ],
+  "terms": [
+    {
+      "title": "Program MOQ",
+      "copy": "Typical starting quantities are 10–20 pieces per style or color; final MOQ depends on material, size, and packaging."
+    },
+    {
+      "title": "Lead Time",
+      "copy": "Most production programs are quoted at 25–55 days after sample, drawing, deposit, and material approval."
+    },
+    {
+      "title": "Samples",
+      "copy": "Color chips and selected product samples can be prepared for buyer review before volume production."
+    },
+    {
+      "title": "Export Support",
+      "copy": "Commercial invoices, packing lists, product labels, export crates, and loading coordination are available by order."
+    }
+  ]
+}

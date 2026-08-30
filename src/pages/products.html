@@ -1,0 +1,81 @@
+<main>
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Products</span></nav>
+      <section class="page-hero">
+        <div>
+          <p class="eyebrow">Product Catalog</p>
+          <h1>Stone products for retail, project, wholesale, and custom production.</h1>
+          <p>
+            Each item can be quoted by material, dimensions, drawings, destination, and order volume.
+            Custom sizes and finishes are available on request.
+          </p>
+        </div>
+        <picture><source srcset="assets/products/vanity-single-render-v2.webp" type="image/webp" /><img loading="lazy" decoding="async" src="assets/products/vanity-single-render-v2.jpg" alt="Bathroom vanity top illustrative render" width="1536" height="1024" /></picture>
+      </section>
+
+      <section class="search-drawer open" id="searchDrawer" aria-label="Product search">
+        <label for="productSearch">Search product catalog</label>
+        <input id="productSearch" type="search" placeholder="Try WR-VT31, quartz, vanity top, hotel..." />
+      </section>
+
+      <section class="section product-guidance" aria-labelledby="product-guide-title">
+        <div class="product-guide-copy">
+          <p class="eyebrow">{{productGuideEyebrow}}</p>
+          <h2 id="product-guide-title">{{productGuideTitle}}</h2>
+          <p>{{productGuideIntro}}</p>
+        </div>
+        <div class="product-guide-grid">{{productGuidanceCards}}</div>
+        <aside class="quote-ready-card" aria-labelledby="quote-ready-title">
+          <p class="eyebrow">{{quoteChecklistEyebrow}}</p>
+          <h2 id="quote-ready-title">{{quoteChecklistTitle}}</h2>
+          {{quoteChecklist}}
+          <a class="button primary" href="contact.html#inquiry">Send RFQ details</a>
+        </aside>
+      </section>
+
+      <section class="section product-section">
+        <p class="product-visual-note">Some product visuals are illustrative renders pending WHITEROCK-owned product photography.</p>
+        <div class="filter-bar" role="tablist" aria-label="Product filters">
+          <button class="filter active" data-filter="All">All</button>
+          <button class="filter" data-filter="Bathroom Vanity Top">Vanity Tops</button>
+          <button class="filter" data-filter="Kitchen Countertop">Countertops</button>
+          <button class="filter" data-filter="Stone Furniture">Furniture</button>
+          <button class="filter" data-filter="Commercial Project">Projects</button>
+        </div>
+        <div class="product-grid catalog-grid" id="productGrid"></div>
+      </section>
+
+      <section class="section spec-section">
+        <div class="section-heading">
+          <p class="eyebrow">Standard Options</p>
+          <h2>Common choices for North American vanity top and countertop programs.</h2>
+        </div>
+        <div class="spec-grid">
+          <article>
+            <h3>Popular Vanity Sizes</h3>
+            <p>25 x 22 in, 31 x 22 in, 37 x 22 in, 49 x 22 in, 61 x 22 in, 73 x 22 in. Custom sizes are available by drawing.</p>
+          </article>
+          <article>
+            <h3>Sink & Faucet Options</h3>
+            <p>Undermount ceramic bowl, integrated bowl, single or double sink layout, pre-drilled 4 in or 8 in faucet holes.</p>
+          </article>
+          <article>
+            <h3>Edge Profiles</h3>
+            <p>Eased, bevel, bullnose, ogee, laminated/mitered edges, and project-specific drawings.</p>
+          </article>
+          <article>
+            <h3>Packaging</h3>
+            <p>Foam, corner protection, inner carton, labeled export plywood crate, pallet, or A-frame loading for heavier pieces.</p>
+          </article>
+        </div>
+      </section>
+      <section class="section compact-cta"><div><p class="eyebrow">Color-led Specification</p><h2>Compare materials, colors, finishes, and edge profiles.</h2></div><div class="cta-actions"><a class="button primary" href="colors.html">Browse colors</a><a class="button" href="finishes.html">Review finishes & edges</a></div></section>
+
+      <div class="modal" id="productModal" aria-hidden="true">
+        <div class="modal-backdrop" data-modal-close="product"></div>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <button class="modal-close" type="button" data-modal-close="product" aria-label="Close product details">×</button>
+          <figure class="modal-visual"><img id="modalImage" data-dynamic-image loading="lazy" src="assets/brand/hero-stone-v2.webp" alt="Selected product detail" width="1536" height="1024" /><figcaption id="modalCaption">Illustrative render — not actual product.</figcaption></figure>
+          <div class="modal-copy"><p class="eyebrow" id="modalCategory"></p><h2 id="modalTitle"></h2><p id="modalDescription"></p><dl class="modal-specs" id="modalSpecs"></dl><div class="modal-actions"><a class="button primary" id="modalQuote" href="contact.html#inquiry">Request a quote</a><button class="button" id="modalAddInquiry" type="button">Add to inquiry list</button><a class="button" id="productRelatedColors" href="colors.html">Related colors</a><a class="button" id="productTechSheet" href="#" download hidden>Download spec sheet (PDF)</a></div></div>
+        </section>
+      </div>
+    </main>

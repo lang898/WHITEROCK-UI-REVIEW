@@ -1,0 +1,659 @@
+{
+  "colors": [
+    {
+      "slug": "alpine-carrara",
+      "name": "Alpine Carrara",
+      "material": "Marble",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Cut to size",
+        "Slab availability by lot"
+      ],
+      "swatchImage": "assets/colors/alpine-carrara.jpg",
+      "imageType": "render",
+      "description": "Cool white marble direction with soft grey movement for vanity tops, furniture, and hospitality interiors.",
+      "techSheetPdf": "assets/resources/colors/alpine-carrara-technical-sheet.pdf",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "calacatta-crest",
+      "name": "Calacatta Crest",
+      "material": "Quartz",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished"
+      ],
+      "thicknesses": [
+        "15 mm",
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Jumbo size by request"
+      ],
+      "swatchImage": "assets/colors/calacatta-crest.jpg",
+      "imageType": "render",
+      "description": "Bright quartz direction with broad grey and warm mineral veining for North American countertop programs.",
+      "techSheetPdf": "assets/resources/colors/calacatta-crest-technical-sheet.pdf",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "cloud-veil",
+      "name": "Cloud Veil",
+      "material": "Quartz",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "15 mm",
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/cloud-veil.jpg",
+      "imageType": "render",
+      "description": "Quiet white quartz with fine grey wisps for repeatable builder, retail, and multi-family programs.",
+      "techSheetPdf": "assets/resources/colors/cloud-veil-technical-sheet.pdf",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "dove-concrete",
+      "name": "Dove Concrete",
+      "material": "Quartz",
+      "colorFamily": "Grey",
+      "finishes": [
+        "Honed"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/dove-concrete.jpg",
+      "imageType": "render",
+      "description": "Soft concrete-grey direction for contemporary kitchens, commercial counters, and hospitality vanities.",
+      "techSheetPdf": "assets/resources/colors/dove-concrete-technical-sheet.pdf",
+      "relatedProducts": [
+        "Kitchen countertops",
+        "Commercial counters",
+        "Multi-family vanities"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "graphite-crystal",
+      "name": "Graphite Crystal",
+      "material": "Granite",
+      "colorFamily": "Black",
+      "finishes": [
+        "Polished",
+        "Leathered"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/graphite-crystal.jpg",
+      "imageType": "render",
+      "description": "Dense charcoal granite direction with fine mineral depth for durable counters and outdoor furniture.",
+      "techSheetPdf": "assets/resources/colors/graphite-crystal-technical-sheet.pdf",
+      "relatedProducts": [
+        "Restaurant counters",
+        "Stone furniture",
+        "Outdoor tables"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "silver-ash",
+      "name": "Silver Ash",
+      "material": "Granite",
+      "colorFamily": "Grey",
+      "finishes": [
+        "Polished",
+        "Leathered"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/silver-ash.jpg",
+      "imageType": "render",
+      "description": "Balanced mid-grey granite direction with fine black and silver mineral structure.",
+      "techSheetPdf": "assets/resources/colors/silver-ash-technical-sheet.pdf",
+      "relatedProducts": [
+        "Kitchen countertops",
+        "Commercial counters",
+        "Multi-family vanities"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "warm-ivory",
+      "name": "Warm Ivory",
+      "material": "Engineered Marble",
+      "colorFamily": "Beige",
+      "finishes": [
+        "Polished"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Vanity program sizes",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/warm-ivory.jpg",
+      "imageType": "render",
+      "description": "Warm off-white engineered marble direction for volume vanity and apartment programs.",
+      "techSheetPdf": "assets/resources/colors/warm-ivory-technical-sheet.pdf",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Builder programs",
+        "Hospitality bathrooms"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "verde-forest",
+      "name": "Verde Forest",
+      "material": "Marble",
+      "colorFamily": "Green",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/verde-forest.jpg",
+      "imageType": "render",
+      "description": "Deep green marble direction with fine white mineral lines for statement furniture and interiors.",
+      "techSheetPdf": "assets/resources/colors/verde-forest-technical-sheet.pdf",
+      "relatedProducts": [
+        "Feature furniture",
+        "Reception counters",
+        "Hospitality accents"
+      ],
+      "caption": "Illustrative digital swatch - confirm with physical sample."
+    },
+    {
+      "slug": "snow-drift",
+      "name": "Snow Drift",
+      "material": "Quartz",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "15 mm",
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/snow-drift.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Soft white quartz direction with very light mineral movement for builder and retail programs.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ]
+    },
+    {
+      "slug": "pearl-carrara",
+      "name": "Pearl Carrara",
+      "material": "Marble",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/pearl-carrara.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Pearled Carrara-style marble direction with fine grey movement for vanity and feature-surface planning.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ]
+    },
+    {
+      "slug": "arctic-calcite",
+      "name": "Arctic Calcite",
+      "material": "Engineered Marble",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Vanity program sizes",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/arctic-calcite.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Clean engineered-marble direction for repeat bathroom vanity programs and value-focused retail collections.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ]
+    },
+    {
+      "slug": "bianco-mist",
+      "name": "Bianco Mist",
+      "material": "Quartz",
+      "colorFamily": "White",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "15 mm",
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Jumbo size by request"
+      ],
+      "swatchImage": "assets/colors/bianco-mist.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "A quiet white quartz direction with fine mist veining for kitchens, bath tops, and hospitality rooms.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Kitchen countertops",
+        "Hotel bath programs"
+      ]
+    },
+    {
+      "slug": "mist-grey",
+      "name": "Mist Grey",
+      "material": "Granite",
+      "colorFamily": "Grey",
+      "finishes": [
+        "Polished",
+        "Leathered"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/mist-grey.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Light grey granite direction with speckled mineral structure for durable work surfaces.",
+      "relatedProducts": [
+        "Kitchen countertops",
+        "Commercial counters",
+        "Multi-family vanities"
+      ]
+    },
+    {
+      "slug": "smoke-terrazzo",
+      "name": "Smoke Terrazzo",
+      "material": "Engineered Marble",
+      "colorFamily": "Grey",
+      "finishes": [
+        "Honed",
+        "Polished"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Vanity program sizes",
+        "Panel cuts by request"
+      ],
+      "swatchImage": "assets/colors/smoke-terrazzo.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Grey terrazzo-inspired engineered direction for commercial bath and showroom concepts.",
+      "relatedProducts": [
+        "Kitchen countertops",
+        "Commercial counters",
+        "Multi-family vanities"
+      ]
+    },
+    {
+      "slug": "steel-cloud",
+      "name": "Steel Cloud",
+      "material": "Quartz",
+      "colorFamily": "Grey",
+      "finishes": [
+        "Honed"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/steel-cloud.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Cool grey quartz direction for contemporary kitchens, service counters, and multi-family programs.",
+      "relatedProducts": [
+        "Kitchen countertops",
+        "Commercial counters",
+        "Multi-family vanities"
+      ]
+    },
+    {
+      "slug": "storm-basalt",
+      "name": "Storm Basalt",
+      "material": "Granite",
+      "colorFamily": "Grey",
+      "finishes": [
+        "Leathered",
+        "Polished"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/storm-basalt.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Deep basalt-grey granite direction for durable counters, tables, and outdoor-adjacent uses by review.",
+      "relatedProducts": [
+        "Kitchen countertops",
+        "Commercial counters",
+        "Multi-family vanities"
+      ]
+    },
+    {
+      "slug": "midnight-pearl",
+      "name": "Midnight Pearl",
+      "material": "Granite",
+      "colorFamily": "Black",
+      "finishes": [
+        "Polished",
+        "Leathered"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/midnight-pearl.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Black granite direction with subtle pearled mineral points for restaurant counters and furniture tops.",
+      "relatedProducts": [
+        "Restaurant counters",
+        "Stone furniture",
+        "Outdoor tables"
+      ]
+    },
+    {
+      "slug": "noir-marquina",
+      "name": "Noir Marquina",
+      "material": "Marble",
+      "colorFamily": "Black",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Feature cuts by request"
+      ],
+      "swatchImage": "assets/colors/noir-marquina.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Black marble direction with bright linear veining for statement vanities, furniture, and hospitality accents.",
+      "relatedProducts": [
+        "Restaurant counters",
+        "Stone furniture",
+        "Outdoor tables"
+      ]
+    },
+    {
+      "slug": "sand-dune",
+      "name": "Sand Dune",
+      "material": "Quartz",
+      "colorFamily": "Beige",
+      "finishes": [
+        "Honed",
+        "Polished"
+      ],
+      "thicknesses": [
+        "15 mm",
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "126 x 63 in",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/sand-dune.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Warm beige quartz direction for transitional kitchens, bath vanities, and hospitality programs.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Builder programs",
+        "Hospitality bathrooms"
+      ]
+    },
+    {
+      "slug": "crema-luna",
+      "name": "Crema Luna",
+      "material": "Marble",
+      "colorFamily": "Beige",
+      "finishes": [
+        "Polished",
+        "Honed"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/crema-luna.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Cream marble direction with soft movement for hotel bathrooms and warm residential interiors.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Builder programs",
+        "Hospitality bathrooms"
+      ]
+    },
+    {
+      "slug": "taupe-limestone",
+      "name": "Taupe Limestone",
+      "material": "Engineered Marble",
+      "colorFamily": "Beige",
+      "finishes": [
+        "Honed"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Vanity program sizes",
+        "Panel cuts by request"
+      ],
+      "swatchImage": "assets/colors/taupe-limestone.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Taupe limestone-inspired engineered direction for calm multi-family and hospitality bath programs.",
+      "relatedProducts": [
+        "Bathroom vanity tops",
+        "Builder programs",
+        "Hospitality bathrooms"
+      ]
+    },
+    {
+      "slug": "sage-verde",
+      "name": "Sage Verde",
+      "material": "Marble",
+      "colorFamily": "Green",
+      "finishes": [
+        "Honed",
+        "Polished"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/sage-verde.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Soft green marble direction for feature furniture, bath accents, and boutique hospitality concepts.",
+      "relatedProducts": [
+        "Feature furniture",
+        "Reception counters",
+        "Hospitality accents"
+      ]
+    },
+    {
+      "slug": "jade-river",
+      "name": "Jade River",
+      "material": "Marble",
+      "colorFamily": "Green",
+      "finishes": [
+        "Polished"
+      ],
+      "thicknesses": [
+        "18 mm",
+        "20 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Feature cuts by request"
+      ],
+      "swatchImage": "assets/colors/jade-river.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Jade-green marble direction with pale river veining for premium accent programs.",
+      "relatedProducts": [
+        "Feature furniture",
+        "Reception counters",
+        "Hospitality accents"
+      ]
+    },
+    {
+      "slug": "moss-agate",
+      "name": "Moss Agate",
+      "material": "Granite",
+      "colorFamily": "Green",
+      "finishes": [
+        "Leathered",
+        "Polished"
+      ],
+      "thicknesses": [
+        "20 mm",
+        "30 mm"
+      ],
+      "sizes": [
+        "Slab availability by lot",
+        "Custom cut to size"
+      ],
+      "swatchImage": "assets/colors/moss-agate.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "description": "Deep green-black granite direction with agate-like mineral structure for tables and counters.",
+      "relatedProducts": [
+        "Feature furniture",
+        "Reception counters",
+        "Hospitality accents"
+      ]
+    }
+  ]
+}

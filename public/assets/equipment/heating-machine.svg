@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 190" role="img" aria-label="Heating machine line drawing">
+  <g fill="none" stroke="#2f5f58" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="42" y="58" width="236" height="82" rx="10"/>
+    <path d="M70 140v24M250 140v24M76 86h168"/>
+    <path d="M108 58c-20-26 18-30 0-52M160 58c-20-26 18-30 0-52M212 58c-20-26 18-30 0-52"/>
+    <path d="M76 114h168"/>
+    <circle cx="268" cy="86" r="7"/>
+    <circle cx="268" cy="113" r="7"/>
+  </g>
+</svg>

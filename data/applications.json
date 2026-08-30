@@ -1,0 +1,125 @@
+{
+  "items": [
+    {
+      "title": "Modern Kitchen Countertop",
+      "category": "Kitchen",
+      "description": "Owner-supplied previous website reference showing a bright kitchen island, matching worktops, and full-height stone backsplash treatment.",
+      "image": "assets/owner/countertops/carrara-kitchen-island-1280.webp",
+      "imageType": "owner-original",
+      "caption": "Owner-supplied application reference",
+      "imageAlt": "Bright kitchen with Carrara-style stone island and matching countertops",
+      "featuredColor": "Calacatta Crest",
+      "featuredColorSlug": "calacatta-crest"
+    },
+    {
+      "title": "Master Bath Vanity Suite",
+      "category": "Bathroom",
+      "description": "Application inspiration for double-sink vanity programs where soft marble movement and coordinated wall panels create a calm premium bathroom. Illustrative scene only.",
+      "image": "assets/applications/master-bath-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Master bathroom vanity application inspiration illustrative scene",
+      "featuredColor": "Cloud Veil",
+      "featuredColorSlug": "cloud-veil"
+    },
+    {
+      "title": "Hotel Bathroom Vanity",
+      "category": "Hospitality",
+      "description": "Application inspiration for hotel bathroom vanity tops, wall returns, and shower-adjacent stone detailing. Illustrative scene only.",
+      "image": "assets/applications/hotel-bath-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Hotel bathroom vanity application inspiration illustrative scene",
+      "featuredColor": "Warm Ivory",
+      "featuredColorSlug": "warm-ivory"
+    },
+    {
+      "title": "Hotel Lobby Reception Counter",
+      "category": "Hospitality",
+      "description": "Application inspiration for reception desks, feature counters, and lobby stone surfaces that need strong visual presence and repeatable fabrication. Illustrative scene only.",
+      "image": "assets/applications/hotel-lobby-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Hotel lobby reception counter application inspiration illustrative scene",
+      "featuredColor": "Graphite Crystal",
+      "featuredColorSlug": "graphite-crystal"
+    },
+    {
+      "title": "Multi-family Bath Program",
+      "category": "Multi-family",
+      "description": "Application inspiration for apartment and builder vanity programs using simple forms, efficient sizes, and easy-to-coordinate neutral colors. Illustrative scene only.",
+      "image": "assets/applications/multifamily-bath-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Multi-family bathroom vanity application inspiration illustrative scene",
+      "featuredColor": "Warm Ivory",
+      "featuredColorSlug": "warm-ivory"
+    },
+    {
+      "title": "Retail Showroom Surface Library",
+      "category": "Retail Showroom",
+      "description": "Application inspiration for dealers and distributors presenting sample boards, color ranges, and finish options in a showroom environment. Illustrative scene only.",
+      "image": "assets/applications/retail-showroom-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Retail showroom stone sample library application inspiration illustrative scene",
+      "featuredColor": "Alpine Carrara",
+      "featuredColorSlug": "alpine-carrara"
+    },
+    {
+      "title": "Custom Marble Coffee Table Top",
+      "category": "Furniture",
+      "description": "Owner-supplied previous website reference showing a marble coffee-table top in a residential setting. Final top, support interface, reinforcement, finish, and packing are confirmed by drawing.",
+      "image": "assets/owner/countertops/marble-coffee-top-living-room-1280.webp",
+      "imageType": "owner-original",
+      "caption": "Owner-supplied furniture reference",
+      "imageAlt": "Square marble coffee table top in a furnished living room",
+      "featuredColor": "Pearl Carrara",
+      "featuredColorSlug": "pearl-carrara"
+    },
+    {
+      "title": "Outdoor Terrace Stone Table",
+      "category": "Outdoor",
+      "description": "Application inspiration for terrace tables and outdoor hospitality pieces where material selection, finish, and sealing need project-specific review. Illustrative scene only.",
+      "image": "assets/applications/outdoor-terrace-table-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Outdoor terrace stone table application inspiration illustrative scene",
+      "featuredColor": "Silver Ash",
+      "featuredColorSlug": "silver-ash"
+    },
+    {
+      "title": "Restaurant Counter & Bar Top",
+      "category": "Restaurant",
+      "description": "Application inspiration for restaurant counters, bar tops, and hospitality service surfaces with durable dark stone character. Illustrative scene only.",
+      "image": "assets/applications/restaurant-counter-inspiration.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Restaurant stone counter application inspiration illustrative scene",
+      "featuredColor": "Midnight Pearl",
+      "featuredColorSlug": "midnight-pearl"
+    },
+    {
+      "title": "Kitchen Backsplash & Counter Pairing",
+      "category": "Kitchen",
+      "description": "Application inspiration for pairing a countertop color with backsplash returns, edge details, and sample approval before final production. Illustrative scene only.",
+      "image": "assets/applications/kitchen-render.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Kitchen backsplash and counter pairing application inspiration illustrative scene",
+      "featuredColor": "Pearl Carrara",
+      "featuredColorSlug": "pearl-carrara"
+    },
+    {
+      "title": "Commercial Counter & Wall Panels",
+      "category": "Commercial",
+      "description": "Application inspiration for commercial counters, reception surfaces, and coordinated wall panels. Not a completed WHITEROCK installation. Illustrative scene only.",
+      "image": "assets/applications/hospitality-render.jpg",
+      "imageType": "render",
+      "caption": "Application inspiration",
+      "imageAlt": "Commercial counter and wall panels application inspiration illustrative scene",
+      "featuredColor": "Verde Forest",
+      "featuredColorSlug": "verde-forest"
+    }
+  ]
+}

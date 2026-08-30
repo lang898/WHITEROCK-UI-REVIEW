@@ -1,0 +1,13 @@
+{
+  "eyebrow": "Quality & Fabrication Safety",
+  "title": "Specify clearly. Fabricate safely. Document every shipment.",
+  "silicaTitle": "Crystalline silica safety",
+  "silicaCopy": "Cutting, grinding, drilling, or polishing stone can generate respirable crystalline silica dust. Fabricators must use effective wet methods, local exhaust ventilation, approved respiratory protection, exposure controls, training, and housekeeping required by applicable law and the product SDS.",
+  "prop65Title": "California Proposition 65",
+  "prop65Copy": "California warning and labeling requirements must be confirmed for each product before sale or shipment. Owner-approved product notices and SDS files will be published in Resources when available.",
+  "certificationsTitle": "Certifications",
+  "certifications": [
+    "Certification and laboratory report status pending owner verification"
+  ],
+  "resourceCta": "Review safety and compliance resources"
+}

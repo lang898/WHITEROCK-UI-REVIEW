@@ -1,0 +1,49 @@
+{
+  "intro": "Owner-supplied factory references showing current stone processing and vanity-top preparation. These are capability references, not named customer projects or installation claims.",
+  "items": [
+    {
+      "title": "Vanity Top Preparation Reference",
+      "location": "WHITEROCK Vietnam factory",
+      "summary": "Owner-supplied photo showing cut vanity tops arranged for production review. It is not presented as a completed customer installation.",
+      "material": "Material varies by confirmed order",
+      "scope": "Cut-to-size tops and sink openings according to approved drawings",
+      "quantity": "Quoted for each confirmed order",
+      "image": "/assets/owner/enhanced/vanity-inspection-sequence-a-enhanced.jpg",
+      "alt": "Owner-supplied close view of vanity tops arranged for inspection inside the Vietnam factory",
+      "imageType": "real"
+    },
+    {
+      "title": "Production Floor Reference",
+      "location": "WHITEROCK Vietnam factory",
+      "summary": "Owner-supplied production-floor photo documenting installed processing equipment and material staging. Equipment details require owner confirmation.",
+      "material": "Natural and engineered stone",
+      "scope": "Cutting, edge preparation, inspection, and production staging",
+      "quantity": "Capacity confirmed in the written quotation",
+      "image": "/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
+      "alt": "Owner-supplied photo of the Vietnam stone production floor",
+      "imageType": "real"
+    },
+    {
+      "title": "Finished Top Inspection Reference",
+      "location": "WHITEROCK Vietnam factory",
+      "summary": "Owner-supplied photo showing finished tops staged on worktables for visual review before packing. It does not identify a customer or destination.",
+      "material": "Veined stone surfaces shown in the owner photo",
+      "scope": "Visual inspection and packing preparation",
+      "quantity": "Order-specific",
+      "image": "/assets/owner/enhanced/vanity-workshop-overhead-enhanced.jpg",
+      "alt": "Owner-supplied wide view of finished stone tops staged for production review",
+      "imageType": "real"
+    },
+    {
+      "title": "Production Hall Reference",
+      "location": "WHITEROCK Vietnam factory",
+      "summary": "Owner-supplied overview of stone components on racks inside the Vietnam production hall. It is presented as a capability reference, not a customer project.",
+      "material": "Natural and engineered stone",
+      "scope": "Material staging and internal handling",
+      "quantity": "Order-specific",
+      "image": "/assets/owner/enhanced/production-hall-aisle-enhanced.jpg",
+      "alt": "Owner-supplied overview of stone racks inside the Vietnam production hall",
+      "imageType": "real"
+    }
+  ]
+}

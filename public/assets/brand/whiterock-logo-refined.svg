@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 82" role="img" aria-labelledby="title desc">
+  <title id="title">WHITEROCK Marble and Granite</title>
+  <desc id="desc">Refined WHITEROCK logo based on the owner-supplied source mark</desc>
+  <g transform="translate(2 1)">
+    <rect x="18" y="8" width="48" height="48" fill="none" stroke="#77777b" stroke-width="4"/>
+    <rect x="10" y="16" width="48" height="48" fill="#ffffff" fill-opacity="0.78" stroke="#1d1d1f" stroke-width="4"/>
+    <path d="M22 27l7.2 24h4.7L38 35.8 42.1 51h4.7L54 27h-5.1l-4.6 17.2L40 27h-4l-4.4 17.2L27.1 27H22z" fill="#1d1d1f"/>
+  </g>
+  <text x="84" y="36" fill="#1d1d1f" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0">WHITEROCK</text>
+  <text x="84" y="55" fill="#6e6e73" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="0">MARBLE &amp; GRANITE</text>
+</svg>
