@@ -18,6 +18,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFullCatalog, setShowFullCatalog] = useState(false);
   const categories = useMemo(() => ['All', 'Vanity Tops', 'Kitchen Countertops', 'Furniture Tops', 'Project Products'], []);
   const representativeSkus = useMemo(() => [
     'WR-VT24', 'WR-VT31', 'WR-KT-QC', 'WR-KT-NS',
@@ -25,7 +26,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   ], []);
 
   const productProgramFor = (product: ProductItem) => {
-    if (product.category === 'Bathroom Vanity Top') return 'Vanity Tops';
+    if (product.category === 'Bathroom Vanity Top' || product.category === 'Vanity Top') return 'Vanity Tops';
     if (product.category === 'Kitchen Countertop') return 'Kitchen Countertops';
     if (product.category === 'Furniture Top' || product.category === 'Stone Furniture') return 'Furniture Tops';
     return 'Project Products';
@@ -36,9 +37,15 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
     return (selectedCategory === 'All' || productProgramFor(product) === selectedCategory) &&
       (!search || [product.title, product.sku, product.material, product.description].join(' ').toLowerCase().includes(search));
   });
-  const displayedProducts = selectedCategory === 'All' && !searchQuery.trim()
+  const featuredMode = selectedCategory === 'All' && !searchQuery.trim() && !showFullCatalog;
+  const displayedProducts = featuredMode
     ? representativeSkus.map((sku) => products.find((product) => product.sku === sku)!).filter(Boolean)
     : filteredProducts;
+
+  const chooseCategory = (category: string) => {
+    setSelectedCategory(category);
+    setShowFullCatalog(category !== 'All');
+  };
 
   return (
     <div className="wr-catalog-page">
@@ -50,13 +57,15 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
       <div className="wr-catalog-layout">
         <aside className="wr-filter-rail" aria-label="Product filters">
           <div className="wr-filter-rail__heading"><span>Filter catalog</span><small>{displayedProducts.length} results</small></div>
-          <label className="wr-search-input"><Search /><input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={t(currentLocale, 'searchPlaceholder')} /></label>
-          <fieldset><legend>Category</legend>{categories.map((category) => <button key={category} className={selectedCategory === category ? 'is-active' : ''} onClick={() => setSelectedCategory(category)}><span>{category === 'All' ? t(currentLocale, 'all') : category}</span>{selectedCategory === category && <Check />}</button>)}</fieldset>
+          <label className="wr-search-input"><Search /><input value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value); if (event.target.value) setShowFullCatalog(true); }} placeholder={t(currentLocale, 'searchPlaceholder')} /></label>
+          <fieldset><legend>Category</legend>{categories.map((category) => <button key={category} className={selectedCategory === category ? 'is-active' : ''} onClick={() => chooseCategory(category)}><span>{category === 'All' ? t(currentLocale, 'all') : category}</span>{selectedCategory === category && <Check />}</button>)}</fieldset>
           <div className="wr-filter-note"><strong>MM + IMPERIAL REFERENCE</strong><p>Millimetres are primary. Rounded inch references support North American review; final dimensions require approved drawings.</p></div>
           {!compareIds.length && <div className="wr-filter-note wr-compare-empty"><GitCompare /><strong>No comparison selected</strong><p>Select two or three products to compare specifications side by side.</p></div>}
         </aside>
 
         <main className="wr-product-grid" aria-live="polite">
+          {featuredMode && <div className="wr-product-grid__intro"><div><span className="wr-eyebrow">Featured Products</span><h2>{displayedProducts.length} of {products.length} products</h2><p>A representative selection is shown first. Open the complete catalog to review all current product programs.</p></div><button className="wr-button wr-button--secondary" onClick={() => setShowFullCatalog(true)}>View Full Catalog<ArrowRight /></button></div>}
+          {!featuredMode && selectedCategory === 'All' && !searchQuery.trim() && <div className="wr-product-grid__intro wr-product-grid__intro--compact"><div><span className="wr-eyebrow">Full Catalog</span><h2>{filteredProducts.length} products</h2></div><button className="wr-button wr-button--ghost" onClick={() => setShowFullCatalog(false)}>Show Featured</button></div>}
           {displayedProducts.map((product) => {
             const compared = compareIds.includes(`product:${product.sku}`);
             const dimensions = product.specs.Size || product.specs.Sizes || product.dimensions;
@@ -85,7 +94,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               </article>
             );
           })}
-          {!displayedProducts.length && <div className="wr-empty-state"><h2>{t(currentLocale, 'noResults')}</h2><button className="wr-button wr-button--secondary" onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}>{t(currentLocale, 'clear')}</button></div>}
+          {!displayedProducts.length && <div className="wr-empty-state"><h2>{t(currentLocale, 'noResults')}</h2><button className="wr-button wr-button--secondary" onClick={() => { setSelectedCategory('All'); setSearchQuery(''); setShowFullCatalog(false); }}>{t(currentLocale, 'clear')}</button></div>}
         </main>
       </div>
 
