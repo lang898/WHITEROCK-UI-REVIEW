@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Mail, MapPin, Phone, Settings, Share2 } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, Phone, Share2 } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
 import { FacebookIcon, InstagramIcon, LinkedInIcon, PinterestIcon, XIcon } from './SocialIcons';
 import { siteConfig } from '../data/site';
@@ -20,19 +20,19 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
     { label: 'LinkedIn', href: siteConfig.social.linkedin, Icon: LinkedInIcon },
     { label: 'Pinterest', href: siteConfig.social.pinterest, Icon: PinterestIcon },
     { label: 'X', href: siteConfig.social.x, Icon: XIcon }
-  ];
+  ].filter((item) => Boolean(item.href));
   const sitemap = [
-    { title: t(currentLocale, 'collections'), links: [
-      ['products', t(currentLocale, 'products')], ['colors', t(currentLocale, 'colors')], ['finishes', t(currentLocale, 'finishes')]
+    { title: 'Products', links: [
+      ['products', t(currentLocale, 'products')], ['applications', t(currentLocale, 'applications')], ['samples', t(currentLocale, 'samples')]
     ] },
-    { title: t(currentLocale, 'stoneTypes'), links: [
-      ['stone-marble', 'Marble'], ['stone-granite', 'Granite'], ['stone-quartz', 'Quartz'], ['stone-quartzite', 'Quartzite'], ['stone-travertine', 'Travertine'], ['stone-engineered-marble', 'Engineered Marble']
+    { title: 'Materials', links: [
+      ['colors', t(currentLocale, 'colors')], ['finishes', t(currentLocale, 'finishes')], ['stone-marble', 'Marble'], ['stone-granite', 'Granite'], ['stone-quartz', 'Quartz'], ['stone-quartzite', 'Quartzite'], ['stone-travertine', 'Travertine'], ['stone-engineered-marble', 'Engineered Marble']
     ] },
-    { title: t(currentLocale, 'company'), links: [
-      ['about', t(currentLocale, 'about')], ['factory', t(currentLocale, 'factory')], ['events', t(currentLocale, 'events')]
+    { title: 'Company', links: [
+      ['factory', t(currentLocale, 'factory')], ['about', t(currentLocale, 'about')], ['contact', t(currentLocale, 'contact')]
     ] },
-    { title: t(currentLocale, 'trade'), links: [
-      ['applications', t(currentLocale, 'applications')], ['partners', t(currentLocale, 'partners')], ['samples', t(currentLocale, 'samples')], ['resources', t(currentLocale, 'resources')], ['contact', t(currentLocale, 'contact')]
+    { title: 'Resources', links: [
+      ['resources', t(currentLocale, 'resources')], ['partners', t(currentLocale, 'partners')], ['contact', t(currentLocale, 'requestQuote')]
     ] }
   ];
 
@@ -45,20 +45,23 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
 
       <div className="wr-footer__main">
         <div className="wr-footer__brand">
-          <img className="wr-footer__logo" src="/assets/brand/whiterock-logo-refined.svg" alt="WHITEROCK Marble &amp; Granite" width="360" height="82" />
+          <div className="wr-footer__brand-lockup">
+            <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="" width="80" height="80" aria-hidden="true" />
+            <span><strong>{siteConfig.brand}</strong><small>{siteConfig.tagline}</small></span>
+          </div>
           <p>Natural and engineered stone manufacturing in Binh Phuoc Province, Vietnam. Product specifications, availability, documentation, and commercial terms are confirmed in writing for each order.</p>
           <address>
             <span><MapPin />{siteConfig.address}</span>
             <a href={`mailto:${siteConfig.email}`}><Mail />{siteConfig.email}</a>
             <a href={`tel:${siteConfig.telHref}`}><Phone />{siteConfig.tel}</a>
           </address>
-          <nav className="wr-footer__socials" aria-label="Social media">
+          {socialLinks.length > 0 && <nav className="wr-footer__socials" aria-label="Social media">
             {socialLinks.map(({ label, href, Icon }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} (opens in a new tab)`} title={label}>
                 <Icon />
               </a>
             ))}
-          </nav>
+          </nav>}
         </div>
 
         <nav className="wr-footer__sitemap" aria-label="Footer sitemap">
@@ -78,8 +81,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
       <p className="wr-footer__material-note"><strong>Color and sample note.</strong> Digital textures are visual references. Natural stone varies by block and lot, and engineered surfaces may vary by batch. Confirm the final material, range, finish, and thickness with a physical sample and order documents.</p>
 
       <div className="wr-footer__bottom">
-        <p>© {new Date().getFullYear()} WHITEROCK COMPANY LIMITED. All rights reserved.</p>
-        <button onClick={() => setCurrentTab('admin')}><Settings />Website administration</button>
+        <p>© {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.</p>
       </div>
     </footer>
   );

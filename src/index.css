@@ -1264,3 +1264,75 @@ main button img, main a img, .wr-gallery-card img { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   .wr-reveal { opacity: 1; transform: none; }
 }
+
+/* Compact homepage and navigation alignment */
+.wr-footer__brand-lockup { display: flex; align-items: center; gap: 0.75rem; }
+.wr-footer__brand-lockup > span { display: flex; flex-direction: column; gap: 0.1rem; }
+.wr-footer__brand-lockup strong { font-family: "Libre Baskerville", Georgia, serif; font-size: 1rem; font-weight: 400; }
+.wr-footer__brand-lockup small { color: var(--wr-muted); font-size: 0.75rem; }
+
+.wr-home--compact > .wr-section-band { padding-block: 3.25rem; }
+.wr-home--compact .wr-section-heading { margin-bottom: 1.5rem; }
+.wr-home-programs__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+.wr-home-programs__grid article { min-width: 0; }
+.wr-home-programs__grid article > button { position: relative; width: 100%; height: 350px; overflow: hidden; background: var(--wr-dark); color: white; text-align: left; cursor: pointer; }
+.wr-home-programs__grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms ease; }
+.wr-home-programs__grid button:hover img { transform: scale(1.025); }
+.wr-home-programs__grid article > button > span { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.45rem; padding: 5rem 1.1rem 1.1rem; background: linear-gradient(transparent, rgba(0, 0, 0, 0.9)); }
+.wr-home-programs__grid small { color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+.wr-home-programs__grid strong { font-family: "Libre Baskerville", Georgia, serif; font-size: 1.1rem; font-weight: 400; }
+.wr-home-programs__grid p { margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 0.75rem; line-height: 1.55; }
+.wr-home-programs__grid i { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.25rem; font-size: 0.75rem; font-style: normal; font-weight: 700; }
+.wr-home-programs__grid i svg { width: 0.9rem; }
+.wr-material-wall-controls { display: flex; justify-content: flex-end; gap: 0.4rem; margin: -3.2rem 0 1rem; }
+.wr-material-wall { cursor: grab; }
+.wr-material-wall:active { cursor: grabbing; }
+.wr-home--compact .wr-home-manufacturing__media { grid-template-rows: 260px; }
+.wr-home--compact .wr-compliance--compact { padding: 3.25rem 0; }
+.wr-home--compact .wr-compliance__grid { margin-top: 1.75rem; }
+.wr-home--compact .wr-compliance__card { min-height: 210px; padding: 1.35rem; }
+.wr-home--compact .wr-compliance__code { margin-top: 1.25rem; }
+.wr-home--compact .wr-origin__media { grid-template-rows: 220px; }
+.wr-home-final { background: var(--wr-dark); color: white; }
+.wr-home-final__inner { width: min(100% - 2rem, 80rem); margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr); gap: 3rem; align-items: end; }
+.wr-home-final h2 { max-width: 44rem; margin-top: 0.7rem; color: white; }
+.wr-home-final p { max-width: 44rem; margin: 1rem 0 0; color: rgba(255, 255, 255, 0.72); line-height: 1.65; }
+.wr-home-final__inner > div:last-child { display: flex; justify-content: flex-end; gap: 0.6rem; }
+.wr-home-final .wr-button--secondary { border-color: rgba(255, 255, 255, 0.46); background: transparent; color: white; }
+.wr-color-load-more { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; border: 1px solid var(--wr-line); background: var(--wr-mist); }
+.wr-color-load-more p { margin: 0; color: var(--wr-muted); font-size: 0.75rem; }
+
+@media (max-width: 1180px) {
+  .wr-mobile-nav details { border-bottom: 1px solid var(--wr-line); }
+  .wr-mobile-nav summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--wr-ink); font-size: 0.875rem; font-weight: 750; cursor: pointer; list-style: none; }
+  .wr-mobile-nav summary::-webkit-details-marker { display: none; }
+  .wr-mobile-nav summary svg { width: 1rem; transition: transform 180ms ease; }
+  .wr-mobile-nav details[open] summary svg { transform: rotate(180deg); }
+  .wr-mobile-nav details > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; padding: 0 0 0.75rem; }
+  .wr-mobile-nav details a { min-height: 42px; padding: 0.55rem 0.65rem; border: 1px solid transparent; background: var(--wr-mist); font-size: 0.75rem; }
+  .wr-mobile-nav details a.is-active { border-color: var(--wr-accent); color: var(--wr-accent); }
+  .wr-mobile-nav__actions { display: grid; grid-template-columns: 1fr; gap: 0.5rem; padding-top: 0.9rem; }
+  .wr-mobile-nav__actions .wr-button { margin-top: 0; }
+}
+
+@media (max-width: 900px) {
+  .wr-home-programs__grid { grid-auto-flow: column; grid-auto-columns: minmax(260px, 64vw); grid-template-columns: none; overflow-x: auto; padding-bottom: 0.75rem; scroll-snap-type: inline mandatory; }
+  .wr-home-programs__grid article { scroll-snap-align: start; }
+  .wr-home--compact .wr-home-manufacturing__media { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); grid-template-rows: 210px; }
+  .wr-home-final__inner { grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
+  .wr-home-final__inner > div:last-child { justify-content: flex-start; }
+}
+
+@media (max-width: 600px) {
+  .wr-home--compact > .wr-section-band { padding-block: 3rem; }
+  .wr-home--compact .wr-section-heading { margin-bottom: 1.25rem; }
+  .wr-home-programs__grid { grid-auto-columns: minmax(260px, 84vw); }
+  .wr-home-programs__grid article > button { height: 330px; }
+  .wr-material-wall-controls { margin: 0 0 0.75rem; }
+  .wr-home--compact .wr-home-manufacturing__media { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); grid-template-rows: 180px; }
+  .wr-home--compact .wr-origin__media { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr); grid-template-rows: 165px; }
+  .wr-home--compact .wr-compliance--compact { padding: 3rem 0; }
+  .wr-home--compact .wr-compliance__card { min-height: 0; }
+  .wr-home-final__inner > div:last-child { align-items: stretch; flex-direction: column; }
+  .wr-color-load-more { align-items: stretch; flex-direction: column; text-align: center; }
+}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, Check, GitCompare, Package, Search } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowDown, ArrowRight, Check, GitCompare, Package, Search } from 'lucide-react';
 import { colors } from '../data';
 import { t } from '../i18n';
 import { formatMeasurement } from '../utils/measurements';
@@ -21,6 +21,8 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
   const [selectedMaterial, setSelectedMaterial] = useState('All');
   const [selectedFamily, setSelectedFamily] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [pageSize, setPageSize] = useState(() => window.innerWidth < 768 ? 4 : 9);
+  const [visibleCount, setVisibleCount] = useState(pageSize);
   const materials = ['All', 'Marble', 'Granite', 'Quartz', 'Quartzite', 'Travertine', 'Engineered Marble'];
   const families = ['All', 'White', 'Grey', 'Black', 'Beige', 'Green'];
   const materialRoute: Record<string, string> = {
@@ -33,6 +35,18 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
       (selectedFamily === 'All' || color.colorFamily === selectedFamily) &&
       (!search || [color.name, color.description, color.colorFamily, color.material].join(' ').toLowerCase().includes(search));
   });
+  const visibleColors = filteredColors.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredColors.length;
+
+  useEffect(() => {
+    const updatePageSize = () => setPageSize(window.innerWidth < 768 ? 4 : 9);
+    window.addEventListener('resize', updatePageSize, { passive: true });
+    return () => window.removeEventListener('resize', updatePageSize);
+  }, []);
+
+  useEffect(() => {
+    setVisibleCount(pageSize);
+  }, [pageSize, selectedMaterial, selectedFamily, searchQuery]);
 
   return (
     <div className="wr-catalog-page wr-color-page">
@@ -45,7 +59,7 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
 
       <div className="wr-catalog-layout">
         <aside className="wr-filter-rail" aria-label="Color filters">
-          <div className="wr-filter-rail__heading"><span>Filter colors</span><small>{filteredColors.length} results</small></div>
+          <div className="wr-filter-rail__heading"><span>Filter colors</span><small>Showing {Math.min(visibleCount, filteredColors.length)} of {filteredColors.length}</small></div>
           <label className="wr-search-input"><Search /><input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={t(currentLocale, 'searchPlaceholder')} /></label>
           <fieldset><legend>{t(currentLocale, 'material')}</legend>{materials.map((material) => <button key={material} className={selectedMaterial === material ? 'is-active' : ''} onClick={() => setSelectedMaterial(material)}><span>{material === 'All' ? t(currentLocale, 'all') : material}</span>{selectedMaterial === material && <Check />}</button>)}</fieldset>
           <fieldset><legend>Color family</legend>{families.map((family) => <button key={family} className={selectedFamily === family ? 'is-active' : ''} onClick={() => setSelectedFamily(family)}><span>{family === 'All' ? t(currentLocale, 'all') : family}</span>{selectedFamily === family && <Check />}</button>)}</fieldset>
@@ -53,7 +67,7 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
         </aside>
 
         <main className="wr-swatch-grid" aria-live="polite">
-          {filteredColors.map((color) => {
+          {visibleColors.map((color) => {
             const compared = compareIds.includes(`color:${color.slug}`);
             return (
               <article className="wr-swatch-card" key={color.slug}>
@@ -71,6 +85,10 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
               </article>
             );
           })}
+          {hasMore && <div className="wr-color-load-more">
+            <p>Showing {visibleColors.length} of {filteredColors.length} colors</p>
+            <button className="wr-button wr-button--secondary" onClick={() => setVisibleCount((count) => Math.min(count + pageSize, filteredColors.length))}>Load more colors<ArrowDown /></button>
+          </div>}
           {!filteredColors.length && <div className="wr-empty-state"><h2>{t(currentLocale, 'noResults')}</h2><button className="wr-button wr-button--secondary" onClick={() => { setSelectedMaterial('All'); setSelectedFamily('All'); setSearchQuery(''); }}>{t(currentLocale, 'clear')}</button></div>}
         </main>
       </div>

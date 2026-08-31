@@ -14,7 +14,7 @@ import { RouteLoading } from './components/RouteLoading';
 import { ImageLightbox, type LightboxImage } from './components/ImageLightbox';
 import { HomeView } from './views/HomeView';
 
-import { locales } from './data/site';
+import { locales, siteConfig } from './data/site';
 import { colors } from './data';
 import type { ProductItem, ColorItem, RfqCartItem, LocaleConfig, CompareEntry } from './types';
 import type { ShareContent } from './components/SocialShareModal';
@@ -181,7 +181,7 @@ function AppContent() {
       setShareModalContent(content);
     } else {
       setShareModalContent({
-        title: 'WHITEROCK SURFACES VIETNAM - Direct B2B Stone & Vanity Top Manufacturer',
+        title: `${siteConfig.brand} - ${siteConfig.tagline}`,
         text: 'Stone manufacturing in Vietnam for quartz, marble, granite, countertops, vanity tops, and custom fabrication. Specifications and trade terms are confirmed by quotation.',
         type: 'site'
       });

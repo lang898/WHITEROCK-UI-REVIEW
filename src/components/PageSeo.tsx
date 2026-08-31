@@ -45,7 +45,8 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     };
     const socialImage = new URL(routeImages[routeId] || '/assets/brand/hero-stone-v2.jpg', siteConfig.productionDomain).toString();
 
-    document.title = route.title;
+    const pageTitle = routeId === 'home' ? `${siteConfig.brand} | ${siteConfig.tagline}` : route.title;
+    document.title = pageTitle;
     document.documentElement.lang = language;
     setCanonical(canonicalUrl);
     setMeta('meta[name="description"]', { name: 'description', content: route.description });
@@ -53,7 +54,8 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
       name: 'robots',
       content: route.noIndex ? 'noindex, nofollow' : 'index, follow',
     });
-    setMeta('meta[property="og:title"]', { property: 'og:title', content: route.title });
+    setMeta('meta[property="og:title"]', { property: 'og:title', content: pageTitle });
+    setMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: siteConfig.brand });
     setMeta('meta[property="og:description"]', {
       property: 'og:description',
       content: route.description,
@@ -63,7 +65,7 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     setMeta('meta[property="og:image"]', { property: 'og:image', content: socialImage });
     setMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: `${route.title} preview` });
     setMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
-    setMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: route.title });
+    setMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: pageTitle });
     setMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: route.description });
     setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: socialImage });
 
@@ -89,6 +91,8 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
             '@type': 'Organization',
             '@id': `${siteConfig.productionDomain}/#organization`,
             name: siteConfig.legalName,
+            alternateName: siteConfig.brand,
+            slogan: siteConfig.tagline,
             url: siteConfig.productionDomain,
             email: siteConfig.email,
             telephone: siteConfig.tel,

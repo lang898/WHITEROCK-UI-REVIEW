@@ -136,7 +136,7 @@ export const WhiterockHeritageSection: React.FC<WhiterockHeritageSectionProps> =
       <div className="text-center max-w-4xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-500/10 border border-stone-500/20 text-stone-900 text-xs font-bold shadow-2xs">
           <Gem className="w-3.5 h-3.5 text-stone-700" />
-          <span className="tech-badge">WHITEROCK MARBLE & GRANITE • SINCE 2000s</span>
+          <span className="tech-badge">WHITEROCK · NATURAL & ENGINEERED STONE · SINCE 2000s</span>
         </div>
         
         <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1d1d1f]">

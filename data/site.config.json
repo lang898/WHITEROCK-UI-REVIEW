@@ -1,7 +1,7 @@
 {
-  "brand": "WHITEROCK SURFACES",
-  "legalName": "WHITEROCK COMPANY LIMITED (CÔNG TY TNHH WHITEROCK)",
-  "tagline": "Direct Manufacturer of Quartz & Marble Surfaces (Vietnam)",
+  "brand": "WHITEROCK",
+  "legalName": "WHITEROCK COMPANY LIMITED / CÔNG TY TNHH WHITEROCK",
+  "tagline": "NATURAL & ENGINEERED STONE",
   "productionDomain": "https://www.whiterockstone.com",
   "email": "llang@whiterockstone.com",
   "salesEmail": "sales@whiterockstone.com",
@@ -15,11 +15,11 @@
   "ogImage": "assets/brand/og-image.jpg",
   "favicon": "assets/brand/favicon.png",
   "social": {
-    "facebook": "https://www.facebook.com/",
-    "instagram": "https://www.instagram.com/",
-    "linkedin": "https://www.linkedin.com/",
-    "pinterest": "https://www.pinterest.com/",
-    "x": "https://twitter.com/"
+    "facebook": "",
+    "instagram": "",
+    "linkedin": "",
+    "pinterest": "",
+    "x": ""
   },
   "analyticsPlaceholder": "<!-- Analytics snippet placeholder: add GA4 or privacy-first analytics before launch if needed. -->"
 }
