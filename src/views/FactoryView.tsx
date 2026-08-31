@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check, FileCheck2, PackageCheck, Ruler, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, FileCheck2, PackageCheck, Ruler } from 'lucide-react';
 import { factory } from '../data';
 import { Button } from '../components/ui/Button';
+import { RetailCompliance } from '../components/RetailCompliance';
 import type { LocaleConfig } from '../types';
 
 interface FactoryViewProps {
@@ -87,12 +88,7 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
         </article>
       </section>
 
-      <section className="wr-factory-assurance wr-section-band" aria-labelledby="factory-assurance-title">
-        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Retail and supply-chain review</span><h2 id="factory-assurance-title">Factory assessment records available on request.</h2><p>Program scope, report dates, grades, and applicability are verified against the supporting documents shared for the buyer review.</p></div>
-        <div className="wr-factory-assurance__grid">
-          {factory.retailerAudits.items.map((item) => <article key={item.code}><ShieldCheck /><span>{item.code}</span><h3>{item.name}</h3><p>{item.scope}</p><small>{item.status}</small></article>)}
-        </div>
-      </section>
+      <RetailCompliance compact />
 
       <section className="wr-factory-controls wr-section-band wr-section-band--mist" aria-labelledby="factory-controls-title">
         <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Order controls</span><h2 id="factory-controls-title">Quality evidence follows the agreed acceptance plan.</h2></div>

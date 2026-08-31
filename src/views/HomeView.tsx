@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { ArrowDown, ArrowRight, Check, ChevronLeft, ChevronRight, FileText, GripVertical, Package, Plus } from 'lucide-react';
+import { ArrowRight, Check, ChevronLeft, ChevronRight, FileText, Package, Plus } from 'lucide-react';
 import { colors, factory, ownerImages, products } from '../data';
 import { t } from '../i18n';
 import type { ColorItem, LocaleConfig, ProductItem, RfqCartItem } from '../types';
 import type { ShareContent } from '../components/SocialShareModal';
+import { HeroCarousel } from '../components/HeroCarousel';
+import { RetailCompliance } from '../components/RetailCompliance';
 
 interface HomeViewProps {
   setCurrentTab: (tab: string) => void;
@@ -25,14 +27,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onAddColorSample,
   currentLocale
 }) => {
-  const [heroReveal, setHeroReveal] = useState(58);
   const [activeColor, setActiveColor] = useState<ColorItem>(colors[0]);
   const colorStripRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ active: false, startX: 0, scrollLeft: 0, moved: false });
   const featuredColors = colors.slice(0, 8);
   const showcaseSkus = ['WR-KT-QC', 'WR-FR-RM', 'WR-KT-NS'];
   const showcaseProducts = showcaseSkus.map((sku) => products.find((product) => product.sku === sku)!).filter(Boolean);
-  const stats = factory.stats.slice(0, 4);
   const cncImage = ownerImages.find((image) => image.id === 'owner-library-16')!;
   const vanitySequenceImage = ownerImages.find((image) => image.id === 'owner-library-06')!;
 
@@ -48,45 +48,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   return (
     <div className="wr-home">
-      <section className="wr-hero wr-hero--compare" aria-labelledby="home-hero-title">
-        <div className="wr-hero-compare" aria-hidden="true">
-          <picture><source srcSet="/assets/owner/countertops/waterfall-kitchen-island-1280.avif" type="image/avif" /><source srcSet="/assets/owner/countertops/waterfall-kitchen-island-1280.webp" type="image/webp" /><img src="/assets/owner/countertops/waterfall-kitchen-island.jpg" alt="" width="2000" height="956" loading="eager" fetchPriority="high" /></picture>
-          <picture className="wr-hero-compare__reveal" style={{ clipPath: `inset(0 ${100 - heroReveal}% 0 0)` }}><source srcSet="/assets/owner/countertops/carrara-kitchen-island-1280.avif" type="image/avif" /><source srcSet="/assets/owner/countertops/carrara-kitchen-island-1280.webp" type="image/webp" /><img src="/assets/owner/countertops/carrara-kitchen-island.jpg" alt="" width="2000" height="956" loading="eager" fetchPriority="high" /></picture>
-        </div>
-        <div className="wr-hero__shade" aria-hidden="true" />
-        <div className="wr-hero__content">
-          <p className="wr-eyebrow wr-eyebrow--light">Direct stone manufacturing · Vietnam</p>
-          <h1 id="home-hero-title">Carrara Selected. Vietnam Made. Built to Drawing.</h1>
-          <p className="wr-hero__lead">Vanity tops, kitchen countertops, furniture surfaces, and project stone fabricated from buyer-approved samples and drawings.</p>
-          <div className="wr-hero__actions">
-            <button className="wr-button wr-button--light" onClick={() => setCurrentTab('products')}>{t(currentLocale, 'exploreProducts')}<ArrowRight /></button>
-            <button className="wr-button wr-button--outline-light" onClick={() => setCurrentTab('samples')}><Package />Order samples</button>
-          </div>
-        </div>
-        <div className="wr-hero-compare__control">
-          <span>Carrara application</span>
-          <label>
-            <span className="sr-only">Compare two stone applications</span>
-            <input type="range" min="10" max="90" value={heroReveal} onChange={(event) => setHeroReveal(Number(event.target.value))} />
-            <i style={{ left: `${heroReveal}%` }}><GripVertical /></i>
-          </label>
-          <span>Veined application</span>
-        </div>
-        <a className="wr-hero__scroll" href="#origin" aria-label="Continue to Carrara sourcing"><ArrowDown /></a>
-      </section>
-
-      <section id="origin" className="wr-origin wr-section-band" aria-labelledby="home-origin-title">
-        <div className="wr-section-heading wr-section-intro">
-          <span className="wr-eyebrow">Stone origin · Carrara, Italy</span>
-          <h2 id="home-origin-title">Carrara White selected at its source.</h2>
-          <p>WHITEROCK regularly visits the Carrara quarry region in Italy to select Carrara White blocks used as a principal raw material for vanity-top production. We source and fabricate the stone; we do not operate the quarry.</p>
-        </div>
-        <div className="wr-origin__media">
-          <figure><img src="/assets/owner/countertops/carrara-white-quarry-overview.jpg" alt="Carrara White quarry interior visited during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Carrara White quarry region</figcaption></figure>
-          <figure><img src="/assets/owner/countertops/carrara-white-quarry-workface.jpg" alt="Carrara quarry workface reviewed during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Block selection at the quarry workface</figcaption></figure>
-        </div>
-        <p className="wr-origin__note">Veining and color movement vary by block and lot. Final range, finish, dimensions, and acceptance criteria are confirmed through the approved sample and order documents.</p>
-      </section>
+      <HeroCarousel onExploreProducts={() => setCurrentTab('products')} onRequestQuote={() => setCurrentTab('contact')} />
 
       <section className="wr-home-colors wr-section-band wr-section-band--mist" aria-labelledby="home-colors-title">
         <div className="wr-section-heading wr-section-intro">
@@ -162,12 +124,26 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
       <section className="wr-home-manufacturing wr-section-band wr-section-band--mist" aria-labelledby="home-manufacturing-title">
         <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Vietnam manufacturing</span><h2 id="home-manufacturing-title">Production aligned to the approved product.</h2><p>Cutting, edge processing, polishing, inspection, and packing are coordinated against the approved material sample and production drawing.</p></div>
-        <div className="wr-home-manufacturing__stats">{stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
         <div className="wr-home-manufacturing__media">
           <figure><img src={cncImage.image} alt="Stone cutting and machining line in the Vietnam factory" width="1448" height="1086" loading="lazy" /><figcaption>Cutting and machining</figcaption></figure>
           <figure><img src={vanitySequenceImage.image} alt="Matched vanity tops aligned for inspection" width="1086" height="1448" loading="lazy" /><figcaption>Vanity-top inspection sequence</figcaption></figure>
         </div>
         <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('factory')}>Review manufacturing capability<ArrowRight /></button></div>
+      </section>
+
+      <RetailCompliance />
+
+      <section id="origin" className="wr-origin wr-section-band" aria-labelledby="home-origin-title">
+        <div className="wr-section-heading wr-section-intro">
+          <span className="wr-eyebrow">Stone origin · Carrara, Italy</span>
+          <h2 id="home-origin-title">Carrara White selected at its source.</h2>
+          <p>WHITEROCK regularly visits the Carrara quarry region in Italy to select Carrara White blocks used as a principal raw material for vanity-top production. We source and fabricate the stone; we do not operate the quarry.</p>
+        </div>
+        <div className="wr-origin__media">
+          <figure><img src="/assets/owner/countertops/carrara-white-quarry-overview.jpg" alt="Carrara White quarry interior visited during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Carrara White quarry region · owner supplied</figcaption></figure>
+          <figure><img src="/assets/owner/countertops/carrara-white-quarry-workface.jpg" alt="Carrara quarry workface reviewed during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Block selection at the quarry workface · owner supplied</figcaption></figure>
+        </div>
+        <p className="wr-origin__note">Veining and color movement vary by block and lot. Final range, finish, dimensions, and acceptance criteria are confirmed through the approved sample and order documents.</p>
       </section>
 
       <section className="wr-home-process wr-section-band" aria-labelledby="home-process-title">
