@@ -4,7 +4,26 @@ import { copyFile, mkdir } from 'node:fs/promises';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-const publicRoutes = ['about', 'products', 'colors', 'factory', 'finishes', 'applications', 'partners', 'resources', 'contact', 'admin'];
+const publicRoutes = [
+  'about',
+  'products',
+  'colors',
+  'factory',
+  'finishes',
+  'applications',
+  'partners',
+  'resources',
+  'contact',
+  'samples',
+  'events',
+  'stone-types/marble',
+  'stone-types/granite',
+  'stone-types/quartz',
+  'stone-types/quartzite',
+  'stone-types/travertine',
+  'stone-types/engineered-marble',
+  'admin',
+];
 
 const staticRouteFallbacks = () => ({
   name: 'whiterock-static-route-fallbacks',

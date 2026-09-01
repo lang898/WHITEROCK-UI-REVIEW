@@ -135,8 +135,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
       <section className="wr-home-manufacturing wr-section-band" aria-labelledby="home-manufacturing-title">
         <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Why WHITEROCK</span><h2 id="home-manufacturing-title">Vietnam manufacturing aligned to the approved product.</h2><p>Cutting, edge processing, polishing, inspection, and packing are coordinated against the approved material sample and production drawing.</p></div>
         <div className="wr-home-manufacturing__media">
-          <figure><img src={cncImage.image} alt="Stone cutting and machining line in the Vietnam factory" width="1448" height="1086" loading="lazy" /><figcaption>Cutting and machining · owner supplied</figcaption></figure>
-          <figure><img src={vanitySequenceImage.image} alt="Matched vanity tops aligned for inspection" width="1086" height="1448" loading="lazy" /><figcaption>Vanity-top inspection · owner supplied</figcaption></figure>
+          <figure><img src={cncImage.image} alt="Stone cutting and machining line in the Vietnam factory" width="1448" height="1086" loading="lazy" /><figcaption>Cutting and machining</figcaption></figure>
+          <figure><img src={vanitySequenceImage.image} alt="Matched vanity tops aligned for inspection" width="1086" height="1448" loading="lazy" /><figcaption>Vanity-top inspection</figcaption></figure>
         </div>
         <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('factory')}>Review the factory<ArrowRight /></button></div>
       </section>
@@ -150,8 +150,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <p>WHITEROCK regularly visits the Carrara quarry region to select blocks used as a principal raw material. We source and fabricate the stone; we do not operate the quarry.</p>
         </div>
         <div className="wr-origin__media">
-          <figure><img src="/assets/owner/countertops/carrara-white-quarry-overview.jpg" alt="Carrara White quarry interior visited during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Quarry region · owner supplied</figcaption></figure>
-          <figure><img src="/assets/owner/countertops/carrara-white-quarry-workface.jpg" alt="Carrara quarry workface reviewed during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Block review · owner supplied</figcaption></figure>
+          <figure><img src="/assets/owner/countertops/carrara-white-quarry-overview.jpg" alt="Carrara White quarry interior visited during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Carrara quarry region</figcaption></figure>
+          <figure><img src="/assets/owner/countertops/carrara-white-quarry-workface.jpg" alt="Carrara quarry workface reviewed during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Block review in Carrara</figcaption></figure>
         </div>
       </section>
 

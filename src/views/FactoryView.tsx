@@ -53,6 +53,19 @@ const capabilityTabs = [
   },
 ] as const;
 
+const factoryGallery = [
+  { file: 'edge-line-operation-enhanced', alt: 'Operator working at a stone edge-processing line', caption: 'Edge-line operation' },
+  { file: 'edge-line-wide-enhanced', alt: 'Wide view of the stone edge-processing area', caption: 'Edge-processing area' },
+  { file: 'edge-line-workstation-enhanced', alt: 'Stone edge-line workstation with production racks', caption: 'Edge-line workstation' },
+  { file: 'edge-polisher-close-enhanced', alt: 'Close view of stone edge-polishing equipment', caption: 'Edge polishing' },
+  { file: 'factory-exterior-enhanced', alt: 'Exterior of the WHITEROCK manufacturing facility in Vietnam', caption: 'Binh Phuoc facility' },
+  { file: 'manual-polishing-bay-enhanced', alt: 'Manual polishing bay for stone components', caption: 'Manual polishing bay' },
+  { file: 'vanity-inspection-sequence-a-enhanced', alt: 'Vanity tops aligned for dimensional and visual review', caption: 'Vanity inspection sequence' },
+  { file: 'vanity-inspection-sequence-b-enhanced', alt: 'Finished vanity tops arranged for order inspection', caption: 'Finished-top review' },
+  { file: 'vanity-production-detail-enhanced', alt: 'Detail of vanity-top production inside the factory', caption: 'Vanity production detail' },
+  { file: 'vanity-workshop-overhead-enhanced', alt: 'Overhead view of the vanity-top workshop and staging area', caption: 'Workshop overview' },
+] as const;
+
 export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
   const [activeCapability, setActiveCapability] = useState<(typeof capabilityTabs)[number]['id']>('cutting');
   const active = capabilityTabs.find((item) => item.id === activeCapability) || capabilityTabs[0];
@@ -60,7 +73,7 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
   return (
     <div className="wr-factory-page">
       <header className="wr-factory-page__hero">
-        <img src="/assets/owner/enhanced/production-hall-aisle-enhanced.jpg" alt="Stone production hall at the WHITEROCK Vietnam factory" width="1448" height="1086" fetchPriority="high" />
+        <img src="/assets/owner/enhanced/production-hall-aisle-enhanced.jpg" srcSet="/assets/owner/enhanced/production-hall-aisle-enhanced-720.webp 720w, /assets/owner/enhanced/production-hall-aisle-enhanced-1280.webp 1280w, /assets/owner/enhanced/production-hall-aisle-enhanced.jpg 1448w" sizes="100vw" alt="Stone production hall at the WHITEROCK Vietnam factory" width="1448" height="1086" loading="eager" fetchPriority="high" />
         <div className="wr-factory-page__overlay" />
         <div className="wr-factory-page__intro">
           <span className="wr-eyebrow wr-eyebrow--light">Binh Phuoc · Vietnam</span>
@@ -86,6 +99,26 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
           <img src={active.image} alt={active.alt} width="1448" height="1086" loading="lazy" />
           <div><span>{active.label}</span><h3>{active.title}</h3><p>{active.copy}</p><ul>{factory.flowSteps.map((step) => <li key={step.number}><Check />{step.title}</li>)}</ul></div>
         </article>
+      </section>
+
+      <section className="wr-factory-gallery wr-section-band" aria-labelledby="factory-gallery-title">
+        <div className="wr-section-heading wr-section-intro">
+          <span className="wr-eyebrow">Production floor</span>
+          <h2 id="factory-gallery-title">Real stations across the manufacturing sequence.</h2>
+          <p>Review cutting, edge processing, hand finishing, product inspection, staging, and the Binh Phuoc facility.</p>
+        </div>
+        <div className="wr-factory-gallery__grid">
+          {factoryGallery.map((item) => (
+            <figure key={item.file}>
+              <picture>
+                <source srcSet={`/assets/owner/enhanced/${item.file}-1280.avif`} type="image/avif" />
+                <source srcSet={`/assets/owner/enhanced/${item.file}-1280.webp`} type="image/webp" />
+                <img src={`/assets/owner/enhanced/${item.file}.jpg`} alt={item.alt} width="1448" height="1086" loading="lazy" />
+              </picture>
+              <figcaption>{item.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
       </section>
 
       <RetailCompliance compact />

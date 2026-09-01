@@ -147,6 +147,11 @@ function AppContent() {
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       const targets = Array.from(document.querySelectorAll<HTMLElement>('main > div > section:not(.wr-hero):not(.wr-factory-page__hero), main .wr-section-heading'));
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach((target) => target.classList.add('is-visible'));
+        return;
+      }
+      document.documentElement.classList.add('wr-reveal-ready');
       targets.forEach((target) => target.classList.add('wr-reveal'));
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -162,6 +167,7 @@ function AppContent() {
     return () => {
       window.cancelAnimationFrame(frame);
       (window as Window & { __wrRevealObserver?: IntersectionObserver }).__wrRevealObserver?.disconnect();
+      document.documentElement.classList.remove('wr-reveal-ready');
     };
   }, [currentTab]);
 

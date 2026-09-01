@@ -1,85 +1,84 @@
 import React, { useState } from 'react';
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  Building,
-  CheckCircle2,
-  Clock,
-  HelpCircle,
-  ChevronDown,
-  ShieldCheck,
-  Globe2,
-  FileSpreadsheet,
-  Box,
-  ArrowRight,
-  MessageSquare,
-  Sparkles,
-  Share2
-} from 'lucide-react';
-import {
-  WhatsAppIcon,
-  LinkedInIcon,
-  InstagramIcon
-} from '../components/SocialIcons';
-import { siteConfig } from '../data';
+import { ArrowUpRight, Building2, CheckCircle2, File, Mail, MapPin, MessageSquare, Phone, Send, UploadCloud, X } from 'lucide-react';
 import { FaqSectionWithSchema } from '../components/FaqSectionWithSchema';
-import type { LocaleConfig } from '../types';
+import { WhatsAppIcon } from '../components/SocialIcons';
+import { Input } from '../components/ui/Input';
+import { siteConfig } from '../data';
+import { t } from '../i18n';
 import type { ShareContent } from '../components/SocialShareModal';
+import type { LocaleConfig } from '../types';
 
 interface ContactViewProps {
   currentLocale: LocaleConfig;
   onOpenShareModal?: (content: ShareContent) => void;
 }
 
-export const ContactView: React.FC<ContactViewProps> = ({
-  currentLocale,
-  onOpenShareModal
-}) => {
+const MAX_FILE_SIZE = 30 * 1024 * 1024;
+const ACCEPTED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png']);
+
+export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenShareModal }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     company: '',
-    country: '',
+    location: '',
+    projectType: '',
     message: '',
   });
+  const [drawingFiles, setDrawingFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState('');
+  const [submissionError, setSubmissionError] = useState('');
+  const [submissionNote, setSubmissionNote] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submissionNote, setSubmissionNote] = useState('');
-  const [submissionError, setSubmissionError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const addDrawingFiles = (files: FileList | null) => {
+    if (!files) return;
+    const incoming = Array.from(files);
+    if (drawingFiles.length + incoming.length > 3) {
+      setFileError(t(currentLocale, 'uploadTooMany'));
+      return;
+    }
+    if (incoming.some((file) => (!ACCEPTED_FILE_TYPES.has(file.type) && !/\.(pdf|jpe?g|png)$/i.test(file.name)) || file.size > MAX_FILE_SIZE)) {
+      setFileError(t(currentLocale, 'uploadInvalid'));
+      return;
+    }
+    setDrawingFiles((current) => [...current, ...incoming]);
+    setFileError('');
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setSubmissionError('');
     setIsSubmitting(true);
 
+    const subject = `WHITEROCK website inquiry from ${formData.company || formData.name}`;
     const payload = {
       access_key: siteConfig.web3FormsAccessKey,
-      subject: `WHITEROCK website inquiry from ${formData.company || formData.name}`,
+      subject,
       from_name: formData.name,
       email: formData.email,
-      phone: formData.phone,
       company: formData.company,
-      destination: formData.country,
+      location: formData.location,
+      project_type: formData.projectType,
       message: formData.message,
-      botcheck: ''
+      botcheck: '',
     };
 
     try {
       if (siteConfig.web3FormsAccessKey) {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Submission failed');
-        setSubmissionNote('Your inquiry was submitted. The team will confirm receipt and the appropriate next step.');
+        const requestBody = new FormData();
+        Object.entries(payload).forEach(([key, value]) => requestBody.append(key, String(value)));
+        drawingFiles.forEach((file, index) => requestBody.append(`attachment_${index + 1}`, file, file.name));
+        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: requestBody });
+        const result = await response.json().catch(() => ({ success: false }));
+        if (!response.ok || !result.success) throw new Error('Submission failed');
+        setSubmissionNote('Your inquiry was submitted. The team will review the details and confirm the next step.');
       } else {
-        const body = encodeURIComponent(`Name: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nDestination: ${formData.country}\n\nProject details:\n${formData.message}`);
-        window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(`WHITEROCK inquiry - ${formData.company || formData.name}`)}&body=${body}`;
-        setSubmissionNote('An email draft was opened because the website form access key has not yet been configured.');
+        const selectedFiles = drawingFiles.map((file) => `${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`).join('\n') || 'None';
+        const body = encodeURIComponent(`Name: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}\nLocation: ${formData.location}\nProject type: ${formData.projectType}\n\nSelected files:\n${selectedFiles}\n\nProject details:\n${formData.message}\n\nAttach the selected files before sending.`);
+        window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
+        setSubmissionNote('An email draft has opened. Attach any selected drawings before sending.');
       }
       setIsSubmitted(true);
     } catch {
@@ -90,308 +89,75 @@ export const ContactView: React.FC<ContactViewProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 space-y-24 sm:space-y-28">
-      {/* Header Banner (Unified Apple Display + Keynote Style) */}
-      <div className="space-y-4 max-w-4xl">
-        <div className="wr-panel-eyebrow">
-          <Mail className="w-3.5 h-3.5 text-stone-600" />
-          <span className="tech-badge">DIRECT FACTORY ENGINEERING & EXPORT DESK</span>
-        </div>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-[-0.035em] text-[#1d1d1f]">
-          Request Quotation & Engineering Takeoff.
-        </h1>
-        <p className="text-base sm:text-xl text-[#6e6e73] leading-relaxed max-w-3xl font-normal">
-          Connect directly with our Vietnam manufacturing team in Binh Phuoc for architectural takeoffs, CAD reviews, container planning, and sample requests.
-        </p>
+    <div className="wr-contact-page">
+      <header className="wr-contact-hero wr-section-band">
+        <span className="wr-eyebrow">Contact WHITEROCK</span>
+        <h1>Start with the drawing, material direction, and destination.</h1>
+        <p>Send the project basics to our Vietnam manufacturing team for a product, material, sample, or quotation review.</p>
+      </header>
 
-        {/* Industrial Specification Badges */}
-        <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
-          <span className="wr-info-pill">
-            <Clock className="w-3.5 h-3.5 text-stone-600 shrink-0" />
-            <span className="tech-badge">24-Hour CAD Takeoff Response</span>
-          </span>
-          <span className="wr-info-pill">
-            <ShieldCheck className="w-3.5 h-3.5 text-stone-600 shrink-0" />
-            <span className="tech-badge">Direct FOB Vietnam Port Pricing</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Main Grid: Contact Info + Form */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        {/* Left Side: Contact Cards */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Vietnam Fabrication Facility Card */}
-          <div className="wr-card p-6 sm:p-8 space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-black/[0.06]">
-              <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-stone-500 animate-pulse"></span>
-                <h3 className="font-bold text-base text-[#1d1d1f]">
-                  Vietnam Primary Manufacturing Plant
-                </h3>
-              </div>
-              <span className="tech-badge text-stone-800 bg-stone-50 px-2.5 py-0.5 rounded-full border border-stone-200">
-                Broker Review Required
-              </span>
-            </div>
-
-            <div className="space-y-4 text-xs text-[#6e6e73]">
-              <div className="flex items-start gap-3">
-                <Building className="w-4 h-4 text-stone-700 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-[#1d1d1f] text-sm block font-semibold">WHITEROCK SURFACES VIETNAM CO., LTD.</strong>
-                  <span className="text-[#86868b]">Cong Ty TNHH WHITEROCK Surfaces</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-stone-700 shrink-0 mt-0.5" />
-                <span className="text-[#1d1d1f] leading-relaxed">
-                  {siteConfig.address}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-stone-700 shrink-0" />
-                <a href={`mailto:${siteConfig.email}`} className="text-[#1d1d1f] font-medium hover:text-stone-800 transition-colors">
-                  {siteConfig.email}
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-stone-700 shrink-0" />
-                <a href={`tel:${siteConfig.telHref}`} className="text-[#1d1d1f] font-medium hover:text-stone-800 transition-colors">
-                  {siteConfig.tel} (Phone & WhatsApp)
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3 pt-3 border-t border-black/[0.06]">
-                <Clock className="w-4 h-4 text-[#86868b] shrink-0" />
-                <span className="text-[#86868b]">Mon - Sat: 8:00 AM - 6:00 PM (GMT+7)</span>
-              </div>
-            </div>
+      <section className="wr-contact-main wr-section-band wr-section-band--mist" aria-labelledby="contact-form-title">
+        <aside className="wr-contact-details">
+          <div>
+            <Building2 aria-hidden="true" />
+            <span className="wr-eyebrow">Vietnam manufacturing</span>
+            <h2>Direct factory contact.</h2>
+            <p>WHITEROCK manufactures vanity tops, kitchen countertops, furniture surfaces, and project components in Binh Phuoc Province.</p>
           </div>
+          <address>
+            <span><MapPin aria-hidden="true" />{siteConfig.address}</span>
+            <a href={`mailto:${siteConfig.email}`}><Mail aria-hidden="true" />{siteConfig.email}<ArrowUpRight aria-hidden="true" /></a>
+            <a href={`tel:${siteConfig.telHref}`}><Phone aria-hidden="true" />{siteConfig.tel}<ArrowUpRight aria-hidden="true" /></a>
+            <a href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />WhatsApp<ArrowUpRight aria-hidden="true" /></a>
+          </address>
+          {onOpenShareModal && (
+            <button className="wr-button wr-button--secondary" onClick={() => onOpenShareModal({ title: 'WHITEROCK contact', text: 'Contact WHITEROCK for stone samples, project review, and quotations.', type: 'site' })}>
+              <MessageSquare aria-hidden="true" />Share contact page
+            </button>
+          )}
+        </aside>
 
-          {/* North American Project Desk Card */}
-          <div className="wr-card p-6 sm:p-8 space-y-4">
-            <div className="flex items-center gap-2">
-              <Globe2 className="w-4 h-4 text-stone-600" />
-              <h4 className="font-bold text-sm text-[#1d1d1f]">North American Account Support</h4>
+        <div className="wr-contact-form-panel">
+          {isSubmitted ? (
+            <div className="wr-contact-success" role="status">
+              <CheckCircle2 aria-hidden="true" />
+              <span className="wr-eyebrow">Inquiry prepared</span>
+              <h2>Thank you, {formData.name}.</h2>
+              <p>{submissionNote}</p>
+              <button className="wr-button wr-button--secondary" onClick={() => setIsSubmitted(false)}>Send another inquiry</button>
             </div>
-            <p className="text-xs text-[#86868b] leading-relaxed">
-              Assisting US and Canadian general contractors, multi-family developers, and distributor buyers with CAD takeoffs, container load planning, and order-specific shipping documents.
-            </p>
-            <div className="pt-2 text-xs font-mono text-[#86868b] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-stone-500"></span>
-              EST & PST Timezone Account Coordinators
-            </div>
-          </div>
-
-          {/* Instant Social Channels & Live Chat Desk */}
-          <div className="wr-card p-6 sm:p-8 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-stone-600" />
-                <h4 className="font-bold text-sm text-[#1d1d1f]">Instant Social & Chat Desks</h4>
+          ) : (
+            <form onSubmit={handleSubmit} aria-labelledby="contact-form-title">
+              <div className="wr-contact-form-heading"><span className="wr-eyebrow">Project inquiry</span><h2 id="contact-form-title">Tell us what you are sourcing.</h2><p>Required fields are marked with an asterisk.</p></div>
+              <div className="wr-form-grid">
+                <Input id="contact-name" label="Full name *" required value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} />
+                <Input id="contact-email" label="Work email *" type="email" required value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} />
+                <Input id="contact-company" label="Company *" required value={formData.company} onChange={(event) => setFormData({ ...formData, company: event.target.value })} />
+                <Input id="contact-location" label="Country / region *" required value={formData.location} onChange={(event) => setFormData({ ...formData, location: event.target.value })} />
+                <label className="wr-contact-field" htmlFor="contact-project-type"><span>Project type *</span><select id="contact-project-type" required value={formData.projectType} onChange={(event) => setFormData({ ...formData, projectType: event.target.value })}><option value="">Select a project type</option><option>Vanity program</option><option>Kitchen countertops</option><option>Furniture surfaces</option><option>Hospitality or commercial</option><option>Material sample review</option><option>Other project</option></select></label>
+                <label className="wr-contact-field wr-form-grid__wide" htmlFor="contact-message"><span>Project details *</span><textarea id="contact-message" required rows={6} value={formData.message} onChange={(event) => setFormData({ ...formData, message: event.target.value })} placeholder="Include material, dimensions, quantity, destination, and target schedule where available." /></label>
+                <div className="wr-file-upload wr-form-grid__wide">
+                  <label htmlFor="contact-files"><UploadCloud aria-hidden="true" /><span><strong>Upload drawings</strong><small>{t(currentLocale, 'uploadHelper')}</small></span><input id="contact-files" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" multiple onChange={(event) => { addDrawingFiles(event.target.files); event.currentTarget.value = ''; }} /></label>
+                  {drawingFiles.length > 0 && <ul>{drawingFiles.map((file, index) => <li key={`${file.name}-${file.lastModified}`}><File aria-hidden="true" /><span>{file.name}<small>{(file.size / 1024 / 1024).toFixed(1)} MB</small></span><button type="button" className="wr-icon-button" onClick={() => setDrawingFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))} aria-label={`Remove ${file.name}`}><X /></button></li>)}</ul>}
+                  {fileError && <p className="wr-form-error" role="alert">{fileError}</p>}
+                </div>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-stone-100 text-stone-800 font-bold">
-                Online
-              </span>
-            </div>
-            <p className="text-xs text-[#86868b] leading-relaxed">
-              For urgent drawing verification, live factory video audits, or quick sample requests, connect directly via our prioritized channels:
-            </p>
-
-            <div className="space-y-2 pt-1">
-              <a
-                href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hello WHITEROCK Vietnam, I have an urgent inquiry regarding commercial countertops.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 rounded-2xl bg-[#1d1d1f]/10 hover:bg-[#1d1d1f]/20 text-[#1d1d1f] text-xs font-semibold transition-colors group cursor-pointer"
-              >
-                <div className="flex items-center gap-2.5">
-                  <WhatsAppIcon className="w-4 h-4 text-[#1d1d1f]" />
-                  <span>WhatsApp Direct ({siteConfig.whatsapp})</span>
-                </div>
-                <span className="text-[10px] bg-white px-2 py-0.5 rounded-full text-[#1d1d1f] shadow-2xs">
-                  &lt;15m reply
-                </span>
-              </a>
-
-              <a
-                href={siteConfig.social.linkedin || 'https://linkedin.com'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 rounded-2xl bg-[#1d1d1f]/10 hover:bg-[#1d1d1f]/20 text-[#1d1d1f] text-xs font-semibold transition-colors group cursor-pointer"
-              >
-                <div className="flex items-center gap-2.5">
-                  <LinkedInIcon className="w-4 h-4 text-[#1d1d1f]" />
-                  <span>LinkedIn B2B Company Desk</span>
-                </div>
-                <span className="text-[10px] bg-white px-2 py-0.5 rounded-full text-[#1d1d1f] shadow-2xs">
-                  Corporate
-                </span>
-              </a>
-            </div>
-          </div>
+              {submissionError && <p className="wr-form-error" role="alert">{submissionError}</p>}
+              <button className="wr-button wr-button--primary wr-contact-submit" type="submit" disabled={isSubmitting}><Send aria-hidden="true" />{isSubmitting ? 'Sending…' : 'Send project inquiry'}</button>
+            </form>
+          )}
         </div>
+      </section>
 
-        {/* Right Side: Interactive RFQ / Message Form */}
-        <div className="lg:col-span-3">
-          <div className="wr-card p-6 sm:p-10 space-y-6">
-            {isSubmitted ? (
-              <div className="py-16 text-center space-y-4">
-                <div className="w-16 h-16 bg-stone-50 text-stone-600 rounded-full flex items-center justify-center mx-auto border border-stone-200">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl font-bold text-[#1d1d1f]">Inquiry Received</h3>
-                <p className="text-xs sm:text-sm text-[#86868b] max-w-md mx-auto leading-relaxed">
-                  {submissionNote}
-                </p>
-                <button
-                  onClick={() => {
-                    setIsSubmitted(false);
-                    setSubmissionNote('');
-                    setSubmissionError('');
-                    setFormData({ name: '', email: '', phone: '', company: '', country: '', message: '' });
-                  }}
-                  className="mt-4 px-6 py-2.5 rounded-full bg-[#111113] text-white text-xs font-medium hover:bg-black cursor-pointer"
-                >
-                  Send Another Message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5" aria-busy={isSubmitting}>
-                <input type="checkbox" name="botcheck" className="sr-only" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-                <div className="space-y-1 pb-2 border-b border-black/[0.06]">
-                  <div className="tech-badge text-[#86868b]">DIRECT QUOTATION FORM</div>
-                  <h3 className="font-bold text-xl text-[#1d1d1f]">
-                    Send Project Specifications or Drawings
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label htmlFor="contact-name" className="text-xs font-semibold text-[#1d1d1f]">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="contact-name"
-                      name="name"
-                      required
-                      placeholder="e.g., Marcus Vance"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="wr-form-control w-full bg-[#f5f5f7] border border-black/[0.06] rounded-xl px-4 py-3 text-xs text-[#1d1d1f]"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label htmlFor="contact-email" className="text-xs font-semibold text-[#1d1d1f]">
-                      Work Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="contact-email"
-                      name="email"
-                      required
-                      placeholder="m.vance@company.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="wr-form-control w-full bg-[#f5f5f7] border border-black/[0.06] rounded-xl px-4 py-3 text-xs text-[#1d1d1f]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label htmlFor="contact-company" className="text-xs font-semibold text-[#1d1d1f]">
-                      Company / Organization
-                    </label>
-                    <input
-                      type="text"
-                      id="contact-company"
-                      name="company"
-                      placeholder="e.g., Apex Development Group"
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="wr-form-control w-full bg-[#f5f5f7] border border-black/[0.06] rounded-xl px-4 py-3 text-xs text-[#1d1d1f]"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label htmlFor="contact-phone" className="text-xs font-semibold text-[#1d1d1f]">
-                      Phone / WhatsApp
-                    </label>
-                    <input
-                      type="tel"
-                      id="contact-phone"
-                      name="phone"
-                      placeholder="+1 (555) 000-0000"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="wr-form-control w-full bg-[#f5f5f7] border border-black/[0.06] rounded-xl px-4 py-3 text-xs text-[#1d1d1f]"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="contact-destination" className="text-xs font-semibold text-[#1d1d1f]">
-                    Destination Country / Port
-                  </label>
-                  <input
-                    type="text"
-                    id="contact-destination"
-                    name="destination"
-                    placeholder="e.g., Long Beach, CA (USA) / Vancouver (Canada)"
-                    value={formData.country}
-                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                    className="wr-form-control w-full bg-[#f5f5f7] border border-black/[0.06] rounded-xl px-4 py-3 text-xs text-[#1d1d1f]"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="contact-message" className="text-xs font-semibold text-[#1d1d1f]">
-                    Project Details, Quantities & Scope *
-                  </label>
-                  <textarea
-                    required
-                    id="contact-message"
-                    name="message"
-                    rows={4}
-                    placeholder="Describe your requested vanity sizes (e.g., 22x37 single bowl, 22x61 double bowl), quartz color, edge profile, and estimated number of units or containers..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="wr-form-control w-full bg-[#f5f5f7] border border-black/[0.06] rounded-2xl p-4 text-xs text-[#1d1d1f] leading-relaxed"
-                  />
-                </div>
-
-                {submissionError && <p className="wr-form-error" role="alert">{submissionError}</p>}
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="wr-button wr-button--primary w-full"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>{isSubmitting ? 'Transmitting Request...' : 'Submit RFQ to Vietnam Factory'}</span>
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Technical FAQ Section with Schema */}
-      <div className="pt-8 border-t border-black/[0.06]">
+      <section className="wr-contact-faq wr-section-band">
         <FaqSectionWithSchema
           currentLocale={currentLocale}
-          title="Direct Export & Manufacturing FAQ"
-          subtitle="Direct answers regarding indicative lead times, payment terms, container planning, and order-specific shipping documents."
-          showSchemaInspector={true}
+          title="Procurement and manufacturing FAQ"
+          subtitle="Direct answers about materials, drawings, samples, packing, and order-specific documents."
+          showSchemaInspector={false}
         />
-      </div>
+      </section>
     </div>
   );
 };
+

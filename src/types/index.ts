@@ -96,6 +96,7 @@ export interface StoneTypeInfo {
   headline: string;
   summary: string;
   image: string;
+  imageWebp?: string;
   imageAlt: string;
   imageCaption: string;
   hardness: string;
@@ -106,9 +107,16 @@ export interface StoneTypeInfo {
   suitability: string[];
   applications: string[];
   applicationImage: string;
+  applicationImageWebp?: string;
   applicationAlt: string;
   applicationCaption: string;
   caveat: string;
+  gallery?: {
+    image: string;
+    imageWebp?: string;
+    alt: string;
+    caption: string;
+  }[];
 }
 
 export interface FinishItem {

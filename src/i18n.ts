@@ -17,7 +17,7 @@ const copy = {
     all: 'All', material: 'Material', dimensions: 'Dimensions', thickness: 'Thickness', finish: 'Finish', application: 'Application',
     searchPlaceholder: 'Search products, colors, or materials', noResults: 'No matching results', clear: 'Clear', review: 'Review',
     details: 'Details', submit: 'Submit', back: 'Back', continue: 'Continue', remove: 'Remove', quantity: 'Quantity',
-    uploadInvalid: 'File too large or unsupported format. Please upload PDF, JPG, or PNG under 30 MB.',
+    uploadInvalid: 'File too large or unsupported format. Please upload JPG or PDF under 30MB.',
     uploadTooMany: 'Upload up to 3 files in total.', uploadHelper: 'PDF, JPG, or PNG · up to 3 files · 30 MB each'
   },
   vi: {

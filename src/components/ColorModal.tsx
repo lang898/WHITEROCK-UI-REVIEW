@@ -92,7 +92,7 @@ export const ColorModal: React.FC<ColorModalProps> = ({
               >
                 <img
                   src={color.swatchImage}
-                  alt={`${color.name} digital swatch`}
+                  alt={`${color.name} ${color.material} surface texture`}
                   width={720}
                   height={720}
                   loading="eager"

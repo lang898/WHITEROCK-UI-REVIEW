@@ -4,6 +4,7 @@ import { colors } from '../data';
 import { t } from '../i18n';
 import { formatMeasurement } from '../utils/measurements';
 import { StoneVisualizer } from '../components/StoneVisualizer';
+import { Tag } from '../components/ui/Tag';
 import type { ColorItem, LocaleConfig } from '../types';
 
 interface ColorsViewProps {
@@ -72,11 +73,12 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
             return (
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <img src={color.swatchImage} alt={`${color.name} illustrative digital swatch`} width="800" height="800" loading="lazy" />
-                  <span className="wr-media-disclosure">Digital swatch</span>
+                  <img src={color.swatchImage} alt={`${color.name} ${color.material} surface texture`} width="800" height="800" loading="lazy" />
+                  <span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span>
+                  <span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span>
                 </button>
                 <div className="wr-swatch-card__body">
-                  <small>{color.material} · {color.colorFamily}</small><h2>{color.name}</h2><p>{color.description}</p>
+                  <Tag>{color.material}</Tag><small>{color.colorFamily}</small><h2>{color.name}</h2><p>{color.description}</p>
                   <div className="wr-swatch-card__tags">{color.suitability?.slice(0, 2).map((item) => <span key={item}>{item}</span>)}</div>
                   <dl><div><dt>{t(currentLocale, 'finish')}</dt><dd>{color.finishes.join(', ')}</dd></div><div><dt>{t(currentLocale, 'thickness')}</dt><dd>{formatMeasurement(color.thicknesses.join(', '))}</dd></div><div><dt>Suitability</dt><dd>{color.suitability?.join(', ')}</dd></div><div><dt>Maintenance</dt><dd>{color.maintenanceLevel}</dd></div></dl>
                   <button className="wr-swatch-card__stone-link" onClick={() => setCurrentTab(materialRoute[color.material])}>View all {color.material.toLowerCase()} colors<ArrowRight /></button>

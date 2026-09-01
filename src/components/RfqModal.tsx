@@ -57,9 +57,10 @@ export const RfqModal: React.FC<RfqModalProps> = ({
       if (siteConfig.web3FormsAccessKey) {
         const formPayload = new FormData();
         Object.entries(payload).forEach(([key, value]) => formPayload.append(key, String(value)));
-        drawingFiles.forEach((file, index) => formPayload.append(`drawing_${index + 1}`, file, file.name));
+        drawingFiles.forEach((file, index) => formPayload.append(`attachment_${index + 1}`, file, file.name));
         const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formPayload });
-        if (!response.ok) throw new Error('Submission failed');
+        const result = await response.json().catch(() => ({ success: false }));
+        if (!response.ok || !result.success) throw new Error('Submission failed');
         setSubmissionNote('Your inquiry was submitted. The sales team will confirm receipt and next steps.');
       } else {
         const body = encodeURIComponent(`Contact\n${formData.name}\n${formData.company}\n${formData.email}\n${formData.country}\n${formData.destinationPort}\n\nSelected items\n${itemSummary}\n\nSelected drawing files\n${drawingFiles.map((file) => `${file.name} (${Math.ceil(file.size / 1024 / 1024)} MB)`).join('\n') || 'None'}\n\nNotes\n${formData.customNotes}\n\nAttach the selected files to this email before sending.`);
@@ -89,7 +90,7 @@ export const RfqModal: React.FC<RfqModalProps> = ({
     }
     const oversized = incoming.find((file) => file.size > 30 * 1024 * 1024);
     if (oversized) {
-      setFileError(`${oversized.name}: ${t(currentLocale, 'uploadInvalid')}`);
+      setFileError(t(currentLocale, 'uploadInvalid'));
       return;
     }
     setDrawingFiles((current) => [...current, ...incoming]);

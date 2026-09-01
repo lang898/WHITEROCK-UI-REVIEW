@@ -46,10 +46,10 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
       <div className="wr-footer__main">
         <div className="wr-footer__brand">
           <div className="wr-footer__brand-lockup">
-            <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="" width="80" height="80" aria-hidden="true" />
+            <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="WHITEROCK stone mark" width="80" height="80" />
             <span><strong>{siteConfig.brand}</strong><small>{siteConfig.tagline}</small></span>
           </div>
-          <p>Natural and engineered stone manufacturing in Binh Phuoc Province, Vietnam. Product specifications, availability, documentation, and commercial terms are confirmed in writing for each order.</p>
+          <p>Natural and engineered stone manufacturing in Binh Phuoc Province, Vietnam. Product specifications, availability, documentation, and commercial terms are documented in writing for each order.</p>
           <address>
             <span><MapPin />{siteConfig.address}</span>
             <a href={`mailto:${siteConfig.email}`}><Mail />{siteConfig.email}</a>
@@ -78,7 +78,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
         </div>
       </div>
 
-      <p className="wr-footer__material-note"><strong>Color and sample note.</strong> Digital textures are visual references. Natural stone varies by block and lot, and engineered surfaces may vary by batch. Confirm the final material, range, finish, and thickness with a physical sample and order documents.</p>
+      <p className="wr-footer__material-note"><strong>Color and sample note.</strong> Digital textures are visual references. Natural stone varies by block and lot, and engineered surfaces may vary by batch. Approve the final material, range, finish, and thickness with a physical sample and order documents.</p>
 
       <div className="wr-footer__bottom">
         <p>© {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.</p>

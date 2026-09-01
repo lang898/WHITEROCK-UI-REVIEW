@@ -45,7 +45,7 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     };
     const socialImage = new URL(routeImages[routeId] || '/assets/brand/hero-stone-v2.jpg', siteConfig.productionDomain).toString();
 
-    const pageTitle = routeId === 'home' ? `${siteConfig.brand} | ${siteConfig.tagline}` : route.title;
+    const pageTitle = route.title;
     document.title = pageTitle;
     document.documentElement.lang = language;
     setCanonical(canonicalUrl);

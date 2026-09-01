@@ -654,6 +654,62 @@
         "Reception counters",
         "Hospitality accents"
       ]
+    },
+    {
+      "slug": "quartzite-white-study",
+      "name": "Quartzite White Study",
+      "material": "Quartzite",
+      "colorFamily": "White",
+      "finishes": ["Polished", "Honed"],
+      "thicknesses": ["20 mm", "30 mm"],
+      "sizes": ["Slab availability by lot", "Custom cut to size"],
+      "swatchImage": "assets/brand/hero-stone-v2.jpg",
+      "imageType": "render",
+      "caption": "Illustrative quartzite direction for early material review.",
+      "description": "A pale quartzite direction with broad mineral movement for feature islands, furniture, and hospitality surfaces.",
+      "relatedProducts": ["Feature islands", "Furniture tops", "Hospitality surfaces"]
+    },
+    {
+      "slug": "quartzite-silver-study",
+      "name": "Quartzite Silver Study",
+      "material": "Quartzite",
+      "colorFamily": "Grey",
+      "finishes": ["Polished", "Leathered"],
+      "thicknesses": ["20 mm", "30 mm"],
+      "sizes": ["Slab availability by lot", "Custom cut to size"],
+      "swatchImage": "assets/brand/hero-stone.jpg",
+      "imageType": "render",
+      "caption": "Illustrative quartzite direction for early material review.",
+      "description": "Layered silver-grey movement creates a more architectural quartzite direction for counters and statement surfaces.",
+      "relatedProducts": ["Kitchen counters", "Reception counters", "Feature furniture"]
+    },
+    {
+      "slug": "honey-travertine",
+      "name": "Honey Travertine",
+      "material": "Travertine",
+      "colorFamily": "Beige",
+      "finishes": ["Honed", "Filled"],
+      "thicknesses": ["18 mm", "20 mm", "30 mm"],
+      "sizes": ["Slab availability by lot", "Furniture cuts by request"],
+      "swatchImage": "assets/colors/honey-travertine.jpg",
+      "imageType": "render",
+      "caption": "Illustrative digital swatch for color direction.",
+      "description": "Warm honey bands and open-pore character bring depth to consoles, dining surfaces, and interior wall details.",
+      "relatedProducts": ["Furniture tops", "Interior wall features", "Hospitality details"]
+    },
+    {
+      "slug": "linear-travertine",
+      "name": "Linear Travertine",
+      "material": "Travertine",
+      "colorFamily": "Beige",
+      "finishes": ["Honed", "Filled"],
+      "thicknesses": ["18 mm", "20 mm", "30 mm"],
+      "sizes": ["Furniture cuts by request", "Project components"],
+      "swatchImage": "assets/owner/countertops/rectangular-travertine-top.jpg",
+      "imageType": "photo",
+      "caption": "Travertine furniture surface reference.",
+      "description": "Quiet horizontal bands create a calm, linear travertine expression for low tables and tailored furniture components.",
+      "relatedProducts": ["Coffee tables", "Console tops", "Interior furniture"]
     }
   ]
 }

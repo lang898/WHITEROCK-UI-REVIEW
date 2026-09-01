@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       <div className="wr-header__main">
         <a className="wr-brand" href={routePath('home')} aria-label={`${siteConfig.brand} home`} onClick={(event) => { event.preventDefault(); navigate('home'); }}>
-          <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="" width="80" height="80" aria-hidden="true" />
+          <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="WHITEROCK stone mark" width="80" height="80" />
           <span><strong>{siteConfig.brand}</strong><small>{siteConfig.tagline}</small></span>
         </a>
 

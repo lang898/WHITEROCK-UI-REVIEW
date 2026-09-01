@@ -7,6 +7,7 @@
       "headline": "Expressive natural movement for refined interior surfaces.",
       "summary": "Marble brings distinctive veining and tonal movement to vanity tops, furniture surfaces, kitchen features, and architectural details. Each block and production lot is reviewed for color range, veining, finish, and fabrication behavior.",
       "image": "assets/materials/white-marble-v2.jpg",
+      "imageWebp": "assets/materials/white-marble-v2.webp",
       "imageAlt": "White marble surface with natural grey veining",
       "imageCaption": "Natural marble surface",
       "hardness": "Mohs 3–4",
@@ -17,9 +18,10 @@
       "suitability": ["Interior", "Wet areas with an agreed sealing plan", "Feature surfaces", "Furniture"],
       "applications": ["Bathroom vanity tops", "Kitchen islands", "Furniture tops", "Interior architectural details"],
       "applicationImage": "assets/owner/countertops/carrara-kitchen-island.jpg",
+      "applicationImageWebp": "assets/owner/countertops/carrara-kitchen-island-1280.webp",
       "applicationAlt": "Carrara marble kitchen island in a finished interior",
       "applicationCaption": "Carrara marble kitchen application",
-      "caveat": "Acid sensitivity, veining, fissures, and absorption vary by stone and lot. Final selection is confirmed by physical sample and order-specific review."
+      "caveat": "Acid sensitivity, veining, fissures, and absorption vary by stone and lot. Review the physical sample and order-specific requirements before approval."
     },
     {
       "id": "granite",
@@ -28,6 +30,7 @@
       "headline": "Dense natural stone for demanding counters and project surfaces.",
       "summary": "Granite is commonly selected for working surfaces that need abrasion resistance and strong day-to-day performance. Mineral structure, finish, resin treatment, and exposure are reviewed for the exact material.",
       "image": "assets/materials/granite-v2.jpg",
+      "imageWebp": "assets/materials/granite-v2.webp",
       "imageAlt": "Granite surface with dense mineral pattern",
       "imageCaption": "Natural granite surface",
       "hardness": "Mohs 6–7",
@@ -38,9 +41,10 @@
       "suitability": ["Interior", "Exterior by exact stone review", "Wet areas", "High-use counters"],
       "applications": ["Kitchen countertops", "Commercial counters", "Outdoor surfaces by review", "Project components"],
       "applicationImage": "assets/applications/restaurant-counter-inspiration.jpg",
+      "applicationImageWebp": "assets/applications/restaurant-counter-inspiration.webp",
       "applicationAlt": "Commercial counter application in a hospitality interior",
       "applicationCaption": "Commercial counter application",
-      "caveat": "Typical performance varies by geological source, finish, treatment, and batch. Confirm the selected stone, test report, and exposure before specification."
+      "caveat": "Typical performance varies by geological source, finish, treatment, and batch. Review the selected stone, test report, and exposure before specification."
     },
     {
       "id": "quartz",
@@ -49,6 +53,7 @@
       "headline": "Repeatable visual direction for coordinated interior programs.",
       "summary": "Engineered quartz supports repeat vanity, kitchen, hospitality, and multi-family programs where color direction, sheet format, finish, and batch control are established before production.",
       "image": "assets/materials/quartz-v2.jpg",
+      "imageWebp": "assets/materials/quartz-v2.webp",
       "imageAlt": "Light engineered quartz surface with subtle movement",
       "imageCaption": "Engineered quartz surface",
       "hardness": "Typically Mohs 7",
@@ -59,9 +64,10 @@
       "suitability": ["Interior", "Wet areas", "Repeat programs", "High-use counters"],
       "applications": ["Kitchen countertops", "Vanity programs", "Multi-family interiors", "Commercial counters"],
       "applicationImage": "assets/applications/modern-kitchen-inspiration.jpg",
+      "applicationImageWebp": "assets/applications/modern-kitchen-inspiration.webp",
       "applicationAlt": "Engineered surface used on a modern kitchen island",
       "applicationCaption": "Kitchen surface application",
-      "caveat": "Formulation, dimensions, finish, heat guidance, and technical properties are product-specific. Confirm the exact product sheet and physical sample."
+      "caveat": "Formulation, dimensions, finish, heat guidance, and technical properties are product-specific. Review the exact product sheet and physical sample."
     },
     {
       "id": "quartzite",
@@ -70,6 +76,7 @@
       "headline": "Dramatic natural pattern with project-specific material review.",
       "summary": "True quartzite combines expressive mineral movement with strong surface hardness. Geological identification, resin treatment, absorption, finish, and fabrication behavior are confirmed for the selected lot.",
       "image": "assets/brand/hero-stone-v2.jpg",
+      "imageWebp": "assets/brand/hero-stone-v2.webp",
       "imageAlt": "Quartzite-style natural stone surface with layered veining",
       "imageCaption": "Natural stone surface reference",
       "hardness": "Mohs 6–7",
@@ -80,9 +87,42 @@
       "suitability": ["Interior", "Feature islands", "Furniture", "Wet areas by exact stone review"],
       "applications": ["Premium countertops", "Feature islands", "Furniture tops", "Hospitality surfaces"],
       "applicationImage": "assets/applications/hotel-lobby-inspiration.jpg",
+      "applicationImageWebp": "assets/applications/hotel-lobby-inspiration.webp",
       "applicationAlt": "Natural stone feature surface in a hospitality lobby",
       "applicationCaption": "Hospitality feature application",
-      "caveat": "The trade name alone does not confirm geology or performance. Verify identification, batch range, test data, and the physical sample before approval."
+      "caveat": "The trade name alone does not establish geology or performance. Verify identification, batch range, test data, and the physical sample before approval.",
+      "gallery": [
+        {
+          "image": "assets/owner/countertops/waterfall-kitchen-island.jpg",
+          "imageWebp": "assets/owner/countertops/waterfall-kitchen-island-1280.webp",
+          "alt": "Waterfall stone island as a quartzite application planning reference",
+          "caption": "Waterfall island planning reference"
+        },
+        {
+          "image": "assets/applications/hotel-lobby-inspiration.jpg",
+          "imageWebp": "assets/applications/hotel-lobby-inspiration.webp",
+          "alt": "Hotel lobby stone surface reference for quartzite specification planning",
+          "caption": "Hospitality feature reference"
+        },
+        {
+          "image": "assets/applications/restaurant-counter-inspiration.jpg",
+          "imageWebp": "assets/applications/restaurant-counter-inspiration.webp",
+          "alt": "Restaurant counter reference for quartzite application planning",
+          "caption": "Commercial counter reference"
+        },
+        {
+          "image": "assets/applications/retail-showroom-inspiration.jpg",
+          "imageWebp": "assets/applications/retail-showroom-inspiration.webp",
+          "alt": "Retail showroom stone surface reference for quartzite planning",
+          "caption": "Retail surface reference"
+        },
+        {
+          "image": "assets/applications/outdoor-terrace-table-inspiration.jpg",
+          "imageWebp": "assets/applications/outdoor-terrace-table-inspiration.webp",
+          "alt": "Outdoor table setting used as a quartzite exposure review reference",
+          "caption": "Exterior exposure review reference"
+        }
+      ]
     },
     {
       "id": "travertine",
@@ -91,6 +131,7 @@
       "headline": "Linear movement and tactile character for furniture and interiors.",
       "summary": "Travertine is considered for furniture, architectural elements, and selected hospitality applications where pore structure, fill, finish, edge detail, and exposure are resolved together.",
       "image": "assets/owner/countertops/fluted-travertine-dining-top.jpg",
+      "imageWebp": "assets/owner/countertops/fluted-travertine-dining-top-1280.webp",
       "imageAlt": "Fluted travertine dining surface with linear natural movement",
       "imageCaption": "Travertine furniture surface",
       "hardness": "Mohs 3–4",
@@ -101,9 +142,42 @@
       "suitability": ["Interior", "Furniture", "Walls", "Wet areas with a defined fill and sealing plan"],
       "applications": ["Furniture tops", "Interior wall features", "Hospitality interiors", "Architectural details"],
       "applicationImage": "assets/owner/countertops/rectangular-travertine-top.jpg",
+      "applicationImageWebp": "assets/owner/countertops/rectangular-travertine-top-1280.webp",
       "applicationAlt": "Rectangular travertine furniture surface in a finished interior",
       "applicationCaption": "Travertine furniture application",
-      "caveat": "Open pores, fill, color movement, and edge behavior vary. Wet-area or exterior use requires review of the exact stone, fill system, finish, and project conditions."
+      "caveat": "Open pores, fill, color movement, and edge behavior vary. Wet-area or exterior use requires review of the exact stone, fill system, finish, and project conditions.",
+      "gallery": [
+        {
+          "image": "assets/owner/countertops/oval-travertine-coffee-top.jpg",
+          "imageWebp": "assets/owner/countertops/oval-travertine-coffee-top-1280.webp",
+          "alt": "Oval travertine coffee table with softly rounded edges",
+          "caption": "Oval furniture surface"
+        },
+        {
+          "image": "assets/owner/countertops/fluted-travertine-dining-top.jpg",
+          "imageWebp": "assets/owner/countertops/fluted-travertine-dining-top-1280.webp",
+          "alt": "Fluted travertine dining table with linear stone movement",
+          "caption": "Fluted dining surface"
+        },
+        {
+          "image": "assets/owner/countertops/rectangular-travertine-top.jpg",
+          "imageWebp": "assets/owner/countertops/rectangular-travertine-top-1280.webp",
+          "alt": "Rectangular travertine furniture top with rounded corners",
+          "caption": "Rectangular furniture surface"
+        },
+        {
+          "image": "assets/applications/hotel-lobby-inspiration.jpg",
+          "imageWebp": "assets/applications/hotel-lobby-inspiration.webp",
+          "alt": "Hotel lobby reference for travertine wall and furniture planning",
+          "caption": "Hospitality setting reference"
+        },
+        {
+          "image": "assets/applications/retail-showroom-inspiration.jpg",
+          "imageWebp": "assets/applications/retail-showroom-inspiration.webp",
+          "alt": "Retail interior reference for travertine surface planning",
+          "caption": "Retail interior reference"
+        }
+      ]
     },
     {
       "id": "engineered-marble",
@@ -112,6 +186,7 @@
       "headline": "Coordinated interior surfaces for repeat vanity programs.",
       "summary": "Engineered marble is commonly reviewed for bathroom and hospitality programs where color direction, component construction, dimensions, and order documentation are controlled across repeat units.",
       "image": "assets/materials/engineered-marble-v2.jpg",
+      "imageWebp": "assets/materials/engineered-marble-v2.webp",
       "imageAlt": "Light engineered marble surface with fine grey movement",
       "imageCaption": "Engineered marble surface",
       "hardness": "Typically Mohs 5–6",
@@ -122,9 +197,10 @@
       "suitability": ["Interior", "Bathrooms", "Repeat programs", "Furniture components"],
       "applications": ["Bathroom vanity tops", "Hospitality bath programs", "Multi-family interiors", "Furniture components"],
       "applicationImage": "assets/applications/multifamily-bath-inspiration.jpg",
+      "applicationImageWebp": "assets/applications/multifamily-bath-inspiration.webp",
       "applicationAlt": "Engineered surface used in a multi-family bathroom vanity setting",
       "applicationCaption": "Repeat vanity application",
-      "caveat": "Formulation, color range, dimensions, test documentation, and physical sample are confirmed for the exact product before production."
+      "caveat": "Formulation, color range, dimensions, test documentation, and physical sample are reviewed for the exact product before production."
     }
   ]
 }

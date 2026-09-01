@@ -14,6 +14,21 @@ interface GlobalSearchProps {
   onSelectColor: (color: ColorItem) => void;
 }
 
+const editDistance = (left: string, right: string) => {
+  const matrix = Array.from({ length: left.length + 1 }, (_, row) => [row]);
+  for (let column = 1; column <= right.length; column += 1) matrix[0][column] = column;
+  for (let row = 1; row <= left.length; row += 1) {
+    for (let column = 1; column <= right.length; column += 1) {
+      matrix[row][column] = Math.min(
+        matrix[row - 1][column] + 1,
+        matrix[row][column - 1] + 1,
+        matrix[row - 1][column - 1] + (left[row - 1] === right[column - 1] ? 0 : 1),
+      );
+    }
+  }
+  return matrix[left.length][right.length];
+};
+
 export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   isOpen, locale, onClose, onNavigate, onSelectProduct, onSelectColor
 }) => {
@@ -77,6 +92,21 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
     return { products: productResults, colors: colorResults, materials, pages };
   }, [normalized]);
 
+  const suggestion = useMemo(() => {
+    if (normalized.length < 3) return '';
+    const candidates = Array.from(new Set([
+      'Carrara',
+      ...colors.flatMap((item) => [item.name, item.material]),
+      ...products.flatMap((item) => [item.title, item.material]),
+      ...pageEntries.map(([, label]) => label),
+    ])).filter((candidate) => candidate.toLowerCase() !== normalized);
+    const ranked = candidates
+      .map((candidate) => ({ candidate, distance: editDistance(normalized, candidate.toLowerCase()) }))
+      .sort((left, right) => left.distance - right.distance || left.candidate.length - right.candidate.length);
+    const closest = ranked[0];
+    return closest && closest.distance <= Math.max(2, Math.floor(normalized.length * 0.34)) ? closest.candidate : '';
+  }, [normalized]);
+
   if (!isOpen) return null;
 
   const noResults = !results.products.length && !results.colors.length && !results.materials.length && !results.pages?.length;
@@ -96,7 +126,13 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
         </div>
 
         <div className="wr-search-results">
-          {noResults && <p className="wr-search-empty">{t(locale, 'noResults')}</p>}
+          {suggestion && (
+            <div className="wr-search-suggestion" role="status">
+              <div><strong>No exact results for “{query.trim()}”.</strong><span>Did you mean: {suggestion}?</span></div>
+              <button className="wr-button wr-button--secondary" onClick={() => setQuery(suggestion)}>Search {suggestion}<ArrowRight /></button>
+            </div>
+          )}
+          {noResults && !suggestion && <div className="wr-search-empty"><Search /><strong>{t(locale, 'noResults')}</strong><span>Try a material, color family, product, or page name.</span></div>}
 
           {!!results.products.length && (
             <section aria-labelledby="search-products-title">

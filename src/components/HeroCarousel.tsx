@@ -158,7 +158,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
             {slide.webp && <source srcSet={slide.webp} type="image/webp" />}
             <img
               src={slide.src}
-              alt={index === active ? slide.alt : ''}
+              alt={slide.alt}
               width="2000"
               height="956"
               loading={index === 0 ? 'eager' : 'lazy'}
