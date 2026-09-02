@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Droplets, Gauge, Package, Ruler, Scale, ShieldCheck } from 'lucide-react';
-import { colors, stoneTypes } from '../data';
+import { colors, edges, stoneTypes } from '../data';
 import { Tag } from '../components/ui/Tag';
 import type { ColorItem, LocaleConfig, StoneTypeInfo } from '../types';
 
@@ -20,10 +20,11 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
 }) => {
   const stoneType = stoneTypes.find((item) => item.id === stoneTypeId) || stoneTypes[0];
   const materialColors = colors.filter((color) => color.material === stoneType.name);
+  const materialFinishes = Array.from(new Set(materialColors.flatMap((color) => color.finishes)));
 
   return (
     <div className="wr-stone-type-page">
-      <header className="wr-stone-type-hero">
+      <header className="wr-stone-type-hero" id="stone-overview">
         <figure>
           <picture>
             {stoneType.imageWebp && <source srcSet={stoneType.imageWebp} type="image/webp" />}
@@ -40,6 +41,19 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
         </div>
       </header>
 
+      <nav className="wr-stone-subnav" aria-label={`${stoneType.name} selection path`}>
+        <div className="wr-stone-subnav__inner">
+          <strong>{stoneType.name}</strong>
+          <div className="wr-stone-subnav__links">
+            <a href="#stone-overview">Overview</a>
+            <a href="#stone-colors">Colors <span>{materialColors.length}</span></a>
+            <a href="#stone-finishes">Finishes &amp; Edges</a>
+            <a href="#stone-applications">Applications</a>
+          </div>
+          <button className="wr-button wr-button--primary" onClick={() => setCurrentTab('samples')}><Package />Samples</button>
+        </div>
+      </nav>
+
       <section className="wr-stone-type-specs" aria-label={`${stoneType.name} technical reference`}>
         <article><Gauge /><span>Mohs hardness</span><p>{stoneType.hardness}</p></article>
         <article><Droplets /><span>Water absorption</span><p>{stoneType.absorption}</p></article>
@@ -48,7 +62,7 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
       </section>
       <p className="wr-stone-type-note">Typical values. Batch-specific test reports are confirmed per order.</p>
 
-      <section className="wr-stone-type-colors wr-section-band wr-section-band--mist" aria-labelledby="stone-type-colors-title">
+      <section className="wr-stone-type-colors wr-section-band wr-section-band--mist" id="stone-colors" aria-labelledby="stone-type-colors-title">
         <div className="wr-section-heading wr-section-intro">
           <span className="wr-eyebrow">Surface directions</span>
           <h2 id="stone-type-colors-title">Explore {stoneType.name.toLowerCase()} colors.</h2>
@@ -60,7 +74,7 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
             {materialColors.map((color) => (
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <img src={color.swatchImage} alt={`${color.name} ${color.material} surface texture`} width="800" height="800" loading="lazy" />
+                  <img src={color.swatchImage} alt={color.imageAlt} width="800" height="800" loading="lazy" />
                   <span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span>
                   <span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span>
                 </button>
@@ -84,6 +98,31 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
         )}
       </section>
 
+      <section className="wr-stone-type-fabrication wr-section-band" id="stone-finishes" aria-labelledby="stone-type-fabrication-title">
+        <div className="wr-section-heading wr-section-intro">
+          <span className="wr-eyebrow">Fabrication direction</span>
+          <h2 id="stone-type-fabrication-title">Set the finish and edge after the color.</h2>
+          <p>These options organize the next specification step. Final availability is reviewed against the selected color, thickness, drawing, and physical sample.</p>
+        </div>
+        <div className="wr-stone-type-fabrication__grid">
+          <article>
+            <span>Available finish directions</span>
+            <h3>{materialFinishes.length} finishes represented in this color library</h3>
+            <div className="wr-stone-type-option-list">
+              {materialFinishes.map((finish) => <Tag key={finish}>{finish}</Tag>)}
+            </div>
+          </article>
+          <article>
+            <span>Edge profiles to review</span>
+            <h3>Profiles are selected with the approved thickness and drawing</h3>
+            <div className="wr-stone-type-option-list">
+              {edges.map((edge) => <Tag key={edge.slug}>{edge.name}</Tag>)}
+            </div>
+          </article>
+        </div>
+        <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('finishes')}>Review finishes and edge details<ArrowRight /></button></div>
+      </section>
+
       {stoneType.gallery && stoneType.gallery.length > 1 && (
         <section className="wr-stone-type-gallery wr-section-band wr-section-band--mist" aria-labelledby="stone-type-gallery-title">
           <div className="wr-section-heading wr-section-intro">
@@ -105,7 +144,7 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
         </section>
       )}
 
-      <section className="wr-stone-type-applications wr-section-band" aria-labelledby="stone-type-application-title">
+      <section className="wr-stone-type-applications wr-section-band" id="stone-applications" aria-labelledby="stone-type-application-title">
         <div className="wr-stone-type-application-layout">
           <figure><picture>{stoneType.applicationImageWebp && <source srcSet={stoneType.applicationImageWebp} type="image/webp" />}<img src={stoneType.applicationImage.startsWith('/') ? stoneType.applicationImage : `/${stoneType.applicationImage}`} alt={stoneType.applicationAlt} width="1600" height="1100" loading="lazy" /></picture><figcaption>{stoneType.applicationCaption}</figcaption></figure>
           <div>

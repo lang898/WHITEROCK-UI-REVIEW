@@ -4,6 +4,7 @@
       "slug": "alpine-carrara",
       "name": "Alpine Carrara",
       "material": "Marble",
+      "imageAlt": "Alpine Carrara marble surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished",
@@ -33,6 +34,7 @@
       "slug": "calacatta-crest",
       "name": "Calacatta Crest",
       "material": "Quartz",
+      "imageAlt": "Calacatta Crest quartz surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished"
@@ -61,6 +63,7 @@
       "slug": "cloud-veil",
       "name": "Cloud Veil",
       "material": "Quartz",
+      "imageAlt": "Cloud Veil quartz surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished",
@@ -90,6 +93,7 @@
       "slug": "dove-concrete",
       "name": "Dove Concrete",
       "material": "Quartz",
+      "imageAlt": "Dove Concrete quartz surface texture",
       "colorFamily": "Grey",
       "finishes": [
         "Honed"
@@ -117,6 +121,7 @@
       "slug": "graphite-crystal",
       "name": "Graphite Crystal",
       "material": "Granite",
+      "imageAlt": "Graphite Crystal granite surface texture",
       "colorFamily": "Black",
       "finishes": [
         "Polished",
@@ -145,6 +150,7 @@
       "slug": "silver-ash",
       "name": "Silver Ash",
       "material": "Granite",
+      "imageAlt": "Silver Ash granite surface texture",
       "colorFamily": "Grey",
       "finishes": [
         "Polished",
@@ -173,6 +179,7 @@
       "slug": "warm-ivory",
       "name": "Warm Ivory",
       "material": "Engineered Marble",
+      "imageAlt": "Warm Ivory engineered marble surface texture",
       "colorFamily": "Beige",
       "finishes": [
         "Polished"
@@ -200,6 +207,7 @@
       "slug": "verde-forest",
       "name": "Verde Forest",
       "material": "Marble",
+      "imageAlt": "Verde Forest marble surface texture",
       "colorFamily": "Green",
       "finishes": [
         "Polished",
@@ -228,6 +236,7 @@
       "slug": "snow-drift",
       "name": "Snow Drift",
       "material": "Quartz",
+      "imageAlt": "Snow Drift quartz surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished",
@@ -256,6 +265,7 @@
       "slug": "pearl-carrara",
       "name": "Pearl Carrara",
       "material": "Marble",
+      "imageAlt": "Pearl Carrara marble surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished",
@@ -283,6 +293,7 @@
       "slug": "arctic-calcite",
       "name": "Arctic Calcite",
       "material": "Engineered Marble",
+      "imageAlt": "Arctic Calcite engineered marble surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished"
@@ -309,6 +320,7 @@
       "slug": "bianco-mist",
       "name": "Bianco Mist",
       "material": "Quartz",
+      "imageAlt": "Bianco Mist quartz surface texture",
       "colorFamily": "White",
       "finishes": [
         "Polished",
@@ -337,6 +349,7 @@
       "slug": "mist-grey",
       "name": "Mist Grey",
       "material": "Granite",
+      "imageAlt": "Mist Grey granite surface texture",
       "colorFamily": "Grey",
       "finishes": [
         "Polished",
@@ -364,6 +377,7 @@
       "slug": "smoke-terrazzo",
       "name": "Smoke Terrazzo",
       "material": "Engineered Marble",
+      "imageAlt": "Smoke Terrazzo engineered marble surface texture",
       "colorFamily": "Grey",
       "finishes": [
         "Honed",
@@ -391,6 +405,7 @@
       "slug": "steel-cloud",
       "name": "Steel Cloud",
       "material": "Quartz",
+      "imageAlt": "Steel Cloud quartz surface texture",
       "colorFamily": "Grey",
       "finishes": [
         "Honed"
@@ -417,6 +432,7 @@
       "slug": "storm-basalt",
       "name": "Storm Basalt",
       "material": "Granite",
+      "imageAlt": "Storm Basalt granite surface texture",
       "colorFamily": "Grey",
       "finishes": [
         "Leathered",
@@ -444,6 +460,7 @@
       "slug": "midnight-pearl",
       "name": "Midnight Pearl",
       "material": "Granite",
+      "imageAlt": "Midnight Pearl granite surface texture",
       "colorFamily": "Black",
       "finishes": [
         "Polished",
@@ -471,6 +488,7 @@
       "slug": "noir-marquina",
       "name": "Noir Marquina",
       "material": "Marble",
+      "imageAlt": "Noir Marquina marble surface texture",
       "colorFamily": "Black",
       "finishes": [
         "Polished",
@@ -498,6 +516,7 @@
       "slug": "sand-dune",
       "name": "Sand Dune",
       "material": "Quartz",
+      "imageAlt": "Sand Dune quartz surface texture",
       "colorFamily": "Beige",
       "finishes": [
         "Honed",
@@ -526,6 +545,7 @@
       "slug": "crema-luna",
       "name": "Crema Luna",
       "material": "Marble",
+      "imageAlt": "Crema Luna marble surface texture",
       "colorFamily": "Beige",
       "finishes": [
         "Polished",
@@ -553,6 +573,7 @@
       "slug": "taupe-limestone",
       "name": "Taupe Limestone",
       "material": "Engineered Marble",
+      "imageAlt": "Taupe Limestone engineered marble surface texture",
       "colorFamily": "Beige",
       "finishes": [
         "Honed"
@@ -579,6 +600,7 @@
       "slug": "sage-verde",
       "name": "Sage Verde",
       "material": "Marble",
+      "imageAlt": "Sage Verde marble surface texture",
       "colorFamily": "Green",
       "finishes": [
         "Honed",
@@ -606,6 +628,7 @@
       "slug": "jade-river",
       "name": "Jade River",
       "material": "Marble",
+      "imageAlt": "Jade River marble surface texture",
       "colorFamily": "Green",
       "finishes": [
         "Polished"
@@ -632,6 +655,7 @@
       "slug": "moss-agate",
       "name": "Moss Agate",
       "material": "Granite",
+      "imageAlt": "Moss Agate granite surface texture",
       "colorFamily": "Green",
       "finishes": [
         "Leathered",
@@ -659,6 +683,7 @@
       "slug": "quartzite-white-study",
       "name": "Quartzite White Study",
       "material": "Quartzite",
+      "imageAlt": "Quartzite White Study quartzite surface texture",
       "colorFamily": "White",
       "finishes": ["Polished", "Honed"],
       "thicknesses": ["20 mm", "30 mm"],
@@ -673,6 +698,7 @@
       "slug": "quartzite-silver-study",
       "name": "Quartzite Silver Study",
       "material": "Quartzite",
+      "imageAlt": "Quartzite Silver Study quartzite surface texture",
       "colorFamily": "Grey",
       "finishes": ["Polished", "Leathered"],
       "thicknesses": ["20 mm", "30 mm"],
@@ -687,6 +713,7 @@
       "slug": "honey-travertine",
       "name": "Honey Travertine",
       "material": "Travertine",
+      "imageAlt": "Honey Travertine travertine surface texture",
       "colorFamily": "Beige",
       "finishes": ["Honed", "Filled"],
       "thicknesses": ["18 mm", "20 mm", "30 mm"],
@@ -701,6 +728,7 @@
       "slug": "linear-travertine",
       "name": "Linear Travertine",
       "material": "Travertine",
+      "imageAlt": "Linear Travertine travertine surface texture",
       "colorFamily": "Beige",
       "finishes": ["Honed", "Filled"],
       "thicknesses": ["18 mm", "20 mm", "30 mm"],

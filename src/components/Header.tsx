@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronDown, FileText, Mail, Menu, Package, Search, X } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
 import { siteConfig } from '../data/site';
-import { routePath } from '../routes';
+import { mobileNavigation, primaryNavigation, routePath } from '../routes';
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
 
@@ -17,17 +17,6 @@ interface HeaderProps {
   setLocale: (loc: LocaleConfig) => void;
   onOpenShare?: () => void;
   onOpenSearch: () => void;
-}
-
-interface NavigationItem {
-  id: string;
-  label: string;
-}
-
-interface DesktopNavigationItem {
-  label: string;
-  id?: string;
-  items?: NavigationItem[];
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -51,36 +40,9 @@ export const Header: React.FC<HeaderProps> = ({
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [mobileMenuOpen]);
 
-  const materialItems: NavigationItem[] = [
-    { id: 'colors', label: 'Colors' },
-    { id: 'finishes', label: 'Finishes & Edges' },
-    { id: 'stone-marble', label: 'Marble' },
-    { id: 'stone-granite', label: 'Granite' },
-    { id: 'stone-quartz', label: 'Quartz' },
-    { id: 'stone-quartzite', label: 'Quartzite' },
-    { id: 'stone-travertine', label: 'Travertine' },
-    { id: 'stone-engineered-marble', label: 'Engineered Marble' }
-  ];
-
-  const desktopNav: DesktopNavigationItem[] = [
-    { label: 'Products', id: 'products' },
-    { label: 'Materials', items: materialItems },
-    { label: 'Factory', id: 'factory' },
-    { label: 'Applications', id: 'applications' },
-    { label: 'Resources', id: 'resources' },
-    { label: 'About', items: [{ id: 'about', label: 'About WHITEROCK' }, { id: 'contact', label: 'Contact' }] }
-  ];
-
-  const mobileGroups = [
-    { label: 'Products', items: [{ id: 'products', label: 'Products' }, { id: 'applications', label: 'Applications' }] },
-    { label: 'Materials', items: materialItems },
-    { label: 'Company', items: [{ id: 'factory', label: 'Factory' }, { id: 'about', label: 'About WHITEROCK' }, { id: 'contact', label: 'Contact' }] },
-    { label: 'Resources', items: [{ id: 'resources', label: 'Technical Resources' }, { id: 'partners', label: 'Trade Program' }] }
-  ];
-
   useEffect(() => {
     if (!mobileMenuOpen) return;
-    const activeGroup = mobileGroups.find((group) => group.items.some((item) => item.id === currentTab));
+    const activeGroup = mobileNavigation.find((group) => group.items?.some((item) => item.id === currentTab));
     if (activeGroup) setOpenMobileGroups((groups) => groups.includes(activeGroup.label) ? groups : [...groups, activeGroup.label]);
   }, [currentTab, mobileMenuOpen]);
 
@@ -106,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
         </a>
 
         <nav className="wr-nav" aria-label="Primary navigation">
-          {desktopNav.map((item) => {
+          {primaryNavigation.map((item) => {
             if (item.id) {
               return <a key={item.label} className={currentTab === item.id ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>;
             }
@@ -134,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {mobileMenuOpen && (
         <nav className="wr-mobile-nav" aria-label="Mobile navigation">
-          {mobileGroups.map((group) => (
+          {mobileNavigation.map((group) => (
             <details
               key={group.label}
               open={openMobileGroups.includes(group.label)}
@@ -146,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({
               }}
             >
               <summary>{group.label}<ChevronDown aria-hidden="true" /></summary>
-              <div>{group.items.map((item) => <a key={item.id} className={currentTab === item.id ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
+              <div>{group.items?.map((item) => <a key={item.id} className={currentTab === item.id ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
             </details>
           ))}
           <div className="wr-mobile-nav__actions">

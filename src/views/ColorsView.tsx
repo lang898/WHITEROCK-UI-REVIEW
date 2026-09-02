@@ -73,7 +73,7 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
             return (
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <img src={color.swatchImage} alt={`${color.name} ${color.material} surface texture`} width="800" height="800" loading="lazy" />
+                  <img src={color.swatchImage} alt={color.imageAlt} width="800" height="800" loading="lazy" />
                   <span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span>
                   <span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span>
                 </button>

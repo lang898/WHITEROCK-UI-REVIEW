@@ -19,6 +19,72 @@ export type RouteId =
   | 'stone-engineered-marble'
   | 'admin';
 
+export interface NavigationItem {
+  id: RouteId;
+  label: string;
+}
+
+export interface NavigationGroup {
+  label: string;
+  id?: RouteId;
+  items?: readonly NavigationItem[];
+}
+
+export const stoneMaterialNavigation: readonly NavigationItem[] = [
+  { id: 'stone-marble', label: 'Marble' },
+  { id: 'stone-granite', label: 'Granite' },
+  { id: 'stone-quartz', label: 'Quartz' },
+  { id: 'stone-quartzite', label: 'Quartzite' },
+  { id: 'stone-travertine', label: 'Travertine' },
+  { id: 'stone-engineered-marble', label: 'Engineered Marble' },
+] as const;
+
+export const primaryNavigation: readonly NavigationGroup[] = [
+  { label: 'Products', id: 'products' },
+  { label: 'Materials', items: stoneMaterialNavigation },
+  { label: 'Colors', id: 'colors' },
+  { label: 'Finishes & Edges', id: 'finishes' },
+  { label: 'Factory', id: 'factory' },
+  {
+    label: 'Resources',
+    items: [
+      { id: 'applications', label: 'Applications' },
+      { id: 'resources', label: 'Technical Resources' },
+      { id: 'partners', label: 'Trade Program' },
+    ],
+  },
+  {
+    label: 'About',
+    items: [
+      { id: 'about', label: 'About WHITEROCK' },
+      { id: 'contact', label: 'Contact' },
+    ],
+  },
+] as const;
+
+export const mobileNavigation: readonly NavigationGroup[] = [
+  { label: 'Products', items: [{ id: 'products', label: 'Products' }] },
+  { label: 'Materials', items: stoneMaterialNavigation },
+  { label: 'Colors', items: [{ id: 'colors', label: 'Color Library' }] },
+  { label: 'Finishes & Edges', items: [{ id: 'finishes', label: 'Finishes & Edges' }] },
+  {
+    label: 'Company',
+    items: [
+      { id: 'factory', label: 'Factory' },
+      { id: 'about', label: 'About WHITEROCK' },
+      { id: 'contact', label: 'Contact' },
+    ],
+  },
+  {
+    label: 'Resources',
+    items: [
+      { id: 'applications', label: 'Applications' },
+      { id: 'resources', label: 'Technical Resources' },
+      { id: 'partners', label: 'Trade Program' },
+    ],
+  },
+] as const;
+
 export interface RouteDefinition {
   id: RouteId;
   path: string;

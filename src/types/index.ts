@@ -75,6 +75,7 @@ export interface ColorItem {
   thicknesses: string[];
   sizes: string[];
   swatchImage: string;
+  imageAlt: string;
   imageType: string;
   description: string;
   techSheetPdf?: string;

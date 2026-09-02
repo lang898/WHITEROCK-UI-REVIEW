@@ -1085,6 +1085,21 @@ main button img, main a img, .wr-gallery-card img { cursor: pointer; }
   .wr-stone-type-specs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .wr-stone-type-specs article { min-height: 165px; }
   .wr-stone-type-note { max-width: 80rem; margin: 0 auto; padding: 0.8rem 1rem; border: 1px solid var(--wr-line); border-top: 0; color: var(--wr-muted); font-size: 0.75rem; text-align: center; }
+  .wr-stone-subnav { position: sticky; top: 102px; z-index: 30; border-top: 1px solid var(--wr-line); border-bottom: 1px solid var(--wr-line); background: rgba(255,255,255,0.94); backdrop-filter: saturate(160%) blur(18px); }
+  .wr-stone-subnav__inner { width: min(100% - 2rem, 80rem); min-height: 58px; margin-inline: auto; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem; }
+  .wr-stone-subnav__inner > strong { font-family: var(--wr-serif); font-size: 0.95rem; font-weight: 400; white-space: nowrap; }
+  .wr-stone-subnav__links { min-width: 0; display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: thin; }
+  .wr-stone-subnav__links a { min-height: 58px; display: inline-flex; align-items: center; gap: 0.4rem; padding-inline: 0.8rem; border-bottom: 2px solid transparent; color: var(--wr-muted); font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
+  .wr-stone-subnav__links a:hover, .wr-stone-subnav__links a:focus-visible { border-bottom-color: var(--wr-accent); color: var(--wr-accent); }
+  .wr-stone-subnav__links a span { min-width: 1.3rem; height: 1.3rem; display: inline-grid; place-items: center; border: 1px solid var(--wr-line); color: var(--wr-ink); font-size: 0.75rem; }
+  .wr-stone-subnav .wr-button { min-height: 40px; padding: 0.55rem 0.75rem; white-space: nowrap; }
+  #stone-overview, #stone-colors, #stone-finishes, #stone-applications { scroll-margin-top: 176px; }
+  .wr-stone-type-fabrication__grid { max-width: 80rem; margin-inline: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--wr-line); background: var(--wr-line); }
+  .wr-stone-type-fabrication__grid article { min-width: 0; min-height: 230px; padding: 2rem; background: var(--wr-paper); }
+  .wr-stone-type-fabrication__grid article > span { color: var(--wr-muted); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+  .wr-stone-type-fabrication__grid h3 { max-width: 30rem; margin-top: 0.7rem; font-family: var(--wr-serif); font-size: 1.35rem; font-weight: 400; line-height: 1.3; }
+  .wr-stone-type-option-list { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.4rem; }
+  .wr-stone-type-fabrication .wr-section-action { max-width: 80rem; margin-inline: auto; }
   .wr-stone-type-application-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr); border: 1px solid var(--wr-line); }
   .wr-stone-type-applications > .wr-stone-type-application-layout { grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr); }
   .wr-stone-type-application-layout figure { position: relative; min-height: 540px; margin: 0; overflow: hidden; }
@@ -1205,6 +1220,12 @@ main button img, main a img, .wr-gallery-card img { cursor: pointer; }
   .wr-header__menu-toggle, .wr-mobile-nav { display: none; }
   .wr-language__trigger span, .wr-header__samples span, .wr-header__rfq span { display: none; }
   .wr-header__samples, .wr-header__rfq { width: 42px; min-width: 42px; padding-inline: 0; }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .wr-brand > span { display: none; }
+  .wr-nav { gap: 0.1rem; min-width: 0; }
+  .wr-nav > a, .wr-nav summary { padding-inline: 0.28rem; white-space: nowrap; }
 }
 
 @media (max-width: 600px) {
@@ -1409,6 +1430,15 @@ main button img, main a img, .wr-gallery-card img { cursor: pointer; }
   .wr-contact-hero h1 { font-size: 2.6rem; }
   .wr-contact-details h2, .wr-contact-form-heading h2 { font-size: 1.8rem; }
   .wr-search-suggestion { align-items: flex-start; flex-direction: column; }
+  .wr-stone-subnav { top: 95px; }
+  .wr-stone-subnav__inner { grid-template-columns: minmax(0, 1fr) auto; gap: 0.45rem 0.75rem; padding-block: 0.45rem; }
+  .wr-stone-subnav__inner > strong { padding-left: 0.2rem; }
+  .wr-stone-subnav__links { grid-column: 1 / -1; grid-row: 2; order: 3; }
+  .wr-stone-subnav__links a { min-height: 44px; padding-inline: 0.65rem; }
+  .wr-stone-subnav .wr-button { justify-self: end; }
+  .wr-stone-type-fabrication__grid { grid-template-columns: 1fr; }
+  .wr-stone-type-fabrication__grid article { min-height: 0; padding: 1.5rem; }
+  #stone-overview, #stone-colors, #stone-finishes, #stone-applications { scroll-margin-top: 204px; }
 }
 
 .hybrid-site [class*="text-[9px]"],
