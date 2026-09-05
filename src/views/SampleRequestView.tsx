@@ -2,6 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { CheckCircle2, Mail, MapPin, Package, Send, Trash2 } from 'lucide-react';
 import { siteConfig } from '../data/site';
 import type { ColorItem, LocaleConfig } from '../types';
+import { DirectInquiryContact } from '../components/DirectInquiryContact';
+import { submitInquiry } from '../lib/submitInquiry';
 
 interface SampleRequestViewProps {
   samples: ColorItem[];
@@ -39,7 +41,7 @@ export const SampleRequestView: React.FC<SampleRequestViewProps> = ({
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!samples.length) return;
+    if (!samples.length || isSubmitting || status === 'success' || !siteConfig.web3FormsAccessKey) return;
     setIsSubmitting(true);
     setStatus('idle');
     setNote('');
@@ -59,36 +61,12 @@ export const SampleRequestView: React.FC<SampleRequestViewProps> = ({
     };
 
     try {
-      if (siteConfig.web3FormsAccessKey) {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Sample request failed');
-        setNote('Your sample request was submitted. Availability, sample format, freight, and dispatch timing will be confirmed by the sales team.');
-      } else {
-        const body = encodeURIComponent([
-          `Company: ${formData.company}`,
-          `Contact: ${formData.contact}`,
-          `Email: ${formData.email}`,
-          `Phone: ${formData.phone}`,
-          `Address: ${formData.address}`,
-          `City / region: ${formData.cityRegion}`,
-          `Country: ${formData.country}`,
-          `Project type: ${formData.projectType}`,
-          `Intended use: ${formData.intendedUse}`,
-          '',
-          'Requested samples:',
-          sampleSummary
-        ].join('\n'));
-        window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(`WHITEROCK sample request - ${formData.company}`)}&body=${body}`;
-        setNote('An email draft was opened because the website submission key is not configured. Send the draft to complete the request.');
-      }
+      await submitInquiry({ accessKey: siteConfig.web3FormsAccessKey, fields: payload });
+      setNote('Thank you. We will reply by email shortly. Sample availability, freight, and dispatch timing will be confirmed by the sales team.');
       setStatus('success');
     } catch {
       setStatus('error');
-      setNote(`The request could not be sent. Please email ${siteConfig.email} with your selected colors and delivery address.`);
+      setNote(`Something went wrong or the request timed out. Please email ${siteConfig.email} directly.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -119,7 +97,9 @@ export const SampleRequestView: React.FC<SampleRequestViewProps> = ({
           <div className="wr-sample-box__note"><CheckCircle2 /><p>Digital swatches guide the shortlist only. A physical sample does not guarantee the full natural-stone slab or future engineered-stone batch.</p></div>
         </section>
 
-        <form className="wr-sample-form" onSubmit={submit}>
+        {!siteConfig.web3FormsAccessKey ? (
+          <DirectInquiryContact title="Request your sample box." summary={sampleSummary} instructions="Send your selected colors, company, contact name, delivery address, project type, and intended use by email or WhatsApp. Sample availability and freight will be confirmed before dispatch." />
+        ) : <form className="wr-sample-form" onSubmit={submit} aria-busy={isSubmitting}>
           <div><span className="wr-eyebrow">Delivery request</span><h2>Where should the sample box go?</h2><p>Required details help the team confirm stock, sample format, and dispatch options.</p></div>
           <label><span>Company name *</span><input required value={formData.company} onChange={(event) => setFormData({ ...formData, company: event.target.value })} /></label>
           <div className="wr-form-grid">
@@ -134,10 +114,11 @@ export const SampleRequestView: React.FC<SampleRequestViewProps> = ({
             <label><span>Country *</span><input required value={formData.country} onChange={(event) => setFormData({ ...formData, country: event.target.value })} /></label>
           </div>
           <label><span>Intended use *</span><textarea required rows={4} value={formData.intendedUse} onChange={(event) => setFormData({ ...formData, intendedUse: event.target.value })} placeholder="Countertop, vanity, furniture, project mock-up, or other use" /></label>
-          {note && <p className={status === 'error' ? 'wr-form-error' : 'wr-form-success'}>{status === 'success' ? <CheckCircle2 /> : <Mail />}{note}</p>}
-          <button className="wr-button wr-button--primary" type="submit" disabled={!samples.length || isSubmitting}><Send />{isSubmitting ? 'Sending…' : 'Submit sample request'}</button>
+          {note && <p className={`wr-submission-notice wr-submission-notice--${status === 'error' ? 'error' : 'success'}`} role={status === 'error' ? 'alert' : 'status'}>{status === 'success' ? <CheckCircle2 /> : <Mail />}{note}</p>}
+          {status === 'error' && <DirectInquiryContact title="Contact us directly." summary={sampleSummary} />}
+          <button className="wr-button wr-button--primary" type="submit" disabled={!samples.length || isSubmitting || status === 'success'}><Send />{isSubmitting ? 'Sending…' : status === 'success' ? 'Request received' : 'Submit sample request'}</button>
           <p className="wr-form-privacy"><MapPin />Submitting this form is a sample request, not an order. Dispatch is confirmed separately in writing.</p>
-        </form>
+        </form>}
       </div>
     </div>
   );

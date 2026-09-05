@@ -100,23 +100,31 @@ export const HomeView: React.FC<HomeViewProps> = ({
           }}
           onPointerDown={(event) => {
             const current = colorStripRef.current;
-            if (!current) return;
-            dragState.current = { active: true, startX: event.clientX, scrollLeft: current.scrollLeft, moved: false };
-            current.setPointerCapture(event.pointerId);
+            if (!current || event.button !== 0) return;
+            dragState.current = { active: event.pointerType === 'mouse', startX: event.clientX, scrollLeft: current.scrollLeft, moved: false };
           }}
           onPointerMove={(event) => {
             const current = colorStripRef.current;
             if (!current || !dragState.current.active) return;
             const distance = event.clientX - dragState.current.startX;
-            if (Math.abs(distance) > 5) dragState.current.moved = true;
+            if (!dragState.current.moved) {
+              if (Math.abs(distance) <= 5) return;
+              // Capture only a real drag so a simple click still reaches the card button.
+              dragState.current.moved = true;
+              current.setPointerCapture(event.pointerId);
+            }
             current.scrollLeft = dragState.current.scrollLeft - distance;
           }}
           onPointerUp={(event) => {
             dragState.current.active = false;
-            colorStripRef.current?.releasePointerCapture(event.pointerId);
+            const current = colorStripRef.current;
+            if (current?.hasPointerCapture(event.pointerId)) current.releasePointerCapture(event.pointerId);
           }}
+          onPointerCancel={() => { dragState.current.active = false; }}
+          onLostPointerCapture={() => { dragState.current.active = false; }}
+          onPointerLeave={() => { if (!dragState.current.moved) dragState.current.active = false; }}
           onClickCapture={(event) => {
-            if (!dragState.current.moved) return;
+            if (!dragState.current.moved || event.detail === 0) return;
             event.preventDefault();
             event.stopPropagation();
             dragState.current.moved = false;
@@ -124,7 +132,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         >
           {featuredColors.map((color) => (
             <article key={color.slug}>
-              <button onClick={() => onSelectColor(color)}><img src={assetPath(color.swatchImage)} alt={`${color.name} illustrative digital swatch`} width="800" height="800" loading="lazy" /><span>{color.name}</span></button>
+              <button onClick={() => onSelectColor(color)}><img src={assetPath(color.swatchImage)} alt={`${color.name} illustrative digital swatch`} width="800" height="800" loading="lazy" draggable={false} /><span>{color.name}</span></button>
               <div><small>{color.material} · Digital swatch</small><button className="wr-icon-button" onClick={() => onAddColorSample(color)} aria-label={`Order ${color.name} sample`}><Package /></button></div>
             </article>
           ))}

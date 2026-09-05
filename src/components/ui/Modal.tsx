@@ -86,7 +86,7 @@ export function Modal({
     >
       <div
         ref={dialogRef}
-        className={panelClassName}
+        className={`wr-modal-card ${panelClassName}`.trim()}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}

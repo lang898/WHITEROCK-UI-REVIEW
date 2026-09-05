@@ -12,7 +12,10 @@
   "port": "Cat Lai Port, Ho Chi Minh City (45 km)",
   "zip": "830000",
   "web3FormsAccessKey": "",
-  "ogImage": "assets/brand/og-image.jpg",
+  "ogImage": "assets/brand/whiterock-waterfall-social.jpg",
+  "ogImageAlt": "Carrara white marble waterfall kitchen island in a finished interior",
+  "ogImageWidth": 1200,
+  "ogImageHeight": 630,
   "favicon": "assets/brand/favicon.png",
   "social": {
     "facebook": "",

@@ -3,8 +3,9 @@ import { ArrowUpRight, Building2, CheckCircle2, File, Mail, MapPin, MessageSquar
 import { FaqSectionWithSchema } from '../components/FaqSectionWithSchema';
 import { WhatsAppIcon } from '../components/SocialIcons';
 import { Input } from '../components/ui/Input';
+import { DirectInquiryContact } from '../components/DirectInquiryContact';
+import { DRAWING_UPLOAD_HELPER, MAX_DRAWING_SIZE, submitInquiry } from '../lib/submitInquiry';
 import { siteConfig } from '../data';
-import { t } from '../i18n';
 import type { ShareContent } from '../components/SocialShareModal';
 import type { LocaleConfig } from '../types';
 
@@ -13,7 +14,6 @@ interface ContactViewProps {
   onOpenShareModal?: (content: ShareContent) => void;
 }
 
-const MAX_FILE_SIZE = 30 * 1024 * 1024;
 const ACCEPTED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png']);
 
 export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenShareModal }) => {
@@ -35,12 +35,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
   const addDrawingFiles = (files: FileList | null) => {
     if (!files) return;
     const incoming = Array.from(files);
-    if (drawingFiles.length + incoming.length > 3) {
-      setFileError(t(currentLocale, 'uploadTooMany'));
+    if (drawingFiles.length + incoming.length > 1) {
+      setFileError(DRAWING_UPLOAD_HELPER);
       return;
     }
-    if (incoming.some((file) => (!ACCEPTED_FILE_TYPES.has(file.type) && !/\.(pdf|jpe?g|png)$/i.test(file.name)) || file.size > MAX_FILE_SIZE)) {
-      setFileError(t(currentLocale, 'uploadInvalid'));
+    if (incoming.some((file) => (!ACCEPTED_FILE_TYPES.has(file.type) && !/\.(pdf|jpe?g|png)$/i.test(file.name)) || file.size > MAX_DRAWING_SIZE)) {
+      setFileError(DRAWING_UPLOAD_HELPER);
       return;
     }
     setDrawingFiles((current) => [...current, ...incoming]);
@@ -49,6 +49,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting || !siteConfig.web3FormsAccessKey) return;
     setSubmissionError('');
     setIsSubmitting(true);
 
@@ -66,23 +67,11 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
     };
 
     try {
-      if (siteConfig.web3FormsAccessKey) {
-        const requestBody = new FormData();
-        Object.entries(payload).forEach(([key, value]) => requestBody.append(key, String(value)));
-        drawingFiles.forEach((file, index) => requestBody.append(`attachment_${index + 1}`, file, file.name));
-        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: requestBody });
-        const result = await response.json().catch(() => ({ success: false }));
-        if (!response.ok || !result.success) throw new Error('Submission failed');
-        setSubmissionNote('Your inquiry was submitted. The team will review the details and confirm the next step.');
-      } else {
-        const selectedFiles = drawingFiles.map((file) => `${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`).join('\n') || 'None';
-        const body = encodeURIComponent(`Name: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}\nLocation: ${formData.location}\nProject type: ${formData.projectType}\n\nSelected files:\n${selectedFiles}\n\nProject details:\n${formData.message}\n\nAttach the selected files before sending.`);
-        window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
-        setSubmissionNote('An email draft has opened. Attach any selected drawings before sending.');
-      }
+      await submitInquiry({ accessKey: siteConfig.web3FormsAccessKey, fields: payload, files: drawingFiles });
+      setSubmissionNote('Thank you. We will reply by email shortly.');
       setIsSubmitted(true);
     } catch {
-      setSubmissionError(`The form could not be sent. Please email ${siteConfig.email}.`);
+      setSubmissionError(`Something went wrong or the request timed out. Please email ${siteConfig.email} directly.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -118,16 +107,18 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
         </aside>
 
         <div className="wr-contact-form-panel">
-          {isSubmitted ? (
+          {!siteConfig.web3FormsAccessKey ? (
+            <DirectInquiryContact headingId="contact-form-title" />
+          ) : isSubmitted ? (
             <div className="wr-contact-success" role="status">
               <CheckCircle2 aria-hidden="true" />
-              <span className="wr-eyebrow">Inquiry prepared</span>
+              <span className="wr-eyebrow">Inquiry received</span>
               <h2>Thank you, {formData.name}.</h2>
-              <p>{submissionNote}</p>
+              <p className="wr-submission-notice wr-submission-notice--success">{submissionNote}</p>
               <button className="wr-button wr-button--secondary" onClick={() => setIsSubmitted(false)}>Send another inquiry</button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} aria-labelledby="contact-form-title">
+            <form onSubmit={handleSubmit} aria-labelledby="contact-form-title" aria-busy={isSubmitting}>
               <div className="wr-contact-form-heading"><span className="wr-eyebrow">Project inquiry</span><h2 id="contact-form-title">Tell us what you are sourcing.</h2><p>Required fields are marked with an asterisk.</p></div>
               <div className="wr-form-grid">
                 <Input id="contact-name" label="Full name *" required value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} />
@@ -136,13 +127,13 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
                 <Input id="contact-location" label="Country / region *" required value={formData.location} onChange={(event) => setFormData({ ...formData, location: event.target.value })} />
                 <label className="wr-contact-field" htmlFor="contact-project-type"><span>Project type *</span><select id="contact-project-type" required value={formData.projectType} onChange={(event) => setFormData({ ...formData, projectType: event.target.value })}><option value="">Select a project type</option><option>Vanity program</option><option>Kitchen countertops</option><option>Furniture surfaces</option><option>Hospitality or commercial</option><option>Material sample review</option><option>Other project</option></select></label>
                 <label className="wr-contact-field wr-form-grid__wide" htmlFor="contact-message"><span>Project details *</span><textarea id="contact-message" required rows={6} value={formData.message} onChange={(event) => setFormData({ ...formData, message: event.target.value })} placeholder="Include material, dimensions, quantity, destination, and target schedule where available." /></label>
-                <div className="wr-file-upload wr-form-grid__wide">
-                  <label htmlFor="contact-files"><UploadCloud aria-hidden="true" /><span><strong>Upload drawings</strong><small>{t(currentLocale, 'uploadHelper')}</small></span><input id="contact-files" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" multiple onChange={(event) => { addDrawingFiles(event.target.files); event.currentTarget.value = ''; }} /></label>
+                {siteConfig.web3FormsAttachmentsEnabled ? <div className="wr-file-upload wr-form-grid__wide">
+                  <label htmlFor="contact-files"><UploadCloud aria-hidden="true" /><span><strong>Upload drawing</strong><small>{DRAWING_UPLOAD_HELPER}</small></span><input id="contact-files" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" onChange={(event) => { addDrawingFiles(event.target.files); event.currentTarget.value = ''; }} /></label>
                   {drawingFiles.length > 0 && <ul>{drawingFiles.map((file, index) => <li key={`${file.name}-${file.lastModified}`}><File aria-hidden="true" /><span>{file.name}<small>{(file.size / 1024 / 1024).toFixed(1)} MB</small></span><button type="button" className="wr-icon-button" onClick={() => setDrawingFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))} aria-label={`Remove ${file.name}`}><X /></button></li>)}</ul>}
                   {fileError && <p className="wr-form-error" role="alert">{fileError}</p>}
-                </div>
+                </div> : <p className="wr-form-grid__wide wr-drawing-note">For drawings, include a shared file link in your project details, or send files to <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.</p>}
               </div>
-              {submissionError && <p className="wr-form-error" role="alert">{submissionError}</p>}
+              {submissionError && <><p className="wr-submission-notice wr-submission-notice--error" role="alert">{submissionError}</p><DirectInquiryContact title="Contact us directly." /></>}
               <button className="wr-button wr-button--primary wr-contact-submit" type="submit" disabled={isSubmitting}><Send aria-hidden="true" />{isSubmitting ? 'Sending…' : 'Send project inquiry'}</button>
             </form>
           )}
@@ -160,4 +151,3 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
     </div>
   );
 };
-

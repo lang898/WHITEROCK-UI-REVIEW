@@ -31,19 +31,7 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
   useEffect(() => {
     const route = routesById[routeId];
     const canonicalUrl = new URL(route.path, siteConfig.productionDomain).toString();
-    const routeImages: Partial<Record<RouteId, string>> = {
-      home: '/assets/owner/countertops/waterfall-kitchen-island.jpg',
-      products: '/assets/owner/countertops/carrara-kitchen-island.jpg',
-      colors: '/assets/materials/white-marble-texture.jpg',
-      factory: '/assets/owner/enhanced/production-hall-aisle-enhanced.jpg',
-      applications: '/assets/applications/modern-kitchen-inspiration.jpg',
-      'stone-marble': '/assets/materials/white-marble-v2.jpg',
-      'stone-granite': '/assets/materials/granite-v2.jpg',
-      'stone-quartz': '/assets/materials/quartz-v2.jpg',
-      'stone-travertine': '/assets/owner/countertops/fluted-travertine-dining-top.jpg',
-      'stone-engineered-marble': '/assets/materials/engineered-marble-v2.jpg',
-    };
-    const socialImage = new URL(routeImages[routeId] || '/assets/brand/hero-stone-v2.jpg', siteConfig.productionDomain).toString();
+    const socialImage = new URL(`/${siteConfig.ogImage}`, siteConfig.productionDomain).toString();
 
     const pageTitle = route.title;
     document.title = pageTitle;
@@ -63,11 +51,15 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     setMeta('meta[property="og:url"]', { property: 'og:url', content: canonicalUrl });
     setMeta('meta[property="og:type"]', { property: 'og:type', content: 'website' });
     setMeta('meta[property="og:image"]', { property: 'og:image', content: socialImage });
-    setMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: `${route.title} preview` });
+    setMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: siteConfig.ogImageAlt });
+    setMeta('meta[property="og:image:width"]', { property: 'og:image:width', content: String(siteConfig.ogImageWidth) });
+    setMeta('meta[property="og:image:height"]', { property: 'og:image:height', content: String(siteConfig.ogImageHeight) });
+    setMeta('meta[property="og:image:type"]', { property: 'og:image:type', content: 'image/jpeg' });
     setMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
     setMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: pageTitle });
     setMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: route.description });
     setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: socialImage });
+    setMeta('meta[name="twitter:image:alt"]', { name: 'twitter:image:alt', content: siteConfig.ogImageAlt });
 
     const previousSchema = document.getElementById('view-structured-data');
     previousSchema?.remove();

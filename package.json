@@ -12,6 +12,7 @@
     "images:enhanced": "node scripts/process-enhanced-owner-visuals.mjs",
     "images:countertops": "node scripts/process-owner-countertop-visuals.mjs",
     "images:brand": "node scripts/process-brand-assets.mjs",
+    "images:social": "node scripts/create-social-image.mjs",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
   },
