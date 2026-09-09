@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Check, Eye, Package } from 'lucide-react';
 import { colors } from '../data';
 import type { ColorItem, LocaleConfig } from '../types';
+import { ColorSwatchImage } from './ColorSwatchImage';
 
 interface StoneVisualizerProps {
   currentLocale?: LocaleConfig;
@@ -58,6 +59,7 @@ export const StoneVisualizer: React.FC<StoneVisualizerProps> = ({ onRequestSampl
   const [overlayStrength, setOverlayStrength] = useState(72);
   const activeScene = scenes.find((scene) => scene.id === selectedSceneId) || scenes[0];
   const activeColor = colors.find((color) => color.slug === selectedColorSlug) || colors[0];
+  const activeTexture = activeColor.swatchAvif || activeColor.swatchWebp || activeColor.swatchImage;
 
   return (
     <section className="wr-visualizer" aria-labelledby="visualizer-title">
@@ -69,13 +71,13 @@ export const StoneVisualizer: React.FC<StoneVisualizerProps> = ({ onRequestSampl
       <div className="wr-visualizer__workspace">
         <div className="wr-visualizer__stage">
           <img src={activeScene.image} alt={activeScene.alt} width="1600" height="1100" loading="lazy" />
-          <div className="wr-visualizer__surface" style={{ clipPath: activeScene.mask, backgroundImage: `url(${activeColor.swatchImage})`, opacity: overlayStrength / 100 }} aria-hidden="true" />
+          <div className="wr-visualizer__surface" style={{ clipPath: activeScene.mask, backgroundImage: `url(${activeTexture})`, opacity: overlayStrength / 100 }} aria-hidden="true" />
           <span>{activeScene.category} · simulated surface layer</span>
         </div>
 
         <aside className="wr-visualizer__controls">
           <fieldset><legend>Preset scene</legend><div className="wr-segmented-control">{scenes.map((scene) => <button key={scene.id} className={selectedSceneId === scene.id ? 'is-active' : ''} onClick={() => setSelectedSceneId(scene.id)}>{scene.name}</button>)}</div></fieldset>
-          <fieldset><legend>Color direction</legend><div className="wr-visualizer__swatches">{colors.slice(0, 12).map((color) => <button key={color.slug} className={selectedColorSlug === color.slug ? 'is-active' : ''} onClick={() => setSelectedColorSlug(color.slug)} aria-label={`Preview ${color.name}`}><img src={color.swatchImage} alt={color.imageAlt} width="120" height="120" /><span>{color.name}</span>{selectedColorSlug === color.slug && <Check />}</button>)}</div></fieldset>
+          <fieldset><legend>Color direction</legend><div className="wr-visualizer__swatches">{colors.slice(0, 12).map((color) => <button key={color.slug} className={selectedColorSlug === color.slug ? 'is-active' : ''} onClick={() => setSelectedColorSlug(color.slug)} aria-label={`Preview ${color.name}`}><ColorSwatchImage color={color} width={120} height={120} /><span>{color.name}</span>{selectedColorSlug === color.slug && <Check />}</button>)}</div></fieldset>
           <label className="wr-visualizer__strength"><span>Texture overlay strength</span><input type="range" min="35" max="90" value={overlayStrength} onInput={(event) => setOverlayStrength(Number(event.currentTarget.value))} /></label>
           <div className="wr-visualizer__selection"><Eye /><div><small>Current direction</small><strong>{activeColor.name}</strong><span>{activeColor.material} · {activeScene.name}</span></div></div>
           {onRequestSample && <button className="wr-button wr-button--primary" onClick={() => onRequestSample(activeColor)}><Package />Order {activeColor.name} sample</button>}

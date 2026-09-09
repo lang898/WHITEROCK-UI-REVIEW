@@ -74,18 +74,22 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             {/* Visual & Media */}
             <div className="space-y-3">
               <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-stone-100 border border-black/[0.06] group shadow-xs">
-                <img
-                  src={product.image}
-                  alt={product.isIllustrative ? `${product.title} illustrative render` : product.title}
-                  width={960}
-                  height={720}
-                  loading="lazy"
-                  className="wr-media-zoom"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450"><rect width="600" height="450" fill="%23f5f5f7"/><rect x="40" y="40" width="520" height="370" rx="12" fill="%23ffffff" stroke="%23d1d1d6" stroke-width="2"/><text x="50%25" y="45%25" dominant-baseline="middle" text-anchor="middle" fill="%23b45309" font-family="sans-serif" font-size="20" font-weight="bold">${product.sku}</text><text x="50%25" y="55%25" dominant-baseline="middle" text-anchor="middle" fill="%236e6e73" font-family="sans-serif" font-size="14">${product.category}</text><text x="50%25" y="85%25" dominant-baseline="middle" text-anchor="middle" fill="%2386868b" font-family="sans-serif" font-size="11">WHITEROCK VIETNAM FACTORY</text></svg>`;
-                  }}
-                />
+                <picture>
+                  {product.imageAvif && <source srcSet={product.imageAvif} type="image/avif" />}
+                  {product.imageWebp && <source srcSet={product.imageWebp} type="image/webp" />}
+                  <img
+                    src={product.image}
+                    alt={product.imageAlt || (product.isIllustrative ? `${product.title} illustrative render` : product.title)}
+                    width={product.imageWidth || 1600}
+                    height={product.imageHeight || 1200}
+                    loading="lazy"
+                    className="wr-media-zoom"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450"><rect width="600" height="450" fill="%23f5f5f7"/><rect x="40" y="40" width="520" height="370" rx="12" fill="%23ffffff" stroke="%23d1d1d6" stroke-width="2"/><text x="50%25" y="45%25" dominant-baseline="middle" text-anchor="middle" fill="%23b45309" font-family="sans-serif" font-size="20" font-weight="bold">${product.sku}</text><text x="50%25" y="55%25" dominant-baseline="middle" text-anchor="middle" fill="%236e6e73" font-family="sans-serif" font-size="14">${product.category}</text><text x="50%25" y="85%25" dominant-baseline="middle" text-anchor="middle" fill="%2386868b" font-family="sans-serif" font-size="11">WHITEROCK VIETNAM FACTORY</text></svg>`;
+                    }}
+                  />
+                </picture>
                 <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-semibold text-[#1d1d1f] shadow-xs">
                   {product.material}
                 </div>

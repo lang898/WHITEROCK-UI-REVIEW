@@ -32,7 +32,7 @@ or WhatsApp. See the [official upload documentation](https://docs.web3forms.com/
 Public locale availability is defined in `src/data/site.ts` and currently
 includes English only. Vietnamese translations are retained for later review.
 
-The shared 1200 x 630 social image is generated from the owner-supplied
+The shared 1200 x 630 social image is generated from the project-approved
 waterfall kitchen image with `npm run images:social`.
 
 ## Production build

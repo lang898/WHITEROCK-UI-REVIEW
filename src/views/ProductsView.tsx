@@ -63,7 +63,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             return (
               <article className="wr-catalog-card" key={product.sku}>
                 <button className="wr-catalog-card__media" onClick={() => onSelectProduct(product)} aria-label={`View ${product.title}`}>
-                  <img src={product.image} alt={product.imageType === 'render' ? `${product.title} illustrative render` : product.title} width={product.imageWidth || 1536} height={product.imageHeight || 1024} loading="lazy" />
+                  <picture>
+                    {product.imageAvif && <source srcSet={product.imageAvif} type="image/avif" />}
+                    {product.imageWebp && <source srcSet={product.imageWebp} type="image/webp" />}
+                    <img src={product.image} alt={product.imageAlt || (product.imageType === 'render' ? `${product.title} illustrative render` : product.title)} width={product.imageWidth || 1536} height={product.imageHeight || 1024} loading="lazy" />
+                  </picture>
                   <span className="wr-catalog-card__sku">{product.sku}</span>
                 </button>
                 <div className="wr-catalog-card__body">

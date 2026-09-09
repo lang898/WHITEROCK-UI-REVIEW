@@ -4,6 +4,7 @@ import { colors } from '../data';
 import { t } from '../i18n';
 import { formatMeasurement } from '../utils/measurements';
 import { StoneVisualizer } from '../components/StoneVisualizer';
+import { ColorSwatchImage } from '../components/ColorSwatchImage';
 import { Tag } from '../components/ui/Tag';
 import type { ColorItem, LocaleConfig } from '../types';
 
@@ -73,7 +74,7 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
             return (
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <img src={color.swatchImage} alt={color.imageAlt} width="800" height="800" loading="lazy" />
+                  <ColorSwatchImage color={color} loading="lazy" />
                   <span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span>
                   <span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span>
                 </button>

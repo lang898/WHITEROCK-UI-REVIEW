@@ -6,6 +6,7 @@ import type { ColorItem, LocaleConfig, ProductItem, RfqCartItem } from '../types
 import type { ShareContent } from '../components/SocialShareModal';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { RetailCompliance } from '../components/RetailCompliance';
+import { ColorSwatchImage } from '../components/ColorSwatchImage';
 
 interface HomeViewProps {
   setCurrentTab: (tab: string) => void;
@@ -132,8 +133,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
         >
           {featuredColors.map((color) => (
             <article key={color.slug}>
-              <button onClick={() => onSelectColor(color)}><img src={assetPath(color.swatchImage)} alt={`${color.name} illustrative digital swatch`} width="800" height="800" loading="lazy" draggable={false} /><span>{color.name}</span></button>
-              <div><small>{color.material} · Digital swatch</small><button className="wr-icon-button" onClick={() => onAddColorSample(color)} aria-label={`Order ${color.name} sample`}><Package /></button></div>
+              <button onClick={() => onSelectColor(color)}><ColorSwatchImage color={color} loading="lazy" draggable={false} /><span>{color.name}</span></button>
+              <div><small>{color.material} · {color.imageType === 'render' ? 'Digital swatch' : 'Material photograph'}</small><button className="wr-icon-button" onClick={() => onAddColorSample(color)} aria-label={`Order ${color.name} sample`}><Package /></button></div>
             </article>
           ))}
         </div>

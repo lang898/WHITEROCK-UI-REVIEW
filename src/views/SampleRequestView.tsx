@@ -4,6 +4,7 @@ import { siteConfig } from '../data/site';
 import type { ColorItem, LocaleConfig } from '../types';
 import { DirectInquiryContact } from '../components/DirectInquiryContact';
 import { submitInquiry } from '../lib/submitInquiry';
+import { ColorSwatchImage } from '../components/ColorSwatchImage';
 
 interface SampleRequestViewProps {
   samples: ColorItem[];
@@ -86,7 +87,7 @@ export const SampleRequestView: React.FC<SampleRequestViewProps> = ({
             <div className="wr-sample-box__grid">
               {samples.map((sample) => (
                 <article key={sample.slug}>
-                  <img src={sample.swatchImage} alt={`${sample.name} illustrative digital swatch`} width="800" height="800" loading="lazy" />
+                  <ColorSwatchImage color={sample} loading="lazy" />
                   <div><small>{sample.material}</small><h3>{sample.name}</h3><button className="wr-icon-button" onClick={() => onRemove(sample.slug)} aria-label={`Remove ${sample.name}`}><Trash2 /></button></div>
                 </article>
               ))}
@@ -94,7 +95,7 @@ export const SampleRequestView: React.FC<SampleRequestViewProps> = ({
           ) : (
             <div className="wr-empty-state"><Package /><h3>Your sample box is empty.</h3><p>Add color directions from Collections or a Stone Type page.</p><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('colors')}>Browse colors</button></div>
           )}
-          <div className="wr-sample-box__note"><CheckCircle2 /><p>Digital swatches guide the shortlist only. A physical sample does not guarantee the full natural-stone slab or future engineered-stone batch.</p></div>
+          <div className="wr-sample-box__note"><CheckCircle2 /><p>Website images guide the shortlist only. A physical sample does not guarantee the full natural-stone slab or a future engineered-stone batch.</p></div>
         </section>
 
         {!siteConfig.web3FormsAccessKey ? (

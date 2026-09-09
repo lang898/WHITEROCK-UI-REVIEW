@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Droplets, Gauge, Package, Ruler, Scale, ShieldCheck } from 'lucide-react';
 import { colors, edges, stoneTypes } from '../data';
 import { Tag } from '../components/ui/Tag';
+import { ColorSwatchImage } from '../components/ColorSwatchImage';
 import type { ColorItem, LocaleConfig, StoneTypeInfo } from '../types';
 
 interface StoneTypeViewProps {
@@ -74,7 +75,7 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
             {materialColors.map((color) => (
               <article className="wr-swatch-card" key={color.slug}>
                 <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <img src={color.swatchImage} alt={color.imageAlt} width="800" height="800" loading="lazy" />
+                  <ColorSwatchImage color={color} loading="lazy" />
                   <span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span>
                   <span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span>
                 </button>

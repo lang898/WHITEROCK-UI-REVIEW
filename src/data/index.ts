@@ -38,6 +38,7 @@ export const products: ProductItem[] = (productsData.products as ProductItem[]).
   ...item,
   image: publicAsset(item.image) || '',
   imageWebp: publicAsset(item.imageWebp),
+  imageAvif: publicAsset(item.imageAvif),
   techSheetPdf: publicAsset(item.techSheetPdf),
   dimensions: item.dimensions || item.specs.Size || item.specs.Sizes || item.specs.SlabSize || 'By approved drawing',
   thicknesses: item.thicknesses?.length ? item.thicknesses : [item.specs.Thickness || 'Confirm by quotation'],
@@ -50,6 +51,8 @@ export const products: ProductItem[] = (productsData.products as ProductItem[]).
 export const colors: ColorItem[] = (colorsData.colors as ColorItem[]).map((item) => ({
   ...item,
   swatchImage: publicAsset(item.swatchImage) || '',
+  swatchWebp: publicAsset(item.swatchWebp),
+  swatchAvif: publicAsset(item.swatchAvif),
   image: publicAsset(item.image),
   techSheetPdf: publicAsset(item.techSheetPdf),
   applications: item.applications?.length ? item.applications : item.relatedProducts || ['Interior project review'],

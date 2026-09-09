@@ -51,6 +51,8 @@ export interface ProductItem {
   description: string;
   specs: ProductSpec;
   imageWebp?: string;
+  imageAvif?: string;
+  imageAlt?: string;
   imageWidth?: number;
   imageHeight?: number;
   isIllustrative?: boolean;
@@ -75,6 +77,8 @@ export interface ColorItem {
   thicknesses: string[];
   sizes: string[];
   swatchImage: string;
+  swatchWebp?: string;
+  swatchAvif?: string;
   imageAlt: string;
   imageType: string;
   description: string;

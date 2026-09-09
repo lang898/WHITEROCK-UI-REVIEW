@@ -21,14 +21,14 @@
       ],
       "swatchImage": "assets/colors/alpine-carrara.jpg",
       "imageType": "render",
+      "caption": "Illustrative digital swatch - confirm with a physical sample.",
       "description": "Cool white marble animated by soft grey movement for vanity tops, furniture, and hospitality interiors.",
       "techSheetPdf": "assets/resources/colors/alpine-carrara-technical-sheet.pdf",
       "relatedProducts": [
         "Bathroom vanity tops",
         "Kitchen countertops",
         "Hotel bath programs"
-      ],
-      "caption": "Illustrative digital swatch - confirm with physical sample."
+      ]
     },
     {
       "slug": "calacatta-crest",
@@ -48,8 +48,10 @@
         "126 x 63 in",
         "Jumbo size by request"
       ],
-      "swatchImage": "assets/colors/calacatta-crest.jpg",
-      "imageType": "render",
+      "swatchImage": "assets/owner/colors/calacatta-crest-physical.jpg",
+      "swatchWebp": "assets/owner/colors/calacatta-crest-physical.webp",
+      "swatchAvif": "assets/owner/colors/calacatta-crest-physical.avif",
+      "imageType": "photo",
       "description": "Bright quartz crossed by broad grey and warm mineral veining for North American countertop programs.",
       "techSheetPdf": "assets/resources/colors/calacatta-crest-technical-sheet.pdf",
       "relatedProducts": [
@@ -57,7 +59,7 @@
         "Kitchen countertops",
         "Hotel bath programs"
       ],
-      "caption": "Illustrative digital swatch - confirm with physical sample."
+      "caption": "Production slab surface reference - confirm the current batch with a physical sample."
     },
     {
       "slug": "cloud-veil",
@@ -78,8 +80,10 @@
         "126 x 63 in",
         "Custom cut to size"
       ],
-      "swatchImage": "assets/colors/cloud-veil.jpg",
-      "imageType": "render",
+      "swatchImage": "assets/owner/colors/cloud-veil-physical.jpg",
+      "swatchWebp": "assets/owner/colors/cloud-veil-physical.webp",
+      "swatchAvif": "assets/owner/colors/cloud-veil-physical.avif",
+      "imageType": "photo",
       "description": "Quiet white quartz with fine grey wisps for repeatable builder, retail, and multi-family programs.",
       "techSheetPdf": "assets/resources/colors/cloud-veil-technical-sheet.pdf",
       "relatedProducts": [
@@ -87,7 +91,7 @@
         "Kitchen countertops",
         "Hotel bath programs"
       ],
-      "caption": "Illustrative digital swatch - confirm with physical sample."
+      "caption": "Physical composite-stone sample reference - confirm the current batch before ordering."
     },
     {
       "slug": "dove-concrete",
@@ -192,8 +196,10 @@
         "Vanity program sizes",
         "Custom cut to size"
       ],
-      "swatchImage": "assets/colors/warm-ivory.jpg",
-      "imageType": "render",
+      "swatchImage": "assets/owner/colors/warm-ivory-physical.jpg",
+      "swatchWebp": "assets/owner/colors/warm-ivory-physical.webp",
+      "swatchAvif": "assets/owner/colors/warm-ivory-physical.avif",
+      "imageType": "photo",
       "description": "Warm off-white engineered marble brings visual consistency to volume vanity and apartment programs.",
       "techSheetPdf": "assets/resources/colors/warm-ivory-technical-sheet.pdf",
       "relatedProducts": [
@@ -201,7 +207,7 @@
         "Builder programs",
         "Hospitality bathrooms"
       ],
-      "caption": "Illustrative digital swatch - confirm with physical sample."
+      "caption": "Physical composite-stone sample reference - confirm the current batch before ordering."
     },
     {
       "slug": "verde-forest",
@@ -251,9 +257,11 @@
         "126 x 63 in",
         "Custom cut to size"
       ],
-      "swatchImage": "assets/colors/snow-drift.jpg",
-      "imageType": "render",
-      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "swatchImage": "assets/owner/colors/snow-drift-physical.jpg",
+      "swatchWebp": "assets/owner/colors/snow-drift-physical.webp",
+      "swatchAvif": "assets/owner/colors/snow-drift-physical.avif",
+      "imageType": "photo",
+      "caption": "Physical composite-stone sample reference - confirm the current batch before ordering.",
       "description": "Soft white quartz with restrained mineral movement for builder and retail programs.",
       "relatedProducts": [
         "Bathroom vanity tops",
@@ -335,9 +343,11 @@
         "126 x 63 in",
         "Jumbo size by request"
       ],
-      "swatchImage": "assets/colors/bianco-mist.jpg",
-      "imageType": "render",
-      "caption": "Illustrative digital swatch - confirm with physical sample.",
+      "swatchImage": "assets/owner/colors/bianco-mist-physical.jpg",
+      "swatchWebp": "assets/owner/colors/bianco-mist-physical.webp",
+      "swatchAvif": "assets/owner/colors/bianco-mist-physical.avif",
+      "imageType": "photo",
+      "caption": "Physical composite-stone sample reference - confirm the current batch before ordering.",
       "description": "Quiet white quartz with fine mist veining for kitchens, bath tops, and hospitality rooms.",
       "relatedProducts": [
         "Bathroom vanity tops",
@@ -718,9 +728,11 @@
       "finishes": ["Honed", "Filled"],
       "thicknesses": ["18 mm", "20 mm", "30 mm"],
       "sizes": ["Slab availability by lot", "Furniture cuts by request"],
-      "swatchImage": "assets/colors/honey-travertine.jpg",
-      "imageType": "render",
-      "caption": "Illustrative digital swatch for color direction.",
+      "swatchImage": "assets/owner/colors/honey-travertine-physical.jpg",
+      "swatchWebp": "assets/owner/colors/honey-travertine-physical.webp",
+      "swatchAvif": "assets/owner/colors/honey-travertine-physical.avif",
+      "imageType": "photo",
+      "caption": "Production travertine surface detail - confirm the current lot with a physical sample.",
       "description": "Warm honey bands and open-pore character bring depth to consoles, dining surfaces, and interior wall details.",
       "relatedProducts": ["Furniture tops", "Interior wall features", "Hospitality details"]
     },

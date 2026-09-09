@@ -19,6 +19,7 @@ import { ShareButton } from './ShareButton';
 import type { ShareContent } from './SocialShareModal';
 import { formatMeasurement } from '../utils/measurements';
 import { Modal } from './ui/Modal';
+import { ColorSwatchImage } from './ColorSwatchImage';
 
 interface ColorModalProps {
   color: ColorItem | null;
@@ -46,7 +47,7 @@ export const ColorModal: React.FC<ColorModalProps> = ({
   const shareContent: ShareContent = {
     title: `${color.name} (${color.material})`,
     text: `Review ${color.name} ${color.material} from WHITEROCK Vietnam. Listed thicknesses: ${formatMeasurement(color.thicknesses.join(', '))}. Confirm availability with a physical sample and written quotation.`,
-    image: color.image,
+    image: color.image || color.swatchImage,
     material: color.material,
     specs: `${color.pattern} pattern, ${color.primaryTone} tone. Uses: ${color.applications.join(', ')}.`,
     type: 'color'
@@ -90,9 +91,8 @@ export const ColorModal: React.FC<ColorModalProps> = ({
                   setFocus({ x: ((event.clientX - rect.left) / rect.width) * 100, y: ((event.clientY - rect.top) / rect.height) * 100 });
                 }}
               >
-                <img
-                  src={color.swatchImage}
-                  alt={color.imageAlt}
+                <ColorSwatchImage
+                  color={color}
                   width={720}
                   height={720}
                   loading="eager"

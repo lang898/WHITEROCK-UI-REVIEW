@@ -40,8 +40,8 @@ const capabilityTabs = [
     label: 'Quality',
     title: 'Inspection checkpoints tied to the purchase order.',
     copy: 'Material range, dimensions, openings, alignment, surface finish, edge finish, labels, and packing are reviewed against the agreed criteria.',
-    image: '/assets/owner/enhanced/quality-inspection-team-enhanced.jpg',
-    alt: 'Quality review of finished stone components on production racks',
+    image: '/assets/owner/qc/digital-thickness-inspection.jpg',
+    alt: 'Digital caliper measuring a polished stone slab at the production line',
   },
   {
     id: 'packing',
@@ -52,6 +52,8 @@ const capabilityTabs = [
     alt: 'Finished stone components staged before packing',
   },
 ] as const;
+
+const assetUrl = (asset: string) => asset.startsWith('/') ? asset : `/${asset}`;
 
 const factoryGallery = [
   { file: 'edge-line-operation-enhanced', alt: 'Operator working at a stone edge-processing line', caption: 'Edge-line operation' },
@@ -118,6 +120,36 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
               <figcaption>{item.caption}</figcaption>
             </figure>
           ))}
+        </div>
+      </section>
+
+      <section className="wr-factory-proof wr-section-band" aria-labelledby="factory-proof-title">
+        <div className="wr-section-heading wr-section-intro">
+          <span className="wr-eyebrow">Production evidence</span>
+          <h2 id="factory-proof-title">Layout decisions and inspection readings, shown directly.</h2>
+          <p>These photographs document a slab-layout review and two instrument checks. Acceptance values remain tied to the approved drawing and order criteria.</p>
+        </div>
+        <div className="wr-factory-proof__layout">
+          <figure className="wr-factory-proof__layout-review">
+            <picture>
+              <source srcSet={assetUrl(factory.qc.manufacturingReference.imageAvif)} type="image/avif" />
+              <source srcSet={assetUrl(factory.qc.manufacturingReference.imageWebp)} type="image/webp" />
+              <img src={assetUrl(factory.qc.manufacturingReference.image)} alt={factory.qc.manufacturingReference.imageAlt} width={factory.qc.manufacturingReference.width} height={factory.qc.manufacturingReference.height} loading="lazy" />
+            </picture>
+            <figcaption><strong>{factory.qc.manufacturingReference.title}</strong><span>{factory.qc.manufacturingReference.caption}</span></figcaption>
+          </figure>
+          <div className="wr-factory-proof__checks">
+            {factory.qc.media.map((item) => (
+              <figure key={item.title}>
+                <picture>
+                  <source srcSet={assetUrl(item.imageAvif)} type="image/avif" />
+                  <source srcSet={assetUrl(item.imageWebp)} type="image/webp" />
+                  <img src={assetUrl(item.image)} alt={item.imageAlt} width={item.width} height={item.height} loading="lazy" />
+                </picture>
+                <figcaption><strong>{item.title}</strong><span>{item.caption}</span></figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 

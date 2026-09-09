@@ -67,9 +67,9 @@
       "drawing": "/assets/equipment/bridge-saw.svg",
       "localFile": "/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
       "media": "/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
-      "location": "Owner-supplied Vietnam factory photo",
+      "location": "Production Vietnam factory photo",
       "imageType": "real",
-      "alt": "Natural color detail from an owner-supplied photo showing stone cutting equipment in the Vietnam factory"
+      "alt": "Natural color detail from an production photograph showing stone cutting equipment in the Vietnam factory"
     },
     {
       "name": "Multi-Spindle Stone Processing Center",
@@ -80,9 +80,9 @@
       "drawing": "/assets/equipment/cnc-router.svg",
       "localFile": "/assets/owner/enhanced/edge-processing-line-enhanced.jpg",
       "media": "/assets/owner/enhanced/edge-processing-line-enhanced.jpg",
-      "location": "Owner-supplied Vietnam factory photo",
+      "location": "Production Vietnam factory photo",
       "imageType": "real",
-      "alt": "Full-color owner-supplied view of stone processing equipment in a bright production hall"
+      "alt": "Full-color production view of stone processing equipment in a bright production hall"
     },
     {
       "name": "Continuous Edge Processing Line",
@@ -121,7 +121,7 @@
       "media": "/assets/owner/enhanced/material-staging-hall-enhanced.jpg",
       "location": "WHITEROCK Vietnam factory",
       "imageType": "real",
-      "alt": "Owner-supplied photo of stone components staged in the Vietnam factory"
+      "alt": "Production photograph of stone components staged in the Vietnam factory"
     },
     {
       "name": "Vanity Top Preparation and Inspection",
@@ -134,7 +134,7 @@
       "media": "/assets/owner/enhanced/vanity-production-detail-enhanced.jpg",
       "location": "WHITEROCK Vietnam factory",
       "imageType": "real",
-      "alt": "Owner-supplied photo of vanity tops prepared for inspection in Vietnam"
+      "alt": "Production photograph of vanity tops prepared for inspection in Vietnam"
     }
   ],
   "capabilities": [
@@ -178,6 +178,38 @@
     }
   ],
   "qc": {
+    "media": [
+      {
+        "title": "Surface gloss inspection",
+        "image": "assets/owner/qc/surface-gloss-inspection.jpg",
+        "imageWebp": "assets/owner/qc/surface-gloss-inspection.webp",
+        "imageAvif": "assets/owner/qc/surface-gloss-inspection.avif",
+        "imageAlt": "Digital gloss meter reading on a polished white veined stone surface",
+        "caption": "Instrument reading recorded on a production surface during inspection.",
+        "width": 1600,
+        "height": 1067
+      },
+      {
+        "title": "Thickness inspection",
+        "image": "assets/owner/qc/digital-thickness-inspection.jpg",
+        "imageWebp": "assets/owner/qc/digital-thickness-inspection.webp",
+        "imageAvif": "assets/owner/qc/digital-thickness-inspection.avif",
+        "imageAlt": "Digital caliper measuring the thickness of a polished stone slab at the production line",
+        "caption": "Thickness checked with a digital caliper at the production line.",
+        "width": 1600,
+        "height": 1067
+      }
+    ],
+    "manufacturingReference": {
+      "title": "Slab layout review",
+      "image": "assets/owner/manufacturing/slab-layout-review.jpg",
+      "imageWebp": "assets/owner/manufacturing/slab-layout-review.webp",
+      "imageAvif": "assets/owner/manufacturing/slab-layout-review.avif",
+      "imageAlt": "Full stone slab marked with two vanity-top layouts, sink openings, and faucet-hole positions",
+      "caption": "Component positions reviewed against the slab movement before cutting.",
+      "width": 1600,
+      "height": 1067
+    },
     "inspectionPoints": [
       "Material, color range, and thickness against the approved sample",
       "Overall dimensions and cutouts against approved drawings",
@@ -218,9 +250,9 @@
       "facility": "WHITEROCK Vietnam site, Binh Phuoc",
       "image": "/assets/owner/enhanced/factory-exterior-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/factory-exterior-enhanced.jpg",
-      "alt": "Full-color owner-supplied exterior view of the WHITEROCK Vietnam facility",
+      "alt": "Full-color production exterior view of the WHITEROCK Vietnam facility",
       "equipment": "Exterior reference",
-      "specs": "Owner-supplied real photo",
+      "specs": "Production real photo",
       "description": "Entrance and yard view supplied by the owner."
     },
     {
@@ -231,10 +263,10 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
-      "alt": "Natural color stone cutting equipment detail cropped from an owner-supplied Vietnam factory photo",
+      "alt": "Natural color stone cutting equipment detail cropped from an production Vietnam factory photo",
       "equipment": "Stone cutting equipment",
-      "specs": "Model and capacity require owner confirmation",
-      "description": "Owner-supplied production-floor photo showing wet stone processing equipment."
+      "specs": "Model and capacity require current factory records",
+      "description": "Production production-floor photo showing wet stone processing equipment."
     },
     {
       "id": "wr-vn-photo-03",
@@ -244,10 +276,10 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg",
-      "alt": "Full-color owner-supplied view of stone finishing equipment in the Vietnam factory",
+      "alt": "Full-color production view of stone finishing equipment in the Vietnam factory",
       "equipment": "Stone processing workstations",
-      "specs": "Process details require owner confirmation",
-      "description": "Owner-supplied overview of an active processing area."
+      "specs": "Process details require current factory records",
+      "description": "Production overview of an active processing area."
     },
     {
       "id": "wr-vn-photo-04",
@@ -257,9 +289,9 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/vanity-production-detail-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/vanity-production-detail-enhanced.jpg",
-      "alt": "Color product detail cropped from an owner-supplied photo of vanity tops on worktables",
+      "alt": "Color product detail cropped from an production photograph of vanity tops on worktables",
       "equipment": "Worktables",
-      "specs": "Products shown are owner-supplied production references",
+      "specs": "Products shown are production production references",
       "description": "Cut vanity tops arranged for preparation and review."
     },
     {
@@ -270,10 +302,10 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/vanity-production-hall-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/vanity-production-hall-enhanced.jpg",
-      "alt": "Color product detail cropped from an owner-supplied photo of vanity tops staged for review",
+      "alt": "Color product detail cropped from an production photograph of vanity tops staged for review",
       "equipment": "Inspection lighting and worktables",
       "specs": "Inspection criteria are order-specific",
-      "description": "Owner-supplied photo of vanity tops staged under work lights."
+      "description": "Production photograph of vanity tops staged under work lights."
     },
     {
       "id": "wr-vn-photo-06",
@@ -283,7 +315,7 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/vanity-inspection-sequence-b-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/vanity-inspection-sequence-b-enhanced.jpg",
-      "alt": "Color product detail cropped from an owner-supplied photo of finished stone tops",
+      "alt": "Color product detail cropped from an production photograph of finished stone tops",
       "equipment": "Inspection worktables",
       "specs": "Acceptance criteria are agreed by order",
       "description": "Finished stone tops shown before packing preparation."
@@ -296,9 +328,9 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/production-hall-aisle-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/production-hall-aisle-enhanced.jpg",
-      "alt": "Natural color workshop detail cropped from an owner-supplied Vietnam production hall photo",
+      "alt": "Natural color workshop detail cropped from an production Vietnam production hall photo",
       "equipment": "Stone racks and material handling",
-      "specs": "Owner-supplied real photo",
+      "specs": "Production real photo",
       "description": "Production hall view with stone components stored on racks."
     },
     {
@@ -309,10 +341,10 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/edge-line-operation-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/edge-line-operation-enhanced.jpg",
-      "alt": "Natural color detail cropped from an owner-supplied equipment and staging photo",
+      "alt": "Natural color detail cropped from an production equipment and staging photo",
       "equipment": "Processing equipment",
-      "specs": "Model and quantity require owner confirmation",
-      "description": "Owner-supplied factory-floor reference showing equipment and material staging."
+      "specs": "Model and quantity require current factory records",
+      "description": "Production factory-floor reference showing equipment and material staging."
     },
     {
       "id": "wr-vn-photo-09",
@@ -322,9 +354,9 @@
       "facility": "WHITEROCK Vietnam site, Binh Phuoc",
       "image": "/assets/owner/enhanced/factory-exterior-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/factory-exterior-enhanced.jpg",
-      "alt": "Owner-supplied photo of the Vietnam factory yard and outdoor stone storage",
+      "alt": "Production photograph of the Vietnam factory yard and outdoor stone storage",
       "equipment": "Outdoor storage reference",
-      "specs": "Owner-supplied real photo",
+      "specs": "Production real photo",
       "description": "Factory yard and outdoor material storage shown in the owner photo."
     },
     {
@@ -335,7 +367,7 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/material-staging-hall-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/material-staging-hall-enhanced.jpg",
-      "alt": "Full-color owner-supplied view of stone components staged in a production hall",
+      "alt": "Full-color production view of stone components staged in a production hall",
       "equipment": "Stone racks",
       "specs": "Packing plan is order-specific",
       "description": "Finished stone components staged on racks before packing."
@@ -348,10 +380,10 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/vanity-workshop-overhead-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/vanity-workshop-overhead-enhanced.jpg",
-      "alt": "Owner-supplied wide view of finished vanity tops arranged for production review in Vietnam",
+      "alt": "Production wide view of finished vanity tops arranged for production review in Vietnam",
       "equipment": "Worktables and inspection lighting",
       "specs": "Product details and acceptance criteria are order-specific",
-      "description": "A wide owner-supplied reference showing multiple finished vanity tops before order-specific inspection and packing."
+      "description": "A wide production reference showing multiple finished vanity tops before order-specific inspection and packing."
     },
     {
       "id": "wr-vn-photo-12",
@@ -361,7 +393,7 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/vanity-inspection-sequence-a-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/vanity-inspection-sequence-a-enhanced.jpg",
-      "alt": "Owner-supplied close view of finished vanity tops arranged in sequence for inspection",
+      "alt": "Production close view of finished vanity tops arranged in sequence for inspection",
       "equipment": "Inspection worktables",
       "specs": "Material and dimensions are confirmed per order",
       "description": "A close crop focused on stone pattern, sink cutouts, faucet drilling, and repeated finished-top preparation."
@@ -374,9 +406,9 @@
       "facility": "WHITEROCK Vietnam factory, Binh Phuoc",
       "image": "/assets/owner/enhanced/production-hall-aisle-enhanced.jpg",
       "localFile": "/assets/owner/enhanced/production-hall-aisle-enhanced.jpg",
-      "alt": "Owner-supplied overview of stone racks and material handling inside the Vietnam production hall",
+      "alt": "Production overview of stone racks and material handling inside the Vietnam production hall",
       "equipment": "Stone racks and lifting equipment",
-      "specs": "Owner-supplied real photo",
+      "specs": "Production real photo",
       "description": "A compact production-hall overview retained from the original website photo library."
     }
   ]

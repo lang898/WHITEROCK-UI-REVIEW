@@ -169,7 +169,7 @@ export const WhiterockHeritageSection: React.FC<WhiterockHeritageSectionProps> =
             </h3>
             
             <p className="text-sm text-[#6e6e73] leading-relaxed">
-              Owner-provided information identifies a <strong>20,000 m² manufacturing facility in Binh Phuoc, Vietnam</strong> operated by Công Ty TNHH Whiterock. Product origin, trade treatment, specifications, and shipping terms are confirmed for each order.
+              Company information identifies a <strong>20,000 m² manufacturing facility in Binh Phuoc, Vietnam</strong> operated by Công Ty TNHH Whiterock. Product origin, trade treatment, specifications, and shipping terms are confirmed for each order.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -199,7 +199,7 @@ export const WhiterockHeritageSection: React.FC<WhiterockHeritageSectionProps> =
             <div className="rounded-2xl overflow-hidden border border-black/[0.08] shadow-md aspect-16/10 relative">
               <img
                 src="/assets/owner/enhanced/factory-exterior-enhanced.jpg"
-                alt="Owner-supplied photo of the WHITEROCK Vietnam site entrance"
+                alt="Production photograph of the WHITEROCK Vietnam site entrance"
                 width={1200}
                 height={900}
                 loading="lazy"

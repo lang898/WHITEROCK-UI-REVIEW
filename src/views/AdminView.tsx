@@ -969,7 +969,7 @@ export const AdminView: React.FC<AdminViewProps> = ({
               Factory Capability References
             </h2>
             <p className="text-xs text-stone-600 mt-1">
-              Owner-supplied factory references. Do not present these records as named customer projects.
+              Production factory references. Do not present these records as named customer projects.
             </p>
           </div>
 

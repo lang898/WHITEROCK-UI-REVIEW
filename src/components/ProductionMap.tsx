@@ -138,7 +138,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
             Direct Vietnam Fabrication & Ocean Shipping Grid
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-            Owner-provided information describes a <strong>20,000 m² production site in Binh Phuoc Province</strong>. Product origin, customs treatment, shipping route, transit time, and required documents are confirmed for each shipment.
+            Company information describes a <strong>20,000 m² production site in Binh Phuoc Province</strong>. Product origin, customs treatment, shipping route, transit time, and required documents are confirmed for each shipment.
           </p>
         </div>
 
@@ -487,7 +487,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                 WHITEROCK COMPANY LIMITED
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Owner-provided information describes a stone manufacturing site in Binh Phuoc Province serving order-specific commercial and residential surface programs.
+                Company information describes a stone manufacturing site in Binh Phuoc Province serving order-specific commercial and residential surface programs.
               </p>
 
               <div className="space-y-2.5 pt-2">
@@ -552,7 +552,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                 High-Precision CNC & Continuous Edge Lines
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Owner-supplied photos show bridge cutting, multi-spindle processing, edge processing, and production staging. Models and acceptance limits require owner and order confirmation.
+                Production photographs show bridge cutting, multi-spindle processing, edge processing, and production staging. Models and acceptance limits require current factory records and order confirmation.
               </p>
 
               <div className="space-y-2 pt-2 text-xs">
