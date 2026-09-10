@@ -20,8 +20,8 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const categories = useMemo(() => ['All', 'Vanity Tops', 'Kitchen Countertops', 'Furniture Tops', 'Project Products'], []);
   const representativeSkus = useMemo(() => [
-    'WR-VT24', 'WR-VT31', 'WR-KT-QC', 'WR-KT-NS',
-    'WR-FR-RM', 'WR-FR-OT', 'WR-HT', 'WR-WJ-MED'
+    'WR-VT24', 'WR-VT31', 'WR-VT-SW', 'WR-VT-BG', 'WR-VT-RM',
+    'WR-KT-QC', 'WR-KT-NS', 'WR-FR-RM', 'WR-FR-OT', 'WR-HT'
   ], []);
 
   const productProgramFor = (product: ProductItem) => {

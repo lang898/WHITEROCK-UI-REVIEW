@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowDown, ArrowRight, Check, GitCompare, Package, Search } from 'lucide-react';
-import { colors } from '../data';
+import { colors, photoGalleries } from '../data';
 import { t } from '../i18n';
 import { formatMeasurement } from '../utils/measurements';
 import { StoneVisualizer } from '../components/StoneVisualizer';
 import { ColorSwatchImage } from '../components/ColorSwatchImage';
 import { Tag } from '../components/ui/Tag';
+import { PhotoReferenceRail } from '../components/PhotoReferenceRail';
 import type { ColorItem, LocaleConfig } from '../types';
 
 interface ColorsViewProps {
@@ -58,6 +59,15 @@ export const ColorsView: React.FC<ColorsViewProps> = ({
       </header>
 
       <StoneVisualizer currentLocale={currentLocale} onRequestSample={onAddColorSample} />
+
+      <section className="wr-photo-library wr-photo-library--materials" aria-labelledby="physical-material-title">
+        <div className="wr-section-heading wr-section-intro">
+          <span className="wr-eyebrow">Physical material review</span>
+          <h2 id="physical-material-title">Slabs and samples from the selection process.</h2>
+          <p>Physical references show natural movement, finish response, and lot variation before final sample approval.</p>
+        </div>
+        <PhotoReferenceRail items={photoGalleries.materialReferences} ariaLabel="Physical slab and stone sample references" aspect="square" />
+      </section>
 
       <div className="wr-catalog-layout">
         <aside className="wr-filter-rail" aria-label="Color filters">

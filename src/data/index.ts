@@ -15,6 +15,7 @@ import projectsData from '../../data/projects.json';
 import ownerImagesData from '../../data/owner-images.json';
 import furnitureTopsData from '../../data/furniture-tops.json';
 import stoneTypesData from '../../data/stone-types.json';
+import photoGalleriesData from '../../data/photo-galleries.json';
 import type {
   ProductItem,
   ColorItem,
@@ -27,7 +28,9 @@ import type {
   NewsItem,
   FaqItem,
   FurnitureTopVisual,
-  StoneTypeInfo
+  StoneTypeInfo,
+  PhotoGalleryData,
+  PhotoReferenceItem
 } from '../types';
 
 export { locales, siteConfig } from './site';
@@ -104,3 +107,17 @@ export const furnitureTops: FurnitureTopVisual[] = (furnitureTopsData.items as F
   imageWebp: publicAsset(item.imageWebp),
   imageAvif: publicAsset(item.imageAvif)
 }));
+
+const mapPhotoReference = (item: PhotoReferenceItem): PhotoReferenceItem => ({
+  ...item,
+  image: publicAsset(item.image) || '',
+  imageWebp: publicAsset(item.imageWebp),
+  imageAvif: publicAsset(item.imageAvif),
+});
+
+export const photoGalleries: PhotoGalleryData = {
+  productProduction: (photoGalleriesData.productProduction as PhotoReferenceItem[]).map(mapPhotoReference),
+  materialReferences: (photoGalleriesData.materialReferences as PhotoReferenceItem[]).map(mapPhotoReference),
+  manufacturingReferences: (photoGalleriesData.manufacturingReferences as PhotoReferenceItem[]).map(mapPhotoReference),
+  qualityReferences: (photoGalleriesData.qualityReferences as PhotoReferenceItem[]).map(mapPhotoReference),
+};

@@ -1,0 +1,510 @@
+{
+  "productProduction": [
+    {
+      "id": "solid-white-vanity-front",
+      "image": "assets/owner/product-gallery/solid-white-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/solid-white-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/solid-white-vanity-front.avif",
+      "alt": "Solid white single-sink vanity top with integral backsplash and rectangular basin opening",
+      "caption": "Solid-white vanity top, front production reference.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "solid-white-vanity-angle",
+      "image": "assets/owner/product-gallery/solid-white-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/solid-white-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/solid-white-vanity-angle.avif",
+      "alt": "Solid white single-sink vanity top viewed from the left front corner",
+      "caption": "Integral backsplash and sink opening viewed from an angle.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "solid-white-vanity-detail",
+      "image": "assets/owner/product-gallery/solid-white-vanity-detail.jpg",
+      "imageWebp": "assets/owner/product-gallery/solid-white-vanity-detail.webp",
+      "imageAvif": "assets/owner/product-gallery/solid-white-vanity-detail.avif",
+      "alt": "Close angled view of a solid white vanity top and rectangular sink opening",
+      "caption": "Closer view of the surface, opening, and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "black-granite-vanity-front",
+      "image": "assets/owner/product-gallery/black-granite-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/black-granite-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/black-granite-vanity-front.avif",
+      "alt": "Black granite single-sink vanity top with backsplash and three faucet holes",
+      "caption": "Black granite vanity top, front production reference.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "black-granite-vanity-angle",
+      "image": "assets/owner/product-gallery/black-granite-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/black-granite-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/black-granite-vanity-angle.avif",
+      "alt": "Black granite vanity top viewed from the right front corner",
+      "caption": "Black granite surface and eased perimeter viewed from an angle.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "black-granite-vanity-top",
+      "image": "assets/owner/product-gallery/black-granite-vanity-top.jpg",
+      "imageWebp": "assets/owner/product-gallery/black-granite-vanity-top.webp",
+      "imageAvif": "assets/owner/product-gallery/black-granite-vanity-top.avif",
+      "alt": "Top view of a black granite vanity top with rectangular sink opening",
+      "caption": "Top view showing sink and faucet-hole layout.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "black-granite-vanity-opposite-angle",
+      "image": "assets/owner/product-gallery/black-granite-vanity-opposite-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/black-granite-vanity-opposite-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/black-granite-vanity-opposite-angle.avif",
+      "alt": "Black granite vanity top viewed from the left front corner",
+      "caption": "Opposite angle showing backsplash and polished surface.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "travertine-vanity-angle",
+      "image": "assets/owner/product-gallery/travertine-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/travertine-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/travertine-vanity-angle.avif",
+      "alt": "Beige linear travertine vanity top viewed from the right front corner",
+      "caption": "Linear travertine movement across the top and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "travertine-vanity-left-angle",
+      "image": "assets/owner/product-gallery/travertine-vanity-left-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/travertine-vanity-left-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/travertine-vanity-left-angle.avif",
+      "alt": "Beige linear travertine vanity top viewed from the left front corner",
+      "caption": "Left-side view of sink opening, edge, and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "travertine-vanity-front",
+      "image": "assets/owner/product-gallery/travertine-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/travertine-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/travertine-vanity-front.avif",
+      "alt": "Front view of a beige linear travertine vanity top with backsplash",
+      "caption": "Front production reference for the travertine vanity program.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "rounded-marble-vanity-front",
+      "image": "assets/owner/product-gallery/rounded-marble-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/rounded-marble-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/rounded-marble-vanity-front.avif",
+      "alt": "Rounded-corner grey veined marble vanity top with rectangular basin opening",
+      "caption": "Front view of the rounded-corner marble vanity reference.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "rounded-marble-vanity-angle",
+      "image": "assets/owner/product-gallery/rounded-marble-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/rounded-marble-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/rounded-marble-vanity-angle.avif",
+      "alt": "Rounded-corner grey veined marble vanity top viewed from the right",
+      "caption": "Right-side view of the curved front edge and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "rounded-marble-vanity-left-angle",
+      "image": "assets/owner/product-gallery/rounded-marble-vanity-left-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/rounded-marble-vanity-left-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/rounded-marble-vanity-left-angle.avif",
+      "alt": "Rounded-corner grey veined marble vanity top viewed from the left",
+      "caption": "Left-side view showing surface movement and opening.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "rounded-marble-vanity-top",
+      "image": "assets/owner/product-gallery/rounded-marble-vanity-top.jpg",
+      "imageWebp": "assets/owner/product-gallery/rounded-marble-vanity-top.webp",
+      "imageAvif": "assets/owner/product-gallery/rounded-marble-vanity-top.avif",
+      "alt": "Top view of a rounded-corner grey veined marble vanity top",
+      "caption": "Top view of the rounded profile and rectangular opening.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "rounded-marble-vanity-back-angle",
+      "image": "assets/owner/product-gallery/rounded-marble-vanity-back-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/rounded-marble-vanity-back-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/rounded-marble-vanity-back-angle.avif",
+      "alt": "Rear angled view of a rounded-corner grey veined marble vanity top",
+      "caption": "Rear angle showing the matching backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "carrara-pattern-vanity-front",
+      "image": "assets/owner/product-gallery/carrara-pattern-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/carrara-pattern-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/carrara-pattern-vanity-front.avif",
+      "alt": "Front view of a white Carrara-pattern single-sink vanity top",
+      "caption": "Carrara-pattern production reference, front view.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "carrara-pattern-vanity-angle",
+      "image": "assets/owner/product-gallery/carrara-pattern-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/carrara-pattern-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/carrara-pattern-vanity-angle.avif",
+      "alt": "White Carrara-pattern vanity top viewed from the right front corner",
+      "caption": "Right-side view of the sink opening and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "carrara-pattern-vanity-left-angle",
+      "image": "assets/owner/product-gallery/carrara-pattern-vanity-left-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/carrara-pattern-vanity-left-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/carrara-pattern-vanity-left-angle.avif",
+      "alt": "White Carrara-pattern vanity top viewed from the left front corner",
+      "caption": "Left-side view showing vein distribution.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "carrara-pattern-vanity-detail",
+      "image": "assets/owner/product-gallery/carrara-pattern-vanity-detail.jpg",
+      "imageWebp": "assets/owner/product-gallery/carrara-pattern-vanity-detail.webp",
+      "imageAvif": "assets/owner/product-gallery/carrara-pattern-vanity-detail.avif",
+      "alt": "Close angled view of a white Carrara-pattern vanity top",
+      "caption": "Closer view of the surface, edge, and faucet holes.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "carrara-pattern-vanity-rear",
+      "image": "assets/owner/product-gallery/carrara-pattern-vanity-rear.jpg",
+      "imageWebp": "assets/owner/product-gallery/carrara-pattern-vanity-rear.webp",
+      "imageAvif": "assets/owner/product-gallery/carrara-pattern-vanity-rear.avif",
+      "alt": "Rear angled view of a white Carrara-pattern vanity top",
+      "caption": "Rear angle showing the matching backsplash and edge.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "veined-double-vanity-front",
+      "image": "assets/owner/product-gallery/veined-double-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/veined-double-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/veined-double-vanity-front.avif",
+      "alt": "Front view of a white veined double-sink vanity top",
+      "caption": "Double-sink production reference, front view.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "veined-double-vanity-angle",
+      "image": "assets/owner/product-gallery/veined-double-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/veined-double-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/veined-double-vanity-angle.avif",
+      "alt": "White veined double-sink vanity top viewed from the right",
+      "caption": "Right-side view showing paired openings and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "veined-double-vanity-wide-front",
+      "image": "assets/owner/product-gallery/veined-double-vanity-wide-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/veined-double-vanity-wide-front.webp",
+      "imageAvif": "assets/owner/product-gallery/veined-double-vanity-wide-front.avif",
+      "alt": "Wide front view of a white veined double-sink vanity top",
+      "caption": "Wide front production reference.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "veined-double-vanity-left-angle",
+      "image": "assets/owner/product-gallery/veined-double-vanity-left-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/veined-double-vanity-left-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/veined-double-vanity-left-angle.avif",
+      "alt": "White veined double-sink vanity top viewed from the left",
+      "caption": "Left-side view showing vein movement across both sink positions.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "solid-white-double-vanity-angle",
+      "image": "assets/owner/product-gallery/solid-white-double-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/solid-white-double-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/solid-white-double-vanity-angle.avif",
+      "alt": "Solid white double-sink vanity top viewed from the right front corner",
+      "caption": "Right-side angle of the solid-white double vanity program.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "solid-white-double-vanity-front",
+      "image": "assets/owner/product-gallery/solid-white-double-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/solid-white-double-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/solid-white-double-vanity-front.avif",
+      "alt": "Front view of a solid white double-sink vanity top",
+      "caption": "Solid-white double vanity, front production reference.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "solid-white-double-vanity-left-angle",
+      "image": "assets/owner/product-gallery/solid-white-double-vanity-left-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/solid-white-double-vanity-left-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/solid-white-double-vanity-left-angle.avif",
+      "alt": "Solid white double-sink vanity top viewed from the left front corner",
+      "caption": "Left-side angle showing paired sink openings and backsplash.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "project-double-vanity-front",
+      "image": "assets/owner/product-gallery/project-double-vanity-front.jpg",
+      "imageWebp": "assets/owner/product-gallery/project-double-vanity-front.webp",
+      "imageAvif": "assets/owner/product-gallery/project-double-vanity-front.avif",
+      "alt": "Front view of a white veined project double-sink vanity top",
+      "caption": "Project double vanity, front production reference.",
+      "width": 1600,
+      "height": 1200
+    },
+    {
+      "id": "project-double-vanity-angle",
+      "image": "assets/owner/product-gallery/project-double-vanity-angle.jpg",
+      "imageWebp": "assets/owner/product-gallery/project-double-vanity-angle.webp",
+      "imageAvif": "assets/owner/product-gallery/project-double-vanity-angle.avif",
+      "alt": "White veined project double-sink vanity top viewed from the right",
+      "caption": "Project reference showing paired cutouts and faucet-hole layout.",
+      "width": 1600,
+      "height": 1200
+    }
+  ],
+  "materialReferences": [
+    {
+      "id": "warm-white-slab-detail",
+      "image": "assets/owner/material-references/warm-white-slab-detail.jpg",
+      "imageWebp": "assets/owner/material-references/warm-white-slab-detail.webp",
+      "imageAvif": "assets/owner/material-references/warm-white-slab-detail.avif",
+      "alt": "Warm white natural stone slab surface with subtle linear movement",
+      "caption": "Close material view used during slab selection.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "warm-white-slab-face",
+      "image": "assets/owner/material-references/warm-white-slab-face.jpg",
+      "imageWebp": "assets/owner/material-references/warm-white-slab-face.webp",
+      "imageAvif": "assets/owner/material-references/warm-white-slab-face.avif",
+      "alt": "Full face of a warm white natural stone slab with horizontal movement",
+      "caption": "Full slab face for movement and range review.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "warm-white-slab-lift",
+      "image": "assets/owner/material-references/warm-white-slab-lift.jpg",
+      "imageWebp": "assets/owner/material-references/warm-white-slab-lift.webp",
+      "imageAvif": "assets/owner/material-references/warm-white-slab-lift.avif",
+      "alt": "Warm white stone slab suspended for full-face inspection",
+      "caption": "Slab face viewed during material handling.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "warm-white-slab-selection",
+      "image": "assets/owner/material-references/warm-white-slab-selection.jpg",
+      "imageWebp": "assets/owner/material-references/warm-white-slab-selection.webp",
+      "imageAvif": "assets/owner/material-references/warm-white-slab-selection.avif",
+      "alt": "Warm white stone slab secured upright for material selection",
+      "caption": "Full-face material reference before fabrication.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "black-granite-polished-sample",
+      "image": "assets/owner/material-references/black-granite-polished-sample.jpg",
+      "imageWebp": "assets/owner/material-references/black-granite-polished-sample.webp",
+      "imageAvif": "assets/owner/material-references/black-granite-polished-sample.avif",
+      "alt": "Polished black granite sample with fine mineral flecks",
+      "caption": "Polished black granite sample reference.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "black-granite-finish-set",
+      "image": "assets/owner/material-references/black-granite-finish-set.jpg",
+      "imageWebp": "assets/owner/material-references/black-granite-finish-set.webp",
+      "imageAvif": "assets/owner/material-references/black-granite-finish-set.avif",
+      "alt": "Four black granite samples showing different surface finishes",
+      "caption": "Finish comparison across four black granite samples.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "neutral-stone-sample-grid",
+      "image": "assets/owner/material-references/neutral-stone-sample-grid.jpg",
+      "imageWebp": "assets/owner/material-references/neutral-stone-sample-grid.webp",
+      "imageAvif": "assets/owner/material-references/neutral-stone-sample-grid.avif",
+      "alt": "Grid of neutral grey, white, and beige stone samples",
+      "caption": "Neutral material range prepared for comparison.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "neutral-stone-approval-set",
+      "image": "assets/owner/material-references/neutral-stone-approval-set.jpg",
+      "imageWebp": "assets/owner/material-references/neutral-stone-approval-set.webp",
+      "imageAvif": "assets/owner/material-references/neutral-stone-approval-set.avif",
+      "alt": "Twelve neutral stone samples arranged for review",
+      "caption": "Physical sample set used for color and finish review.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "white-veined-sample-study",
+      "image": "assets/owner/material-references/white-veined-sample-study.jpg",
+      "imageWebp": "assets/owner/material-references/white-veined-sample-study.webp",
+      "imageAvif": "assets/owner/material-references/white-veined-sample-study.avif",
+      "alt": "White veined stone samples arranged vertically for comparison",
+      "caption": "Vein distribution comparison across physical samples.",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "id": "white-veined-approval-samples",
+      "image": "assets/owner/material-references/white-veined-approval-samples.jpg",
+      "imageWebp": "assets/owner/material-references/white-veined-approval-samples.webp",
+      "imageAvif": "assets/owner/material-references/white-veined-approval-samples.avif",
+      "alt": "Three white veined stone samples prepared for approval",
+      "caption": "Physical samples prepared for approval review.",
+      "width": 1200,
+      "height": 1200
+    }
+  ],
+  "manufacturingReferences": [
+    {
+      "id": "furniture-top-layout-wide",
+      "image": "assets/owner/manufacturing/furniture-top-layout-wide.jpg",
+      "imageWebp": "assets/owner/manufacturing/furniture-top-layout-wide.webp",
+      "imageAvif": "assets/owner/manufacturing/furniture-top-layout-wide.avif",
+      "alt": "Large stone furniture top positioned on supports in the Vietnam workshop",
+      "caption": "Large-format furniture top positioned for fabrication review.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "furniture-top-layout-side",
+      "image": "assets/owner/manufacturing/furniture-top-layout-side.jpg",
+      "imageWebp": "assets/owner/manufacturing/furniture-top-layout-side.webp",
+      "imageAvif": "assets/owner/manufacturing/furniture-top-layout-side.avif",
+      "alt": "Side view of a large stone furniture top on workshop supports",
+      "caption": "Side view used to review the top profile and support position.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "slab-face-review",
+      "image": "assets/owner/manufacturing/slab-face-review.jpg",
+      "imageWebp": "assets/owner/manufacturing/slab-face-review.webp",
+      "imageAvif": "assets/owner/manufacturing/slab-face-review.avif",
+      "alt": "White veined slab face reviewed under factory lighting",
+      "caption": "Full slab face reviewed before layout.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "slab-layout-marking-detail",
+      "image": "assets/owner/manufacturing/slab-layout-marking-detail.jpg",
+      "imageWebp": "assets/owner/manufacturing/slab-layout-marking-detail.webp",
+      "imageAvif": "assets/owner/manufacturing/slab-layout-marking-detail.avif",
+      "alt": "Marked layout lines on a white veined slab before cutting",
+      "caption": "Layout markings define component positions before cutting.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "finished-top-lineup",
+      "image": "assets/owner/manufacturing/finished-top-lineup.jpg",
+      "imageWebp": "assets/owner/manufacturing/finished-top-lineup.webp",
+      "imageAvif": "assets/owner/manufacturing/finished-top-lineup.avif",
+      "alt": "Multiple finished vanity tops arranged in sequence for inspection",
+      "caption": "Finished tops lined up for order review.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "circular-cutout-preparation",
+      "image": "assets/owner/manufacturing/circular-cutout-preparation.jpg",
+      "imageWebp": "assets/owner/manufacturing/circular-cutout-preparation.webp",
+      "imageAvif": "assets/owner/manufacturing/circular-cutout-preparation.avif",
+      "alt": "Stone vanity component with circular basin cutout at a production station",
+      "caption": "Circular opening and faucet-hole positions prepared for review.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "circular-cutout-review",
+      "image": "assets/owner/manufacturing/circular-cutout-review.jpg",
+      "imageWebp": "assets/owner/manufacturing/circular-cutout-review.webp",
+      "imageAvif": "assets/owner/manufacturing/circular-cutout-review.avif",
+      "alt": "White veined stone vanity component with circular cutout on a factory rack",
+      "caption": "Cut component staged for dimensional and surface review.",
+      "width": 1600,
+      "height": 1067
+    }
+  ],
+  "qualityReferences": [
+    {
+      "id": "gloss-reading-angle",
+      "image": "assets/owner/qc/gloss-reading-angle.jpg",
+      "imageWebp": "assets/owner/qc/gloss-reading-angle.webp",
+      "imageAvif": "assets/owner/qc/gloss-reading-angle.avif",
+      "alt": "Digital gloss meter positioned on a polished white veined stone surface",
+      "caption": "Surface reading photographed from an inspection angle.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "caliper-reading-close",
+      "image": "assets/owner/qc/caliper-reading-close.jpg",
+      "imageWebp": "assets/owner/qc/caliper-reading-close.webp",
+      "imageAvif": "assets/owner/qc/caliper-reading-close.avif",
+      "alt": "Close view of a digital caliper checking polished stone thickness",
+      "caption": "Close instrument view during thickness inspection.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "surface-defect-marking",
+      "image": "assets/owner/qc/surface-defect-marking.jpg",
+      "imageWebp": "assets/owner/qc/surface-defect-marking.webp",
+      "imageAvif": "assets/owner/qc/surface-defect-marking.avif",
+      "alt": "Small surface feature circled for quality review on white veined stone",
+      "caption": "Surface feature identified and marked during visual inspection.",
+      "width": 1600,
+      "height": 1067
+    },
+    {
+      "id": "surface-pinhole-marking",
+      "image": "assets/owner/qc/surface-pinhole-marking.jpg",
+      "imageWebp": "assets/owner/qc/surface-pinhole-marking.webp",
+      "imageAvif": "assets/owner/qc/surface-pinhole-marking.avif",
+      "alt": "Small pinhole feature circled for quality review on white veined stone",
+      "caption": "Pinhole feature identified during visual inspection.",
+      "width": 1600,
+      "height": 1067
+    }
+  ]
+}

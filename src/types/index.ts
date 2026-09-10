@@ -190,6 +190,24 @@ export interface FactoryGalleryItem {
   description?: string;
 }
 
+export interface PhotoReferenceItem {
+  id: string;
+  image: string;
+  imageWebp?: string;
+  imageAvif?: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+}
+
+export interface PhotoGalleryData {
+  productProduction: PhotoReferenceItem[];
+  materialReferences: PhotoReferenceItem[];
+  manufacturingReferences: PhotoReferenceItem[];
+  qualityReferences: PhotoReferenceItem[];
+}
+
 export interface FurnitureTopVisual {
   id: string;
   title: string;

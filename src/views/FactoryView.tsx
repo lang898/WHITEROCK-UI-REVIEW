@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ArrowRight, Check, FileCheck2, PackageCheck, Ruler } from 'lucide-react';
-import { factory } from '../data';
+import { factory, photoGalleries } from '../data';
 import { Button } from '../components/ui/Button';
+import { PhotoReferenceRail } from '../components/PhotoReferenceRail';
 import { RetailCompliance } from '../components/RetailCompliance';
-import type { LocaleConfig } from '../types';
+import type { LocaleConfig, PhotoReferenceItem } from '../types';
 
 interface FactoryViewProps {
   currentLocale: LocaleConfig;
@@ -70,7 +71,49 @@ const factoryGallery = [
 
 export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
   const [activeCapability, setActiveCapability] = useState<(typeof capabilityTabs)[number]['id']>('cutting');
+  const [activeEvidenceId, setActiveEvidenceId] = useState<'finished' | 'manufacturing' | 'quality'>('finished');
   const active = capabilityTabs.find((item) => item.id === activeCapability) || capabilityTabs[0];
+  const layoutReference: PhotoReferenceItem = {
+    id: 'slab-layout-review',
+    image: assetUrl(factory.qc.manufacturingReference.image),
+    imageWebp: assetUrl(factory.qc.manufacturingReference.imageWebp),
+    imageAvif: assetUrl(factory.qc.manufacturingReference.imageAvif),
+    alt: factory.qc.manufacturingReference.imageAlt,
+    caption: factory.qc.manufacturingReference.caption,
+    width: factory.qc.manufacturingReference.width,
+    height: factory.qc.manufacturingReference.height,
+  };
+  const existingQualityReferences: PhotoReferenceItem[] = factory.qc.media.map((item) => ({
+    id: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    image: assetUrl(item.image),
+    imageWebp: assetUrl(item.imageWebp),
+    imageAvif: assetUrl(item.imageAvif),
+    alt: item.imageAlt,
+    caption: item.caption,
+    width: item.width,
+    height: item.height,
+  }));
+  const evidenceGroups = {
+    finished: {
+      label: 'Finished tops',
+      title: 'Finished vanity tops across current production.',
+      copy: 'Multiple sizes, materials, opening layouts, backsplashes, and edge profiles are documented as production references.',
+      items: photoGalleries.productProduction,
+    },
+    manufacturing: {
+      label: 'Material & layout',
+      title: 'Material faces, layout marks, and fabrication staging.',
+      copy: 'These records show how slab movement, component position, cutouts, and large-format pieces are reviewed before the next production step.',
+      items: [layoutReference, ...photoGalleries.manufacturingReferences],
+    },
+    quality: {
+      label: 'Quality checks',
+      title: 'Instrument readings and visual inspection records.',
+      copy: 'Thickness, gloss, and marked surface features are documented against the acceptance criteria agreed for the order.',
+      items: [...existingQualityReferences, ...photoGalleries.qualityReferences],
+    },
+  } as const;
+  const activeEvidence = evidenceGroups[activeEvidenceId];
 
   return (
     <div className="wr-factory-page">
@@ -126,30 +169,19 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
       <section className="wr-factory-proof wr-section-band" aria-labelledby="factory-proof-title">
         <div className="wr-section-heading wr-section-intro">
           <span className="wr-eyebrow">Production evidence</span>
-          <h2 id="factory-proof-title">Layout decisions and inspection readings, shown directly.</h2>
-          <p>These photographs document a slab-layout review and two instrument checks. Acceptance values remain tied to the approved drawing and order criteria.</p>
+          <h2 id="factory-proof-title">A broader record of products, process, and inspection.</h2>
+          <p>Production photography is grouped by decision stage. Final acceptance remains tied to the approved drawing and order criteria.</p>
         </div>
-        <div className="wr-factory-proof__layout">
-          <figure className="wr-factory-proof__layout-review">
-            <picture>
-              <source srcSet={assetUrl(factory.qc.manufacturingReference.imageAvif)} type="image/avif" />
-              <source srcSet={assetUrl(factory.qc.manufacturingReference.imageWebp)} type="image/webp" />
-              <img src={assetUrl(factory.qc.manufacturingReference.image)} alt={factory.qc.manufacturingReference.imageAlt} width={factory.qc.manufacturingReference.width} height={factory.qc.manufacturingReference.height} loading="lazy" />
-            </picture>
-            <figcaption><strong>{factory.qc.manufacturingReference.title}</strong><span>{factory.qc.manufacturingReference.caption}</span></figcaption>
-          </figure>
-          <div className="wr-factory-proof__checks">
-            {factory.qc.media.map((item) => (
-              <figure key={item.title}>
-                <picture>
-                  <source srcSet={assetUrl(item.imageAvif)} type="image/avif" />
-                  <source srcSet={assetUrl(item.imageWebp)} type="image/webp" />
-                  <img src={assetUrl(item.image)} alt={item.imageAlt} width={item.width} height={item.height} loading="lazy" />
-                </picture>
-                <figcaption><strong>{item.title}</strong><span>{item.caption}</span></figcaption>
-              </figure>
-            ))}
-          </div>
+        <div className="wr-evidence-tabs" role="tablist" aria-label="Production evidence groups">
+          {(Object.keys(evidenceGroups) as Array<keyof typeof evidenceGroups>).map((id) => (
+            <button key={id} type="button" role="tab" aria-selected={activeEvidenceId === id} className={activeEvidenceId === id ? 'is-active' : ''} onClick={() => setActiveEvidenceId(id)}>
+              {evidenceGroups[id].label}<span>{evidenceGroups[id].items.length}</span>
+            </button>
+          ))}
+        </div>
+        <div className="wr-evidence-panel" role="tabpanel">
+          <div className="wr-evidence-panel__heading"><h3>{activeEvidence.title}</h3><p>{activeEvidence.copy}</p></div>
+          <PhotoReferenceRail items={[...activeEvidence.items]} ariaLabel={`${activeEvidence.label} photographic references`} />
         </div>
       </section>
 
