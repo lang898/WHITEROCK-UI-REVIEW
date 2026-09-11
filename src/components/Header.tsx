@@ -23,13 +23,15 @@ interface HeaderProps {
 const desktopNavigation: readonly NavigationGroup[] = [
   {
     label: 'Products',
-    id: 'products',
-    items: productNavigation,
+    items: [
+      { id: 'products', label: 'All Products' },
+      ...productNavigation,
+    ],
   },
   {
     label: 'Materials',
-    id: 'materials',
     items: [
+      { id: 'materials', label: 'All Materials' },
       ...stoneMaterialNavigation,
       { id: 'colors', label: 'Colors' },
       { id: 'finishes', label: 'Finishes & Edges' },
@@ -123,9 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
             return (
               <details key={item.label} className={isActive ? 'is-active' : ''}>
                 <summary>
-                  {item.id ? (
-                    <a href={routePath(item.id)} onClick={(event) => { event.preventDefault(); event.stopPropagation(); navigate(item.id!); event.currentTarget.closest('details')?.removeAttribute('open'); }}>{item.label}</a>
-                  ) : <span>{item.label}</span>}
+                  <span>{item.label}</span>
                   <ChevronDown aria-hidden="true" />
                 </summary>
                 <div className="wr-nav__menu">
