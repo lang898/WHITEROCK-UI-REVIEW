@@ -1,83 +1,85 @@
-import React from 'react';
-import { AlertTriangle, Box, Download, FileCode2, FileText, Gauge, PackageCheck } from 'lucide-react';
-import { resources } from '../data';
+import React, { useMemo, useState } from 'react';
+import { AlertTriangle, Download, FileText, Filter, Mail, X } from 'lucide-react';
+import resourcesData from '../../data/resources.json';
+import complianceData from '../../data/compliance.json';
 import { siteConfig } from '../data/site';
 import { FaqSectionWithSchema } from '../components/FaqSectionWithSchema';
 import type { LocaleConfig } from '../types';
+
+type AccessState = 'public' | 'available-on-request' | 'order-specific';
+type DocumentEntry = {
+  id: string;
+  title: string;
+  category: string;
+  documentType: string;
+  materialFamilies: string[];
+  description: string;
+  revision: string;
+  revisionDate: string | null;
+  fileSize: string | null;
+  access: AccessState;
+  public: boolean;
+  file: string | null;
+};
 
 interface ResourcesViewProps {
   currentLocale: LocaleConfig;
 }
 
-interface DocumentEntry {
-  title: string;
-  category: string;
-  description: string;
-  file?: string;
-  status: string;
-  Icon: React.ComponentType<{ className?: string }>;
-}
+const accessLabels: Record<AccessState, string> = {
+  public: 'Public download',
+  'available-on-request': 'Available on request',
+  'order-specific': 'Order-specific',
+};
 
 export const ResourcesView: React.FC<ResourcesViewProps> = ({ currentLocale }) => {
-  const catalog = resources.find((item) => item.category === 'Catalog');
-  const care = resources.find((item) => item.category === 'Care');
-  const documentCenter: DocumentEntry[] = [
-    {
-      title: 'Furniture Surface Reference Catalog',
-      category: 'Catalog',
-      description: 'A reference catalog showing furniture surface forms and material directions within the broader WHITEROCK product scope.',
-      file: catalog?.file,
-      status: 'PDF available',
-      Icon: FileText
-    },
-    {
-      title: 'Thickness Technical Data',
-      category: 'Technical data',
-      description: 'Separate product-specific sheets for each offered thickness and material family.',
-      status: 'Available by request',
-      Icon: Gauge
-    },
-    {
-      title: 'Care & Maintenance Guide',
-      category: 'Maintenance',
-      description: 'General care guidance. Final instructions are confirmed against each exact material and finish.',
-      file: care?.file,
-      status: 'PDF available',
-      Icon: Box
-    },
-    {
-      title: 'Packing & Container Loading Guide',
-      category: 'Export packing',
-      description: 'Order-specific guidance for crates, labels, bracing, moisture protection, and container loading.',
-      status: 'Available by request',
-      Icon: PackageCheck
-    },
-    {
-      title: 'CAD / DXF Drawing Blocks',
-      category: 'Design files',
-      description: 'Vanity, cutout, edge, and installation drawing blocks shared against the selected product program.',
-      status: 'Available by request',
-      Icon: FileCode2
-    }
-  ];
+  const documents = resourcesData.items as DocumentEntry[];
+  const [material, setMaterial] = useState('All');
+  const [documentType, setDocumentType] = useState('All');
+  const [access, setAccess] = useState<'All' | AccessState>('All');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const materials = useMemo(() => ['All', ...Array.from(new Set(documents.flatMap((item) => item.materialFamilies).filter((item) => item !== 'All'))).sort()], [documents]);
+  const documentTypes = useMemo(() => ['All', ...Array.from(new Set(documents.map((item) => item.documentType))).sort()], [documents]);
+  const filtered = documents.filter((item) =>
+    (material === 'All' || item.materialFamilies.includes('All') || item.materialFamilies.includes(material)) &&
+    (documentType === 'All' || item.documentType === documentType) &&
+    (access === 'All' || item.access === access)
+  );
+  const activeFilters = [material !== 'All', documentType !== 'All', access !== 'All'].filter(Boolean).length;
+
+  const requestHref = (doc: DocumentEntry) => `mailto:${siteConfig.email}?subject=${encodeURIComponent(`Technical document request: ${doc.title}`)}`;
 
   return (
     <div className="wr-resources-page">
       <header className="wr-catalog-hero wr-catalog-hero--centered">
-        <div><span className="wr-eyebrow">Technical document center</span><h1>Documents for specification, care, packing, and fabrication.</h1></div>
-        <p>Download the public reference files or request product-specific technical sheets, CAD blocks, packing guidance, and assessment records from the team.</p>
+        <div><span className="wr-eyebrow">Technical document center</span><h1>Documents for specification, care, safety, packing, and fabrication.</h1></div>
+        <p>Public files are separated from request-only and order-specific records. Exact revision and scope remain tied to the selected material and order.</p>
       </header>
 
       <section className="wr-document-center" aria-labelledby="document-center-title">
-        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Requested library</span><h2 id="document-center-title">Five document groups for technical buyers.</h2></div>
+        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Document library</span><h2 id="document-center-title">Find the right document in two steps.</h2><p>{filtered.length} documents · {activeFilters} active filters</p></div>
+
+        <div className="wr-mobile-filter-toolbar"><button className="wr-button wr-button--secondary" onClick={() => setFiltersOpen(true)}><Filter />Filters{activeFilters ? ` (${activeFilters})` : ''}</button><span>{filtered.length} results</span></div>
+        <div className={`wr-resource-filters wr-filter-sheet${filtersOpen ? ' is-open' : ''}`}>
+          <div className="wr-filter-sheet__mobile-header"><strong>Document filters</strong><button className="wr-icon-button" onClick={() => setFiltersOpen(false)} aria-label="Close filters"><X /></button></div>
+          <label><span>Material</span><select value={material} onChange={(event) => setMaterial(event.target.value)}>{materials.map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label><span>Document type</span><select value={documentType} onChange={(event) => setDocumentType(event.target.value)}>{documentTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label><span>Access</span><select value={access} onChange={(event) => setAccess(event.target.value as 'All' | AccessState)}><option>All</option><option value="public">Public download</option><option value="available-on-request">Available on request</option><option value="order-specific">Order-specific</option></select></label>
+          <button className="wr-button wr-button--ghost" onClick={() => { setMaterial('All'); setDocumentType('All'); setAccess('All'); }}>Clear</button>
+          <button className="wr-button wr-button--primary wr-filter-sheet__apply" onClick={() => setFiltersOpen(false)}>Show {filtered.length}</button>
+        </div>
+
         <div className="wr-document-grid">
-          {documentCenter.map(({ title, category, description, file, status, Icon }) => (
-            <article key={title} className={file ? 'is-available' : 'is-request'}>
-              <header><Icon /><span>{category}</span></header>
-              <h3>{title}</h3>
-              <p>{description}</p>
-              <small>{status}</small>
-              {file ? <a className="wr-button wr-button--primary" href={`/${file.replace(/^\/+/, '')}`} download><Download />Download PDF</a> : <a className="wr-button wr-button--secondary" href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(`Technical document request: ${title}`)}`}><FileText />Request document</a>}
+          {filtered.map((doc) => (
+            <article key={doc.id} className={doc.access === 'public' ? 'is-available' : 'is-request'}>
+              <header><FileText /><span>{doc.documentType}</span></header>
+              <h3>{doc.title}</h3>
+              <p>{doc.description}</p>
+              <dl className="wr-document-meta"><div><dt>Access</dt><dd>{accessLabels[doc.access]}</dd></div><div><dt>Revision</dt><dd>{doc.revision}</dd></div>{doc.revisionDate && <div><dt>Date</dt><dd>{doc.revisionDate}</dd></div>}{doc.fileSize && <div><dt>Size</dt><dd>{doc.fileSize}</dd></div>}</dl>
+              {doc.access === 'public' && doc.file
+                ? <a className="wr-button wr-button--primary" href={`/${doc.file.replace(/^\/+/, '')}`} download><Download />Download</a>
+                : <a className="wr-button wr-button--secondary" href={requestHref(doc)}><Mail />Request document</a>}
             </article>
           ))}
         </div>
@@ -85,20 +87,10 @@ export const ResourcesView: React.FC<ResourcesViewProps> = ({ currentLocale }) =
 
       <section className="wr-resource-safety">
         <AlertTriangle />
-        <div><span className="wr-eyebrow">Fabrication safety</span><h2>Use the exact product SDS and applicable workplace requirements.</h2><p>Cutting, grinding, or polishing stone can generate respirable crystalline silica. Fabricators must use the exact product documentation and the controls required by their jurisdiction, process, and work conditions.</p></div>
+        <div><span className="wr-eyebrow">Fabrication safety</span><h2>{complianceData.silicaTitle}</h2><p>{complianceData.silicaCopy}</p></div>
       </section>
 
-      <section className="wr-resource-archive" aria-labelledby="resource-archive-title">
-        <div><span className="wr-eyebrow">Document archive</span><h2 id="resource-archive-title">Additional reference PDFs.</h2></div>
-        <div>{resources.filter((item) => ![catalog?.title, care?.title].includes(item.title)).map((item) => <a key={item.title} href={`/${item.file.replace(/^\/+/, '')}`} download><FileText /><span><strong>{item.title}</strong><small>{item.category} · verify scope and revision before use</small></span><Download /></a>)}</div>
-      </section>
-
-      <FaqSectionWithSchema
-        currentLocale={currentLocale}
-        title="Technical Data, Testing & Export Documentation FAQ"
-        subtitle="Current answers on document status, material verification, and order-specific records."
-        showSchemaInspector={false}
-      />
+      <FaqSectionWithSchema currentLocale={currentLocale} title="Technical Data, Testing & Export Documentation FAQ" subtitle="Current answers on document status, material verification, and order-specific records." showSchemaInspector={false} />
     </div>
   );
 };
