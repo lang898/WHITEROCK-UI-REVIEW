@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronDown, FileText, Mail, Menu, Package, Search, X } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
 import { siteConfig } from '../data/site';
-import { mobileNavigation, productNavigation, routePath, stoneMaterialNavigation, type NavigationGroup } from '../routes';
+import { productNavigation, routePath, stoneMaterialNavigation, type NavigationGroup } from '../routes';
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
 import { OPEN_RFQ_EVENT } from '../lib/uiEvents';
@@ -79,8 +79,12 @@ export const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
-    const activeGroup = mobileNavigation.find((group) => group.items?.some((item) => item.id === currentTab));
-    if (activeGroup) setOpenMobileGroups((groups) => groups.includes(activeGroup.label) ? groups : [...groups, activeGroup.label]);
+    const activeGroup = desktopNavigation.find((group) =>
+      group.items?.some((item) => item.id === currentTab) || group.id === currentTab
+    );
+    if (activeGroup?.items?.length) {
+      setOpenMobileGroups((groups) => groups.includes(activeGroup.label) ? groups : [...groups, activeGroup.label]);
+    }
   }, [currentTab, mobileMenuOpen]);
 
   useEffect(() => {
@@ -149,21 +153,26 @@ export const Header: React.FC<HeaderProps> = ({
 
       {mobileMenuOpen && (
         <nav className="wr-mobile-nav" aria-label="Mobile navigation">
-          {mobileNavigation.map((group) => (
-            <details
-              key={group.label}
-              open={openMobileGroups.includes(group.label)}
-              onToggle={(event) => {
-                const isOpen = event.currentTarget.open;
-                setOpenMobileGroups((groups) => isOpen
-                  ? Array.from(new Set([...groups, group.label]))
-                  : groups.filter((label) => label !== group.label));
-              }}
-            >
-              <summary>{group.label}<ChevronDown aria-hidden="true" /></summary>
-              <div>{group.items?.map((item) => <a key={item.id} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
-            </details>
-          ))}
+          {desktopNavigation.map((group) => {
+            if (!group.items?.length && group.id) {
+              return <a key={group.label} className={isNavigationActive(group.id) ? 'is-active' : ''} href={routePath(group.id)} onClick={(event) => { event.preventDefault(); navigate(group.id!); }}>{group.label}</a>;
+            }
+            return (
+              <details
+                key={group.label}
+                open={openMobileGroups.includes(group.label)}
+                onToggle={(event) => {
+                  const isOpen = event.currentTarget.open;
+                  setOpenMobileGroups((groups) => isOpen
+                    ? Array.from(new Set([...groups, group.label]))
+                    : groups.filter((label) => label !== group.label));
+                }}
+              >
+                <summary>{group.label}<ChevronDown aria-hidden="true" /></summary>
+                <div>{group.items?.map((item) => <a key={item.id} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
+              </details>
+            );
+          })}
           <div className="wr-mobile-nav__actions">
             <button className="wr-button wr-button--secondary" onClick={openSamples}><Package />{t(currentLocale, 'samples')} ({sampleCount})</button>
             <button className="wr-button wr-button--primary" onClick={openCart}><FileText />Request a Quote ({cartCount})</button>
