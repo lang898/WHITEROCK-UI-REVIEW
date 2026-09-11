@@ -190,8 +190,8 @@ export const AdminView: React.FC<AdminViewProps> = ({
         : {
             brandName: 'WHITEROCK COMPANY LIMITED',
             tagline: 'Direct Countertop & Vanity Top Factory',
-            companyEmail: defaultSiteConfig.email || 'llang@whiterockstone.com',
-            directPhone: defaultSiteConfig.tel || '+84 0798 858 220',
+            companyEmail: defaultSiteConfig.email || 'somsn@msn.com',
+            directPhone: defaultSiteConfig.tel || '+84 979 922 681',
             whatsApp: defaultSiteConfig.whatsapp || '+84 798 858 220',
             vietnamAddress: defaultSiteConfig.address,
             tariffNotice: 'Customs treatment requires buyer broker confirmation',
@@ -203,8 +203,8 @@ export const AdminView: React.FC<AdminViewProps> = ({
       return {
         brandName: 'WHITEROCK COMPANY LIMITED',
         tagline: 'Direct Countertop & Vanity Top Factory',
-        companyEmail: 'llang@whiterockstone.com',
-        directPhone: '+84 0798 858 220',
+        companyEmail: 'somsn@msn.com',
+        directPhone: '+84 979 922 681',
         whatsApp: '+84 798 858 220',
         vietnamAddress: defaultSiteConfig.address,
         tariffNotice: 'Customs treatment requires buyer broker confirmation',
@@ -529,7 +529,7 @@ export const AdminView: React.FC<AdminViewProps> = ({
             <span className="w-2 h-2 rounded-full bg-stone-500 animate-pulse"></span>
             <span>Online</span>
           </div>
-          <span className="text-[10px] text-stone-500 font-medium">Binh Phuoc, Vietnam</span>
+          <span className="text-[10px] text-stone-500 font-medium">Dong Nai, Vietnam</span>
         </div>
       </div>
 

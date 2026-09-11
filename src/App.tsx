@@ -22,6 +22,7 @@ import { routeIdFromLocation, routePath, routesById, type RouteId } from './rout
 
 const AboutView = lazy(() => import('./views/AboutView').then((module) => ({ default: module.AboutView })));
 const ProductsView = lazy(() => import('./views/ProductsView').then((module) => ({ default: module.ProductsView })));
+const MaterialsView = lazy(() => import('./views/MaterialsView').then((module) => ({ default: module.MaterialsView })));
 const ColorsView = lazy(() => import('./views/ColorsView').then((module) => ({ default: module.ColorsView })));
 const FinishesEdgesView = lazy(() => import('./views/FinishesEdgesView').then((module) => ({ default: module.FinishesEdgesView })));
 const FactoryView = lazy(() => import('./views/FactoryView').then((module) => ({ default: module.FactoryView })));
@@ -40,6 +41,34 @@ const ColorModal = lazy(() => import('./components/ColorModal').then((module) =>
 const SocialShareModal = lazy(() => import('./components/SocialShareModal').then((module) => ({ default: module.SocialShareModal })));
 const GlobalSearch = lazy(() => import('./components/GlobalSearch').then((module) => ({ default: module.GlobalSearch })));
 const ComparePanel = lazy(() => import('./components/ComparePanel').then((module) => ({ default: module.ComparePanel })));
+
+const productProgramByRoute: Partial<Record<RouteId, 'Vanity Tops' | 'Kitchen Countertops' | 'Furniture Tops' | 'Project Products'>> = {
+  'product-vanity': 'Vanity Tops',
+  'product-kitchen': 'Kitchen Countertops',
+  'product-furniture': 'Furniture Tops',
+  'product-project': 'Project Products',
+};
+
+const colorFamilyByRoute: Partial<Record<RouteId, ColorItem['colorFamily']>> = {
+  'color-white': 'White',
+  'color-grey': 'Grey',
+  'color-black': 'Black',
+  'color-beige': 'Beige',
+  'color-green': 'Green',
+};
+
+const finishSectionByRoute: Partial<Record<RouteId, 'surface-finishes' | 'edge-profiles' | 'sink-integration'>> = {
+  'finish-surfaces': 'surface-finishes',
+  'finish-edges': 'edge-profiles',
+  'finish-sink': 'sink-integration',
+};
+
+const applicationCategoryByRoute: Partial<Record<RouteId, 'Kitchen' | 'Bathroom' | 'Hotel' | 'Commercial'>> = {
+  'application-kitchen': 'Kitchen',
+  'application-bathroom': 'Bathroom',
+  'application-hotel': 'Hotel',
+  'application-commercial': 'Commercial',
+};
 
 function AppContent() {
   const [currentTab, setCurrentTab] = useState<RouteId>(() => routeIdFromLocation());
@@ -311,17 +340,21 @@ function AppContent() {
           />
         )}
 
-        {currentTab === 'products' && (
+        {(currentTab === 'products' || currentTab.startsWith('product-')) && (
           <ProductsView
             onSelectProduct={(p) => setSelectedProduct(p)}
             onAddToCart={handleAddToCart}
             currentLocale={currentLocale}
             onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })}
             compareIds={compareItems.map((item) => item.id)}
+            setCurrentTab={handleTabChange}
+            program={productProgramByRoute[currentTab]}
           />
         )}
 
-        {currentTab === 'colors' && (
+        {currentTab === 'materials' && <MaterialsView setCurrentTab={handleTabChange} />}
+
+        {(currentTab === 'colors' || currentTab.startsWith('color-')) && (
           <ColorsView
             onSelectColor={(c) => setSelectedColor(c)}
             onAddColorSample={handleAddColorSample}
@@ -329,13 +362,15 @@ function AppContent() {
             onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })}
             compareIds={compareItems.map((item) => item.id)}
             setCurrentTab={handleTabChange}
+            family={colorFamilyByRoute[currentTab]}
           />
         )}
 
-        {currentTab === 'finishes' && (
+        {(currentTab === 'finishes' || currentTab.startsWith('finish-')) && (
           <FinishesEdgesView
             setCurrentTab={handleTabChange}
             currentLocale={currentLocale}
+            section={finishSectionByRoute[currentTab]}
           />
         )}
 
@@ -346,10 +381,12 @@ function AppContent() {
           />
         )}
 
-        {currentTab === 'applications' && (
+        {(currentTab === 'applications' || currentTab.startsWith('application-')) && (
           <ApplicationsView
             onSelectColor={(c) => setSelectedColor(c)}
             currentLocale={currentLocale}
+            setCurrentTab={handleTabChange}
+            category={applicationCategoryByRoute[currentTab]}
           />
         )}
 

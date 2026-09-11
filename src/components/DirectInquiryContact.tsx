@@ -39,6 +39,7 @@ export function DirectInquiryContact({
     <section className="wr-direct-contact" aria-labelledby={headingId || `${id}-title`}>
       <span className="wr-eyebrow">Contact the sales team</span>
       <h2 id={headingId || `${id}-title`}>{title}</h2>
+      <p><strong>{siteConfig.contactPerson}</strong> · {siteConfig.tel}</p>
       <p>{instructions}</p>
       <div className="wr-direct-contact__email">
         <label htmlFor={`${id}-email`}>Email</label>

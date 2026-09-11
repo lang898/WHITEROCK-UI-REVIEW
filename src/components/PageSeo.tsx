@@ -88,6 +88,13 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
             url: siteConfig.productionDomain,
             email: siteConfig.email,
             telephone: siteConfig.tel,
+            contactPoint: {
+              '@type': 'ContactPoint',
+              name: siteConfig.contactPerson,
+              contactType: 'sales',
+              telephone: siteConfig.tel,
+              email: siteConfig.email,
+            },
             address: {
               '@type': 'PostalAddress',
               streetAddress: siteConfig.address,

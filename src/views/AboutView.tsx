@@ -23,12 +23,12 @@ export const AboutView: React.FC<AboutViewProps> = ({ setCurrentTab }) => {
   return (
     <div className="wr-about-page">
       <header className="wr-about-hero">
-        <img src="/assets/owner/enhanced/factory-exterior-enhanced.jpg" alt="WHITEROCK stone manufacturing facility in Binh Phuoc, Vietnam" width="1448" height="1086" fetchPriority="high" />
+        <img src="/assets/owner/enhanced/factory-exterior-enhanced.jpg" alt="WHITEROCK stone manufacturing facility in Dong Nai, Vietnam" width="1448" height="1086" fetchPriority="high" />
         <div />
         <section>
           <span className="wr-eyebrow wr-eyebrow--light">WHITEROCK company profile</span>
           <h1>Stone experience carried into direct Vietnam manufacturing.</h1>
-          <p>WHITEROCK manufactures natural and engineered stone products in Binh Phuoc Province for international B2B buyers, with specifications and commercial terms confirmed for each project.</p>
+          <p>WHITEROCK manufactures natural and engineered stone products in Dong Nai Province for international B2B buyers, with specifications and commercial terms confirmed for each project.</p>
         </section>
       </header>
 

@@ -51,10 +51,17 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
   };
 
+  const isNavigationActive = (id: string) => currentTab === id ||
+    (id === 'products' && currentTab.startsWith('product-')) ||
+    (id === 'materials' && currentTab.startsWith('stone-')) ||
+    (id === 'colors' && currentTab.startsWith('color-')) ||
+    (id === 'finishes' && currentTab.startsWith('finish-')) ||
+    (id === 'applications' && currentTab.startsWith('application-'));
+
   return (
     <header className={`wr-header ${isScrolled ? 'is-scrolled' : ''}`.trim()}>
       <div className="wr-header__utility">
-        <p>{siteConfig.legalName} · Binh Phuoc, Vietnam</p>
+        <p>{siteConfig.legalName} · Dong Nai, Vietnam</p>
         <div>
           <a href={`mailto:${siteConfig.email}`}><Mail aria-hidden="true" />{siteConfig.email}</a>
           <a href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />WhatsApp</a>
@@ -69,13 +76,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         <nav className="wr-nav" aria-label="Primary navigation">
           {primaryNavigation.map((item) => {
-            if (item.id) {
-              return <a key={item.label} className={currentTab === item.id ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>;
+            if (!item.items?.length && item.id) {
+              return <a key={item.label} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>;
             }
-            const isActive = item.items?.some((child) => child.id === currentTab);
+            const isActive = Boolean(item.id && isNavigationActive(item.id)) || item.items?.some((child) => isNavigationActive(child.id));
             return (
               <details key={item.label} className={isActive ? 'is-active' : ''}>
-                <summary>{item.label}<ChevronDown aria-hidden="true" /></summary>
+                <summary>
+                  {item.id ? (
+                    <a href={routePath(item.id)} onClick={(event) => { event.preventDefault(); event.stopPropagation(); navigate(item.id!); event.currentTarget.closest('details')?.removeAttribute('open'); }}>{item.label}</a>
+                  ) : <span>{item.label}</span>}
+                  <ChevronDown aria-hidden="true" />
+                </summary>
                 <div className="wr-nav__menu">
                   {item.items?.map((child) => (
                     <a key={child.id} href={routePath(child.id)} onClick={(event) => { event.preventDefault(); navigate(child.id); event.currentTarget.closest('details')?.removeAttribute('open'); }}>{child.label}</a>
@@ -108,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({
               }}
             >
               <summary>{group.label}<ChevronDown aria-hidden="true" /></summary>
-              <div>{group.items?.map((item) => <a key={item.id} className={currentTab === item.id ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
+              <div>{group.items?.map((item) => <a key={item.id} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
             </details>
           ))}
           <div className="wr-mobile-nav__actions">

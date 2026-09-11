@@ -15,19 +15,25 @@ import {
   Eye,
   Check,
   Ruler,
-  Compass
+  Compass,
+  ArrowLeft
 } from 'lucide-react';
 import { finishes, edges } from '../data';
+import { routePath } from '../routes';
 import type { LocaleConfig } from '../types';
+
+export type FinishSection = 'surface-finishes' | 'edge-profiles' | 'sink-integration';
 
 interface FinishesEdgesViewProps {
   setCurrentTab: (tab: string) => void;
   currentLocale: LocaleConfig;
+  section?: FinishSection;
 }
 
 export const FinishesEdgesView: React.FC<FinishesEdgesViewProps> = ({
   setCurrentTab,
   currentLocale,
+  section,
 }) => {
   const [selectedEdgeTab, setSelectedEdgeTab] = useState<'standard' | 'luxury' | 'mitered'>('standard');
 
@@ -107,8 +113,38 @@ export const FinishesEdgesView: React.FC<FinishesEdgesViewProps> = ({
     return true;
   });
 
+  const sectionDefinitions: Array<{ id: FinishSection; routeId: string; name: string; description: string; image: string }> = [
+    { id: 'surface-finishes', routeId: 'finish-surfaces', name: 'Surface Finishes', description: 'Compare polished, honed, and textured finish references with their common visual and care considerations.', image: finishes[0]?.image || '/assets/owner/enhanced/edge-polisher-close-enhanced.jpg' },
+    { id: 'edge-profiles', routeId: 'finish-edges', name: 'Edge Profiles', description: 'Review standard, mitered, waterfall, and classic profiles before confirming thickness and geometry by drawing.', image: '/assets/owner/enhanced/edge-polisher-close-enhanced.jpg' },
+    { id: 'sink-integration', routeId: 'finish-sink', name: 'Sink & Assembly Details', description: 'Review sink cutouts, faucet layouts, optional assembly, and packing considerations for vanity top programs.', image: '/assets/owner/products/wr-vt31-veined-studio.jpg' },
+  ];
+
+  if (!section) {
+    return (
+      <div className="wr-catalog-page wr-taxonomy-page">
+        <header className="wr-catalog-hero wr-catalog-hero--centered">
+          <div><span className="wr-eyebrow">Fabrication options</span><h1>Choose the surface or detail to review.</h1></div>
+          <p>Open a category to compare finish references, edge geometry, or sink and assembly considerations. Final selections are confirmed by sample and approved drawing.</p>
+        </header>
+        <section className="wr-taxonomy-grid wr-taxonomy-grid--three" aria-label="Finish and fabrication categories">
+          {sectionDefinitions.map((item) => (
+            <article className="wr-taxonomy-card" key={item.id}>
+              <a href={routePath(item.routeId)} onClick={(event) => { event.preventDefault(); setCurrentTab(item.routeId); }}>
+                <figure><img src={item.image} alt={`${item.name} fabrication reference`} width="1200" height="900" loading="lazy" /></figure>
+                <div className="wr-taxonomy-card__body"><span className="wr-taxonomy-card__meta">Fabrication category</span><h2>{item.name}</h2><p>{item.description}</p><strong>Review options<ArrowRight /></strong></div>
+              </a>
+            </article>
+          ))}
+        </section>
+      </div>
+    );
+  }
+
+  const activeSection = sectionDefinitions.find((item) => item.id === section)!;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 space-y-24 sm:space-y-28">
+      <button className="wr-taxonomy-back" onClick={() => setCurrentTab('finishes')}><ArrowLeft />All fabrication categories</button>
       {/* Header Banner (Apple Style Display + Industrial Engineering) */}
       <div className="space-y-4 max-w-4xl">
         <div className="wr-panel-eyebrow">
@@ -116,15 +152,19 @@ export const FinishesEdgesView: React.FC<FinishesEdgesViewProps> = ({
           <span className="tech-badge">SURFACE AND EDGE REFERENCE LIBRARY</span>
         </div>
         <h1 className="text-4xl sm:text-6xl font-bold tracking-[-0.035em] text-[#1d1d1f]">
-          Surface Finishes & CNC Edge Details.
+          {activeSection.name}
         </h1>
         <p className="text-base sm:text-xl text-[#6e6e73] leading-relaxed max-w-3xl font-normal">
-          Compare polished, honed, and textured surfaces with common edge profiles. Final finish, thickness, dimensions, and acceptance limits are confirmed by sample and approved drawing.
+          {activeSection.description} Final finish, thickness, dimensions, and acceptance limits are confirmed by sample and approved drawing.
         </p>
       </div>
 
+      <nav className="wr-category-tabs" aria-label="Fabrication categories">
+        {sectionDefinitions.map((item) => <button className={item.id === section ? 'is-active' : ''} key={item.id} onClick={() => setCurrentTab(item.routeId)}>{item.name}</button>)}
+      </nav>
+
       {/* Part 1: Surface Polish & Textures */}
-      <section className="space-y-8">
+      {section === 'surface-finishes' && <section className="space-y-8">
         <div className="border-b border-black/[0.06] pb-4 flex items-center justify-between">
           <div>
             <div className="tech-badge text-[#86868b] mb-1">SPECULAR GLOSS & TEXTURE CALIBRATION</div>
@@ -185,10 +225,10 @@ export const FinishesEdgesView: React.FC<FinishesEdgesViewProps> = ({
             </div>
           ))}
         </div>
-      </section>
+      </section>}
 
       {/* Part 2: Comprehensive Architectural Edge Profiles */}
-      <section className="space-y-8 wr-card p-6 sm:p-10">
+      {section === 'edge-profiles' && <section className="space-y-8 wr-card p-6 sm:p-10">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-black/[0.06] pb-6">
           <div className="space-y-1">
             <div className="tech-badge text-[#86868b]">
@@ -269,10 +309,10 @@ export const FinishesEdgesView: React.FC<FinishesEdgesViewProps> = ({
             </div>
           ))}
         </div>
-      </section>
+      </section>}
 
       {/* Part 3: Buyer-approved sink integration options */}
-      <section className="wr-card wr-card--soft p-10 sm:p-14 space-y-8">
+      {section === 'sink-integration' && <section className="wr-card wr-card--soft p-10 sm:p-14 space-y-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="tech-badge text-[#6e6e73]">
@@ -308,7 +348,7 @@ export const FinishesEdgesView: React.FC<FinishesEdgesViewProps> = ({
             <p className="text-[#6e6e73]">Protection and crate details are confirmed for the selected product and route.</p>
           </div>
         </div>
-      </section>
+      </section>}
     </div>
   );
 };

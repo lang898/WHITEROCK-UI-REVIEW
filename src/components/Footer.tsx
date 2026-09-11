@@ -26,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
       ['products', t(currentLocale, 'products')], ['applications', t(currentLocale, 'applications')], ['samples', t(currentLocale, 'samples')]
     ] },
     { title: 'Materials', links: [
-      ['colors', t(currentLocale, 'colors')], ['finishes', t(currentLocale, 'finishes')], ['stone-marble', 'Marble'], ['stone-granite', 'Granite'], ['stone-quartz', 'Quartz'], ['stone-quartzite', 'Quartzite'], ['stone-travertine', 'Travertine'], ['stone-engineered-marble', 'Engineered Marble']
+      ['materials', 'All Materials'], ['colors', t(currentLocale, 'colors')], ['finishes', t(currentLocale, 'finishes')], ['stone-marble', 'Marble'], ['stone-granite', 'Granite'], ['stone-quartz', 'Quartz'], ['stone-quartzite', 'Quartzite'], ['stone-travertine', 'Travertine'], ['stone-engineered-marble', 'Engineered Marble']
     ] },
     { title: 'Company', links: [
       ['factory', t(currentLocale, 'factory')], ['about', t(currentLocale, 'about')], ['contact', t(currentLocale, 'contact')]
@@ -49,9 +49,10 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
             <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="WHITEROCK stone mark" width="80" height="80" />
             <span><strong>{siteConfig.brand}</strong><small>{siteConfig.tagline}</small></span>
           </div>
-          <p>Natural and engineered stone manufacturing in Binh Phuoc Province, Vietnam. Product specifications, availability, documentation, and commercial terms are documented in writing for each order.</p>
+          <p>Natural and engineered stone manufacturing in Dong Nai Province, Vietnam. Product specifications, availability, documentation, and commercial terms are documented in writing for each order.</p>
           <address>
             <span><MapPin />{siteConfig.address}</span>
+            <span><strong>Contact:</strong> {siteConfig.contactPerson}</span>
             <a href={`mailto:${siteConfig.email}`}><Mail />{siteConfig.email}</a>
             <a href={`tel:${siteConfig.telHref}`}><Phone />{siteConfig.tel}</a>
           </address>

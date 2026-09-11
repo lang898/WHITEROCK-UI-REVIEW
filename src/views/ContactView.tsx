@@ -91,10 +91,11 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
             <Building2 aria-hidden="true" />
             <span className="wr-eyebrow">Vietnam manufacturing</span>
             <h2>Direct factory contact.</h2>
-            <p>WHITEROCK manufactures vanity tops, kitchen countertops, furniture surfaces, and project components in Binh Phuoc Province.</p>
+            <p>WHITEROCK manufactures vanity tops, kitchen countertops, furniture surfaces, and project components in Dong Nai Province.</p>
           </div>
           <address>
             <span><MapPin aria-hidden="true" />{siteConfig.address}</span>
+            <span><Building2 aria-hidden="true" />Contact: {siteConfig.contactPerson}</span>
             <a href={`mailto:${siteConfig.email}`}><Mail aria-hidden="true" />{siteConfig.email}<ArrowUpRight aria-hidden="true" /></a>
             <a href={`tel:${siteConfig.telHref}`}><Phone aria-hidden="true" />{siteConfig.tel}<ArrowUpRight aria-hidden="true" /></a>
             <a href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />WhatsApp<ArrowUpRight aria-hidden="true" /></a>

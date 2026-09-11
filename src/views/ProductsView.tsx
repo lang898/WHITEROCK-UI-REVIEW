@@ -1,9 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import { ArrowRight, Check, GitCompare, Plus, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, ArrowRight, Check, FileText, GitCompare, Search } from 'lucide-react';
 import { products } from '../data';
 import { t } from '../i18n';
+import { routePath } from '../routes';
 import { formatMeasurement } from '../utils/measurements';
 import type { LocaleConfig, ProductItem } from '../types';
+
+export type ProductProgram = 'Vanity Tops' | 'Kitchen Countertops' | 'Furniture Tops' | 'Project Products';
 
 interface ProductsViewProps {
   onSelectProduct: (product: ProductItem) => void;
@@ -11,55 +14,138 @@ interface ProductsViewProps {
   currentLocale: LocaleConfig;
   onToggleCompare: (product: ProductItem) => void;
   compareIds: string[];
+  setCurrentTab: (tab: string) => void;
+  program?: ProductProgram;
 }
 
+const productProgramFor = (product: ProductItem): ProductProgram => {
+  if (product.category === 'Bathroom Vanity Top') return 'Vanity Tops';
+  if (product.category === 'Kitchen Countertop') return 'Kitchen Countertops';
+  if (product.category === 'Furniture Top' || product.category === 'Stone Furniture') return 'Furniture Tops';
+  return 'Project Products';
+};
+
+const programDefinitions: Array<{
+  name: ProductProgram;
+  routeId: string;
+  representativeSku: string;
+  description: string;
+}> = [
+  {
+    name: 'Vanity Tops',
+    routeId: 'product-vanity',
+    representativeSku: 'WR-VT31',
+    description: 'Single- and double-bowl vanity top references with sink cutouts, backsplashes, edge details, and dimensions confirmed by drawing.',
+  },
+  {
+    name: 'Kitchen Countertops',
+    routeId: 'product-kitchen',
+    representativeSku: 'WR-KT-QC',
+    description: 'Countertop, island, backsplash, and waterfall directions developed around the selected material, layout, edge, and approved drawing.',
+  },
+  {
+    name: 'Furniture Tops',
+    routeId: 'product-furniture',
+    representativeSku: 'WR-FR-OT',
+    description: 'Round, oval, rectangular, and custom stone surfaces for dining, coffee, console, and hospitality furniture programs.',
+  },
+  {
+    name: 'Project Products',
+    routeId: 'product-project',
+    representativeSku: 'WR-HT',
+    description: 'Commercial, hospitality, architectural, waterjet, fireplace, sill, and coordinated stone packages reviewed project by project.',
+  },
+];
+
 export const ProductsView: React.FC<ProductsViewProps> = ({
-  onSelectProduct, onAddToCart, currentLocale, onToggleCompare, compareIds
+  onSelectProduct,
+  onAddToCart,
+  currentLocale,
+  onToggleCompare,
+  compareIds,
+  setCurrentTab,
+  program,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const categories = useMemo(() => ['All', 'Vanity Tops', 'Kitchen Countertops', 'Furniture Tops', 'Project Products'], []);
-  const representativeSkus = useMemo(() => [
-    'WR-VT24', 'WR-VT31', 'WR-VT-SW', 'WR-VT-BG', 'WR-VT-RM',
-    'WR-KT-QC', 'WR-KT-NS', 'WR-FR-RM', 'WR-FR-OT', 'WR-HT'
-  ], []);
 
-  const productProgramFor = (product: ProductItem) => {
-    if (product.category === 'Bathroom Vanity Top') return 'Vanity Tops';
-    if (product.category === 'Kitchen Countertop') return 'Kitchen Countertops';
-    if (product.category === 'Furniture Top' || product.category === 'Stone Furniture') return 'Furniture Tops';
-    return 'Project Products';
-  };
+  if (!program) {
+    return (
+      <div className="wr-catalog-page wr-taxonomy-page">
+        <header className="wr-catalog-hero wr-catalog-hero--centered">
+          <div><span className="wr-eyebrow">{t(currentLocale, 'productCatalog')}</span><h1>Products</h1></div>
+          <p>Select a product category to see its design references, dimensions, materials, finishes, packing information, and quotation details.</p>
+        </header>
 
+        <section className="wr-taxonomy-grid" aria-label="Product categories">
+          {programDefinitions.map((definition) => {
+            const representative = products.find((item) => item.sku === definition.representativeSku);
+            const count = products.filter((item) => productProgramFor(item) === definition.name).length;
+            if (!representative) return null;
+            return (
+              <article className="wr-taxonomy-card" key={definition.name}>
+                <a href={routePath(definition.routeId)} onClick={(event) => { event.preventDefault(); setCurrentTab(definition.routeId); }}>
+                  <figure>
+                    <picture>
+                      {representative.imageAvif && <source srcSet={representative.imageAvif} type="image/avif" />}
+                      {representative.imageWebp && <source srcSet={representative.imageWebp} type="image/webp" />}
+                      <img
+                        src={representative.image}
+                        alt={representative.imageAlt || representative.title}
+                        width={representative.imageWidth || 1536}
+                        height={representative.imageHeight || 1024}
+                        loading="lazy"
+                      />
+                    </picture>
+                  </figure>
+                  <div className="wr-taxonomy-card__body">
+                    <span className="wr-taxonomy-card__meta">{count} design references</span>
+                    <h2>{definition.name}</h2>
+                    <p>{definition.description}</p>
+                    <strong>View category<ArrowRight /></strong>
+                  </div>
+                </a>
+              </article>
+            );
+          })}
+        </section>
+      </div>
+    );
+  }
+
+  const definition = programDefinitions.find((item) => item.name === program)!;
   const filteredProducts = products.filter((product) => {
     const search = searchQuery.trim().toLowerCase();
-    return (selectedCategory === 'All' || productProgramFor(product) === selectedCategory) &&
+    return productProgramFor(product) === program &&
       (!search || [product.title, product.sku, product.material, product.description].join(' ').toLowerCase().includes(search));
   });
-  const displayedProducts = selectedCategory === 'All' && !searchQuery.trim()
-    ? representativeSkus.map((sku) => products.find((product) => product.sku === sku)!).filter(Boolean)
-    : filteredProducts;
 
   return (
     <div className="wr-catalog-page">
+      <button className="wr-taxonomy-back" onClick={() => setCurrentTab('products')}><ArrowLeft />All product categories</button>
       <header className="wr-catalog-hero wr-catalog-hero--centered">
-        <div><span className="wr-eyebrow">{t(currentLocale, 'productCatalog')}</span><h1>Products</h1></div>
-        <p>Browse the range, then open any item for dimensions, materials, finishes, packing, and quotation details.</p>
+        <div><span className="wr-eyebrow">Product category</span><h1>{program}</h1></div>
+        <p>{definition.description} Open any reference to review the available specification fields and prepare an RFQ.</p>
       </header>
 
       <div className="wr-catalog-layout">
-        <aside className="wr-filter-rail" aria-label="Product filters">
-          <div className="wr-filter-rail__heading"><span>Filter catalog</span><small>{displayedProducts.length} results</small></div>
+        <aside className="wr-filter-rail" aria-label="Product category and search">
+          <div className="wr-filter-rail__heading"><span>{program}</span><small>{filteredProducts.length} results</small></div>
           <label className="wr-search-input"><Search /><input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={t(currentLocale, 'searchPlaceholder')} /></label>
-          <fieldset><legend>Category</legend>{categories.map((category) => <button key={category} className={selectedCategory === category ? 'is-active' : ''} onClick={() => setSelectedCategory(category)}><span>{category === 'All' ? t(currentLocale, 'all') : category}</span>{selectedCategory === category && <Check />}</button>)}</fieldset>
+          <fieldset>
+            <legend>Product categories</legend>
+            {programDefinitions.map((item) => (
+              <button key={item.name} className={item.name === program ? 'is-active' : ''} onClick={() => setCurrentTab(item.routeId)}>
+                <span>{item.name}</span>{item.name === program && <Check />}
+              </button>
+            ))}
+          </fieldset>
           <div className="wr-filter-note"><strong>MM + IMPERIAL REFERENCE</strong><p>Millimetres are primary. Rounded inch references support North American review; final dimensions require approved drawings.</p></div>
           {!compareIds.length && <div className="wr-filter-note wr-compare-empty"><GitCompare /><strong>No comparison selected</strong><p>Select two or three products to compare specifications side by side.</p></div>}
         </aside>
 
         <main className="wr-product-grid" aria-live="polite">
-          {displayedProducts.map((product) => {
+          {filteredProducts.map((product) => {
             const compared = compareIds.includes(`product:${product.sku}`);
-            const dimensions = product.specs.Size || product.specs.Sizes || product.dimensions;
             return (
               <article className="wr-catalog-card" key={product.sku}>
                 <button className="wr-catalog-card__media" onClick={() => onSelectProduct(product)} aria-label={`View ${product.title}`}>
@@ -76,37 +162,21 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   <h2>{product.title}</h2>
                   <p>{formatMeasurement(product.description)}</p>
                   <dl>
-                    <div><dt>{t(currentLocale, 'dimensions')}</dt><dd>{formatMeasurement(dimensions)}</dd></div>
-                    <div><dt>{t(currentLocale, 'finish')}</dt><dd>{product.specs.Finish || 'Confirm by sample'}</dd></div>
-                    <div><dt>MOQ</dt><dd>{product.specs.MOQ || product.moq || 'Confirm by quotation'}</dd></div>
+                    <div><dt>Dimensions</dt><dd>{formatMeasurement(product.dimensions || 'By approved drawing')}</dd></div>
+                    <div><dt>Thickness</dt><dd>{formatMeasurement(product.thicknesses?.join(', ') || 'Confirm by quotation')}</dd></div>
+                    <div><dt>Edge</dt><dd>{product.edges?.join(', ') || 'By approved drawing'}</dd></div>
                   </dl>
                   <div className="wr-catalog-card__actions">
-                    <button className="wr-button wr-button--primary" onClick={() => onAddToCart(product)}><Plus />{t(currentLocale, 'addRfq')}</button>
-                    <button className={`wr-button wr-button--ghost ${compared ? 'is-active' : ''}`} onClick={() => onToggleCompare(product)}><GitCompare />{compared ? t(currentLocale, 'compared') : t(currentLocale, 'compare')}</button>
-                    <button className="wr-icon-button" onClick={() => onSelectProduct(product)} aria-label={t(currentLocale, 'fullSpecs')}><ArrowRight /></button>
+                    <button className="wr-button wr-button--primary" onClick={() => onAddToCart(product)}><FileText />Add to RFQ</button>
+                    <button className="wr-button wr-button--secondary" onClick={() => onToggleCompare(product)} aria-pressed={compared}><GitCompare />{compared ? 'Selected' : 'Compare'}</button>
                   </div>
                 </div>
               </article>
             );
           })}
-          {!displayedProducts.length && <div className="wr-empty-state"><h2>{t(currentLocale, 'noResults')}</h2><button className="wr-button wr-button--secondary" onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}>{t(currentLocale, 'clear')}</button></div>}
+          {!filteredProducts.length && <div className="wr-empty-state"><p>No matching references in this category.</p><button className="wr-button wr-button--secondary" onClick={() => setSearchQuery('')}>Clear search</button></div>}
         </main>
       </div>
-
-      <section className="wr-size-reference" aria-labelledby="size-reference-title">
-        <div><span className="wr-eyebrow">Common size reference</span><h2 id="size-reference-title">North American vanity and counter dimensions.</h2><p>Use these dimensions to begin the discussion. Sink model, cabinet, overhang, backsplash, finished edge, and final drawing govern production.</p></div>
-        <div className="wr-size-reference__table" role="table" aria-label="Common North American stone top sizes">
-          <div role="row"><strong role="columnheader">Program</strong><strong role="columnheader">Inches</strong><strong role="columnheader">Millimetres</strong></div>
-          {[
-            ['Single vanity', '25 × 22 in', '635 × 559 mm'],
-            ['Single vanity', '31 × 22 in', '787 × 559 mm'],
-            ['Single vanity', '37 × 22 in', '940 × 559 mm'],
-            ['Single / offset vanity', '49 × 22 in', '1245 × 559 mm'],
-            ['Double vanity', '61 × 22 in', '1549 × 559 mm'],
-            ['Kitchen counter depth', '25½ in', '648 mm'],
-          ].map(([program, imperial, metric]) => <div role="row" key={`${program}-${imperial}`}><span role="cell">{program}</span><span role="cell">{imperial}</span><span role="cell">{metric}</span></div>)}
-        </div>
-      </section>
     </div>
   );
 };

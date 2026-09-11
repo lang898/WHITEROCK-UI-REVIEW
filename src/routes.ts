@@ -2,10 +2,27 @@ export type RouteId =
   | 'home'
   | 'about'
   | 'products'
+  | 'product-vanity'
+  | 'product-kitchen'
+  | 'product-furniture'
+  | 'product-project'
+  | 'materials'
   | 'colors'
+  | 'color-white'
+  | 'color-grey'
+  | 'color-black'
+  | 'color-beige'
+  | 'color-green'
   | 'factory'
   | 'finishes'
+  | 'finish-surfaces'
+  | 'finish-edges'
+  | 'finish-sink'
   | 'applications'
+  | 'application-kitchen'
+  | 'application-bathroom'
+  | 'application-hotel'
+  | 'application-commercial'
   | 'partners'
   | 'resources'
   | 'contact'
@@ -39,9 +56,37 @@ export const stoneMaterialNavigation: readonly NavigationItem[] = [
   { id: 'stone-engineered-marble', label: 'Engineered Marble' },
 ] as const;
 
+export const productNavigation: readonly NavigationItem[] = [
+  { id: 'product-vanity', label: 'Vanity Tops' },
+  { id: 'product-kitchen', label: 'Kitchen Countertops' },
+  { id: 'product-furniture', label: 'Furniture Tops' },
+  { id: 'product-project', label: 'Project Products' },
+] as const;
+
+export const colorNavigation: readonly NavigationItem[] = [
+  { id: 'color-white', label: 'White' },
+  { id: 'color-grey', label: 'Grey' },
+  { id: 'color-black', label: 'Black' },
+  { id: 'color-beige', label: 'Beige' },
+  { id: 'color-green', label: 'Green' },
+] as const;
+
+export const finishNavigation: readonly NavigationItem[] = [
+  { id: 'finish-surfaces', label: 'Surface Finishes' },
+  { id: 'finish-edges', label: 'Edge Profiles' },
+  { id: 'finish-sink', label: 'Sink & Assembly Details' },
+] as const;
+
+export const applicationNavigation: readonly NavigationItem[] = [
+  { id: 'application-kitchen', label: 'Kitchen' },
+  { id: 'application-bathroom', label: 'Bathroom' },
+  { id: 'application-hotel', label: 'Hotel' },
+  { id: 'application-commercial', label: 'Commercial' },
+] as const;
+
 export const primaryNavigation: readonly NavigationGroup[] = [
   { label: 'Products', id: 'products' },
-  { label: 'Materials', items: stoneMaterialNavigation },
+  { label: 'Materials', id: 'materials', items: stoneMaterialNavigation },
   { label: 'Colors', id: 'colors' },
   { label: 'Finishes & Edges', id: 'finishes' },
   { label: 'Factory', id: 'factory' },
@@ -63,10 +108,10 @@ export const primaryNavigation: readonly NavigationGroup[] = [
 ] as const;
 
 export const mobileNavigation: readonly NavigationGroup[] = [
-  { label: 'Products', items: [{ id: 'products', label: 'Products' }] },
-  { label: 'Materials', items: stoneMaterialNavigation },
-  { label: 'Colors', items: [{ id: 'colors', label: 'Color Library' }] },
-  { label: 'Finishes & Edges', items: [{ id: 'finishes', label: 'Finishes & Edges' }] },
+  { label: 'Products', items: [{ id: 'products', label: 'All Product Categories' }, ...productNavigation] },
+  { label: 'Materials', items: [{ id: 'materials', label: 'All Material Types' }, ...stoneMaterialNavigation] },
+  { label: 'Colors', items: [{ id: 'colors', label: 'All Color Families' }, ...colorNavigation] },
+  { label: 'Finishes & Edges', items: [{ id: 'finishes', label: 'All Fabrication Options' }, ...finishNavigation] },
   {
     label: 'Company',
     items: [
@@ -78,7 +123,8 @@ export const mobileNavigation: readonly NavigationGroup[] = [
   {
     label: 'Resources',
     items: [
-      { id: 'applications', label: 'Applications' },
+      { id: 'applications', label: 'All Applications' },
+      ...applicationNavigation,
       { id: 'resources', label: 'Technical Resources' },
       { id: 'partners', label: 'Trade Program' },
     ],
@@ -117,10 +163,80 @@ export const routes: RouteDefinition[] = [
     schemaType: 'CollectionPage',
   },
   {
+    id: 'product-vanity',
+    path: '/products/vanity-tops/',
+    title: 'Vanity Tops | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review vanity top designs, dimensions, materials, sink cutouts, finishes, and packing references for drawing-led stone fabrication.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'product-kitchen',
+    path: '/products/kitchen-countertops/',
+    title: 'Kitchen Countertops | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review kitchen countertop and island designs, materials, finishes, edge details, and drawing-led fabrication options.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'product-furniture',
+    path: '/products/furniture-tops/',
+    title: 'Furniture Tops | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review stone furniture top designs for dining, coffee, console, and hospitality programs made to approved drawings.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'product-project',
+    path: '/products/project-products/',
+    title: 'Project Products | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review custom project stone products, architectural pieces, commercial programs, and fabrication references.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'materials',
+    path: '/materials/',
+    title: 'Stone Materials | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Choose from marble, granite, quartz, quartzite, travertine, and engineered marble before reviewing colors and fabrication options.',
+    schemaType: 'CollectionPage',
+  },
+  {
     id: 'colors',
     path: '/colors/',
     title: 'Color Library | WHITEROCK Vietnam Stone Manufacturer',
     description: 'Compare Vietnam granite, marble, and quartz colors by finish, thickness, and format from a stone fabrication factory and quartz supplier.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'color-white',
+    path: '/colors/white/',
+    title: 'White Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Compare white marble, quartz, quartzite, and engineered stone color directions, specifications, and sample options.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'color-grey',
+    path: '/colors/grey/',
+    title: 'Grey Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Compare grey granite, quartz, quartzite, and engineered stone color directions, specifications, and sample options.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'color-black',
+    path: '/colors/black/',
+    title: 'Black Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Compare black granite and marble color directions, specifications, finishes, and physical sample options.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'color-beige',
+    path: '/colors/beige/',
+    title: 'Beige Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Compare beige marble, quartz, travertine, and engineered stone color directions and physical sample options.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'color-green',
+    path: '/colors/green/',
+    title: 'Green Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Compare green marble and granite color directions, specifications, finishes, and physical sample options.',
     schemaType: 'CollectionPage',
   },
   {
@@ -138,10 +254,59 @@ export const routes: RouteDefinition[] = [
     schemaType: 'CollectionPage',
   },
   {
+    id: 'finish-surfaces',
+    path: '/finishes/surface-finishes/',
+    title: 'Surface Finishes | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review polished, honed, and textured stone surface finish references and recommended applications.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'finish-edges',
+    path: '/finishes/edge-profiles/',
+    title: 'Stone Edge Profiles | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review standard, mitered, waterfall, and classic stone edge profile specifications and applications.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'finish-sink',
+    path: '/finishes/sink-integration/',
+    title: 'Sink and Assembly Details | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Review drawing-led sink cutout, faucet layout, assembly, and packing considerations for vanity top programs.',
+    schemaType: 'CollectionPage',
+  },
+  {
     id: 'applications',
     path: '/applications/',
     title: 'Applications | WHITEROCK Vietnam Stone Manufacturer',
     description: 'Explore kitchen, bathroom, hospitality, and commercial applications from a Vietnam granite, stone fabrication, and quartz supplier.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'application-kitchen',
+    path: '/applications/kitchen/',
+    title: 'Kitchen Applications | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Explore stone kitchen countertops, islands, backsplashes, materials, and surface directions.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'application-bathroom',
+    path: '/applications/bathroom/',
+    title: 'Bathroom Applications | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Explore vanity top, multi-family bathroom, and wet-area stone application directions.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'application-hotel',
+    path: '/applications/hotel/',
+    title: 'Hotel Applications | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Explore hotel bathroom, lobby, reception, and hospitality stone application directions.',
+    schemaType: 'CollectionPage',
+  },
+  {
+    id: 'application-commercial',
+    path: '/applications/commercial/',
+    title: 'Commercial Applications | WHITEROCK Vietnam Stone Manufacturer',
+    description: 'Explore commercial, retail, restaurant, furniture, and outdoor stone application directions.',
     schemaType: 'CollectionPage',
   },
   {

@@ -165,11 +165,11 @@ export const WhiterockHeritageSection: React.FC<WhiterockHeritageSectionProps> =
             </div>
             
             <h3 className="text-2xl sm:text-3xl font-bold text-[#1d1d1f] tracking-tight">
-              Binh Phuoc Manufacturing for International Stone Programs
+              Dong Nai Manufacturing for International Stone Programs
             </h3>
             
             <p className="text-sm text-[#6e6e73] leading-relaxed">
-              Company information identifies a <strong>20,000 m² manufacturing facility in Binh Phuoc, Vietnam</strong> operated by Công Ty TNHH Whiterock. Product origin, trade treatment, specifications, and shipping terms are confirmed for each order.
+              Company information identifies a <strong>20,000 m² manufacturing facility in Dong Nai, Vietnam</strong> operated by Công Ty TNHH Whiterock. Product origin, trade treatment, specifications, and shipping terms are confirmed for each order.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

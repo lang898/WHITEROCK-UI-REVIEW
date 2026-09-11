@@ -61,7 +61,7 @@ const factoryGallery = [
   { file: 'edge-line-wide-enhanced', alt: 'Wide view of the stone edge-processing area', caption: 'Edge-processing area' },
   { file: 'edge-line-workstation-enhanced', alt: 'Stone edge-line workstation with production racks', caption: 'Edge-line workstation' },
   { file: 'edge-polisher-close-enhanced', alt: 'Close view of stone edge-polishing equipment', caption: 'Edge polishing' },
-  { file: 'factory-exterior-enhanced', alt: 'Exterior of the WHITEROCK manufacturing facility in Vietnam', caption: 'Binh Phuoc facility' },
+  { file: 'factory-exterior-enhanced', alt: 'Exterior of the WHITEROCK manufacturing facility in Vietnam', caption: 'Dong Nai facility' },
   { file: 'manual-polishing-bay-enhanced', alt: 'Manual polishing bay for stone components', caption: 'Manual polishing bay' },
   { file: 'vanity-inspection-sequence-a-enhanced', alt: 'Vanity tops aligned for dimensional and visual review', caption: 'Vanity inspection sequence' },
   { file: 'vanity-inspection-sequence-b-enhanced', alt: 'Finished vanity tops arranged for order inspection', caption: 'Finished-top review' },
@@ -121,7 +121,7 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
         <img src="/assets/owner/enhanced/production-hall-aisle-enhanced.jpg" srcSet="/assets/owner/enhanced/production-hall-aisle-enhanced-720.webp 720w, /assets/owner/enhanced/production-hall-aisle-enhanced-1280.webp 1280w, /assets/owner/enhanced/production-hall-aisle-enhanced.jpg 1448w" sizes="100vw" alt="Stone production hall at the WHITEROCK Vietnam factory" width="1448" height="1086" loading="eager" fetchPriority="high" />
         <div className="wr-factory-page__overlay" />
         <div className="wr-factory-page__intro">
-          <span className="wr-eyebrow wr-eyebrow--light">Binh Phuoc · Vietnam</span>
+          <span className="wr-eyebrow wr-eyebrow--light">Dong Nai · Vietnam</span>
           <h1>Direct stone manufacturing, organized around the drawing.</h1>
           <p>WHITEROCK operates a 20,000 m² stone manufacturing site for vanity tops, kitchen countertops, furniture surfaces, and project components.</p>
         </div>
@@ -150,7 +150,7 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
         <div className="wr-section-heading wr-section-intro">
           <span className="wr-eyebrow">Production floor</span>
           <h2 id="factory-gallery-title">Real stations across the manufacturing sequence.</h2>
-          <p>Review cutting, edge processing, hand finishing, product inspection, staging, and the Binh Phuoc facility.</p>
+          <p>Review cutting, edge processing, hand finishing, product inspection, staging, and the Dong Nai facility.</p>
         </div>
         <div className="wr-factory-gallery__grid">
           {factoryGallery.map((item) => (

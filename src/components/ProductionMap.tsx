@@ -138,7 +138,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
             Direct Vietnam Fabrication & Ocean Shipping Grid
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-            Company information describes a <strong>20,000 m² production site in Binh Phuoc Province</strong>. Product origin, customs treatment, shipping route, transit time, and required documents are confirmed for each shipment.
+            Company information describes a <strong>20,000 m² production site in Dong Nai Province</strong>. Product origin, customs treatment, shipping route, transit time, and required documents are confirmed for each shipment.
           </p>
         </div>
 
@@ -179,7 +179,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-stone-600 animate-pulse" />
               <span className="text-stone-700 font-medium">
-                Production Hub: <strong className="text-stone-950 font-bold">Binh Phuoc Province, Vietnam</strong>
+                Production Hub: <strong className="text-stone-950 font-bold">Dong Nai Province, Vietnam</strong>
               </span>
             </div>
 
@@ -419,7 +419,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                     20,000 m² Facility · Owner Reported
                   </text>
                   <text x="220" y="439" fill="#d97706" fontSize="8.5" fontFamily="monospace">
-                    Binh Phuoc · Capacity by Current Quote
+                    Dong Nai · Capacity by Current Quote
                   </text>
                 </g>
 
@@ -431,7 +431,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                   </text>
                   <circle cx="20" cy="32" r="4.5" fill="#059669" />
                   <text x="32" y="35" fill="#334155" fontSize="8.5" fontFamily="sans-serif">
-                    20,000 m² Binh Phuoc Site
+                    20,000 m² Dong Nai Site
                   </text>
                   <circle cx="20" cy="48" r="4.5" fill="#2563eb" />
                   <text x="32" y="51" fill="#334155" fontSize="8.5" fontFamily="sans-serif">
@@ -487,12 +487,12 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                 WHITEROCK COMPANY LIMITED
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Company information describes a stone manufacturing site in Binh Phuoc Province serving order-specific commercial and residential surface programs.
+                Company information describes a stone manufacturing site in Dong Nai Province serving order-specific commercial and residential surface programs.
               </p>
 
               <div className="space-y-2.5 pt-2">
                 {[
-                  { label: 'Address', val: 'Binh Phuoc Province, Vietnam; confirm full delivery address before visiting' },
+                  { label: 'Address', val: 'Dong Nai Province, Vietnam; confirm full delivery address before visiting' },
                   { label: 'Annual Output', val: 'Current capacity and allocation confirmed during quotation' },
                   { label: 'Primary Materials', val: 'Engineered Quartz, Natural Carrara/Calacatta Marble, Granite' },
                   { label: 'Target Market', val: 'North America (Hotels, Multi-Family, Kitchen & Bath Distributors)' }

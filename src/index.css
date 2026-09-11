@@ -190,6 +190,7 @@
 .wr-nav > a, .wr-nav summary { min-height: 100%; display: flex; align-items: center; gap: 0.25rem; padding: 0 0.68rem; border-bottom: 2px solid transparent; color: var(--wr-muted); font-size: 0.74rem; font-weight: 650; cursor: pointer; list-style: none; }
 .wr-nav summary::-webkit-details-marker { display: none; }
 .wr-nav summary svg { width: 0.75rem; height: 0.75rem; }
+.wr-nav summary > a, .wr-nav summary > span { color: inherit; }
 .wr-nav > a:hover, .wr-nav > a.is-active, .wr-nav details.is-active > summary, .wr-nav summary:hover { border-bottom-color: var(--wr-accent); color: var(--wr-accent); }
 .wr-nav details { position: relative; }
 .wr-nav__menu { position: absolute; left: 0; top: calc(100% + 1px); width: 210px; padding: 0.5rem; border: 1px solid var(--wr-line); border-radius: var(--wr-radius); background: white; box-shadow: var(--wr-shadow-2); }
@@ -361,6 +362,31 @@
 .wr-catalog-hero--centered { display: block; width: min(100%, 66rem); margin-inline: auto; text-align: center; }
 .wr-catalog-hero--centered h1 { max-width: 58rem; margin-inline: auto; }
 .wr-catalog-hero--centered > p { max-width: 48rem; margin: 1.25rem auto 0; }
+.wr-taxonomy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 3rem; border: 1px solid var(--wr-line); background: var(--wr-line); }
+.wr-taxonomy-grid--three, .wr-taxonomy-grid--color { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.wr-taxonomy-card { min-width: 0; background: white; }
+.wr-taxonomy-card > a { height: 100%; display: flex; flex-direction: column; color: var(--wr-ink); }
+.wr-taxonomy-card figure { aspect-ratio: 4 / 3; margin: 0; overflow: hidden; background: var(--wr-mist); }
+.wr-taxonomy-card figure picture, .wr-taxonomy-card figure img { display: block; width: 100%; height: 100%; }
+.wr-taxonomy-card figure img { object-fit: cover; transition: transform 700ms var(--wr-ease); }
+.wr-taxonomy-card:hover figure img { transform: scale(1.025); }
+.wr-taxonomy-card__body { min-height: 230px; display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 1.6rem; }
+.wr-taxonomy-card__meta { display: flex; align-items: center; gap: 0.4rem; color: var(--wr-muted); font-size: 0.68rem; font-weight: 750; text-transform: uppercase; }
+.wr-taxonomy-card__meta svg { width: 0.9rem; height: 0.9rem; }
+.wr-taxonomy-card h2 { margin-top: 0.65rem; font-family: var(--wr-serif); font-size: 1.8rem; font-weight: 400; }
+.wr-taxonomy-card p { margin: 0.75rem 0 1.4rem; color: var(--wr-muted); font-size: 0.78rem; line-height: 1.7; }
+.wr-taxonomy-card__body > strong { display: flex; align-items: center; gap: 0.45rem; margin-top: auto; color: var(--wr-accent); font-size: 0.72rem; }
+.wr-taxonomy-card__body > strong svg { width: 0.9rem; height: 0.9rem; transition: transform 180ms var(--wr-ease); }
+.wr-taxonomy-card:hover .wr-taxonomy-card__body > strong svg { transform: translateX(3px); }
+.wr-taxonomy-card__swatch { aspect-ratio: 1; }
+.wr-taxonomy-back { display: inline-flex; align-items: center; gap: 0.45rem; margin-bottom: 1.25rem; color: var(--wr-muted); font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+.wr-taxonomy-back:hover { color: var(--wr-accent); }
+.wr-taxonomy-back svg { width: 0.9rem; height: 0.9rem; }
+.wr-taxonomy-support { margin-top: var(--wr-space-7); padding-top: var(--wr-space-6); border-top: 1px solid var(--wr-line); }
+.wr-taxonomy-support .wr-visualizer { margin-top: 2rem; }
+.wr-load-more { grid-column: 1 / -1; min-height: 56px; display: flex; align-items: center; justify-content: center; gap: 0.45rem; border: 1px solid var(--wr-line); color: var(--wr-accent); font-size: 0.75rem; font-weight: 750; cursor: pointer; }
+.wr-load-more:hover { background: var(--wr-mist); }
+.wr-load-more svg { width: 0.9rem; }
 .wr-product-programs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--wr-line); }
 .wr-product-programs button { min-height: 176px; display: grid; grid-template-columns: 30px 1fr 20px; gap: 0.8rem; align-items: start; padding: 1.6rem 1.2rem; border-right: 1px solid var(--wr-line); background: var(--wr-paper); color: var(--wr-ink); text-align: left; cursor: pointer; transition: background-color 180ms var(--wr-ease), color 180ms var(--wr-ease); }
 .wr-product-programs button:last-child { border-right: 0; }
@@ -590,6 +616,7 @@
   .wr-mobile-nav a.is-active { border-color: var(--wr-accent); background: var(--wr-soft); color: var(--wr-accent); }
   .wr-mobile-nav .wr-button { grid-column: 1 / -1; }
   .wr-swatch-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .wr-taxonomy-grid--three, .wr-taxonomy-grid--color { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wr-product-programs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wr-product-programs { gap: 1px; background: var(--wr-line); }
   .wr-product-programs button { border: 0; }
@@ -655,6 +682,8 @@
   .wr-filter-rail fieldset legend { width: 100%; }
   .wr-filter-rail fieldset button { border: 1px solid var(--wr-line); background: white; }
   .wr-product-grid, .wr-swatch-grid { grid-template-columns: 1fr; }
+  .wr-taxonomy-grid, .wr-taxonomy-grid--three, .wr-taxonomy-grid--color { grid-template-columns: 1fr; }
+  .wr-taxonomy-card__body { min-height: 0; }
   .wr-search-results { grid-template-columns: 1fr; }
   .wr-search-results section:last-child { grid-column: auto; }
   .wr-compare-tray { bottom: 4.6rem; grid-template-columns: 1fr auto; }
@@ -1076,6 +1105,11 @@ main button img, main a img, .wr-gallery-card img { cursor: pointer; }
   .wr-about-contact p { color: var(--wr-muted); font-size: 0.875rem; line-height: 1.65; }
 
   .wr-applications-page { padding-bottom: 6rem; background: var(--wr-paper); }
+  .wr-applications-page > .wr-taxonomy-back { width: min(100% - 2rem, 80rem); margin: 2rem auto 1rem; }
+  .wr-applications-page > .wr-catalog-hero { margin-bottom: 2rem; }
+  .wr-category-tabs { width: min(100%, 80rem); margin: 0 auto 2rem; display: flex; flex-wrap: wrap; gap: 1px; border: 1px solid var(--wr-line); background: var(--wr-line); }
+  .wr-category-tabs button { min-height: 48px; flex: 1 1 150px; padding: 0.7rem 1rem; background: white; color: var(--wr-muted); font-size: 0.75rem; font-weight: 750; cursor: pointer; }
+  .wr-category-tabs button:hover, .wr-category-tabs button.is-active { background: var(--wr-ink); color: white; }
   .wr-application-filter { width: min(100% - 2rem, 80rem); margin: 0 auto 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border: 1px solid var(--wr-line); padding: 0.75rem; }
   .wr-application-filter > div { display: flex; flex-wrap: wrap; gap: 0.35rem; }
   .wr-application-filter button { min-height: 44px; padding: 0.65rem 0.85rem; border: 1px solid transparent; color: var(--wr-muted); font-size: 0.875rem; font-weight: 700; cursor: pointer; }

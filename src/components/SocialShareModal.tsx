@@ -84,7 +84,7 @@ WHITEROCK COMPANY LIMITED PROJECT NOTE
 ========================================
 Item: ${shareTitle}
 ${content.material ? `Material: ${content.material}\n` : ''}${content.specs ? `Specification: ${content.specs}\n` : ''}
-Factory: Binh Phuoc Province, Vietnam
+Factory: Dong Nai Province, Vietnam
 Acceptance Criteria: Confirm in approved drawings, samples, and the written quotation
 Website Link: ${currentUrl}
 Direct Inquiries: ${siteConfig.email} | WhatsApp: ${siteConfig.whatsapp}
