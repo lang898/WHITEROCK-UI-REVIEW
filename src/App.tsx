@@ -12,6 +12,7 @@ import { AppErrorBoundary } from './components/AppErrorBoundary';
 import { PageSeo } from './components/PageSeo';
 import { RouteLoading } from './components/RouteLoading';
 import { ImageLightbox, type LightboxImage } from './components/ImageLightbox';
+import { MobileActionBar } from './components/MobileActionBar';
 import { HomeView } from './views/HomeView';
 
 import { locales, siteConfig } from './data/site';
@@ -33,7 +34,6 @@ const ContactView = lazy(() => import('./views/ContactView').then((module) => ({
 const SampleRequestView = lazy(() => import('./views/SampleRequestView').then((module) => ({ default: module.SampleRequestView })));
 const StoneTypeView = lazy(() => import('./views/StoneTypeView').then((module) => ({ default: module.StoneTypeView })));
 const EventsView = lazy(() => import('./views/EventsView').then((module) => ({ default: module.EventsView })));
-const AdminView = lazy(() => import('./views/AdminView').then((module) => ({ default: module.AdminView })));
 
 const RfqModal = lazy(() => import('./components/RfqModal').then((module) => ({ default: module.RfqModal })));
 const ProductModal = lazy(() => import('./components/ProductModal').then((module) => ({ default: module.ProductModal })));
@@ -76,22 +76,16 @@ function AppContent() {
 
   useEffect(() => {
     const syncRouteFromUrl = () => setCurrentTab(routeIdFromLocation());
-
     window.addEventListener('popstate', syncRouteFromUrl);
     window.addEventListener('hashchange', syncRouteFromUrl);
-
     const initialRoute = routeIdFromLocation();
-    if (window.location.hash) {
-      window.history.replaceState({ routeId: initialRoute }, '', routePath(initialRoute));
-    }
-
+    if (window.location.hash) window.history.replaceState({ routeId: initialRoute }, '', routePath(initialRoute));
     return () => {
       window.removeEventListener('popstate', syncRouteFromUrl);
       window.removeEventListener('hashchange', syncRouteFromUrl);
     };
   }, []);
 
-  // Modals state
   const [isRfqModalOpen, setIsRfqModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [selectedColor, setSelectedColor] = useState<ColorItem | null>(null);
@@ -107,8 +101,6 @@ function AppContent() {
       return [];
     }
   });
-
-  // RFQ Cart State
   const [cartItems, setCartItems] = useState<RfqCartItem[]>(() => {
     try {
       const saved = localStorage.getItem('whiterock_rfq_cart');
@@ -117,30 +109,18 @@ function AppContent() {
       return [];
     }
   });
-
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('whiterock_rfq_cart', JSON.stringify(cartItems));
-    } catch (e) {
-      console.error(e);
-    }
+    try { localStorage.setItem('whiterock_rfq_cart', JSON.stringify(cartItems)); } catch (error) { console.error(error); }
   }, [cartItems]);
-
   useEffect(() => {
-    try {
-      localStorage.setItem('whiterock_sample_box', JSON.stringify(sampleSlugs));
-    } catch (e) {
-      console.error(e);
-    }
+    try { localStorage.setItem('whiterock_sample_box', JSON.stringify(sampleSlugs)); } catch (error) { console.error(error); }
   }, [sampleSlugs]);
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 2800);
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    window.setTimeout(() => setToastMessage(null), 2800);
   };
 
   useEffect(() => {
@@ -148,11 +128,9 @@ function AppContent() {
       const target = event.target as HTMLElement | null;
       const isTyping = target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable;
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        setIsSearchOpen(true);
+        event.preventDefault(); setIsSearchOpen(true);
       } else if (event.key === '/' && !isTyping) {
-        event.preventDefault();
-        setIsSearchOpen(true);
+        event.preventDefault(); setIsSearchOpen(true);
       }
     };
     window.addEventListener('keydown', openSearch);
@@ -167,7 +145,7 @@ function AppContent() {
       if (target.closest('button, a, [data-lightbox-ignore], .wr-gallery-card, .wr-modal-backdrop')) return;
       const src = target.currentSrc || target.src;
       if (!src || src.startsWith('data:')) return;
-      setLightboxImage({ src, alt: target.alt || 'WHITEROCK image detail' });
+      setLightboxImage({ src, alt: target.alt || 'Stone image detail' });
     };
     document.addEventListener('click', openContentImage);
     return () => document.removeEventListener('click', openContentImage);
@@ -176,7 +154,7 @@ function AppContent() {
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       const targets = Array.from(document.querySelectorAll<HTMLElement>('main > div > section:not(.wr-hero):not(.wr-factory-page__hero), main .wr-section-heading'));
-      if (!('IntersectionObserver' in window)) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
         targets.forEach((target) => target.classList.add('is-visible'));
         return;
       }
@@ -203,336 +181,134 @@ function AppContent() {
   const toggleCompare = (entry: CompareEntry) => {
     setCompareItems((current) => {
       if (current.some((item) => item.id === entry.id)) return current.filter((item) => item.id !== entry.id);
-      if (current.length >= 3) {
-        showToast('Compare up to 3 products or colors at a time');
-        return current;
-      }
+      if (current.length >= 3) { showToast('Compare up to 3 products or colors at a time'); return current; }
       return [...current, entry];
     });
   };
 
   const handleOpenShare = (content?: ShareContent) => {
-    if (content) {
-      setShareModalContent(content);
-    } else {
-      setShareModalContent({
-        title: `${siteConfig.brand} - ${siteConfig.tagline}`,
-        text: 'Stone manufacturing in Vietnam for quartz, marble, granite, countertops, vanity tops, and custom fabrication. Specifications and trade terms are confirmed by quotation.',
-        type: 'site'
-      });
-    }
+    setShareModalContent(content || {
+      title: `${siteConfig.displayBrand} - ${siteConfig.tagline}`,
+      text: 'Natural and engineered stone manufacturing in Vietnam for countertops, vanity tops, furniture surfaces, and custom fabrication. Specifications and trade terms are confirmed by quotation.',
+      type: 'site',
+    });
   };
 
-  const handleAddToCart = (prod: ProductItem | RfqCartItem) => {
-    if ('type' in prod && prod.type === 'product' && !('specs' in prod)) {
-      // It's already a configured RfqCartItem from VanityConfigurator
-      setCartItems((prev) => [...prev, prod as RfqCartItem]);
-      showToast(`Added ${prod.title} to RFQ package`);
+  const handleAddToCart = (product: ProductItem | RfqCartItem) => {
+    if ('type' in product && product.type === 'product' && !('specs' in product)) {
+      setCartItems((previous) => [...previous, product as RfqCartItem]);
+      showToast(`Added ${product.title} to RFQ package`);
       return;
     }
-
-    const p = prod as ProductItem;
-    const existing = cartItems.find((item) => item.sku === p.sku);
+    const item = product as ProductItem;
+    const existing = cartItems.find((cartItem) => cartItem.sku === item.sku);
     if (existing) {
-      setCartItems((prev) =>
-        prev.map((i) => (i.sku === p.sku ? { ...i, quantity: i.quantity + 1 } : i))
-      );
+      setCartItems((previous) => previous.map((cartItem) => cartItem.sku === item.sku ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem));
     } else {
-      const newItem: RfqCartItem = {
-        id: `prod_${p.sku}_${Date.now()}`,
-        title: p.title,
+      setCartItems((previous) => [...previous, {
+        id: `prod_${item.sku}_${Date.now()}`,
+        title: item.title,
         type: 'product',
-        sku: p.sku,
-        material: p.material,
+        sku: item.sku,
+        material: item.material,
         selectedThickness: 'To be confirmed',
         selectedEdge: 'To be confirmed / per approved drawing',
         quantity: 1,
-      };
-      setCartItems((prev) => [...prev, newItem]);
+      }]);
     }
-    showToast(`Added ${p.sku} to RFQ kit`);
+    showToast(`Added ${item.sku} to RFQ kit`);
   };
 
   const handleAddColorSample = (color: ColorItem) => {
-    if (sampleSlugs.includes(color.slug)) {
-      showToast(`${color.name} is already in the sample box`);
-      return;
-    }
-    if (sampleSlugs.length >= 6) {
-      showToast('The sample box holds up to 6 colors');
-      return;
-    }
+    if (sampleSlugs.includes(color.slug)) { showToast(`${color.name} is already in the sample box`); return; }
+    if (sampleSlugs.length >= 6) { showToast('The sample box holds up to 6 colors'); return; }
     setSampleSlugs((current) => [...current, color.slug]);
     showToast(`Added ${color.name} to the sample box`);
   };
 
+  const handleContinueSamplesToRfq = () => {
+    const selectedSamples = colors.filter((color) => sampleSlugs.includes(color.slug));
+    setCartItems((previous) => {
+      const existingIds = new Set(previous.map((item) => item.id));
+      const additions: RfqCartItem[] = selectedSamples
+        .map((color) => ({
+          id: `color:${color.slug}`,
+          title: color.name,
+          type: 'color' as const,
+          material: color.material,
+          selectedColor: color.name,
+          selectedFinish: color.finishes[0] || 'To be confirmed',
+          selectedThickness: 'To be confirmed',
+          quantity: 1,
+          specSummary: `${color.material} · ${color.name} · physical sample selected`,
+        }))
+        .filter((item) => !existingIds.has(item.id));
+      return [...previous, ...additions];
+    });
+    setIsRfqModalOpen(true);
+  };
+
   const handleUpdateQuantity = (id: string, delta: number) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) => {
-          if (item.id === id) {
-            const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
-          }
-          return item;
-        })
-        .filter(Boolean) as RfqCartItem[]
-    );
+    setCartItems((previous) => previous.map((item) => item.id === id ? (item.quantity + delta > 0 ? { ...item, quantity: item.quantity + delta } : null) : item).filter(Boolean) as RfqCartItem[]);
   };
+  const handleRemoveItem = (id: string) => setCartItems((previous) => previous.filter((item) => item.id !== id));
+  const handleClearCart = () => setCartItems([]);
 
-  const handleRemoveItem = (id: string) => {
-    setCartItems((prev) => prev.filter((i) => i.id !== id));
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-  };
-
-  // Scroll to top on tab switch
   const handleTabChange = (tab: string) => {
     const nextRoute = routesById[tab as RouteId] ? (tab as RouteId) : 'home';
     const nextPath = routePath(nextRoute);
-
     setCurrentTab(nextRoute);
-    if (window.location.pathname !== nextPath || window.location.hash) {
-      window.history.pushState({ routeId: nextRoute }, '', nextPath);
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (window.location.pathname !== nextPath || window.location.hash) window.history.pushState({ routeId: nextRoute }, '', nextPath);
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
+
+  const rfqCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="hybrid-site min-h-screen bg-stone-50 text-stone-900 flex flex-col font-sans antialiased selection:bg-stone-200 selection:text-stone-900">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <PageSeo routeId={currentTab} language={currentLocale.id} />
-      {/* Header with Navigation and RFQ Count */}
-      <Header
-        currentTab={currentTab}
-        setCurrentTab={handleTabChange}
-        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
-        openCart={() => setIsRfqModalOpen(true)}
-        sampleCount={sampleSlugs.length}
-        openSamples={() => handleTabChange('samples')}
-        currentLocale={currentLocale}
-        setLocale={setCurrentLocale}
-        onOpenShare={() => handleOpenShare()}
-        onOpenSearch={() => setIsSearchOpen(true)}
-      />
+      <Header currentTab={currentTab} setCurrentTab={handleTabChange} cartCount={rfqCount} openCart={() => setIsRfqModalOpen(true)} sampleCount={sampleSlugs.length} openSamples={() => handleTabChange('samples')} currentLocale={currentLocale} setLocale={setCurrentLocale} onOpenShare={() => handleOpenShare()} onOpenSearch={() => setIsSearchOpen(true)} />
 
-      {/* Main View Router */}
       <Suspense fallback={<RouteLoading />}>
-        <main className="flex-1">
-        {currentTab === 'home' && (
-          <HomeView
-            setCurrentTab={handleTabChange}
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            onSelectColor={(c) => setSelectedColor(c)}
-            onAddToCart={handleAddToCart}
-            onAddColorSample={handleAddColorSample}
-            currentLocale={currentLocale}
-            onOpenShareModal={handleOpenShare}
-          />
-        )}
-
-        {currentTab === 'about' && (
-          <AboutView
-            currentLocale={currentLocale}
-            setCurrentTab={handleTabChange}
-            onOpenShareModal={handleOpenShare}
-          />
-        )}
-
-        {(currentTab === 'products' || currentTab.startsWith('product-')) && (
-          <ProductsView
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            onAddToCart={handleAddToCart}
-            currentLocale={currentLocale}
-            onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })}
-            compareIds={compareItems.map((item) => item.id)}
-            setCurrentTab={handleTabChange}
-            program={productProgramByRoute[currentTab]}
-          />
-        )}
-
-        {currentTab === 'materials' && <MaterialsView setCurrentTab={handleTabChange} />}
-
-        {(currentTab === 'colors' || currentTab.startsWith('color-')) && (
-          <ColorsView
-            onSelectColor={(c) => setSelectedColor(c)}
-            onAddColorSample={handleAddColorSample}
-            currentLocale={currentLocale}
-            onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })}
-            compareIds={compareItems.map((item) => item.id)}
-            setCurrentTab={handleTabChange}
-            family={colorFamilyByRoute[currentTab]}
-          />
-        )}
-
-        {(currentTab === 'finishes' || currentTab.startsWith('finish-')) && (
-          <FinishesEdgesView
-            setCurrentTab={handleTabChange}
-            currentLocale={currentLocale}
-            section={finishSectionByRoute[currentTab]}
-          />
-        )}
-
-        {currentTab === 'factory' && (
-          <FactoryView
-            currentLocale={currentLocale}
-            setCurrentTab={handleTabChange}
-          />
-        )}
-
-        {(currentTab === 'applications' || currentTab.startsWith('application-')) && (
-          <ApplicationsView
-            onSelectColor={(c) => setSelectedColor(c)}
-            currentLocale={currentLocale}
-            setCurrentTab={handleTabChange}
-            category={applicationCategoryByRoute[currentTab]}
-          />
-        )}
-
-        {currentTab === 'partners' && (
-          <PartnersView
-            setCurrentTab={handleTabChange}
-            currentLocale={currentLocale}
-          />
-        )}
-
-        {currentTab === 'resources' && (
-          <ResourcesView
-            currentLocale={currentLocale}
-          />
-        )}
-
-        {currentTab === 'contact' && (
-          <ContactView
-            currentLocale={currentLocale}
-            onOpenShareModal={handleOpenShare}
-          />
-        )}
-
-        {currentTab === 'samples' && (
-          <SampleRequestView
-            samples={colors.filter((color) => sampleSlugs.includes(color.slug))}
-            currentLocale={currentLocale}
-            onRemove={(slug) => setSampleSlugs((current) => current.filter((item) => item !== slug))}
-            onClear={() => setSampleSlugs([])}
-            setCurrentTab={handleTabChange}
-          />
-        )}
-
-        {currentTab.startsWith('stone-') && (
-          <StoneTypeView
-            stoneTypeId={currentTab.replace('stone-', '') as 'marble' | 'granite' | 'quartz' | 'quartzite' | 'travertine' | 'engineered-marble'}
-            currentLocale={currentLocale}
-            onSelectColor={(color) => setSelectedColor(color)}
-            onAddColorSample={handleAddColorSample}
-            setCurrentTab={handleTabChange}
-          />
-        )}
-
-        {currentTab === 'events' && (
-          <EventsView currentLocale={currentLocale} setCurrentTab={handleTabChange} />
-        )}
-
-        {currentTab === 'admin' && (
-          <AdminView
-            currentLocale={currentLocale}
-            setCurrentTab={handleTabChange}
-          />
-        )}
+        <main id="main-content" className="flex-1" tabIndex={-1}>
+          {currentTab === 'home' && <HomeView setCurrentTab={handleTabChange} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} onAddToCart={handleAddToCart} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
+          {currentTab === 'about' && <AboutView currentLocale={currentLocale} setCurrentTab={handleTabChange} onOpenShareModal={handleOpenShare} />}
+          {(currentTab === 'products' || currentTab.startsWith('product-')) && <ProductsView onSelectProduct={setSelectedProduct} onAddToCart={handleAddToCart} currentLocale={currentLocale} onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })} compareIds={compareItems.map((item) => item.id)} setCurrentTab={handleTabChange} program={productProgramByRoute[currentTab]} />}
+          {currentTab === 'materials' && <MaterialsView setCurrentTab={handleTabChange} />}
+          {(currentTab === 'colors' || currentTab.startsWith('color-')) && <ColorsView onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareItems.map((item) => item.id)} setCurrentTab={handleTabChange} family={colorFamilyByRoute[currentTab]} />}
+          {(currentTab === 'finishes' || currentTab.startsWith('finish-')) && <FinishesEdgesView setCurrentTab={handleTabChange} currentLocale={currentLocale} section={finishSectionByRoute[currentTab]} />}
+          {currentTab === 'factory' && <FactoryView currentLocale={currentLocale} setCurrentTab={handleTabChange} />}
+          {(currentTab === 'applications' || currentTab.startsWith('application-')) && <ApplicationsView onSelectColor={setSelectedColor} currentLocale={currentLocale} setCurrentTab={handleTabChange} category={applicationCategoryByRoute[currentTab]} />}
+          {currentTab === 'partners' && <PartnersView setCurrentTab={handleTabChange} currentLocale={currentLocale} />}
+          {currentTab === 'resources' && <ResourcesView currentLocale={currentLocale} />}
+          {currentTab === 'contact' && <ContactView currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
+          {currentTab === 'samples' && <SampleRequestView samples={colors.filter((color) => sampleSlugs.includes(color.slug))} currentLocale={currentLocale} onRemove={(slug) => setSampleSlugs((current) => current.filter((item) => item !== slug))} onClear={() => setSampleSlugs([])} setCurrentTab={handleTabChange} onContinueToRfq={handleContinueSamplesToRfq} />}
+          {currentTab.startsWith('stone-') && <StoneTypeView stoneTypeId={currentTab.replace('stone-', '') as 'marble' | 'granite' | 'quartz' | 'quartzite' | 'travertine' | 'engineered-marble'} currentLocale={currentLocale} onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} setCurrentTab={handleTabChange} />}
+          {currentTab === 'events' && <EventsView currentLocale={currentLocale} setCurrentTab={handleTabChange} />}
         </main>
       </Suspense>
 
-      {/* Footer */}
-      <Footer
-        currentLocale={currentLocale}
-        setCurrentTab={handleTabChange}
-        onOpenShare={() => handleOpenShare()}
-        showInquiryCta={currentTab !== 'home'}
-      />
-
-      {/* Floating Quick Action Contact & Quote Rail */}
+      <Footer currentLocale={currentLocale} setCurrentTab={handleTabChange} onOpenShare={() => handleOpenShare()} />
       <ContactRail />
-
-      {/* Floating Back to Top Navigation */}
+      <MobileActionBar sampleCount={sampleSlugs.length} rfqCount={rfqCount} onSamples={() => handleTabChange('samples')} onRfq={() => setIsRfqModalOpen(true)} />
       <BackToTop threshold={350} />
-
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
 
-      {/* Modal code is requested only after the related interaction begins. */}
       <Suspense fallback={null}>
-        {isRfqModalOpen && (
-          <RfqModal
-            isOpen
-            onClose={() => setIsRfqModalOpen(false)}
-            cartItems={cartItems}
-            onUpdateQuantity={handleUpdateQuantity}
-            onRemoveItem={handleRemoveItem}
-            onClearCart={handleClearCart}
-            currentLocale={currentLocale}
-          />
-        )}
-
-        {selectedProduct && (
-          <ProductModal
-            product={selectedProduct}
-            onClose={() => setSelectedProduct(null)}
-            onAddToCart={handleAddToCart}
-            onShare={handleOpenShare}
-          />
-        )}
-
-        {selectedColor && (
-          <ColorModal
-            color={selectedColor}
-            onClose={() => setSelectedColor(null)}
-            onRequestSample={handleAddColorSample}
-            onShare={handleOpenShare}
-          />
-        )}
-
-        {shareModalContent && (
-          <SocialShareModal
-            isOpen
-            onClose={() => setShareModalContent(null)}
-            content={shareModalContent}
-          />
-        )}
-
-        {isSearchOpen && (
-          <GlobalSearch
-            isOpen
-            locale={currentLocale}
-            onClose={() => setIsSearchOpen(false)}
-            onNavigate={handleTabChange}
-            onSelectProduct={(product) => setSelectedProduct(product)}
-            onSelectColor={(color) => setSelectedColor(color)}
-          />
-        )}
-
-        <ComparePanel
-          items={compareItems}
-          locale={currentLocale}
-          onRemove={(id) => setCompareItems((items) => items.filter((item) => item.id !== id))}
-          onClear={() => setCompareItems([])}
-        />
+        {isRfqModalOpen && <RfqModal isOpen onClose={() => setIsRfqModalOpen(false)} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onClearCart={handleClearCart} currentLocale={currentLocale} />}
+        {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} />}
+        {selectedColor && <ColorModal color={selectedColor} onClose={() => setSelectedColor(null)} onRequestSample={handleAddColorSample} onShare={handleOpenShare} />}
+        {shareModalContent && <SocialShareModal isOpen onClose={() => setShareModalContent(null)} content={shareModalContent} />}
+        {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} />}
+        <ComparePanel items={compareItems} locale={currentLocale} onRemove={(id) => setCompareItems((items) => items.filter((item) => item.id !== id))} onClear={() => setCompareItems([])} />
       </Suspense>
 
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-stone-900 border border-stone-700 text-white text-xs px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
-          <span className="w-2 h-2 rounded-full bg-stone-400 animate-pulse"></span>
-          <span>{toastMessage}</span>
-        </div>
-      )}
+      {toastMessage && <div className="fixed bottom-20 md:bottom-6 right-6 z-50 bg-stone-900 border border-stone-700 text-white text-xs px-4 py-3 shadow-2xl flex items-center gap-2"><span className="w-2 h-2 bg-stone-400 animate-pulse" /><span>{toastMessage}</span></div>}
     </div>
   );
 }
 
 export default function App() {
-  return (
-    <AppErrorBoundary>
-      <AppContent />
-    </AppErrorBoundary>
-  );
+  return <AppErrorBoundary><AppContent /></AppErrorBoundary>;
 }
