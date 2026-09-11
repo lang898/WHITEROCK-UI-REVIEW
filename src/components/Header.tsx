@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { ChevronDown, FileText, Mail, Menu, Package, Search, X } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
 import { siteConfig } from '../data/site';
-import { mobileNavigation, primaryNavigation, routePath } from '../routes';
+import { mobileNavigation, productNavigation, routePath, stoneMaterialNavigation, type NavigationGroup } from '../routes';
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
+import { OPEN_RFQ_EVENT } from '../lib/uiEvents';
 
 interface HeaderProps {
   currentTab: string;
@@ -18,6 +19,39 @@ interface HeaderProps {
   onOpenShare?: () => void;
   onOpenSearch: () => void;
 }
+
+const desktopNavigation: readonly NavigationGroup[] = [
+  {
+    label: 'Products',
+    id: 'products',
+    items: productNavigation,
+  },
+  {
+    label: 'Materials',
+    id: 'materials',
+    items: [
+      ...stoneMaterialNavigation,
+      { id: 'colors', label: 'Colors' },
+      { id: 'finishes', label: 'Finishes & Edges' },
+    ],
+  },
+  { label: 'Factory', id: 'factory' },
+  {
+    label: 'Resources',
+    items: [
+      { id: 'applications', label: 'Applications' },
+      { id: 'resources', label: 'Technical Resources' },
+      { id: 'partners', label: 'Trade Program' },
+    ],
+  },
+  {
+    label: 'About',
+    items: [
+      { id: 'about', label: 'About WHITEROCK' },
+      { id: 'contact', label: 'Contact' },
+    ],
+  },
+] as const;
 
 export const Header: React.FC<HeaderProps> = ({
   currentTab, setCurrentTab, cartCount, openCart, sampleCount, openSamples, currentLocale, onOpenSearch
@@ -45,6 +79,12 @@ export const Header: React.FC<HeaderProps> = ({
     const activeGroup = mobileNavigation.find((group) => group.items?.some((item) => item.id === currentTab));
     if (activeGroup) setOpenMobileGroups((groups) => groups.includes(activeGroup.label) ? groups : [...groups, activeGroup.label]);
   }, [currentTab, mobileMenuOpen]);
+
+  useEffect(() => {
+    const handleOpenRfq = () => openCart();
+    window.addEventListener(OPEN_RFQ_EVENT, handleOpenRfq);
+    return () => window.removeEventListener(OPEN_RFQ_EVENT, handleOpenRfq);
+  }, [openCart]);
 
   const navigate = (id: string) => {
     setCurrentTab(id);
@@ -75,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
         </a>
 
         <nav className="wr-nav" aria-label="Primary navigation">
-          {primaryNavigation.map((item) => {
+          {desktopNavigation.map((item) => {
             if (!item.items?.length && item.id) {
               return <a key={item.label} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>;
             }
