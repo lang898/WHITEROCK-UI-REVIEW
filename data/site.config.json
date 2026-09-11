@@ -1,7 +1,8 @@
 {
   "brand": "WHITEROCK",
+  "displayBrand": "NATURAL & ENGINEERED STONE",
   "legalName": "WHITEROCK COMPANY LIMITED",
-  "tagline": "NATURAL & ENGINEERED STONE",
+  "tagline": "Vietnam stone fabrication",
   "productionDomain": "https://www.whiterockstone.com",
   "email": "somsn@msn.com",
   "salesEmail": "somsn@msn.com",
@@ -14,7 +15,7 @@
   "zip": "830000",
   "web3FormsAccessKey": "",
   "ogImage": "assets/brand/whiterock-waterfall-social.jpg",
-  "ogImageAlt": "Carrara white marble waterfall kitchen island in a finished interior",
+  "ogImageAlt": "Natural and engineered stone waterfall kitchen island in a finished interior",
   "ogImageWidth": 1200,
   "ogImageHeight": 630,
   "favicon": "assets/brand/favicon.png",
@@ -25,5 +26,5 @@
     "pinterest": "",
     "x": ""
   },
-  "analyticsPlaceholder": "<!-- Analytics snippet placeholder: add GA4 or privacy-first analytics before launch if needed. -->"
+  "analyticsPlaceholder": "<!-- Analytics snippet placeholder: add an approved privacy-aware analytics tool before launch if needed. -->"
 }
