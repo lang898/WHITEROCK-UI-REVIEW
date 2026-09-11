@@ -1,51 +1,55 @@
 import { BadgeCheck, ClipboardCheck, ShieldCheck } from 'lucide-react';
+import complianceData from '../../data/compliance.json';
 
-const assessments = [
-  {
-    code: 'SCAN',
-    title: 'Supply-chain security controls',
-    description: 'Manufacturing and supply-chain controls aligned with retailer program requirements.',
-    Icon: ShieldCheck,
-  },
-  {
-    code: 'RESA',
-    title: 'Responsible sourcing controls',
-    description: 'Factory and supply-chain compliance assessment documentation is available for buyer review.',
-    Icon: ClipboardCheck,
-  },
-  {
-    code: 'QSA',
-    title: 'Quality system controls',
-    description: 'Quality-management and production-control systems assessed for retailer program requirements.',
-    Icon: BadgeCheck,
-  },
-] as const;
+type ComplianceStatus = 'public' | 'available-on-request' | 'order-specific';
+
+type ComplianceProgram = {
+  code: string;
+  title: string;
+  description: string;
+  status: ComplianceStatus;
+};
+
+const iconByCode: Record<string, typeof ShieldCheck> = {
+  SCAN: ShieldCheck,
+  RESA: ClipboardCheck,
+  QSA: BadgeCheck,
+};
 
 interface RetailComplianceProps {
   compact?: boolean;
 }
 
-export const RetailCompliance: React.FC<RetailComplianceProps> = ({ compact = false }) => (
-  <section className={`wr-compliance${compact ? ' wr-compliance--compact' : ''}`} aria-labelledby={`retail-compliance-title${compact ? '-compact' : ''}`}>
-    <div className="wr-compliance__inner">
-      <div className="wr-compliance__heading">
-        <p className="wr-eyebrow">Retail Program Assessment Experience</p>
-        <h2 id={`retail-compliance-title${compact ? '-compact' : ''}`}>Retail &amp; Supply Chain Compliance</h2>
-        <p>WHITEROCK maintains manufacturing, quality, and supply-chain systems aligned with major North American retail program requirements.</p>
-      </div>
+export const RetailCompliance: React.FC<RetailComplianceProps> = ({ compact = false }) => {
+  const programs = complianceData.programs as ComplianceProgram[];
+  const statusLabels = complianceData.statusLabels as Record<ComplianceStatus, string>;
 
-      <div className="wr-compliance__grid">
-        {assessments.map(({ code, title, description, Icon }) => (
-          <article className="wr-compliance__card" key={code}>
-            <div className="wr-compliance__icon" aria-hidden="true"><Icon size={22} strokeWidth={1.6} /></div>
-            <p className="wr-compliance__code">{code}</p>
-            <h3>{title}</h3>
-            <p>{description}</p>
-          </article>
-        ))}
-      </div>
+  return (
+    <section className={`wr-compliance${compact ? ' wr-compliance--compact' : ''}`} aria-labelledby={`retail-compliance-title${compact ? '-compact' : ''}`}>
+      <div className="wr-compliance__inner">
+        <div className="wr-compliance__heading">
+          <p className="wr-eyebrow">{complianceData.eyebrow}</p>
+          <h2 id={`retail-compliance-title${compact ? '-compact' : ''}`}>{complianceData.title}</h2>
+          <p>{complianceData.intro}</p>
+        </div>
 
-      <p className="wr-compliance__note">Assessment terminology is shown as used in program documentation. Supporting records can be provided for qualified buyer review.</p>
-    </div>
-  </section>
-);
+        <div className="wr-compliance__grid">
+          {programs.map(({ code, title, description, status }) => {
+            const Icon = iconByCode[code] || ClipboardCheck;
+            return (
+              <article className="wr-compliance__card" key={code}>
+                <div className="wr-compliance__icon" aria-hidden="true"><Icon size={22} strokeWidth={1.6} /></div>
+                <p className="wr-compliance__code">{code}</p>
+                <h3>{title}</h3>
+                <p>{description}</p>
+                <span className={`wr-compliance__status is-${status}`}>{statusLabels[status]}</span>
+              </article>
+            );
+          })}
+        </div>
+
+        <p className="wr-compliance__note">Assessment terminology follows buyer-program documentation. No certification claim is made here; current scope and supporting records are confirmed before release.</p>
+      </div>
+    </section>
+  );
+};
