@@ -39,6 +39,11 @@ const publicAsset = (path?: string): string | undefined => path && !path.startsW
 
 export const products: ProductItem[] = (productsData.products as ProductItem[]).map((item) => ({
   ...item,
+  specs: {
+    ...item.specs,
+    Thickness: item.specs.Thickness || 'Confirm by quotation',
+    Edge: item.specs.Edge || 'Confirm by approved drawing',
+  },
   image: publicAsset(item.image) || '',
   imageWebp: publicAsset(item.imageWebp),
   imageAvif: publicAsset(item.imageAvif),
