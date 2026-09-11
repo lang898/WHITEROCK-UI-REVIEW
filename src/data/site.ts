@@ -2,7 +2,9 @@ import localesData from '../../data/locales.json';
 import siteConfigData from '../../data/site.config.json';
 import type { LocaleConfig } from '../types';
 
-export const locales: LocaleConfig[] = (localesData.locales as LocaleConfig[]).filter((locale) => locale.enabled !== false);
+type LocaleWithEnabled = LocaleConfig & { enabled?: boolean };
+
+export const locales: LocaleConfig[] = (localesData.locales as LocaleWithEnabled[]).filter((locale) => locale.enabled !== false);
 export const siteConfig = {
   ...siteConfigData,
   web3FormsAccessKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim() || siteConfigData.web3FormsAccessKey,
