@@ -5,6 +5,7 @@ import { FacebookIcon, InstagramIcon, LinkedInIcon, PinterestIcon, XIcon } from 
 import { siteConfig } from '../data/site';
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
+import { openRfqBuilder } from '../lib/uiEvents';
 
 interface FooterProps {
   currentLocale: LocaleConfig;
@@ -32,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
       ['factory', t(currentLocale, 'factory')], ['about', t(currentLocale, 'about')], ['contact', t(currentLocale, 'contact')]
     ] },
     { title: 'Resources', links: [
-      ['resources', t(currentLocale, 'resources')], ['partners', t(currentLocale, 'partners')], ['contact', t(currentLocale, 'requestQuote')]
+      ['resources', t(currentLocale, 'resources')], ['partners', t(currentLocale, 'partners')]
     ] }
   ];
 
@@ -40,7 +41,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLocale, setCurrentTab, on
     <footer className="wr-footer">
       {showInquiryCta && <section className="wr-footer__cta">
         <div><span className="wr-eyebrow">Direct B2B inquiry</span><h2>Bring us the drawing. We will help define the stone package.</h2></div>
-        <button className="wr-button wr-button--primary" onClick={() => setCurrentTab('contact')}>{t(currentLocale, 'requestQuote')}<ArrowUpRight /></button>
+        <button className="wr-button wr-button--primary" onClick={openRfqBuilder}>{t(currentLocale, 'requestQuote')}<ArrowUpRight /></button>
       </section>}
 
       <div className="wr-footer__main">
