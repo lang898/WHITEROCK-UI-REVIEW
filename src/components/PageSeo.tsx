@@ -32,12 +32,17 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     const route = routesById[routeId];
     const canonicalUrl = new URL(route.path, siteConfig.productionDomain).toString();
     const socialImage = new URL(`/${siteConfig.ogImage}`, siteConfig.productionDomain).toString();
+    const pageTitle = routeId === 'contact'
+      ? 'Contact | WHITEROCK Vietnam Stone Manufacturer'
+      : route.title;
+    const pageDescription = routeId === 'contact'
+      ? 'Contact WHITEROCK in Vietnam for stone samples, technical documents, supplier qualification, existing-order support, and direct factory communication.'
+      : route.description;
 
-    const pageTitle = route.title;
     document.title = pageTitle;
     document.documentElement.lang = language;
     setCanonical(canonicalUrl);
-    setMeta('meta[name="description"]', { name: 'description', content: route.description });
+    setMeta('meta[name="description"]', { name: 'description', content: pageDescription });
     setMeta('meta[name="robots"]', {
       name: 'robots',
       content: route.noIndex ? 'noindex, nofollow' : 'index, follow',
@@ -46,7 +51,7 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     setMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: siteConfig.brand });
     setMeta('meta[property="og:description"]', {
       property: 'og:description',
-      content: route.description,
+      content: pageDescription,
     });
     setMeta('meta[property="og:url"]', { property: 'og:url', content: canonicalUrl });
     setMeta('meta[property="og:type"]', { property: 'og:type', content: 'website' });
@@ -57,7 +62,7 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
     setMeta('meta[property="og:image:type"]', { property: 'og:image:type', content: 'image/jpeg' });
     setMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
     setMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: pageTitle });
-    setMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: route.description });
+    setMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: pageDescription });
     setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: socialImage });
     setMeta('meta[name="twitter:image:alt"]', { name: 'twitter:image:alt', content: siteConfig.ogImageAlt });
 
@@ -69,8 +74,8 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
         {
           '@type': route.schemaType,
           '@id': `${canonicalUrl}#page`,
-          name: route.title,
-          description: route.description,
+          name: pageTitle,
+          description: pageDescription,
           url: canonicalUrl,
           isPartOf: { '@id': `${siteConfig.productionDomain}/#website` },
           about: { '@id': `${siteConfig.productionDomain}/#organization` },
@@ -122,7 +127,7 @@ export function PageSeo({ routeId, language }: PageSeoProps) {
             {
               '@type': 'ListItem',
               position: 2,
-              name: route.title,
+              name: pageTitle,
               item: canonicalUrl,
             },
           ],
