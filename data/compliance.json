@@ -1,13 +1,34 @@
 {
-  "eyebrow": "Quality & Fabrication Safety",
-  "title": "Specify clearly. Fabricate safely. Document every shipment.",
-  "silicaTitle": "Crystalline silica safety",
-  "silicaCopy": "Cutting, grinding, drilling, or polishing stone can generate respirable crystalline silica dust. Fabricators must use effective wet methods, local exhaust ventilation, approved respiratory protection, exposure controls, training, and housekeeping required by applicable law and the product SDS.",
-  "prop65Title": "California Proposition 65",
-  "prop65Copy": "California warning and labeling requirements must be confirmed for each product before sale or shipment. Owner-approved product notices and SDS files will be published in Resources when available.",
-  "certificationsTitle": "Certifications",
-  "certifications": [
-    "Certification and laboratory report status pending owner verification"
+  "eyebrow": "Retail Program Assessment Experience",
+  "title": "Retail & Supply Chain Compliance",
+  "intro": "Manufacturing, quality, and supply-chain controls are documented for qualified buyer review. Current scope and document status are confirmed before release.",
+  "programs": [
+    {
+      "code": "SCAN",
+      "title": "Supply-chain security controls",
+      "description": "Security and supply-chain control records can be reviewed against the requirements of the applicable buyer program.",
+      "status": "available-on-request"
+    },
+    {
+      "code": "RESA",
+      "title": "Responsible sourcing controls",
+      "description": "Responsible-sourcing and factory-assessment records can be provided for qualified buyer review when applicable.",
+      "status": "available-on-request"
+    },
+    {
+      "code": "QSA",
+      "title": "Quality system controls",
+      "description": "Quality-system and production-control documentation can be reviewed against the requirements of the applicable buyer program.",
+      "status": "available-on-request"
+    }
   ],
-  "resourceCta": "Review safety and compliance resources"
+  "statusLabels": {
+    "public": "Public document",
+    "available-on-request": "Available on request",
+    "order-specific": "Order-specific"
+  },
+  "silicaTitle": "Crystalline silica safety",
+  "silicaCopy": "Cutting, grinding, drilling, or polishing stone can generate respirable crystalline silica dust. Fabricators must use the exact product SDS and the controls required by applicable law and work conditions.",
+  "prop65Title": "California Proposition 65",
+  "prop65Copy": "California warning and labeling requirements must be confirmed for each exact product before sale or shipment. Owner-approved notices are published only when their scope and revision are verified."
 }
