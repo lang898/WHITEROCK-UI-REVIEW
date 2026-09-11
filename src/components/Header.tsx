@@ -36,6 +36,9 @@ const desktopNavigation: readonly NavigationGroup[] = [
       ...stoneMaterialNavigation,
       { id: 'colors', label: 'Colors' },
       { id: 'finishes', label: 'Finishes & Edges' },
+      { id: 'applications', label: 'Applications' },
+      { id: 'samples', label: 'Samples' },
+      { id: 'resources', label: 'Technical Documents' },
     ],
   },
   { label: 'Factory', id: 'factory' },
@@ -50,8 +53,32 @@ const desktopNavigation: readonly NavigationGroup[] = [
   {
     label: 'About',
     items: [
-      { id: 'about', label: 'About WHITEROCK' },
-      { id: 'contact', label: 'Contact' },
+      { id: 'about', label: 'About the manufacturer' },
+      { id: 'contact', label: 'Contact & support' },
+    ],
+  },
+] as const;
+
+const materialMegaColumns = [
+  {
+    title: 'Stone type',
+    items: [{ id: 'materials', label: 'All Materials' }, ...stoneMaterialNavigation],
+  },
+  {
+    title: 'Explore',
+    items: [
+      { id: 'colors', label: 'Colors' },
+      { id: 'finishes', label: 'Finishes' },
+      { id: 'finish-edges', label: 'Edge Profiles' },
+      { id: 'applications', label: 'Applications' },
+    ],
+  },
+  {
+    title: 'Specify',
+    items: [
+      { id: 'samples', label: 'Samples' },
+      { id: 'resources', label: 'Technical Documents' },
+      { id: 'resources', label: 'Care & Maintenance' },
     ],
   },
 ] as const;
@@ -98,6 +125,8 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
   };
 
+  const closeParentMenu = (target: HTMLElement) => target.closest('details')?.removeAttribute('open');
+
   const isNavigationActive = (id: string) => currentTab === id ||
     (id === 'products' && currentTab.startsWith('product-')) ||
     (id === 'materials' && currentTab.startsWith('stone-')) ||
@@ -116,9 +145,9 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="wr-header__main">
-        <a className="wr-brand" href={routePath('home')} aria-label={`${siteConfig.brand} home`} onClick={(event) => { event.preventDefault(); navigate('home'); }}>
-          <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="WHITEROCK stone mark" width="80" height="80" />
-          <span><strong>{siteConfig.brand}</strong><small>{siteConfig.tagline}</small></span>
+        <a className="wr-brand" href={routePath('home')} aria-label={`${siteConfig.displayBrand} home`} onClick={(event) => { event.preventDefault(); navigate('home'); }}>
+          <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="Stone manufacturer mark" width="80" height="80" />
+          <span><strong>{siteConfig.displayBrand}</strong><small>{siteConfig.tagline}</small></span>
         </a>
 
         <nav className="wr-nav" aria-label="Primary navigation">
@@ -127,17 +156,28 @@ export const Header: React.FC<HeaderProps> = ({
               return <a key={item.label} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>;
             }
             const isActive = Boolean(item.id && isNavigationActive(item.id)) || item.items?.some((child) => isNavigationActive(child.id));
+            const isMaterials = item.label === 'Materials';
             return (
               <details key={item.label} className={isActive ? 'is-active' : ''}>
-                <summary>
-                  <span>{item.label}</span>
-                  <ChevronDown aria-hidden="true" />
-                </summary>
-                <div className="wr-nav__menu">
-                  {item.items?.map((child) => (
-                    <a key={child.id} href={routePath(child.id)} onClick={(event) => { event.preventDefault(); navigate(child.id); event.currentTarget.closest('details')?.removeAttribute('open'); }}>{child.label}</a>
-                  ))}
-                </div>
+                <summary><span>{item.label}</span><ChevronDown aria-hidden="true" /></summary>
+                {isMaterials ? (
+                  <div className="wr-nav__menu wr-nav__mega">
+                    {materialMegaColumns.map((column) => (
+                      <div key={column.title} className="wr-nav__mega-column">
+                        <strong>{column.title}</strong>
+                        {column.items.map((child, index) => (
+                          <a key={`${column.title}-${child.id}-${index}`} href={routePath(child.id)} onClick={(event) => { event.preventDefault(); navigate(child.id); closeParentMenu(event.currentTarget); }}>{child.label}</a>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="wr-nav__menu">
+                    {item.items?.map((child) => (
+                      <a key={child.id} href={routePath(child.id)} onClick={(event) => { event.preventDefault(); navigate(child.id); closeParentMenu(event.currentTarget); }}>{child.label}</a>
+                    ))}
+                  </div>
+                )}
               </details>
             );
           })}
@@ -146,7 +186,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="wr-header__actions">
           <button className="wr-icon-button" onClick={onOpenSearch} aria-label={t(currentLocale, 'search')} title={t(currentLocale, 'search')}><Search /></button>
           <button className="wr-button wr-button--secondary wr-header__samples" onClick={openSamples} aria-label={`${t(currentLocale, 'samples')} (${sampleCount})`}><Package /><span>{t(currentLocale, 'samples')}</span>{sampleCount > 0 && <b>{sampleCount}</b>}</button>
-          <button className="wr-button wr-button--primary wr-header__rfq" onClick={openCart} aria-label={`${t(currentLocale, 'rfq')} (${cartCount})`}><FileText /> <span>{t(currentLocale, 'rfq')}</span>{cartCount > 0 && <b>{cartCount}</b>}</button>
+          <button className="wr-button wr-button--primary wr-header__rfq" onClick={openCart} aria-label={`${t(currentLocale, 'rfq')} (${cartCount})`}><FileText /><span>{t(currentLocale, 'rfq')}</span>{cartCount > 0 && <b>{cartCount}</b>}</button>
           <button className="wr-icon-button wr-header__menu-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen} aria-label="Toggle menu">{mobileMenuOpen ? <X /> : <Menu />}</button>
         </div>
       </div>
@@ -169,7 +209,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
               >
                 <summary>{group.label}<ChevronDown aria-hidden="true" /></summary>
-                <div>{group.items?.map((item) => <a key={item.id} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>)}</div>
+                <div>{group.items?.map((entry, index) => <a key={`${entry.id}-${index}`} className={isNavigationActive(entry.id) ? 'is-active' : ''} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}</div>
               </details>
             );
           })}
