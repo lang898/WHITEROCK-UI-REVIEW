@@ -27,14 +27,6 @@ const slides: HeroSlide[] = [
     alt: 'Finished stone waterfall kitchen island fabricated for a project application',
   },
   {
-    label: 'Made to drawing',
-    caption: 'Vanity tops and project components produced to approved drawings, samples, and sink details.',
-    src: '/assets/owner/enhanced/vanity-production-detail-enhanced.jpg',
-    webp: '/assets/owner/enhanced/vanity-production-detail-enhanced-1280.webp',
-    avif: '/assets/owner/enhanced/vanity-production-detail-enhanced-1280.avif',
-    alt: 'Vanity tops in production at the WHITEROCK Vietnam factory',
-  },
-  {
     label: 'Vietnam manufacturing',
     caption: 'Cutting, CNC, edge processing, polishing, and fabrication coordinated in Dong Nai.',
     src: '/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg',
@@ -49,20 +41,6 @@ const slides: HeroSlide[] = [
     webp: '/assets/owner/enhanced/quality-inspection-team-enhanced-1280.webp',
     avif: '/assets/owner/enhanced/quality-inspection-team-enhanced-1280.avif',
     alt: 'WHITEROCK production team reviewing stone components during quality inspection in Vietnam',
-  },
-  {
-    label: 'Repeat-program readiness',
-    caption: 'Matched production lots are organized for inspection, specification control, and repeat-order consistency.',
-    src: '/assets/owner/manufacturing/finished-top-lineup.jpg',
-    alt: 'Finished stone tops organized as a matched production lot for inspection',
-  },
-  {
-    label: 'Order staging',
-    caption: 'Finished components are organized by order for final checks, packing preparation, and shipment handoff.',
-    src: '/assets/owner/enhanced/material-staging-hall-enhanced.jpg',
-    webp: '/assets/owner/enhanced/material-staging-hall-enhanced-1280.webp',
-    avif: '/assets/owner/enhanced/material-staging-hall-enhanced-1280.avif',
-    alt: 'Finished stone components staged by order at the WHITEROCK Vietnam factory',
   },
 ];
 
