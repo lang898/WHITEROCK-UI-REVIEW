@@ -33,8 +33,7 @@ export type RouteId =
   | 'stone-quartz'
   | 'stone-quartzite'
   | 'stone-travertine'
-  | 'stone-engineered-marble'
-  | 'admin';
+  | 'stone-engineered-marble';
 
 export interface NavigationItem {
   id: RouteId;
@@ -101,8 +100,8 @@ export const primaryNavigation: readonly NavigationGroup[] = [
   {
     label: 'About',
     items: [
-      { id: 'about', label: 'About WHITEROCK' },
-      { id: 'contact', label: 'Contact' },
+      { id: 'about', label: 'About the manufacturer' },
+      { id: 'contact', label: 'Contact & support' },
     ],
   },
 ] as const;
@@ -116,8 +115,8 @@ export const mobileNavigation: readonly NavigationGroup[] = [
     label: 'Company',
     items: [
       { id: 'factory', label: 'Factory' },
-      { id: 'about', label: 'About WHITEROCK' },
-      { id: 'contact', label: 'Contact' },
+      { id: 'about', label: 'About the manufacturer' },
+      { id: 'contact', label: 'Contact & support' },
     ],
   },
   {
@@ -137,268 +136,55 @@ export interface RouteDefinition {
   title: string;
   description: string;
   schemaType: string;
-  noIndex?: boolean;
+  ogImage: string;
 }
 
+const brandSuffix = 'NATURAL & ENGINEERED STONE';
+const factoryOg = '/assets/owner/enhanced/production-hall-aisle-enhanced.jpg';
+const kitchenOg = '/assets/owner/countertops/waterfall-kitchen-island.jpg';
+const vanityOg = '/assets/owner/enhanced/vanity-inspection-sequence-a-enhanced.jpg';
+const furnitureOg = '/assets/owner/countertops/oval-travertine-coffee-top.jpg';
+const materialOg = '/assets/materials/white-marble-v2.jpg';
+
 export const routes: RouteDefinition[] = [
-  {
-    id: 'home',
-    path: '/',
-    title: 'Stone Surfaces | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Explore Vietnam granite, marble, vanity tops, kitchen counters, and drawing-led stone fabrication from a direct quartz supplier for global B2B projects.',
-    schemaType: 'WebPage',
-  },
-  {
-    id: 'about',
-    path: '/about/',
-    title: 'About | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Meet a Vietnam granite and quartz supplier with direct stone fabrication capability for vanity, kitchen, furniture, and project programs.',
-    schemaType: 'AboutPage',
-  },
-  {
-    id: 'products',
-    path: '/products/',
-    title: 'Products | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Browse Vietnam granite, marble, quartz, vanity, countertop, furniture, and architectural products from a direct stone fabrication and quartz supplier.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'product-vanity',
-    path: '/products/vanity-tops/',
-    title: 'Vanity Tops | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review vanity top designs, dimensions, materials, sink cutouts, finishes, and packing references for drawing-led stone fabrication.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'product-kitchen',
-    path: '/products/kitchen-countertops/',
-    title: 'Kitchen Countertops | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review kitchen countertop and island designs, materials, finishes, edge details, and drawing-led fabrication options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'product-furniture',
-    path: '/products/furniture-tops/',
-    title: 'Furniture Tops | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review stone furniture top designs for dining, coffee, console, and hospitality programs made to approved drawings.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'product-project',
-    path: '/products/project-products/',
-    title: 'Project Products | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review custom project stone products, architectural pieces, commercial programs, and fabrication references.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'materials',
-    path: '/materials/',
-    title: 'Stone Materials | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Choose from marble, granite, quartz, quartzite, travertine, and engineered marble before reviewing colors and fabrication options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'colors',
-    path: '/colors/',
-    title: 'Color Library | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare Vietnam granite, marble, and quartz colors by finish, thickness, and format from a stone fabrication factory and quartz supplier.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'color-white',
-    path: '/colors/white/',
-    title: 'White Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare white marble, quartz, quartzite, and engineered stone color directions, specifications, and sample options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'color-grey',
-    path: '/colors/grey/',
-    title: 'Grey Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare grey granite, quartz, quartzite, and engineered stone color directions, specifications, and sample options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'color-black',
-    path: '/colors/black/',
-    title: 'Black Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare black granite and marble color directions, specifications, finishes, and physical sample options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'color-beige',
-    path: '/colors/beige/',
-    title: 'Beige Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare beige marble, quartz, travertine, and engineered stone color directions and physical sample options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'color-green',
-    path: '/colors/green/',
-    title: 'Green Stone Colors | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare green marble and granite color directions, specifications, finishes, and physical sample options.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'factory',
-    path: '/factory/',
-    title: 'Factory | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review Vietnam granite and quartz supplier capabilities for cutting, CNC, finishing, inspection, packing, and drawing-led stone fabrication.',
-    schemaType: 'AboutPage',
-  },
-  {
-    id: 'finishes',
-    path: '/finishes/',
-    title: 'Finishes and Edges | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Compare finishes and edge profiles for Vietnam granite, marble, and quartz supplier programs supported by direct stone fabrication.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'finish-surfaces',
-    path: '/finishes/surface-finishes/',
-    title: 'Surface Finishes | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review polished, honed, and textured stone surface finish references and recommended applications.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'finish-edges',
-    path: '/finishes/edge-profiles/',
-    title: 'Stone Edge Profiles | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review standard, mitered, waterfall, and classic stone edge profile specifications and applications.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'finish-sink',
-    path: '/finishes/sink-integration/',
-    title: 'Sink and Assembly Details | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review drawing-led sink cutout, faucet layout, assembly, and packing considerations for vanity top programs.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'applications',
-    path: '/applications/',
-    title: 'Applications | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Explore kitchen, bathroom, hospitality, and commercial applications from a Vietnam granite, stone fabrication, and quartz supplier.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'application-kitchen',
-    path: '/applications/kitchen/',
-    title: 'Kitchen Applications | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Explore stone kitchen countertops, islands, backsplashes, materials, and surface directions.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'application-bathroom',
-    path: '/applications/bathroom/',
-    title: 'Bathroom Applications | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Explore vanity top, multi-family bathroom, and wet-area stone application directions.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'application-hotel',
-    path: '/applications/hotel/',
-    title: 'Hotel Applications | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Explore hotel bathroom, lobby, reception, and hospitality stone application directions.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'application-commercial',
-    path: '/applications/commercial/',
-    title: 'Commercial Applications | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Explore commercial, retail, restaurant, furniture, and outdoor stone application directions.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'partners',
-    path: '/partners/',
-    title: 'Trade Program | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review trade support for importers, builders, and distributors sourcing Vietnam granite, quartz supplier services, and stone fabrication.',
-    schemaType: 'WebPage',
-  },
-  {
-    id: 'resources',
-    path: '/resources/',
-    title: 'Technical Resources | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Access product, care, packing, and technical resources for Vietnam granite, quartz supplier programs, and custom stone fabrication.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'contact',
-    path: '/contact/',
-    title: 'Contact and RFQ | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Contact a Vietnam granite and quartz supplier for samples, drawings, quotations, distribution, and custom stone fabrication.',
-    schemaType: 'ContactPage',
-  },
-  {
-    id: 'samples',
-    path: '/samples/',
-    title: 'Order Samples | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Build a sample box for Vietnam granite, marble, and quartz supplier colors before moving into project stone fabrication.',
-    schemaType: 'WebPage',
-  },
-  {
-    id: 'events',
-    path: '/events/',
-    title: 'Fairs and Events | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Find future updates from a Vietnam granite, quartz supplier, and stone fabrication manufacturer serving global B2B buyers.',
-    schemaType: 'WebPage',
-  },
-  {
-    id: 'stone-marble',
-    path: '/stone-types/marble/',
-    title: 'Marble | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review marble properties, care, applications, and colors from a Vietnam granite and quartz supplier with direct stone fabrication.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'stone-granite',
-    path: '/stone-types/granite/',
-    title: 'Granite | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review Vietnam granite properties, care, applications, and colors from a quartz supplier with direct stone fabrication capability.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'stone-quartz',
-    path: '/stone-types/quartz/',
-    title: 'Quartz | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review engineered quartz properties, care, and applications from a Vietnam granite and quartz supplier with stone fabrication capability.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'stone-quartzite',
-    path: '/stone-types/quartzite/',
-    title: 'Quartzite | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review quartzite properties, care, and applications from a Vietnam granite and quartz supplier with custom stone fabrication.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'stone-travertine',
-    path: '/stone-types/travertine/',
-    title: 'Travertine | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review travertine properties, care, furniture uses, and finishes from a Vietnam granite, stone fabrication, and quartz supplier.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'stone-engineered-marble',
-    path: '/stone-types/engineered-marble/',
-    title: 'Engineered Marble | WHITEROCK Vietnam Stone Manufacturer',
-    description: 'Review engineered marble properties and vanity uses from a Vietnam granite and quartz supplier with repeat stone fabrication capability.',
-    schemaType: 'CollectionPage',
-  },
-  {
-    id: 'admin',
-    path: '/admin/',
-    title: 'WHITEROCK Content Admin',
-    description: 'Private WHITEROCK content administration workspace.',
-    schemaType: 'WebPage',
-    noIndex: true,
-  },
+  { id: 'home', path: '/', title: `Stone Surfaces | ${brandSuffix}`, description: 'Natural and engineered stone fabrication in Vietnam for vanity tops, countertops, furniture surfaces, and project programs.', schemaType: 'WebPage', ogImage: '/assets/brand/whiterock-waterfall-social.jpg' },
+  { id: 'about', path: '/about/', title: `About the Manufacturer | ${brandSuffix}`, description: 'Review the legal entity, Vietnam manufacturing approach, factory scope, and drawing-led stone program support.', schemaType: 'AboutPage', ogImage: '/assets/owner/enhanced/factory-exterior-enhanced.jpg' },
+  { id: 'products', path: '/products/', title: `Products | ${brandSuffix}`, description: 'Browse vanity tops, kitchen countertops, furniture surfaces, and project stone products prepared for B2B quotation.', schemaType: 'CollectionPage', ogImage: kitchenOg },
+  { id: 'product-vanity', path: '/products/vanity-tops/', title: `Vanity Tops | ${brandSuffix}`, description: 'Review vanity top references, dimensions, materials, sink cutouts, finishes, and drawing-led fabrication options.', schemaType: 'CollectionPage', ogImage: vanityOg },
+  { id: 'product-kitchen', path: '/products/kitchen-countertops/', title: `Kitchen Countertops | ${brandSuffix}`, description: 'Review kitchen countertop, island, backsplash, waterfall, material, edge, and fabrication references.', schemaType: 'CollectionPage', ogImage: kitchenOg },
+  { id: 'product-furniture', path: '/products/furniture-tops/', title: `Furniture Tops | ${brandSuffix}`, description: 'Review stone furniture surfaces for dining, coffee, console, and hospitality programs made to approved drawings.', schemaType: 'CollectionPage', ogImage: furnitureOg },
+  { id: 'product-project', path: '/products/project-products/', title: `Project Products | ${brandSuffix}`, description: 'Review commercial, hospitality, architectural, cut-to-size, and custom project stone fabrication references.', schemaType: 'CollectionPage', ogImage: factoryOg },
+  { id: 'materials', path: '/materials/', title: `Stone Materials | ${brandSuffix}`, description: 'Compare marble, granite, quartz, quartzite, travertine, and engineered marble before reviewing colors and fabrication options.', schemaType: 'CollectionPage', ogImage: materialOg },
+  { id: 'colors', path: '/colors/', title: `Color Library | ${brandSuffix}`, description: 'Compare material, color family, finish, thickness, recommended use, and physical sample options.', schemaType: 'CollectionPage', ogImage: '/assets/colors/alpine-carrara.jpg' },
+  { id: 'color-white', path: '/colors/white/', title: `White Stone Colors | ${brandSuffix}`, description: 'Compare white natural and engineered stone color directions, finishes, thicknesses, uses, and sample options.', schemaType: 'CollectionPage', ogImage: '/assets/colors/alpine-carrara.jpg' },
+  { id: 'color-grey', path: '/colors/grey/', title: `Grey Stone Colors | ${brandSuffix}`, description: 'Compare grey stone color directions, finishes, thicknesses, uses, and physical sample options.', schemaType: 'CollectionPage', ogImage: '/assets/materials/granite-v2.jpg' },
+  { id: 'color-black', path: '/colors/black/', title: `Black Stone Colors | ${brandSuffix}`, description: 'Compare black stone color directions, finishes, thicknesses, uses, and physical sample options.', schemaType: 'CollectionPage', ogImage: '/assets/materials/granite-v2.jpg' },
+  { id: 'color-beige', path: '/colors/beige/', title: `Beige Stone Colors | ${brandSuffix}`, description: 'Compare beige and warm stone color directions, finishes, thicknesses, uses, and sample options.', schemaType: 'CollectionPage', ogImage: '/assets/owner/countertops/oval-travertine-coffee-top.jpg' },
+  { id: 'color-green', path: '/colors/green/', title: `Green Stone Colors | ${brandSuffix}`, description: 'Compare green natural-stone color directions, finishes, uses, and physical sample options.', schemaType: 'CollectionPage', ogImage: materialOg },
+  { id: 'factory', path: '/factory/', title: `Vietnam Stone Factory | ${brandSuffix}`, description: 'Review cutting, CNC, finishing, inspection, packing, production evidence, and drawing-led fabrication controls.', schemaType: 'AboutPage', ogImage: factoryOg },
+  { id: 'finishes', path: '/finishes/', title: `Finishes and Edges | ${brandSuffix}`, description: 'Compare stone surface finishes, edge profiles, sink details, and fabrication directions.', schemaType: 'CollectionPage', ogImage: '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg' },
+  { id: 'finish-surfaces', path: '/finishes/surface-finishes/', title: `Surface Finishes | ${brandSuffix}`, description: 'Review polished, honed, and textured stone surface finish references and specification considerations.', schemaType: 'CollectionPage', ogImage: '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg' },
+  { id: 'finish-edges', path: '/finishes/edge-profiles/', title: `Stone Edge Profiles | ${brandSuffix}`, description: 'Review stone edge profile directions and drawing-led fabrication considerations.', schemaType: 'CollectionPage', ogImage: '/assets/owner/enhanced/edge-polisher-close-enhanced.jpg' },
+  { id: 'finish-sink', path: '/finishes/sink-integration/', title: `Sink and Assembly Details | ${brandSuffix}`, description: 'Review sink cutout, faucet layout, assembly, and packing considerations for vanity top programs.', schemaType: 'CollectionPage', ogImage: vanityOg },
+  { id: 'applications', path: '/applications/', title: `Applications | ${brandSuffix}`, description: 'Explore kitchen, bathroom, hospitality, commercial, and furniture stone application directions.', schemaType: 'CollectionPage', ogImage: kitchenOg },
+  { id: 'application-kitchen', path: '/applications/kitchen/', title: `Kitchen Applications | ${brandSuffix}`, description: 'Explore stone kitchen countertops, islands, backsplashes, materials, and surface directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/modern-kitchen-inspiration.jpg' },
+  { id: 'application-bathroom', path: '/applications/bathroom/', title: `Bathroom Applications | ${brandSuffix}`, description: 'Explore vanity top, multi-family bathroom, and wet-area stone application directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/master-bath-inspiration.jpg' },
+  { id: 'application-hotel', path: '/applications/hotel/', title: `Hotel Applications | ${brandSuffix}`, description: 'Explore hotel bathroom, lobby, reception, and hospitality stone application directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/hotel-lobby-inspiration.jpg' },
+  { id: 'application-commercial', path: '/applications/commercial/', title: `Commercial Applications | ${brandSuffix}`, description: 'Explore commercial, retail, restaurant, furniture, and project stone application directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/restaurant-counter-inspiration.jpg' },
+  { id: 'partners', path: '/partners/', title: `Trade Program | ${brandSuffix}`, description: 'Review B2B support for importers, builders, distributors, designers, and repeat stone programs.', schemaType: 'WebPage', ogImage: factoryOg },
+  { id: 'resources', path: '/resources/', title: `Technical Resources | ${brandSuffix}`, description: 'Access or request product, care, safety, packing, CAD, and technical documents for stone programs.', schemaType: 'CollectionPage', ogImage: '/assets/materials/quartz-v2.jpg' },
+  { id: 'contact', path: '/contact/', title: `Contact & Support | ${brandSuffix}`, description: 'Contact the Vietnam manufacturing team for samples, technical documents, supplier qualification, and existing-order support.', schemaType: 'ContactPage', ogImage: '/assets/owner/enhanced/factory-exterior-enhanced.jpg' },
+  { id: 'samples', path: '/samples/', title: `Order Stone Samples | ${brandSuffix}`, description: 'Build a physical sample box to confirm shortlisted natural and engineered stone directions before quotation.', schemaType: 'WebPage', ogImage: materialOg },
+  { id: 'events', path: '/events/', title: `Fairs and Events | ${brandSuffix}`, description: 'Review confirmed future meeting and exhibition updates from the Vietnam stone manufacturing team.', schemaType: 'WebPage', ogImage: '/assets/owner/enhanced/factory-exterior-enhanced.jpg' },
+  { id: 'stone-marble', path: '/stone-types/marble/', title: `Marble | ${brandSuffix}`, description: 'Review marble properties, care, applications, colors, finishes, samples, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/white-marble-v2.jpg' },
+  { id: 'stone-granite', path: '/stone-types/granite/', title: `Granite | ${brandSuffix}`, description: 'Review granite properties, care, applications, colors, finishes, samples, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/granite-v2.jpg' },
+  { id: 'stone-quartz', path: '/stone-types/quartz/', title: `Quartz | ${brandSuffix}`, description: 'Review engineered quartz properties, care, applications, colors, finishes, samples, and document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/quartz-v2.jpg' },
+  { id: 'stone-quartzite', path: '/stone-types/quartzite/', title: `Quartzite | ${brandSuffix}`, description: 'Review quartzite properties, material variation, applications, colors, samples, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/brand/hero-stone-v2.jpg' },
+  { id: 'stone-travertine', path: '/stone-types/travertine/', title: `Travertine | ${brandSuffix}`, description: 'Review travertine properties, fill and finish considerations, furniture applications, samples, and document status.', schemaType: 'CollectionPage', ogImage: '/assets/owner/countertops/fluted-travertine-dining-top.jpg' },
+  { id: 'stone-engineered-marble', path: '/stone-types/engineered-marble/', title: `Engineered Marble | ${brandSuffix}`, description: 'Review engineered marble properties, repeat-program applications, samples, care, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/engineered-marble-v2.jpg' },
 ];
 
-export const routesById = Object.fromEntries(
-  routes.map((route) => [route.id, route]),
-) as Record<RouteId, RouteDefinition>;
+export const routesById = Object.fromEntries(routes.map((route) => [route.id, route])) as Record<RouteId, RouteDefinition>;
 
 export function routePath(routeId: string): string {
   return routesById[routeId as RouteId]?.path ?? routesById.home.path;
@@ -406,23 +192,9 @@ export function routePath(routeId: string): string {
 
 export function routeIdFromLocation(location: Location = window.location): RouteId {
   const legacyHash = location.hash.replace(/^#\/?/, '').split('/')[0];
-  if (legacyHash && legacyHash in routesById) {
-    return legacyHash as RouteId;
-  }
+  if (legacyHash && legacyHash in routesById) return legacyHash as RouteId;
 
-  const segments = location.pathname
-    .split('/')
-    .map((segment) => segment.trim())
-    .filter(Boolean);
-  const lastSegment = segments.at(-1)?.replace(/\.html$/, '') ?? '';
-
-  if (!lastSegment || lastSegment === 'index') {
-    return 'home';
-  }
-
-  const match = routes.find((route) => {
-    const routeSegment = route.path.split('/').filter(Boolean).at(-1);
-    return route.id === lastSegment || routeSegment === lastSegment;
-  });
+  const pathname = location.pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '') || '/';
+  const match = routes.find((route) => route.path.replace(/\/+$/, '') === pathname.replace(/\/+$/, ''));
   return match?.id ?? 'home';
 }
