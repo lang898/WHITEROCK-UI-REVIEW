@@ -29,20 +29,26 @@ const slides: HeroSlide[] = [
   {
     label: 'Made to drawing',
     caption: 'Vanity tops and project components produced to approved drawings, samples, and sink details.',
-    src: '/assets/owner/manufacturing/vanity-production-detail-wide.jpg',
+    src: '/assets/owner/enhanced/vanity-production-detail-enhanced.jpg',
+    webp: '/assets/owner/enhanced/vanity-production-detail-enhanced-1280.webp',
+    avif: '/assets/owner/enhanced/vanity-production-detail-enhanced-1280.avif',
     alt: 'Vanity tops in production at the WHITEROCK Vietnam factory',
   },
   {
     label: 'Vietnam manufacturing',
     caption: 'Cutting, CNC, edge processing, polishing, and fabrication coordinated in Dong Nai.',
     src: '/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg',
+    webp: '/assets/owner/enhanced/cnc-cutting-line-enhanced-1280.webp',
+    avif: '/assets/owner/enhanced/cnc-cutting-line-enhanced-1280.avif',
     alt: 'CNC stone cutting and fabrication line at the WHITEROCK Vietnam factory',
   },
   {
     label: 'Quality controlled',
     caption: 'Dimensions, surfaces, cutouts, and finish are checked against the approved product before packing.',
-    src: '/assets/owner/qc/inspection-line-overview.jpg',
-    alt: 'WHITEROCK quality inspection line checking fabricated stone products in Vietnam',
+    src: '/assets/owner/enhanced/quality-inspection-team-enhanced.jpg',
+    webp: '/assets/owner/enhanced/quality-inspection-team-enhanced-1280.webp',
+    avif: '/assets/owner/enhanced/quality-inspection-team-enhanced-1280.avif',
+    alt: 'WHITEROCK production team reviewing stone components during quality inspection in Vietnam',
   },
   {
     label: 'Repeat-program readiness',
@@ -51,10 +57,12 @@ const slides: HeroSlide[] = [
     alt: 'Finished stone tops organized as a matched production lot for inspection',
   },
   {
-    label: 'Packing & shipment',
-    caption: 'Final packing checks prepare each order for protected handling and documented shipment handoff.',
-    src: '/assets/owner/qc/carton-station-overview-01.jpg',
-    alt: 'WHITEROCK packing station preparing fabricated stone products for shipment',
+    label: 'Order staging',
+    caption: 'Finished components are organized by order for final checks, packing preparation, and shipment handoff.',
+    src: '/assets/owner/enhanced/material-staging-hall-enhanced.jpg',
+    webp: '/assets/owner/enhanced/material-staging-hall-enhanced-1280.webp',
+    avif: '/assets/owner/enhanced/material-staging-hall-enhanced-1280.avif',
+    alt: 'Finished stone components staged by order at the WHITEROCK Vietnam factory',
   },
 ];
 
