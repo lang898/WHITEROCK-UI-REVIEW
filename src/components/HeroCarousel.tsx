@@ -20,43 +20,41 @@ interface HeroCarouselProps {
 const slides: HeroSlide[] = [
   {
     label: 'Finished applications',
-    caption: 'Stone fabricated for residential, hospitality, and commercial programs.',
+    caption: 'Natural and engineered stone fabricated for residential, hospitality, and commercial programs.',
     src: '/assets/owner/countertops/waterfall-kitchen-island.jpg',
     webp: '/assets/owner/countertops/waterfall-kitchen-island-1280.webp',
     avif: '/assets/owner/countertops/waterfall-kitchen-island-1280.avif',
     alt: 'Finished stone waterfall kitchen island fabricated for a project application',
   },
   {
-    label: 'Made to specification',
-    caption: 'Fabricated to approved samples, drawings, and project requirements.',
-    src: '/assets/owner/countertops/carrara-kitchen-island.jpg',
-    webp: '/assets/owner/countertops/carrara-kitchen-island-1280.webp',
-    avif: '/assets/owner/countertops/carrara-kitchen-island-1280.avif',
-    alt: 'Finished Carrara stone kitchen island made to approved project requirements',
+    label: 'Made to drawing',
+    caption: 'Vanity tops and project components produced to approved drawings, samples, and sink details.',
+    src: '/assets/owner/manufacturing/vanity-production-detail-wide.jpg',
+    alt: 'Vanity tops in production at the WHITEROCK Vietnam factory',
   },
   {
     label: 'Vietnam manufacturing',
-    caption: 'Cutting, CNC, polishing, and fabrication coordinated in one production system.',
+    caption: 'Cutting, CNC, edge processing, polishing, and fabrication coordinated in Dong Nai.',
     src: '/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg',
-    alt: 'CNC stone fabrication equipment at the WHITEROCK Vietnam factory',
+    alt: 'CNC stone cutting and fabrication line at the WHITEROCK Vietnam factory',
   },
   {
     label: 'Quality controlled',
-    caption: 'Production checked against approved drawings, samples, and specifications.',
-    src: '/assets/owner/enhanced/quality-inspection-team-enhanced.jpg',
-    alt: 'WHITEROCK quality inspection team checking fabricated stone products in Vietnam',
+    caption: 'Dimensions, surfaces, cutouts, and finish are checked against the approved product before packing.',
+    src: '/assets/owner/qc/inspection-line-overview.jpg',
+    alt: 'WHITEROCK quality inspection line checking fabricated stone products in Vietnam',
   },
   {
-    label: 'Material selection',
-    caption: 'Stone selected through established material partners and quarry networks.',
-    src: '/assets/owner/countertops/carrara-white-quarry-overview.jpg',
-    alt: 'Carrara stone material selection at a sourcing partner quarry',
+    label: 'Repeat-program readiness',
+    caption: 'Matched production lots are organized for inspection, specification control, and repeat-order consistency.',
+    src: '/assets/owner/manufacturing/finished-top-lineup.jpg',
+    alt: 'Finished stone tops organized as a matched production lot for inspection',
   },
   {
-    label: 'Project supply',
-    caption: 'Production, inspection, packing, and shipment planned for repeat programs.',
-    src: '/assets/owner/enhanced/material-staging-hall-enhanced.jpg',
-    alt: 'Stone material and finished product staging for project production and shipment',
+    label: 'Packing & shipment',
+    caption: 'Final packing checks prepare each order for protected handling and documented shipment handoff.',
+    src: '/assets/owner/qc/carton-station-overview-01.jpg',
+    alt: 'WHITEROCK packing station preparing fabricated stone products for shipment',
   },
 ];
 
@@ -179,8 +177,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
             Natural and engineered stone fabrication for vanity tops, countertops, furniture surfaces, and project programs.
           </p>
           <div className="wr-trust-hero__actions">
-            <button className="wr-button wr-button--light" type="button" onClick={onExploreProducts}>Explore Products</button>
-            <button className="wr-button wr-button--outline-light" type="button" onClick={onRequestQuote}>Request a Quote</button>
+            <button className="wr-button wr-button--light" type="button" onClick={onRequestQuote}>Request a Quote</button>
+            <button className="wr-button wr-button--outline-light" type="button" onClick={onExploreProducts}>Explore Products</button>
           </div>
         </div>
 
