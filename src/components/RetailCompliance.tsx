@@ -29,7 +29,7 @@ export const RetailCompliance: React.FC<RetailComplianceProps> = ({ compact = fa
   <section className={`wr-compliance${compact ? ' wr-compliance--compact' : ''}`} aria-labelledby={`retail-compliance-title${compact ? '-compact' : ''}`}>
     <div className="wr-compliance__inner">
       <div className="wr-compliance__heading">
-        <p className="wr-eyebrow">THD Program Assessment Experience</p>
+        <p className="wr-eyebrow">Retail Program Assessment Experience</p>
         <h2 id={`retail-compliance-title${compact ? '-compact' : ''}`}>Retail &amp; Supply Chain Compliance</h2>
         <p>WHITEROCK maintains manufacturing, quality, and supply-chain systems aligned with major North American retail program requirements.</p>
       </div>
@@ -45,7 +45,7 @@ export const RetailCompliance: React.FC<RetailComplianceProps> = ({ compact = fa
         ))}
       </div>
 
-      <p className="wr-compliance__note">Assessment acronyms are shown as used in program documentation. Supporting records are available upon request.</p>
+      <p className="wr-compliance__note">Assessment terminology is shown as used in program documentation. Supporting records can be provided for qualified buyer review.</p>
     </div>
   </section>
 );
