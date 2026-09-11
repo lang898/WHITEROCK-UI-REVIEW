@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check, FileCheck2, PackageCheck, Ruler } from 'lucide-react';
+import { ArrowRight, FileCheck2, PackageCheck, Ruler } from 'lucide-react';
 import { factory, photoGalleries } from '../data';
 import { Button } from '../components/ui/Button';
 import { PhotoReferenceRail } from '../components/PhotoReferenceRail';
 import { RetailCompliance } from '../components/RetailCompliance';
+import { openRfqBuilder } from '../lib/uiEvents';
 import type { LocaleConfig, PhotoReferenceItem } from '../types';
 
 interface FactoryViewProps {
@@ -13,117 +14,68 @@ interface FactoryViewProps {
 
 const capabilityTabs = [
   {
-    id: 'cutting',
-    label: 'Cutting',
-    title: 'Cut-to-size production from approved drawings.',
+    id: 'cutting', label: 'Cutting', title: 'Cut-to-size production from approved drawings.',
     copy: 'Stone components are nested, cut, and routed to the dimensions and openings defined in the order documents.',
-    image: '/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg',
-    alt: 'Stone cutting line inside the WHITEROCK Vietnam factory',
+    image: '/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg', alt: 'Stone cutting line inside the Vietnam factory',
+    controls: 'Overall dimensions, part geometry, layout and primary openings', evidence: 'Cutting-line and staged-component production photographs', confirmedBy: 'Approved production drawing',
   },
   {
-    id: 'cnc',
-    label: 'CNC',
-    title: 'Machining for openings, profiles, and repeat components.',
+    id: 'cnc', label: 'CNC', title: 'Machining for openings, profiles, and repeat components.',
     copy: 'Digital files guide sink cutouts, faucet holes, profiles, and repeatable component geometry for the agreed product.',
-    image: '/assets/owner/enhanced/edge-processing-line-enhanced.jpg',
-    alt: 'Stone machining equipment in the production hall',
+    image: '/assets/owner/enhanced/edge-processing-line-enhanced.jpg', alt: 'Stone machining equipment in the production hall',
+    controls: 'Sink cutouts, faucet holes, profiles and repeat component geometry', evidence: 'CNC / machining production photographs and dimensional checks', confirmedBy: 'Approved drawing and digital file',
   },
   {
-    id: 'polishing',
-    label: 'Polishing',
-    title: 'Edge and surface finishing to the approved sample.',
+    id: 'polishing', label: 'Polishing', title: 'Edge and surface finishing to the approved sample.',
     copy: 'Automated and manual stations are used for straight edges, profiles, surface preparation, and final finish review.',
-    image: '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg',
-    alt: 'Manual profile polishing station for stone components',
+    image: '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg', alt: 'Manual profile polishing station for stone components',
+    controls: 'Edge shape, surface finish, visible workmanship and approved appearance', evidence: 'Edge-processing and hand-finishing production photographs', confirmedBy: 'Approved sample and drawing',
   },
   {
-    id: 'quality',
-    label: 'Quality',
-    title: 'Inspection checkpoints tied to the purchase order.',
+    id: 'quality', label: 'Quality', title: 'Inspection checkpoints tied to the purchase order.',
     copy: 'Material range, dimensions, openings, alignment, surface finish, edge finish, labels, and packing are reviewed against the agreed criteria.',
-    image: '/assets/owner/qc/digital-thickness-inspection.jpg',
-    alt: 'Digital caliper measuring a polished stone slab at the production line',
+    image: '/assets/owner/qc/digital-thickness-inspection.jpg', alt: 'Digital caliper measuring a polished stone component',
+    controls: 'Dimensions, thickness, surface, openings, finish, labels and agreed acceptance points', evidence: 'Instrument readings, inspection photographs and order records', confirmedBy: 'PO, approved drawing and acceptance plan',
   },
   {
-    id: 'packing',
-    label: 'Packing',
-    title: 'Packing planned around the product and transport route.',
+    id: 'packing', label: 'Packing', title: 'Packing planned around the product and transport route.',
     copy: 'Protective materials, cartons, crates, racks, labels, moisture protection, and bracing are selected for the confirmed load plan.',
-    image: '/assets/owner/enhanced/material-staging-hall-enhanced.jpg',
-    alt: 'Finished stone components staged before packing',
+    image: '/assets/owner/enhanced/material-staging-hall-enhanced.jpg', alt: 'Finished stone components staged before packing',
+    controls: 'Protection, labels, unit count, handling method, bracing and load preparation', evidence: 'Packing records, marks and staged-order photographs', confirmedBy: 'Approved packing plan and shipment documents',
   },
 ] as const;
 
 const assetUrl = (asset: string) => asset.startsWith('/') ? asset : `/${asset}`;
 
-const factoryGallery = [
-  { file: 'edge-line-operation-enhanced', alt: 'Operator working at a stone edge-processing line', caption: 'Edge-line operation' },
-  { file: 'edge-line-wide-enhanced', alt: 'Wide view of the stone edge-processing area', caption: 'Edge-processing area' },
-  { file: 'edge-line-workstation-enhanced', alt: 'Stone edge-line workstation with production racks', caption: 'Edge-line workstation' },
-  { file: 'edge-polisher-close-enhanced', alt: 'Close view of stone edge-polishing equipment', caption: 'Edge polishing' },
-  { file: 'factory-exterior-enhanced', alt: 'Exterior of the WHITEROCK manufacturing facility in Vietnam', caption: 'Dong Nai facility' },
-  { file: 'manual-polishing-bay-enhanced', alt: 'Manual polishing bay for stone components', caption: 'Manual polishing bay' },
-  { file: 'vanity-inspection-sequence-a-enhanced', alt: 'Vanity tops aligned for dimensional and visual review', caption: 'Vanity inspection sequence' },
-  { file: 'vanity-inspection-sequence-b-enhanced', alt: 'Finished vanity tops arranged for order inspection', caption: 'Finished-top review' },
-  { file: 'vanity-production-detail-enhanced', alt: 'Detail of vanity-top production inside the factory', caption: 'Vanity production detail' },
-  { file: 'vanity-workshop-overhead-enhanced', alt: 'Overhead view of the vanity-top workshop and staging area', caption: 'Workshop overview' },
-] as const;
-
-export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
+export const FactoryView: React.FC<FactoryViewProps> = () => {
   const [activeCapability, setActiveCapability] = useState<(typeof capabilityTabs)[number]['id']>('cutting');
   const [activeEvidenceId, setActiveEvidenceId] = useState<'finished' | 'manufacturing' | 'quality'>('finished');
   const active = capabilityTabs.find((item) => item.id === activeCapability) || capabilityTabs[0];
   const layoutReference: PhotoReferenceItem = {
-    id: 'slab-layout-review',
-    image: assetUrl(factory.qc.manufacturingReference.image),
-    imageWebp: assetUrl(factory.qc.manufacturingReference.imageWebp),
-    imageAvif: assetUrl(factory.qc.manufacturingReference.imageAvif),
-    alt: factory.qc.manufacturingReference.imageAlt,
-    caption: factory.qc.manufacturingReference.caption,
-    width: factory.qc.manufacturingReference.width,
-    height: factory.qc.manufacturingReference.height,
+    id: 'slab-layout-review', image: assetUrl(factory.qc.manufacturingReference.image), imageWebp: assetUrl(factory.qc.manufacturingReference.imageWebp), imageAvif: assetUrl(factory.qc.manufacturingReference.imageAvif), alt: factory.qc.manufacturingReference.imageAlt, caption: factory.qc.manufacturingReference.caption, width: factory.qc.manufacturingReference.width, height: factory.qc.manufacturingReference.height,
   };
   const existingQualityReferences: PhotoReferenceItem[] = factory.qc.media.map((item) => ({
-    id: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-    image: assetUrl(item.image),
-    imageWebp: assetUrl(item.imageWebp),
-    imageAvif: assetUrl(item.imageAvif),
-    alt: item.imageAlt,
-    caption: item.caption,
-    width: item.width,
-    height: item.height,
+    id: item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'), image: assetUrl(item.image), imageWebp: assetUrl(item.imageWebp), imageAvif: assetUrl(item.imageAvif), alt: item.imageAlt, caption: item.caption, width: item.width, height: item.height,
   }));
   const evidenceGroups = {
-    finished: {
-      label: 'Finished tops',
-      title: 'Finished vanity tops across current production.',
-      copy: 'Multiple sizes, materials, opening layouts, backsplashes, and edge profiles are documented as production references.',
-      items: photoGalleries.productProduction,
-    },
-    manufacturing: {
-      label: 'Material & layout',
-      title: 'Material faces, layout marks, and fabrication staging.',
-      copy: 'These records show how slab movement, component position, cutouts, and large-format pieces are reviewed before the next production step.',
-      items: [layoutReference, ...photoGalleries.manufacturingReferences],
-    },
-    quality: {
-      label: 'Quality checks',
-      title: 'Instrument readings and visual inspection records.',
-      copy: 'Thickness, gloss, and marked surface features are documented against the acceptance criteria agreed for the order.',
-      items: [...existingQualityReferences, ...photoGalleries.qualityReferences],
-    },
+    finished: { label: 'Finished tops', title: 'Finished products across current production references.', copy: 'Multiple sizes, materials, opening layouts, backsplashes, and edge profiles are documented as production references.', items: photoGalleries.productProduction },
+    manufacturing: { label: 'Material & layout', title: 'Material faces, layout marks, and fabrication staging.', copy: 'These records show how material movement, component position, cutouts, and large-format pieces are reviewed before the next production step.', items: [layoutReference, ...photoGalleries.manufacturingReferences] },
+    quality: { label: 'Quality checks', title: 'Instrument readings and visual inspection records.', copy: 'Thickness, gloss, and marked surface features are documented against the acceptance criteria agreed for the order.', items: [...existingQualityReferences, ...photoGalleries.qualityReferences] },
   } as const;
   const activeEvidence = evidenceGroups[activeEvidenceId];
 
   return (
     <div className="wr-factory-page">
       <header className="wr-factory-page__hero">
-        <img src="/assets/owner/enhanced/production-hall-aisle-enhanced.jpg" srcSet="/assets/owner/enhanced/production-hall-aisle-enhanced-720.webp 720w, /assets/owner/enhanced/production-hall-aisle-enhanced-1280.webp 1280w, /assets/owner/enhanced/production-hall-aisle-enhanced.jpg 1448w" sizes="100vw" alt="Stone production hall at the WHITEROCK Vietnam factory" width="1448" height="1086" loading="eager" fetchPriority="high" />
+        <picture>
+          <source srcSet="/assets/owner/enhanced/production-hall-aisle-enhanced-1280.webp" type="image/webp" />
+          <img src="/assets/owner/enhanced/production-hall-aisle-enhanced.jpg" alt="Stone production hall at the Vietnam factory" width="1448" height="1086" loading="eager" fetchPriority="high" />
+        </picture>
         <div className="wr-factory-page__overlay" />
         <div className="wr-factory-page__intro">
           <span className="wr-eyebrow wr-eyebrow--light">Dong Nai · Vietnam</span>
           <h1>Direct stone manufacturing, organized around the drawing.</h1>
-          <p>WHITEROCK operates a 20,000 m² stone manufacturing site for vanity tops, kitchen countertops, furniture surfaces, and project components.</p>
+          <p>The current public factory profile describes a 20,000 m² manufacturing site for vanity tops, kitchen countertops, furniture surfaces, and project components. Published capacity figures remain subject to owner confirmation.</p>
         </div>
       </header>
 
@@ -134,49 +86,32 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
       <section className="wr-factory-capability wr-section-band wr-section-band--mist" aria-labelledby="factory-capability-title">
         <div className="wr-section-heading wr-section-intro">
           <span className="wr-eyebrow">Manufacturing capability</span>
-          <h2 id="factory-capability-title">Five production stages, one approved specification.</h2>
-          <p>Move through the process to see where material, geometry, finish, inspection, and packing decisions are controlled.</p>
+          <h2 id="factory-capability-title">Five stages tied to documented controls.</h2>
+          <p>Each stage shows what is controlled, what evidence is available, and which order document governs acceptance.</p>
         </div>
         <div className="wr-factory-tabs" role="tablist" aria-label="Factory capabilities">
           {capabilityTabs.map((item) => <button key={item.id} role="tab" aria-selected={activeCapability === item.id} className={activeCapability === item.id ? 'is-active' : ''} onClick={() => setActiveCapability(item.id)}>{item.label}</button>)}
         </div>
         <article className="wr-factory-tab-panel" role="tabpanel">
           <img src={active.image} alt={active.alt} width="1448" height="1086" loading="lazy" />
-          <div><span>{active.label}</span><h3>{active.title}</h3><p>{active.copy}</p><ul>{factory.flowSteps.map((step) => <li key={step.number}><Check />{step.title}</li>)}</ul></div>
+          <div><span>{active.label}</span><h3>{active.title}</h3><p>{active.copy}</p></div>
         </article>
-      </section>
-
-      <section className="wr-factory-gallery wr-section-band" aria-labelledby="factory-gallery-title">
-        <div className="wr-section-heading wr-section-intro">
-          <span className="wr-eyebrow">Production floor</span>
-          <h2 id="factory-gallery-title">Real stations across the manufacturing sequence.</h2>
-          <p>Review cutting, edge processing, hand finishing, product inspection, staging, and the Dong Nai facility.</p>
-        </div>
-        <div className="wr-factory-gallery__grid">
-          {factoryGallery.map((item) => (
-            <figure key={item.file}>
-              <picture>
-                <source srcSet={`/assets/owner/enhanced/${item.file}-1280.avif`} type="image/avif" />
-                <source srcSet={`/assets/owner/enhanced/${item.file}-1280.webp`} type="image/webp" />
-                <img src={`/assets/owner/enhanced/${item.file}.jpg`} alt={item.alt} width="1448" height="1086" loading="lazy" />
-              </picture>
-              <figcaption>{item.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
+        <dl className="wr-factory-evidence-matrix">
+          <div><dt>Controls</dt><dd>{active.controls}</dd></div>
+          <div><dt>Evidence</dt><dd>{active.evidence}</dd></div>
+          <div><dt>Confirmed by</dt><dd>{active.confirmedBy}</dd></div>
+        </dl>
       </section>
 
       <section className="wr-factory-proof wr-section-band" aria-labelledby="factory-proof-title">
         <div className="wr-section-heading wr-section-intro">
           <span className="wr-eyebrow">Production evidence</span>
-          <h2 id="factory-proof-title">A broader record of products, process, and inspection.</h2>
+          <h2 id="factory-proof-title">Products, process, and inspection in one evidence library.</h2>
           <p>Production photography is grouped by decision stage. Final acceptance remains tied to the approved drawing and order criteria.</p>
         </div>
         <div className="wr-evidence-tabs" role="tablist" aria-label="Production evidence groups">
           {(Object.keys(evidenceGroups) as Array<keyof typeof evidenceGroups>).map((id) => (
-            <button key={id} type="button" role="tab" aria-selected={activeEvidenceId === id} className={activeEvidenceId === id ? 'is-active' : ''} onClick={() => setActiveEvidenceId(id)}>
-              {evidenceGroups[id].label}<span>{evidenceGroups[id].items.length}</span>
-            </button>
+            <button key={id} type="button" role="tab" aria-selected={activeEvidenceId === id} className={activeEvidenceId === id ? 'is-active' : ''} onClick={() => setActiveEvidenceId(id)}>{evidenceGroups[id].label}<span>{evidenceGroups[id].items.length}</span></button>
           ))}
         </div>
         <div className="wr-evidence-panel" role="tabpanel">
@@ -197,8 +132,8 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab }) => {
       </section>
 
       <section className="wr-factory-cta wr-section-band">
-        <div><span className="wr-eyebrow">Factory-led quotation</span><h2>Share the drawing, quantity, destination, and target schedule.</h2><p>We will review the material, fabrication route, inspection points, and packing method as one order package.</p></div>
-        <Button onClick={() => setCurrentTab('contact')}>Start an RFQ<ArrowRight /></Button>
+        <div><span className="wr-eyebrow">Factory-led quotation</span><h2>Share the drawing, quantity, destination, and target schedule.</h2><p>Material, fabrication route, inspection points, and packing method are reviewed as one order package.</p></div>
+        <Button onClick={openRfqBuilder}>Start an RFQ<ArrowRight /></Button>
       </section>
     </div>
   );
