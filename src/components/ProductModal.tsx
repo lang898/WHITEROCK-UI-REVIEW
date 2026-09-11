@@ -1,18 +1,5 @@
 import React from 'react';
-import {
-  X,
-  Plus,
-  Package,
-  Layers,
-  FileText,
-  Clock,
-  Sparkles,
-  ShieldCheck,
-  ChevronRight,
-  Download,
-  CheckCircle2,
-  Share2
-} from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import type { ProductItem } from '../types';
 import { ShareButton } from './ShareButton';
 import type { ShareContent } from './SocialShareModal';
@@ -26,168 +13,106 @@ interface ProductModalProps {
   onShare?: (content: ShareContent) => void;
 }
 
-export const ProductModal: React.FC<ProductModalProps> = ({
-  product,
-  onClose,
-  onAddToCart,
-  onShare,
-}) => {
+export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose, onAddToCart, onShare }) => {
   if (!product) return null;
+
+  const dimensions = formatMeasurement(product.dimensions || product.specs.Size || 'Confirm by approved drawing');
+  const thicknesses = formatMeasurement(product.thicknesses?.length ? product.thicknesses.join(', ') : (product.specs.Thickness || 'Confirm by quotation'));
+  const edges = product.edges?.length ? product.edges.join(', ') : (product.specs.Edge || 'Confirm by approved drawing');
+  const sinkIntegration = product.sinkCompatibility || product.specs.Sink || 'Confirm by approved drawing';
+  const moq = product.moq || product.specs.MOQ || 'Confirm by quotation';
+  const leadTime = product.leadTime || product.specs.LeadTime || 'Confirm by quotation';
+  const packaging = product.packaging || product.specs.Packaging || 'Order-specific export packing';
 
   const shareContent: ShareContent = {
     title: `${product.title} (${product.sku})`,
-    text: `WHITEROCK Vietnam: ${product.title} (${product.sku}) - ${product.material}. Dimensions shown: ${formatMeasurement(product.dimensions)}. Final specifications and availability are confirmed in the written quotation.`,
+    text: `WHITEROCK Vietnam: ${product.title} (${product.sku}) - ${product.material}. Final specifications and availability are confirmed in the written quotation.`,
     image: product.image,
     material: product.material,
-    specs: `Dimensions: ${formatMeasurement(product.dimensions)} | Thickness: ${formatMeasurement(product.thicknesses.join(', '))} | MOQ: ${product.moq}`,
-    type: 'product'
+    specs: `Dimensions: ${dimensions} | Thickness: ${thicknesses} | MOQ: ${moq}`,
+    type: 'product',
   };
 
   return (
-    <Modal
-      onClose={onClose}
-      ariaLabel={`${product.title} specifications`}
-      panelClassName="wr-detail-dialog wr-detail-dialog--product"
-    >
-        {/* Modal Header */}
-        <div className="wr-modal-header">
-          <div className="flex items-center gap-3">
-            <span className="tech-badge text-stone-800 bg-stone-50 px-2.5 py-1 rounded-full border border-stone-200">
-              {product.sku}
-            </span>
-            <h3 className="font-bold text-lg text-[#1d1d1f] truncate max-w-md">
-              {product.title}
-            </h3>
-          </div>
-          <button
-            onClick={onClose}
-            className="wr-modal-close"
-            aria-label="Close product details"
-          >
-            <X className="w-5 h-5" />
-          </button>
+    <Modal onClose={onClose} ariaLabel={`${product.title} specifications`} panelClassName="wr-detail-dialog wr-detail-dialog--product">
+      <div className="wr-modal-header">
+        <div className="min-w-0">
+          <span className="tech-badge text-stone-500">{product.sku} · {product.material}</span>
+          <h3 className="mt-1 truncate text-lg">{product.title}</h3>
         </div>
+        <button onClick={onClose} className="wr-modal-close" aria-label="Close product details"><X className="w-5 h-5" /></button>
+      </div>
 
-        {/* Modal Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Visual & Media */}
-            <div className="space-y-3">
-              <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-stone-100 border border-black/[0.06] group shadow-xs">
-                <picture>
-                  {product.imageAvif && <source srcSet={product.imageAvif} type="image/avif" />}
-                  {product.imageWebp && <source srcSet={product.imageWebp} type="image/webp" />}
-                  <img
-                    src={product.image}
-                    alt={product.imageAlt || (product.isIllustrative ? `${product.title} illustrative render` : product.title)}
-                    width={product.imageWidth || 1600}
-                    height={product.imageHeight || 1200}
-                    loading="lazy"
-                    className="wr-media-zoom"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450"><rect width="600" height="450" fill="%23f5f5f7"/><rect x="40" y="40" width="520" height="370" rx="12" fill="%23ffffff" stroke="%23d1d1d6" stroke-width="2"/><text x="50%25" y="45%25" dominant-baseline="middle" text-anchor="middle" fill="%23b45309" font-family="sans-serif" font-size="20" font-weight="bold">${product.sku}</text><text x="50%25" y="55%25" dominant-baseline="middle" text-anchor="middle" fill="%236e6e73" font-family="sans-serif" font-size="14">${product.category}</text><text x="50%25" y="85%25" dominant-baseline="middle" text-anchor="middle" fill="%2386868b" font-family="sans-serif" font-size="11">WHITEROCK VIETNAM FACTORY</text></svg>`;
-                    }}
-                  />
-                </picture>
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-semibold text-[#1d1d1f] shadow-xs">
-                  {product.material}
-                </div>
-                {product.isIllustrative && (
-                  <div className="absolute bottom-2 right-2 px-3 py-1 rounded-full bg-black/70 text-[10px] text-white">
-                    Illustrative render
-                  </div>
-                )}
-              </div>
-
-              <p className="text-xs text-[#6e6e73] leading-relaxed">
-                {formatMeasurement(product.description)}
-              </p>
+      <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <div className="space-y-4">
+            <div className="relative aspect-4/3 overflow-hidden border border-black/10 bg-stone-100">
+              <picture>
+                {product.imageAvif && <source srcSet={product.imageAvif} type="image/avif" />}
+                {product.imageWebp && <source srcSet={product.imageWebp} type="image/webp" />}
+                <img
+                  src={product.image}
+                  alt={product.imageAlt || (product.isIllustrative ? `${product.title} illustrative render` : product.title)}
+                  width={product.imageWidth || 1600}
+                  height={product.imageHeight || 1200}
+                  loading="lazy"
+                  className="wr-media-zoom h-full w-full object-cover"
+                  onError={(event) => {
+                    const target = event.currentTarget;
+                    target.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450"><rect width="600" height="450" fill="%23f5f5f7"/><rect x="40" y="40" width="520" height="370" fill="%23ffffff" stroke="%23d1d1d6" stroke-width="2"/><text x="50%25" y="46%25" dominant-baseline="middle" text-anchor="middle" fill="%231d1d1f" font-family="sans-serif" font-size="20" font-weight="bold">${product.sku}</text><text x="50%25" y="56%25" dominant-baseline="middle" text-anchor="middle" fill="%236e6e73" font-family="sans-serif" font-size="14">${product.category}</text></svg>`;
+                  }}
+                />
+              </picture>
+              {product.isIllustrative && <span className="absolute bottom-3 right-3 bg-black/75 px-3 py-1 text-[10px] font-semibold text-white">Illustrative render</span>}
             </div>
-
-            {/* Specifications Matrix */}
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <span className="tech-badge text-[#86868b] block">
-                  DIMENSIONS & STANDARDS
-                </span>
-                <div className="p-4 rounded-2xl bg-[#f5f5f7] border border-black/[0.05] space-y-2 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Standard Sizing:</span>
-                    <strong className="font-mono text-[#1d1d1f]">{formatMeasurement(product.dimensions)}</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Thickness Options:</span>
-                    <span className="text-[#1d1d1f]">{formatMeasurement(product.thicknesses.join(', '))}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Edge Profiles:</span>
-                    <span className="text-[#1d1d1f]">{product.edges.join(', ')}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Sink Integration:</span>
-                    <span className="text-stone-700 font-medium">{product.sinkCompatibility}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <span className="tech-badge text-[#86868b] block">
-                  EXPORT LOGISTICS & PACKAGING
-                </span>
-                <div className="p-4 rounded-2xl bg-[#f5f5f7] border border-black/[0.05] space-y-2 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Minimum Order (MOQ):</span>
-                    <span className="text-[#1d1d1f]">{product.moq}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Lead Time:</span>
-                    <span className="text-[#1d1d1f]">{product.leadTime}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Crate Standard:</span>
-                    <span className="text-[#1d1d1f]">{product.packaging}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#86868b]">Import Treatment:</span>
-                    <span className="text-[#1d1d1f] font-semibold">Confirm with the buyer's customs broker</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal Footer */}
-        <div className="px-6 sm:px-8 py-4 border-t border-black/[0.06] bg-[#fbfbfd] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 rounded-full text-xs font-medium text-[#6e6e73] hover:text-[#1d1d1f] cursor-pointer"
-            >
-              Close
-            </button>
-            {onShare && (
-              <ShareButton
-                content={shareContent}
-                onShare={onShare}
-                variant="pill"
-                label="Share Product"
-              />
-            )}
+            <p className="text-sm leading-6 text-stone-600">{formatMeasurement(product.description)}</p>
+            <p className="border-l-2 border-stone-300 pl-4 text-xs leading-5 text-stone-500">
+              Product information shown here is a reference for inquiry. Final dimensions, material, finish, cutouts, edge details, packing, availability, and price are confirmed by approved drawing and written quotation.
+            </p>
           </div>
 
-          <button
-            onClick={() => {
-              onAddToCart(product);
-              onClose();
-            }}
-            className="px-6 py-3 rounded-full bg-[#111113] hover:bg-black text-white text-xs font-medium flex items-center gap-2 cursor-pointer shadow-xs transition-all"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Add SKU to RFQ Inquiries</span>
-          </button>
+          <div className="space-y-5">
+            <section aria-labelledby="product-specifications-heading">
+              <span className="tech-badge text-stone-500">Product specifications</span>
+              <h4 id="product-specifications-heading" className="sr-only">Product specifications</h4>
+              <dl className="mt-3 divide-y divide-black/10 border-y border-black/10 text-sm">
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Standard sizing</dt><dd className="font-medium text-stone-900">{dimensions}</dd></div>
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Thickness</dt><dd>{thicknesses}</dd></div>
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Edge profiles</dt><dd>{edges}</dd></div>
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Sink / cutout</dt><dd>{sinkIntegration}</dd></div>
+              </dl>
+            </section>
+
+            <section aria-labelledby="product-commercial-heading">
+              <span className="tech-badge text-stone-500">Commercial & export reference</span>
+              <h4 id="product-commercial-heading" className="sr-only">Commercial and export reference</h4>
+              <dl className="mt-3 divide-y divide-black/10 border-y border-black/10 text-sm">
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">MOQ</dt><dd>{moq}</dd></div>
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Lead time</dt><dd>{leadTime}</dd></div>
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Packing</dt><dd>{packaging}</dd></div>
+                <div className="grid grid-cols-[9rem_1fr] gap-4 py-3"><dt className="text-stone-500">Import treatment</dt><dd>Confirm with the buyer's customs broker</dd></div>
+              </dl>
+            </section>
+          </div>
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-black/10 bg-stone-50 px-6 py-4 sm:px-8">
+        <div className="flex items-center gap-2">
+          <button onClick={onClose} className="wr-button wr-button--ghost">Close</button>
+          {onShare && <ShareButton content={shareContent} onShare={onShare} variant="pill" label="Share Product" />}
+        </div>
+        <button
+          onClick={() => {
+            onAddToCart(product);
+            onClose();
+          }}
+          className="wr-button wr-button--primary"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add to RFQ</span>
+        </button>
+      </div>
     </Modal>
   );
 };
