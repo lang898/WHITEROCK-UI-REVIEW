@@ -244,8 +244,8 @@ function AppContent() {
         type: 'product',
         sku: p.sku,
         material: p.material,
-        selectedThickness: p.specs.Thickness || '20 mm (3/4") / 30 mm (1¼")',
-        selectedEdge: p.specs.Edge || 'Eased',
+        selectedThickness: 'To be confirmed',
+        selectedEdge: 'To be confirmed / per approved drawing',
         quantity: 1,
       };
       setCartItems((prev) => [...prev, newItem]);
