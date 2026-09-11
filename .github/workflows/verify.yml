@@ -1,0 +1,50 @@
+name: Verify website release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify static route metadata
+        run: |
+          grep -q "Marble | NATURAL &amp; ENGINEERED STONE\|Marble | NATURAL & ENGINEERED STONE" dist/stone-types/marble/index.html
+          grep -q "stone-types/marble" dist/stone-types/marble/index.html
+          grep -q "Vietnam Stone Factory" dist/factory/index.html
+          test ! -d dist/admin
+
+      - name: Verify admin bundle is absent
+        run: |
+          if find dist/assets -type f -iname '*AdminView*' | grep -q .; then
+            echo "AdminView bundle still exists" >&2
+            exit 1
+          fi
+          if grep -R "whiterock_cms_\|David Sterling\|Pacific Rim Stone" dist/assets >/dev/null 2>&1; then
+            echo "Fake admin data still exists in bundle" >&2
+            exit 1
+          fi
