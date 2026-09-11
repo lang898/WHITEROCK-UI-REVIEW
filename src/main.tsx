@@ -4,6 +4,7 @@ import App from './App';
 import './index.css';
 import './trust-upgrade.css';
 import './release-upgrade.css';
+import './editorial-upgrade.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
