@@ -7,6 +7,7 @@ import type { ShareContent } from '../components/SocialShareModal';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { RetailCompliance } from '../components/RetailCompliance';
 import { ColorSwatchImage } from '../components/ColorSwatchImage';
+import { openRfqBuilder } from '../lib/uiEvents';
 
 interface HomeViewProps {
   setCurrentTab: (tab: string) => void;
@@ -47,6 +48,29 @@ const productPrograms = [
   },
 ] as const;
 
+const buyerProcess = [
+  {
+    title: 'Drawing review',
+    copy: 'We review dimensions, cutouts, sink details, materials, finishes, quantity, and destination before quotation.',
+  },
+  {
+    title: 'Production',
+    copy: 'Cutting, CNC, edge processing, polishing, and assembly follow the approved sample and production drawing.',
+  },
+  {
+    title: 'Quality control',
+    copy: 'Critical dimensions, surface condition, cutouts, finish, and order requirements are checked before release.',
+  },
+  {
+    title: 'Packing',
+    copy: 'Packing is selected for the product, handling method, container plan, and buyer requirements.',
+  },
+  {
+    title: 'Shipment handoff',
+    copy: 'Final quantities, packing records, marks, and order documents are coordinated for the confirmed shipment.',
+  },
+] as const;
+
 export const HomeView: React.FC<HomeViewProps> = ({
   setCurrentTab,
   onSelectColor,
@@ -65,7 +89,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   return (
     <div className="wr-home wr-home--compact">
-      <HeroCarousel onExploreProducts={() => setCurrentTab('products')} onRequestQuote={() => setCurrentTab('contact')} />
+      <HeroCarousel onExploreProducts={() => setCurrentTab('products')} onRequestQuote={openRfqBuilder} />
 
       <section className="wr-home-programs wr-section-band" aria-labelledby="home-products-title">
         <div className="wr-section-heading wr-section-intro">
@@ -110,7 +134,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
             const distance = event.clientX - dragState.current.startX;
             if (!dragState.current.moved) {
               if (Math.abs(distance) <= 5) return;
-              // Capture only a real drag so a simple click still reaches the card button.
               dragState.current.moved = true;
               current.setPointerCapture(event.pointerId);
             }
@@ -152,22 +175,28 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
       <RetailCompliance compact />
 
-      <section id="origin" className="wr-origin wr-origin--compact wr-section-band" aria-labelledby="home-origin-title">
+      <section className="wr-section-band wr-section-band--mist" aria-labelledby="home-process-title">
         <div className="wr-section-heading wr-section-intro">
-          <span className="wr-eyebrow">Material sourcing · Carrara, Italy</span>
-          <h2 id="home-origin-title">Carrara White selected for vanity-top production.</h2>
-          <p>WHITEROCK regularly visits the Carrara quarry region to select blocks used as a principal raw material. We source and fabricate the stone; we do not operate the quarry.</p>
+          <span className="wr-eyebrow">From drawing to shipment</span>
+          <h2 id="home-process-title">A buyer workflow built around approved requirements.</h2>
+          <p>Each program moves from specification review into controlled production, inspection, packing, and shipment preparation.</p>
         </div>
-        <div className="wr-origin__media">
-          <figure><img src="/assets/owner/countertops/carrara-white-quarry-overview.jpg" alt="Carrara White quarry interior visited during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Carrara quarry region</figcaption></figure>
-          <figure><img src="/assets/owner/countertops/carrara-white-quarry-workface.jpg" alt="Carrara quarry workface reviewed during block sourcing" width="2000" height="1500" loading="lazy" /><figcaption>Block review in Carrara</figcaption></figure>
-        </div>
+        <ol className="grid grid-cols-1 md:grid-cols-5 border-y border-black/10">
+          {buyerProcess.map((step, index) => (
+            <li key={step.title} className="py-6 md:px-5 border-b md:border-b-0 md:border-l border-black/10 first:border-l-0 last:border-b-0">
+              <span className="text-[11px] font-bold tracking-[0.08em] text-[#6e6e73]">{String(index + 1).padStart(2, '0')}</span>
+              <h3 className="mt-4 text-[1.05rem]">{step.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-[#6e6e73]">{step.copy}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('factory')}>See manufacturing & QC<ArrowRight /></button></div>
       </section>
 
       <section className="wr-home-final wr-section-band" aria-labelledby="home-final-title">
         <div className="wr-home-final__inner">
           <div><span className="wr-eyebrow">Start with the specification</span><h2 id="home-final-title">Bring us the drawing. We will help define the stone package.</h2><p>Share the material direction, dimensions, quantity, destination, and target schedule for a production review.</p></div>
-          <div><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('samples')}><Package />Order samples</button><button className="wr-button wr-button--primary" onClick={() => setCurrentTab('contact')}><FileText />{t(currentLocale, 'requestQuote')}</button></div>
+          <div><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('samples')}><Package />Order samples</button><button className="wr-button wr-button--primary" onClick={openRfqBuilder}><FileText />{t(currentLocale, 'requestQuote')}</button></div>
         </div>
       </section>
     </div>
