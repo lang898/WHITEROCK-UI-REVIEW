@@ -1,17 +1,17 @@
 .wr-header__utility {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
 }
 
 .wr-brand small {
-  font-size: 0.62rem;
+  font-size: 0.75rem;
 }
 
 .wr-nav > a,
 .wr-nav summary {
   padding-inline: 0.72rem;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
 }
 
 .wr-nav__menu a {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
 }
