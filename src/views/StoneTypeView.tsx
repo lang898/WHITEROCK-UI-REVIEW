@@ -1,8 +1,11 @@
 import React from 'react';
-import { ArrowRight, Droplets, Gauge, Package, Ruler, Scale, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Download, Droplets, FileText, Gauge, Mail, Package, Ruler, Scale, ShieldCheck } from 'lucide-react';
 import { colors, edges, stoneTypes } from '../data';
+import { siteConfig } from '../data/site';
 import { Tag } from '../components/ui/Tag';
 import { ColorSwatchImage } from '../components/ColorSwatchImage';
+import { MaterialDisclaimer } from '../components/MaterialDisclaimer';
+import { openRfqBuilder } from '../lib/uiEvents';
 import type { ColorItem, LocaleConfig, StoneTypeInfo } from '../types';
 
 interface StoneTypeViewProps {
@@ -13,153 +16,60 @@ interface StoneTypeViewProps {
   setCurrentTab: (tab: string) => void;
 }
 
-export const StoneTypeView: React.FC<StoneTypeViewProps> = ({
-  stoneTypeId,
-  onSelectColor,
-  onAddColorSample,
-  setCurrentTab
-}) => {
+export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSelectColor, onAddColorSample, setCurrentTab }) => {
   const stoneType = stoneTypes.find((item) => item.id === stoneTypeId) || stoneTypes[0];
   const materialColors = colors.filter((color) => color.material === stoneType.name);
   const materialFinishes = Array.from(new Set(materialColors.flatMap((color) => color.finishes)));
+  const publicTechSheets = materialColors.filter((color) => Boolean(color.techSheetPdf));
+  const relatedDocs = [
+    ...publicTechSheets.slice(0, 3).map((color) => ({ id: `tds-${color.slug}`, type: 'Technical data', title: `${color.name} technical sheet`, status: 'public' as const, file: color.techSheetPdf })),
+    { id: 'care', type: 'Care', title: `${stoneType.name} care & maintenance guidance`, status: 'public' as const, file: '/assets/resources/stone-care-and-maintenance-guide.pdf' },
+    { id: 'sds', type: 'SDS', title: `${stoneType.name} product SDS`, status: 'available-on-request' as const, file: undefined },
+    { id: 'cad', type: 'CAD', title: `${stoneType.name} fabrication / drawing support`, status: 'available-on-request' as const, file: undefined },
+  ];
 
   return (
     <div className="wr-stone-type-page">
       <header className="wr-stone-type-hero" id="stone-overview">
-        <figure>
-          <picture>
-            {stoneType.imageWebp && <source srcSet={stoneType.imageWebp} type="image/webp" />}
-            <img src={stoneType.image} alt={stoneType.imageAlt} width="1600" height="1100" loading="eager" fetchPriority="high" />
-          </picture>
-          <figcaption>{stoneType.imageCaption}</figcaption>
-        </figure>
-        <div>
-          <span className="wr-eyebrow">{stoneType.eyebrow}</span>
-          <h1>{stoneType.name}</h1>
-          <h2>{stoneType.headline}</h2>
-          <p>{stoneType.summary}</p>
-          <button className="wr-button wr-button--primary" onClick={() => setCurrentTab('samples')}><Package />Build a sample box</button>
-        </div>
+        <figure><picture>{stoneType.imageWebp && <source srcSet={stoneType.imageWebp} type="image/webp" />}<img src={stoneType.image} alt={stoneType.imageAlt} width="1600" height="1100" loading="eager" fetchPriority="high" /></picture><figcaption>{stoneType.imageCaption}</figcaption></figure>
+        <div><span className="wr-eyebrow">{stoneType.eyebrow}</span><h1>{stoneType.name}</h1><h2>{stoneType.headline}</h2><p>{stoneType.summary}</p><div className="wr-stone-type-hero__actions"><button className="wr-button wr-button--primary" onClick={() => setCurrentTab('samples')}><Package />Build a sample box</button><button className="wr-button wr-button--secondary" onClick={openRfqBuilder}><FileText />Request RFQ</button></div></div>
       </header>
 
       <nav className="wr-stone-subnav" aria-label={`${stoneType.name} selection path`}>
         <div className="wr-stone-subnav__inner">
           <strong>{stoneType.name}</strong>
-          <div className="wr-stone-subnav__links">
-            <a href="#stone-overview">Overview</a>
-            <a href="#stone-colors">Colors <span>{materialColors.length}</span></a>
-            <a href="#stone-finishes">Finishes &amp; Edges</a>
-            <a href="#stone-applications">Applications</a>
-          </div>
-          <button className="wr-button wr-button--primary" onClick={() => setCurrentTab('samples')}><Package />Samples</button>
+          <div className="wr-stone-subnav__links"><a href="#stone-overview">Overview</a><a href="#stone-colors">Colors <span>{materialColors.length}</span></a><a href="#stone-finishes">Finishes &amp; Edges</a><a href="#stone-documents">Documents</a><a href="#stone-applications">Applications</a></div>
+          <div className="wr-stone-subnav__actions"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('samples')}><Package />Samples</button><button className="wr-button wr-button--primary" onClick={openRfqBuilder}><FileText />RFQ</button></div>
         </div>
       </nav>
 
       <section className="wr-stone-type-specs" aria-label={`${stoneType.name} technical reference`}>
-        <article><Gauge /><span>Mohs hardness</span><p>{stoneType.hardness}</p></article>
-        <article><Droplets /><span>Water absorption</span><p>{stoneType.absorption}</p></article>
-        <article><Scale /><span>Density</span><p>{stoneType.density}</p></article>
-        <article><Ruler /><span>Flexural strength</span><p>{stoneType.flexuralStrength}</p></article>
+        <article><Gauge /><span>Mohs hardness</span><p>{stoneType.hardness}</p></article><article><Droplets /><span>Water absorption</span><p>{stoneType.absorption}</p></article><article><Scale /><span>Density</span><p>{stoneType.density}</p></article><article><Ruler /><span>Flexural strength</span><p>{stoneType.flexuralStrength}</p></article>
       </section>
-      <p className="wr-stone-type-note">Typical values. Batch-specific test reports are confirmed per order.</p>
+      <MaterialDisclaimer type="typical-technical-data" compact className="wr-stone-type-note" />
 
       <section className="wr-stone-type-colors wr-section-band wr-section-band--mist" id="stone-colors" aria-labelledby="stone-type-colors-title">
-        <div className="wr-section-heading wr-section-intro">
-          <span className="wr-eyebrow">Surface directions</span>
-          <h2 id="stone-type-colors-title">Explore {stoneType.name.toLowerCase()} colors.</h2>
-          <p>Use the digital library to create a shortlist, then review the physical sample and available production lot before approval.</p>
-        </div>
-
-        {materialColors.length > 0 ? (
-          <div className="wr-stone-type-color-grid">
-            {materialColors.map((color) => (
-              <article className="wr-swatch-card" key={color.slug}>
-                <button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}>
-                  <ColorSwatchImage color={color} loading="lazy" />
-                  <span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span>
-                  <span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span>
-                </button>
-                <div className="wr-swatch-card__body">
-                  <Tag>{color.material}</Tag>
-                  <small>{color.colorFamily} · {color.finishes.join(', ')}</small>
-                  <h3>{color.name}</h3>
-                  <p>{color.description}</p>
-                  <button className="wr-swatch-card__stone-link" onClick={() => setCurrentTab(`stone-${stoneType.id}`)}>View all {stoneType.name.toLowerCase()} colors<ArrowRight /></button>
-                  <button className="wr-button wr-button--primary" onClick={() => onAddColorSample(color)}><Package />Order sample</button>
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="wr-stone-type-empty">
-            <span>Ask for the current {stoneType.name.toLowerCase()} selection.</span>
-            <p>We will review available materials, finish, thickness, format, and supporting technical information for your project.</p>
-            <button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('contact')}>Discuss a material requirement<ArrowRight /></button>
-          </div>
-        )}
+        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Surface directions</span><h2 id="stone-type-colors-title">Explore {stoneType.name.toLowerCase()} colors.</h2><p>Use the digital library to create a shortlist, then review the physical sample and available production lot before approval.</p></div>
+        {materialColors.length > 0 ? <div className="wr-stone-type-color-grid">{materialColors.map((color) => <article className="wr-swatch-card" key={color.slug}><button className="wr-swatch-card__media" onClick={() => onSelectColor(color)} aria-label={`View ${color.name}`}><ColorSwatchImage color={color} loading="lazy" /><span className="wr-swatch-card__overlay"><strong>{color.material}</strong><small>{color.finishes.slice(0, 2).join(' · ')}</small></span><span className="wr-media-disclosure">{color.imageType === 'render' ? 'Illustrative digital swatch' : 'Material reference photograph'}</span></button><div className="wr-swatch-card__body"><Tag>{color.material}</Tag><small>{color.colorFamily} · {color.finishes.join(', ')}</small><h3>{color.name}</h3><p>{color.description}</p><button className="wr-button wr-button--primary" onClick={() => onAddColorSample(color)}><Package />Order sample</button></div></article>)}</div> : <div className="wr-stone-type-empty"><span>Ask for the current {stoneType.name.toLowerCase()} selection.</span><p>We will review available materials, finish, thickness, format, and supporting technical information for your project.</p><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('contact')}>Discuss a material requirement<ArrowRight /></button></div>}
       </section>
 
       <section className="wr-stone-type-fabrication wr-section-band" id="stone-finishes" aria-labelledby="stone-type-fabrication-title">
-        <div className="wr-section-heading wr-section-intro">
-          <span className="wr-eyebrow">Fabrication direction</span>
-          <h2 id="stone-type-fabrication-title">Set the finish and edge after the color.</h2>
-          <p>These options organize the next specification step. Final availability is reviewed against the selected color, thickness, drawing, and physical sample.</p>
-        </div>
-        <div className="wr-stone-type-fabrication__grid">
-          <article>
-            <span>Available finish directions</span>
-            <h3>{materialFinishes.length} finishes represented in this color library</h3>
-            <div className="wr-stone-type-option-list">
-              {materialFinishes.map((finish) => <Tag key={finish}>{finish}</Tag>)}
-            </div>
-          </article>
-          <article>
-            <span>Edge profiles to review</span>
-            <h3>Profiles are selected with the approved thickness and drawing</h3>
-            <div className="wr-stone-type-option-list">
-              {edges.map((edge) => <Tag key={edge.slug}>{edge.name}</Tag>)}
-            </div>
-          </article>
-        </div>
+        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Fabrication direction</span><h2 id="stone-type-fabrication-title">Set the finish and edge after the color.</h2><p>Final availability is reviewed against the selected color, thickness, drawing, and physical sample.</p></div>
+        <div className="wr-stone-type-fabrication__grid"><article><span>Available finish directions</span><h3>{materialFinishes.length} finishes represented in this color library</h3><div className="wr-stone-type-option-list">{materialFinishes.map((finish) => <Tag key={finish}>{finish}</Tag>)}</div></article><article><span>Edge profiles to review</span><h3>Profiles are selected with the approved thickness and drawing</h3><div className="wr-stone-type-option-list">{edges.map((edge) => <Tag key={edge.slug}>{edge.name}</Tag>)}</div></article></div>
         <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('finishes')}>Review finishes and edge details<ArrowRight /></button></div>
       </section>
 
-      {stoneType.gallery && stoneType.gallery.length > 1 && (
-        <section className="wr-stone-type-gallery wr-section-band wr-section-band--mist" aria-labelledby="stone-type-gallery-title">
-          <div className="wr-section-heading wr-section-intro">
-            <span className="wr-eyebrow">Application references</span>
-            <h2 id="stone-type-gallery-title">Review scale, movement, and setting.</h2>
-            <p>These references support early material conversations. The selected stone, finish, construction, and exposure are assessed for the project.</p>
-          </div>
-          <div className="wr-stone-type-gallery__grid">
-            {stoneType.gallery.map((item) => (
-              <figure key={`${stoneType.id}-${item.image}`}>
-                <picture>
-                  {item.imageWebp && <source srcSet={item.imageWebp} type="image/webp" />}
-                  <img src={item.image} alt={item.alt} width="1280" height="960" loading="lazy" />
-                </picture>
-                <figcaption>{item.caption}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="wr-stone-type-documents wr-section-band wr-section-band--mist" id="stone-documents" aria-labelledby="stone-documents-title">
+        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Technical documents</span><h2 id="stone-documents-title">Documents tied to the selected material.</h2><p>Public reference files can be downloaded now. Product-specific SDS, test reports, and drawing files are released only after their exact scope and revision are confirmed.</p></div>
+        <div className="wr-document-grid">{relatedDocs.map((doc) => <article key={doc.id} className={doc.status === 'public' ? 'is-available' : 'is-request'}><header><FileText /><span>{doc.type}</span></header><h3>{doc.title}</h3><small>{doc.status === 'public' ? 'Public reference' : 'Available on request'}</small>{doc.file ? <a className="wr-button wr-button--primary" href={doc.file} download><Download />Download</a> : <a className="wr-button wr-button--secondary" href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(`${stoneType.name} document request: ${doc.title}`)}`}><Mail />Request document</a>}</article>)}</div>
+        <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('resources')}>Open document center<ArrowRight /></button></div>
+      </section>
+
+      {stoneType.gallery && stoneType.gallery.length > 1 && <section className="wr-stone-type-gallery wr-section-band" aria-labelledby="stone-type-gallery-title"><div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Application references</span><h2 id="stone-type-gallery-title">Review scale, movement, and setting.</h2></div><div className="wr-stone-type-gallery__grid">{stoneType.gallery.map((item) => <figure key={`${stoneType.id}-${item.image}`}><picture>{item.imageWebp && <source srcSet={item.imageWebp} type="image/webp" />}<img src={item.image} alt={item.alt} width="1280" height="960" loading="lazy" /></picture><figcaption>{item.caption}</figcaption></figure>)}</div></section>}
 
       <section className="wr-stone-type-applications wr-section-band" id="stone-applications" aria-labelledby="stone-type-application-title">
-        <div className="wr-stone-type-application-layout">
-          <figure><picture>{stoneType.applicationImageWebp && <source srcSet={stoneType.applicationImageWebp} type="image/webp" />}<img src={stoneType.applicationImage.startsWith('/') ? stoneType.applicationImage : `/${stoneType.applicationImage}`} alt={stoneType.applicationAlt} width="1600" height="1100" loading="lazy" /></picture><figcaption>{stoneType.applicationCaption}</figcaption></figure>
-          <div>
-            <span className="wr-eyebrow">Application and care</span>
-            <h2 id="stone-type-application-title">Where {stoneType.name.toLowerCase()} is commonly considered.</h2>
-            <p>{stoneType.caveat}</p>
-            <h3>Suitability</h3>
-            <div className="wr-stone-type-tags">{stoneType.suitability.map((item) => <span key={item}>{item}</span>)}</div>
-            <h3>Maintenance</h3>
-            <p>{stoneType.maintenance}</p>
-          </div>
-        </div>
+        <div className="wr-stone-type-application-layout"><figure><picture>{stoneType.applicationImageWebp && <source srcSet={stoneType.applicationImageWebp} type="image/webp" />}<img src={stoneType.applicationImage.startsWith('/') ? stoneType.applicationImage : `/${stoneType.applicationImage}`} alt={stoneType.applicationAlt} width="1600" height="1100" loading="lazy" /></picture><figcaption>{stoneType.applicationCaption}</figcaption></figure><div><span className="wr-eyebrow">Application and care</span><h2 id="stone-type-application-title">Where {stoneType.name.toLowerCase()} is commonly considered.</h2><p>{stoneType.caveat}</p><h3>Suitability</h3><div className="wr-stone-type-tags">{stoneType.suitability.map((item) => <span key={item}>{item}</span>)}</div><h3>Maintenance</h3><p>{stoneType.maintenance}</p></div></div>
         <div className="wr-stone-type-use-grid">{stoneType.applications.map((application) => <span key={application}><ShieldCheck />{application}</span>)}</div>
-        <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('applications')}>View application directions<ArrowRight /></button></div>
       </section>
     </div>
   );
