@@ -6,6 +6,7 @@ import { mobileNavigation, productNavigation, routePath, stoneMaterialNavigation
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
 import { OPEN_RFQ_EVENT } from '../lib/uiEvents';
+import './HeaderTuning.css';
 
 interface HeaderProps {
   currentTab: string;
