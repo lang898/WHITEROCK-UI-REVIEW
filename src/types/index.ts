@@ -12,6 +12,7 @@ export interface LocaleConfig {
   tagline: string;
   legalName: string;
   contactId: string;
+  enabled?: boolean;
   default?: boolean;
 }
 
@@ -220,10 +221,18 @@ export interface FurnitureTopVisual {
 }
 
 export interface ResourceItem {
+  id?: string;
   title: string;
   category: string;
+  documentType?: string;
+  materialFamilies?: string[];
   description: string;
-  file: string;
+  revision?: string;
+  revisionDate?: string | null;
+  fileSize?: string | null;
+  access?: 'public' | 'available-on-request' | 'order-specific';
+  public?: boolean;
+  file?: string | null;
 }
 
 export interface NewsItem {
@@ -267,113 +276,6 @@ export interface RfqCartItem {
 export type CompareEntry =
   | { id: string; kind: 'product'; item: ProductItem }
   | { id: string; kind: 'color'; item: ColorItem };
-
-export interface WebsiteInquiry {
-  id: string;
-  inquiryNumber: string;
-  type: 'RFQ Quote' | 'Sample Kit' | 'Trade Program' | 'Contact Form' | 'Custom Takeoff';
-  clientName: string;
-  companyName: string;
-  email: string;
-  phone: string;
-  countryState: string;
-  projectType: string;
-  itemsRequested?: string[];
-  message: string;
-  submittedAt: string;
-  status: 'New' | 'Contacted' | 'Quoted' | 'Sample Shipped' | 'Archived';
-  priority: 'High' | 'Medium' | 'Standard';
-  internalNotes?: string;
-  estimatedUnits?: number;
-}
-
-export interface SiteCmsSettings {
-  brandName: string;
-  tagline: string;
-  companyEmail: string;
-  directPhone: string;
-  whatsApp: string;
-  vietnamAddress: string;
-  tariffNotice: string;
-  exportCapacity: string;
-  enableSampleKitCta: boolean;
-  enableTariffCalculator: boolean;
-}
-
-export interface AdminRfqOrder {
-  id: string;
-  rfqNumber: string;
-  projectName: string;
-  clientCompany: string;
-  clientName: string;
-  clientEmail: string;
-  clientPhone: string;
-  destinationState: string;
-  projectType: 'Multi-Family' | 'Hospitality Hotel' | 'Student Housing' | 'Commercial' | 'Retail / Wholesaler';
-  material: string;
-  color: string;
-  items: {
-    name: string;
-    size: string;
-    quantity: number;
-    unitPrice: number;
-    sinkIncluded: boolean;
-    backsplashIncluded: boolean;
-  }[];
-  totalUnits: number;
-  estimatedTotalUsd: number;
-  estimatedContainers: number;
-  section301SavingsUsd: number;
-  status: 'New Inquiry' | 'CAD Review' | 'Quotation Sent' | 'Deposit Paid' | 'In Production' | 'Crated & Staged' | 'Shipped / At Sea';
-  cOStatus: 'Owner Verified' | 'Pending Verification' | 'Buyer Broker Review';
-  leadDate: string;
-  targetShipDate: string;
-  assignedPlant: string;
-}
-
-export interface ContainerShipment {
-  containerNumber: string;
-  bookingRef: string;
-  vesselName: string;
-  carrier: string;
-  originPort: string;
-  destinationPort: string;
-  departureDate: string;
-  etaDate: string;
-  status: 'Loading at Factory' | 'Customs Cleared Cat Lai' | 'At Sea' | 'Approaching US Port' | 'Discharged / Delivered';
-  totalCrates: number;
-  payloadKg: number;
-  payloadLbs: number;
-  projectName: string;
-  client: string;
-  ispm15Certified: boolean;
-}
-
-export interface SampleDispatchOrder {
-  id: string;
-  trackingNumber: string;
-  carrier: 'FedEx International Priority' | 'DHL Express' | 'UPS Worldwide';
-  firmName: string;
-  contactPerson: string;
-  address: string;
-  cityStateZip: string;
-  materialsRequested: string[];
-  requestDate: string;
-  status: 'Preparing Swatches' | 'Dispatched' | 'Delivered' | 'Project Follow-Up';
-}
-
-export interface MachinerySchedule {
-  id: string;
-  name: string;
-  code: string;
-  plant: string;
-  category: 'Bridge Saw' | 'Edge Polisher' | 'CNC Basin Profiler' | 'Epoxy Bonding Rig' | 'Overhead Crane';
-  status: 'Operational (Running)' | 'Scheduled Maintenance' | 'Idle / Setup';
-  currentJob: string;
-  dailyYieldM2: number;
-  operator: string;
-  nextServiceDate: string;
-}
 
 export interface VanityConfig {
   sizeKey: string;
