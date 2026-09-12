@@ -238,7 +238,7 @@ export const SocialMediaHub: React.FC<SocialMediaHubProps> = ({
             href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hello WHITEROCK, I would like to connect on stone vanity top orders.')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#1d1d1f] text-white text-xs font-semibold shadow-xs hover:bg-[#000000] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#1d1d1f] text-white text-xs font-semibold shadow-xs hover:bg-[var(--wr-ink)] transition-all cursor-pointer"
           >
             <WhatsAppIcon className="w-3.5 h-3.5" />
             <span>WhatsApp Fast Track</span>
@@ -472,7 +472,7 @@ export const SocialMediaHub: React.FC<SocialMediaHubProps> = ({
                 <button
                   type="button"
                   onClick={() => handleWhatsAppInquiry(activeMediaModal)}
-                  className="px-6 py-2.5 rounded-full bg-[#1d1d1f] text-white text-xs font-bold flex items-center gap-2 hover:bg-[#000000] cursor-pointer"
+                  className="px-6 py-2.5 rounded-full bg-[#1d1d1f] text-white text-xs font-bold flex items-center gap-2 hover:bg-[var(--wr-ink)] cursor-pointer"
                 >
                   <WhatsAppIcon className="w-4 h-4" />
                   <span>Send WhatsApp Inquiry</span>

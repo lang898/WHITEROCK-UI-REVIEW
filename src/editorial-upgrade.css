@@ -10,7 +10,7 @@
 .wr-home-story__grid article {
   display: grid;
   grid-template-rows: minmax(220px, 36vw) 1fr;
-  background: #fff;
+  background: var(--wr-bg);
 }
 
 .wr-home-story__grid figure {

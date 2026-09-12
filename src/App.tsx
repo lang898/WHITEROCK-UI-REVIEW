@@ -269,7 +269,7 @@ function AppContent() {
 
       <Suspense fallback={null}>
         {isRfqModalOpen && <RfqModal isOpen onClose={() => setIsRfqModalOpen(false)} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onClearCart={handleClearCart} currentLocale={currentLocale} />}
-        {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} />}
+        {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} onSelectRelated={(product) => setSelectedProduct(product)} />}
         {selectedColor && <ColorModal color={selectedColor} onClose={handleCloseColor} onRequestSample={handleAddColorSample} onAddToRfq={handleAddColorToRfq} onShare={handleOpenShare} />}
         {shareModalContent && <SocialShareModal isOpen onClose={() => setShareModalContent(null)} content={shareModalContent} />}
         {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />}

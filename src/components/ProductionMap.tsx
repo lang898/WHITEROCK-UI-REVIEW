@@ -359,7 +359,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                       cy="460"
                       r="6"
                       fill="#059669"
-                      stroke="#ffffff"
+                      stroke="var(--wr-bg)"
                       strokeWidth="2"
                       className="cursor-pointer"
                       onMouseEnter={() => setHoveredPort('Cat Lai Port, Ho Chi Minh City (45 km)')}
@@ -395,7 +395,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                     cx="412"
                     cy="435"
                     r="7"
-                    fill="#ffffff"
+                    fill="var(--wr-bg)"
                     stroke="#047857"
                     strokeWidth="4"
                   />
@@ -407,7 +407,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
                     width="190"
                     height="58"
                     rx="10"
-                    fill="#ffffff"
+                    fill="var(--wr-bg)"
                     stroke="#059669"
                     strokeWidth="2"
                     className="shadow-lg"
@@ -425,7 +425,7 @@ export const ProductionMap: React.FC<ProductionMapProps> = ({
 
                 {/* Map Inset Legend */}
                 <g transform="translate(24, 490)">
-                  <rect width="210" height="74" rx="8" fill="#ffffff" stroke="#e2e8f0" opacity="0.95" />
+                  <rect width="210" height="74" rx="8" fill="var(--wr-bg)" stroke="#e2e8f0" opacity="0.95" />
                   <text x="12" y="16" fill="#0f172a" fontSize="9" fontWeight="bold" fontFamily="sans-serif">
                     VIETNAM EXPORT LOGISTICS
                   </text>

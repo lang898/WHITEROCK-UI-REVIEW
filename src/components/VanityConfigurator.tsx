@@ -42,7 +42,7 @@ export const stoneOptions = [
   { name: 'Calacatta Gold Quartz (Warm Vein)', material: 'Calacatta Quartz', color: '#fbfbfa', border: '#fef3c7', priceIdx: '$$$', baseRate: 145, tag: 'Luxury Hospitality Choice' },
   { name: 'Carrara Mist Quartz (Subtle Grey)', material: 'Engineered Quartz', color: '#f1f5f9', border: '#cbd5e1', priceIdx: '$$', baseRate: 125, tag: 'Modern Contemporary Standard' },
   { name: 'Natural Carrara White Marble', material: 'Carrara White Marble', color: '#f8fafc', border: '#94a3b8', priceIdx: '$$$', baseRate: 165, tag: 'Italian Block Sourced / Vietnam Fabricated' },
-  { name: 'Sintered Stone Calacatta Silk', material: 'Sintered Stone', color: '#ffffff', border: '#e5e7eb', priceIdx: '$$$$', baseRate: 175, tag: 'Zero Porosity / Stain & Heat Proof' },
+  { name: 'Sintered Stone Calacatta Silk', material: 'Sintered Stone', color: 'var(--wr-bg)', border: '#e5e7eb', priceIdx: '$$$$', baseRate: 175, tag: 'Zero Porosity / Stain & Heat Proof' },
   { name: 'Absolute Black Honed Granite', material: 'Pure Black Granite', color: '#1c1917', border: '#44403c', priceIdx: '$$$', baseRate: 135, tag: 'High-Traffic Commercial Classic' }
 ];
 
