@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, FileCheck2, PackageCheck, Ruler } from 'lucide-react';
+import { ArrowRight, Cpu, FileCheck2, Mountain, PackageCheck, Ruler, Ship, Sparkles } from 'lucide-react';
 import { factory, photoGalleries } from '../data';
 import { Button } from '../components/ui/Button';
 import { PhotoReferenceRail } from '../components/PhotoReferenceRail';
@@ -45,10 +45,22 @@ const capabilityTabs = [
   },
 ] as const;
 
+type CapabilityId = (typeof capabilityTabs)[number]['id'];
+
+const processJourney: Array<{ label: string; tab: CapabilityId; Icon: React.ComponentType<{ size?: number; strokeWidth?: number }> }> = [
+  { label: 'Quarry / source', tab: 'cutting', Icon: Mountain },
+  { label: 'Cutting', tab: 'cutting', Icon: Ruler },
+  { label: 'CNC', tab: 'cnc', Icon: Cpu },
+  { label: 'Polishing', tab: 'polishing', Icon: Sparkles },
+  { label: 'QC', tab: 'quality', Icon: FileCheck2 },
+  { label: 'Packing', tab: 'packing', Icon: PackageCheck },
+  { label: 'Container', tab: 'packing', Icon: Ship },
+];
+
 const assetUrl = (asset: string) => asset.startsWith('/') ? asset : `/${asset}`;
 
 export const FactoryView: React.FC<FactoryViewProps> = () => {
-  const [activeCapability, setActiveCapability] = useState<(typeof capabilityTabs)[number]['id']>('cutting');
+  const [activeCapability, setActiveCapability] = useState<CapabilityId>('cutting');
   const [activeEvidenceId, setActiveEvidenceId] = useState<'finished' | 'manufacturing' | 'quality'>('finished');
   const active = capabilityTabs.find((item) => item.id === activeCapability) || capabilityTabs[0];
   const layoutReference: PhotoReferenceItem = {
@@ -64,6 +76,11 @@ export const FactoryView: React.FC<FactoryViewProps> = () => {
   } as const;
   const activeEvidence = evidenceGroups[activeEvidenceId];
 
+  const jumpToStage = (tab: CapabilityId) => {
+    setActiveCapability(tab);
+    window.requestAnimationFrame(() => document.getElementById('factory-capability')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }));
+  };
+
   return (
     <div className="wr-factory-page">
       <header className="wr-factory-page__hero">
@@ -75,7 +92,7 @@ export const FactoryView: React.FC<FactoryViewProps> = () => {
         <div className="wr-factory-page__intro">
           <span className="wr-eyebrow wr-eyebrow--light">Dong Nai · Vietnam</span>
           <h1>Direct stone manufacturing, organized around the drawing.</h1>
-          <p>The current public factory profile describes a 20,000 m² manufacturing site for vanity tops, kitchen countertops, furniture surfaces, and project components. Published capacity figures remain subject to owner confirmation.</p>
+          <p>The 20,000 m² Dong Nai manufacturing site supports vanity tops, kitchen countertops, furniture surfaces, and project components.</p>
         </div>
       </header>
 
@@ -83,11 +100,23 @@ export const FactoryView: React.FC<FactoryViewProps> = () => {
         {factory.stats.slice(0, 4).map((stat) => <article key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></article>)}
       </section>
 
-      <section className="wr-factory-capability wr-section-band wr-section-band--mist" aria-labelledby="factory-capability-title">
+      <section className="wr-factory-journey" aria-label="Stone manufacturing process">
+        <div className="wr-factory-journey__inner">
+          {processJourney.map(({ label, tab, Icon }, index) => (
+            <button key={`${label}-${index}`} type="button" className={activeCapability === tab && index > 0 && index < 6 ? 'is-active' : ''} onClick={() => jumpToStage(tab)}>
+              <span><Icon size={22} strokeWidth={1.4} /></span>
+              <strong>{label}</strong>
+              {index < processJourney.length - 1 && <i aria-hidden="true">→</i>}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section id="factory-capability" className="wr-factory-capability wr-section-band wr-section-band--mist" aria-labelledby="factory-capability-title">
         <div className="wr-section-heading wr-section-intro">
           <span className="wr-eyebrow">Manufacturing capability</span>
           <h2 id="factory-capability-title">Five stages tied to documented controls.</h2>
-          <p>Each stage shows what is controlled, what evidence is available, and which order document governs acceptance.</p>
+          <p>Select a stage to see the working image, control point, production evidence, and governing order document.</p>
         </div>
         <div className="wr-factory-tabs" role="tablist" aria-label="Factory capabilities">
           {capabilityTabs.map((item) => <button key={item.id} role="tab" aria-selected={activeCapability === item.id} className={activeCapability === item.id ? 'is-active' : ''} onClick={() => setActiveCapability(item.id)}>{item.label}</button>)}
