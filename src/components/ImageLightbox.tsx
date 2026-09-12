@@ -1,11 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Minus, Plus, X, ZoomIn } from 'lucide-react';
 import { Modal } from './ui/Modal';
-import type { ProductImage } from '../types';
 
 export interface LightboxImage {
   src: string;
   alt: string;
+}
+
+export interface ProductImage {
+  src: string;
+  webp?: string;
+  avif?: string;
+  alt: string;
+  caption?: string;
+  label?: string;
+  placeholder?: boolean;
 }
 
 type LegacyImageLightboxProps = {
@@ -78,9 +87,7 @@ const GalleryImageLightbox: React.FC<GalleryImageLightboxProps> = ({ images, ind
       <div
         className="wr-image-lightbox__stage"
         onWheel={(event) => { event.preventDefault(); setZoom((value) => clamp(value + (event.deltaY < 0 ? 0.2 : -0.2))); }}
-        onTouchStart={(event) => {
-          if (event.touches.length === 2) pinchStartRef.current = { distance: touchDistance(event.touches), zoom };
-        }}
+        onTouchStart={(event) => { if (event.touches.length === 2) pinchStartRef.current = { distance: touchDistance(event.touches), zoom }; }}
         onTouchMove={(event) => {
           if (event.touches.length !== 2 || !pinchStartRef.current) return;
           const ratio = touchDistance(event.touches) / pinchStartRef.current.distance;
