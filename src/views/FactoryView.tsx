@@ -62,7 +62,7 @@ export const FactoryView: React.FC<FactoryViewProps> = ({ setCurrentTab, section
 
   return (
     <div className="wr-factory-page">
-      <header className="wr-factory-page__hero">
+      <header className="wr-factory-page__hero" data-landing-hero>
         <picture><source srcSet="/assets/owner/enhanced/production-hall-aisle-enhanced-1280.webp" type="image/webp" /><img src="/assets/owner/enhanced/production-hall-aisle-enhanced.jpg" alt="Stone production hall at the Vietnam factory" width="1448" height="1086" loading="eager" fetchPriority="high" /></picture>
         <div className="wr-factory-page__overlay" />
         <div className="wr-factory-page__intro"><span className="wr-eyebrow wr-eyebrow--light">Dong Nai · Vietnam</span><h1>{section ? modules.find((item) => item.id.endsWith(section))?.title || 'Factory' : 'Direct stone manufacturing, organized around the drawing.'}</h1><p>{section ? 'Production, inspection, and shipment preparation are organized around approved drawings and order requirements.' : 'The Dong Nai manufacturing site supports vanity tops, kitchen countertops, furniture surfaces, and project components.'}</p></div>

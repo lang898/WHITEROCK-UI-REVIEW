@@ -2,6 +2,14 @@
 @import "../assets/fonts/fonts.css";
 
 :root {
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+  --space-3xl: 128px;
+  --section-gap: clamp(80px, 10vw, 160px);
   --wr-accent: #1d1d1f;
   --wr-dark: #1d1d1f;
   --wr-soft: #f5f5f7;

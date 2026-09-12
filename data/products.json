@@ -26,7 +26,46 @@
       "isIllustrative": false,
       "caption": "Production vanity-top reference on a neutral studio background.",
       "imageType": "photo",
-      "techSheetPdf": "assets/resources/products/WR-VT24-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-VT24-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt24-white-studio.jpg",
+          "webp": "assets/owner/products/wr-vt24-white-studio.webp",
+          "avif": "assets/owner/products/wr-vt24-white-studio.avif",
+          "alt": "White 24-inch single-sink vanity top with rectangular basin opening and three faucet holes",
+          "label": "Primary reference",
+          "caption": "Production vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-VT31 Carrara White Vanity Top",
@@ -54,7 +93,46 @@
       "isIllustrative": false,
       "caption": "Production vanity-top reference on a neutral studio background.",
       "imageType": "photo",
-      "techSheetPdf": "assets/resources/products/WR-VT31-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-VT31-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt31-veined-studio.jpg",
+          "webp": "assets/owner/products/wr-vt31-veined-studio.webp",
+          "avif": "assets/owner/products/wr-vt31-veined-studio.avif",
+          "alt": "White veined single-sink vanity top with rectangular basin opening, three faucet holes, and backsplash",
+          "label": "Primary reference",
+          "caption": "Production vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-VT49 Travertine Vanity Top",
@@ -82,7 +160,46 @@
       "isIllustrative": false,
       "caption": "Production travertine vanity-top reference on a neutral studio background.",
       "imageType": "photo",
-      "techSheetPdf": "assets/resources/products/WR-VT49-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-VT49-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt49-travertine-studio.jpg",
+          "webp": "assets/owner/products/wr-vt49-travertine-studio.webp",
+          "avif": "assets/owner/products/wr-vt49-travertine-studio.avif",
+          "alt": "Beige linear travertine 49-inch single-sink vanity top with backsplash and three faucet holes",
+          "label": "Primary reference",
+          "caption": "Production travertine vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-VT61 Double Sink Vanity Top",
@@ -110,7 +227,46 @@
       "isIllustrative": false,
       "caption": "Production double-sink vanity-top reference on a neutral studio background.",
       "imageType": "photo",
-      "techSheetPdf": "assets/resources/products/WR-VT61D-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-VT61D-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt61d-white-studio.jpg",
+          "webp": "assets/owner/products/wr-vt61d-white-studio.webp",
+          "avif": "assets/owner/products/wr-vt61d-white-studio.avif",
+          "alt": "White double-sink vanity top with two rectangular basin openings, six faucet holes, and backsplash",
+          "label": "Primary reference",
+          "caption": "Production double-sink vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-KT Calacatta Quartz Countertop",
@@ -137,7 +293,45 @@
       "isIllustrative": false,
       "caption": "Previous website application photograph.",
       "imageType": "owner-original",
-      "techSheetPdf": "assets/resources/products/WR-KT-QC-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-KT-QC-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/countertops/waterfall-kitchen-island.jpg",
+          "webp": "assets/owner/countertops/waterfall-kitchen-island-1280.webp",
+          "alt": "Calacatta-look quartz waterfall island in a finished kitchen interior",
+          "label": "Primary reference",
+          "caption": "Previous website application photograph.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-KT Honed Natural Stone Countertop",
@@ -164,7 +358,45 @@
       "isIllustrative": false,
       "caption": "Previous website application photograph.",
       "imageType": "owner-original",
-      "techSheetPdf": "assets/resources/products/WR-KT-NS-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-KT-NS-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/countertops/carrara-kitchen-island.jpg",
+          "webp": "assets/owner/countertops/carrara-kitchen-island-1280.webp",
+          "alt": "Carrara marble island and countertops in a bright white kitchen",
+          "label": "Primary reference",
+          "caption": "Previous website application photograph.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-CB Solid Surface Backsplash",
@@ -190,7 +422,45 @@
       "isIllustrative": true,
       "caption": "Illustrative render - not actual product.",
       "imageType": "render",
-      "techSheetPdf": "assets/resources/products/WR-CB-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-CB-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/products/WR-CB-render-v3.jpg",
+          "webp": "assets/products/WR-CB-render-v3.webp",
+          "alt": "Quartz or marble countertop and backsplash illustrative render",
+          "label": "Primary reference",
+          "caption": "Illustrative render - not actual product.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-FR Round Stone Furniture Top",
@@ -217,7 +487,45 @@
       "isIllustrative": false,
       "caption": "Previous website product photograph.",
       "imageType": "owner-original",
-      "techSheetPdf": "assets/resources/products/WR-FR-RM-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-FR-RM-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/countertops/oval-travertine-coffee-top.jpg",
+          "webp": "assets/owner/countertops/oval-travertine-coffee-top-1280.webp",
+          "alt": "Oval travertine furniture top photographed in a living room",
+          "label": "Primary reference",
+          "caption": "Previous website product photograph.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-FR Rectangular Stone Furniture Top",
@@ -243,7 +551,45 @@
       "isIllustrative": false,
       "caption": "Previous website product photograph.",
       "imageType": "owner-original",
-      "techSheetPdf": "assets/resources/products/WR-FR-OT-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-FR-OT-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/countertops/rectangular-travertine-top.jpg",
+          "webp": "assets/owner/countertops/rectangular-travertine-top-1280.webp",
+          "alt": "Rectangular travertine furniture top with softly rounded corners",
+          "label": "Primary reference",
+          "caption": "Previous website product photograph.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-VT Solid White Vanity Top",
@@ -270,7 +616,46 @@
       "imageHeight": 1200,
       "isIllustrative": false,
       "caption": "Production vanity-top reference on a neutral studio background.",
-      "imageType": "photo"
+      "imageType": "photo",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt-solid-white-studio.jpg",
+          "webp": "assets/owner/products/wr-vt-solid-white-studio.webp",
+          "avif": "assets/owner/products/wr-vt-solid-white-studio.avif",
+          "alt": "Solid white single-sink vanity top with rectangular basin opening, three faucet holes, and backsplash",
+          "label": "Primary reference",
+          "caption": "Production vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-VT Black Granite Vanity Top",
@@ -297,7 +682,46 @@
       "imageHeight": 1200,
       "isIllustrative": false,
       "caption": "Production granite vanity-top reference on a neutral studio background.",
-      "imageType": "photo"
+      "imageType": "photo",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt-black-granite-studio.jpg",
+          "webp": "assets/owner/products/wr-vt-black-granite-studio.webp",
+          "avif": "assets/owner/products/wr-vt-black-granite-studio.avif",
+          "alt": "Black fine-fleck granite single-sink vanity top with rectangular basin opening, three faucet holes, and backsplash",
+          "label": "Primary reference",
+          "caption": "Production granite vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-VT Rounded Marble Vanity Top",
@@ -325,7 +749,46 @@
       "imageHeight": 1200,
       "isIllustrative": false,
       "caption": "Production marble vanity-top reference on a neutral studio background.",
-      "imageType": "photo"
+      "imageType": "photo",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-vt-rounded-marble-studio.jpg",
+          "webp": "assets/owner/products/wr-vt-rounded-marble-studio.webp",
+          "avif": "assets/owner/products/wr-vt-rounded-marble-studio.avif",
+          "alt": "Grey-white veined marble single-sink vanity top with rounded front corners, rectangular basin opening, and shaped backsplash",
+          "label": "Primary reference",
+          "caption": "Production marble vanity-top reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-HT Hotel Vanity & Apartment Program",
@@ -352,7 +815,46 @@
       "isIllustrative": false,
       "caption": "Production double-sink project vanity reference on a neutral studio background.",
       "imageType": "photo",
-      "techSheetPdf": "assets/resources/products/WR-HT-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-HT-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-ht72-veined-studio.jpg",
+          "webp": "assets/owner/products/wr-ht72-veined-studio.webp",
+          "avif": "assets/owner/products/wr-ht72-veined-studio.avif",
+          "alt": "White veined 72-inch double-sink vanity top with two rectangular basin openings and backsplash",
+          "label": "Primary reference",
+          "caption": "Production double-sink project vanity reference on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-WJ Custom 5-Axis Waterjet Medallion",
@@ -379,7 +881,45 @@
       "isIllustrative": true,
       "caption": "Precision CNC water-jet marble medallion.",
       "imageType": "render",
-      "techSheetPdf": "assets/resources/products/WR-CB-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-CB-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/products/WR-CB-render-v3.jpg",
+          "webp": "assets/products/WR-CB-render-v3.webp",
+          "alt": "Illustrative material placeholder for a custom waterjet medallion",
+          "label": "Primary reference",
+          "caption": "Precision CNC water-jet marble medallion.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-FP Classic Carved Marble Fireplace",
@@ -405,7 +945,45 @@
       "isIllustrative": true,
       "caption": "Hand-finished natural marble fireplace mantel.",
       "imageType": "render",
-      "techSheetPdf": "assets/resources/products/WR-FR-RM-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-FR-RM-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/products/WR-FR-RM-render-v3.jpg",
+          "webp": "assets/products/WR-FR-RM-render-v3.webp",
+          "alt": "Illustrative marble form placeholder for a custom fireplace program",
+          "label": "Primary reference",
+          "caption": "Hand-finished natural marble fireplace mantel.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-TH Architectural Thresholds & Window Sills",
@@ -430,7 +1008,45 @@
       "isIllustrative": true,
       "caption": "Dimensional stone threshold and shower curb program.",
       "imageType": "render",
-      "techSheetPdf": "assets/resources/products/WR-HT-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-HT-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/products/WR-HT-render-v3.jpg",
+          "webp": "assets/products/WR-HT-render-v3.webp",
+          "alt": "Illustrative stone component placeholder for thresholds and window sills",
+          "label": "Primary reference",
+          "caption": "Dimensional stone threshold and shower curb program.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     },
     {
       "title": "WR-SM Material Sample Kit",
@@ -456,7 +1072,46 @@
       "isIllustrative": false,
       "caption": "Physical stone sample selection on a neutral studio background.",
       "imageType": "photo",
-      "techSheetPdf": "assets/resources/products/WR-SM-spec-sheet.pdf"
+      "techSheetPdf": "assets/resources/products/WR-SM-spec-sheet.pdf",
+      "images": [
+        {
+          "src": "assets/owner/products/wr-sample-kit-studio.jpg",
+          "webp": "assets/owner/products/wr-sample-kit-studio.webp",
+          "avif": "assets/owner/products/wr-sample-kit-studio.avif",
+          "alt": "Five square stone surface samples arranged on a neutral studio background",
+          "label": "Primary reference",
+          "caption": "Physical stone sample selection on a neutral studio background.",
+          "placeholder": false
+        },
+        {
+          "src": "assets/placeholders/product-side-view.svg",
+          "alt": "45 degree product view placeholder",
+          "label": "45° side view",
+          "caption": "Real angle photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-texture-detail.svg",
+          "alt": "Product texture detail placeholder",
+          "label": "Texture detail",
+          "caption": "Real texture close-up is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-application-view.svg",
+          "alt": "Product application view placeholder",
+          "label": "Application view",
+          "caption": "Real installed application photograph is not yet available.",
+          "placeholder": true
+        },
+        {
+          "src": "assets/placeholders/product-edge-detail.svg",
+          "alt": "Product edge detail placeholder",
+          "label": "Edge detail",
+          "caption": "Real edge detail photograph is not yet available.",
+          "placeholder": true
+        }
+      ]
     }
   ]
 }
