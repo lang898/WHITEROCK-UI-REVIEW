@@ -1,0 +1,85 @@
+.wr-product-quick-table {
+  padding-top: 8px;
+}
+.wr-product-quick-table > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 14px;
+  border: 1px solid var(--wr-line);
+  background: var(--wr-line);
+}
+.wr-product-quick-table article {
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  background: var(--wr-bg);
+}
+.wr-product-quick-table article span {
+  color: var(--wr-muted);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+.wr-product-quick-table article strong {
+  font-size: var(--fs-small);
+  line-height: var(--lh-normal);
+}
+.wr-related-products {
+  padding-top: 8px;
+}
+.wr-related-products > div:first-child h3 {
+  margin-top: 8px;
+}
+.wr-related-products__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.wr-related-products__grid > button {
+  padding: 0;
+  border: 1px solid var(--wr-line);
+  background: var(--wr-bg);
+  color: var(--wr-ink);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition-property: border-color, box-shadow, transform;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-standard);
+}
+.wr-related-products__grid > button:hover {
+  transform: translateY(-2px);
+  border-color: var(--wr-line-strong);
+  box-shadow: 0 14px 30px rgba(26,26,26,.06);
+}
+.wr-related-products__grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.wr-related-products__grid > button > span {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+}
+.wr-related-products__grid small { color: var(--wr-muted); }
+.wr-related-products__grid i {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--wr-accent-deep);
+  font-size: var(--fs-small);
+  font-style: normal;
+}
+.wr-related-products__grid i svg { width: 14px; }
+
+@media (max-width: 768px) {
+  .wr-product-quick-table > div,
+  .wr-related-products__grid { grid-template-columns: 1fr; }
+  .wr-product-quick-table article { min-height: 92px; }
+}
