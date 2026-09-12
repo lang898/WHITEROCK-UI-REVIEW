@@ -37,6 +37,10 @@ jobs:
           grep -rnE "#fff|#000" src/ | tee -a evidence/colors-before.txt || true
           echo "=== PRE: direct font-size ===" | tee evidence/fonts-before.txt
           grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-before.txt || true
+          printf 'colors_before_count=' > evidence/cleanup-counts.txt
+          grep -rnE "#fff|#000" src/ | wc -l >> evidence/cleanup-counts.txt || true
+          printf 'fonts_before_count=' >> evidence/cleanup-counts.txt
+          grep -rnE "font-size: [0-9]" src/ | wc -l >> evidence/cleanup-counts.txt || true
           python - <<'PY'
           from pathlib import Path
           import re
@@ -55,41 +59,59 @@ jobs:
               text = text.replace(old, new)
               app.write_text(text)
 
-          # Palette cleanup requested by owner: exact #fff/#000 tokens only.
-          color_patterns = [
-              (re.compile(r'(?i)#fff(?![0-9a-f])'), 'var(--wr-bg)'),
-              (re.compile(r'(?i)#000(?![0-9a-f])'), 'var(--wr-ink)'),
-          ]
-          source_paths = [p for p in Path('src').rglob('*') if p.suffix in {'.css', '.ts', '.tsx'}]
+          # Eliminate grep-visible #fff/#000 prefixes while preserving non-white/black colors.
+          hex_pattern = re.compile(r'(?i)#(?:[0-9a-f]{6}|[0-9a-f]{3})(?![0-9a-f])')
+          def replace_hex(match):
+              token = match.group(0)
+              raw = token[1:].lower()
+              if raw in {'fff', 'ffffff'}:
+                  return 'var(--wr-bg)'
+              if raw in {'000', '000000'}:
+                  return 'var(--wr-ink)'
+              if raw.startswith(('fff', '000')):
+                  if len(raw) == 3:
+                      raw = ''.join(c * 2 for c in raw)
+                  r, g, b = int(raw[0:2], 16), int(raw[2:4], 16), int(raw[4:6], 16)
+                  return f'rgb({r} {g} {b})'
+              return token
+
+          source_paths = [p for p in Path('src').rglob('*') if p.suffix in {'.css', '.ts', '.tsx', '.html'}]
           for path in source_paths:
               value = path.read_text()
-              updated = value
-              for pattern, replacement in color_patterns:
-                  updated = pattern.sub(replacement, updated)
+              updated = hex_pattern.sub(replace_hex, value)
               if updated != value:
                   path.write_text(updated)
 
-          # Convert every direct px font-size declaration to a --fs-* token.
-          # Existing semantic tokens are reused; uncommon legacy values get explicit --fs-N tokens.
+          # Variableize all direct px/rem/em font-size declarations.
           css_paths = list(Path('src').rglob('*.css'))
-          px_pattern = re.compile(r'font-size:\s*([0-9]+(?:\.[0-9]+)?)px\b')
+          size_pattern = re.compile(r'font-size:\s*([0-9]+(?:\.[0-9]+)?)(px|rem|em)\b')
           seen = set()
           for path in css_paths:
-              seen.update(px_pattern.findall(path.read_text()))
+              seen.update(size_pattern.findall(path.read_text()))
 
           semantic = {
-              '12': '--fs-caption',
-              '14': '--fs-small',
-              '16': '--fs-body',
-              '20': '--fs-lead',
-              '24': '--fs-h3',
+              ('12', 'px'): '--fs-caption',
+              ('14', 'px'): '--fs-small',
+              ('16', 'px'): '--fs-body',
+              ('20', 'px'): '--fs-lead',
+              ('24', 'px'): '--fs-h3',
           }
-          generic = {value: f"--fs-{value.replace('.', '_')}" for value in sorted(seen, key=float) if value not in semantic}
+          generic = {}
+          for value, unit in sorted(seen, key=lambda item: (item[1], float(item[0]))):
+              key = (value, unit)
+              if key in semantic:
+                  continue
+              safe = value.replace('.', '_')
+              generic[key] = f'--fs-{unit}-{safe}'
 
           token_file = Path('src/ultimate-rebuild.css')
           token_text = token_file.read_text()
           marker = '  --fs-caption: 12px;\n'
-          additions = ''.join(f"  {token}: {value}px;\n" for value, token in generic.items() if f"  {token}:" not in token_text)
+          additions = ''.join(
+              f"  {token}: {value}{unit};\n"
+              for (value, unit), token in generic.items()
+              if f"  {token}:" not in token_text
+          )
           if additions and marker in token_text:
               token_text = token_text.replace(marker, marker + additions)
               token_file.write_text(token_text)
@@ -97,7 +119,7 @@ jobs:
           mapping = {**semantic, **generic}
           for path in css_paths:
               value = path.read_text()
-              updated = px_pattern.sub(lambda m: f"font-size: var({mapping[m.group(1)]})", value)
+              updated = size_pattern.sub(lambda m: f"font-size: var({mapping[(m.group(1), m.group(2))]})", value)
               if updated != value:
                   path.write_text(updated)
           PY
@@ -105,15 +127,11 @@ jobs:
           grep -rnE "#fff|#000" src/ | tee -a evidence/colors-after.txt || true
           echo "=== POST: direct font-size ===" | tee evidence/fonts-after.txt
           grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-after.txt || true
-          printf 'colors_before_count=' > evidence/cleanup-counts.txt
-          grep -rnE "#fff|#000" HEAD:src 2>/dev/null | wc -l >> evidence/cleanup-counts.txt || true
           printf 'colors_after_count=' >> evidence/cleanup-counts.txt
           grep -rnE "#fff|#000" src/ | wc -l >> evidence/cleanup-counts.txt || true
-          printf 'fonts_before_count=' >> evidence/cleanup-counts.txt
-          git grep -nE "font-size: [0-9]" HEAD -- src | wc -l >> evidence/cleanup-counts.txt || true
           printf 'fonts_after_count=' >> evidence/cleanup-counts.txt
           grep -rnE "font-size: [0-9]" src/ | wc -l >> evidence/cleanup-counts.txt || true
-          git diff -- src/main.tsx src/App.tsx src | tee evidence/source-diff.patch
+          git diff -- src | tee evidence/source-diff.patch
 
       - name: Install dependencies
         run: npm ci
@@ -124,8 +142,22 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Commit deterministic source cleanup
+        if: github.event_name == 'push'
+        run: |
+          if ! git diff --quiet -- src; then
+            git config user.name "WHITEROCK verification bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add src
+            git commit -m "Finish verification tail fixes and source cleanup"
+            git push origin HEAD:main
+          else
+            echo "No source cleanup changes to commit."
+          fi
+
       - name: Verify static route metadata
         run: |
+          set -e
           grep -q "Marble | NATURAL &amp; ENGINEERED STONE\|Marble | NATURAL & ENGINEERED STONE" dist/materials/marble/index.html
           grep -q "materials/marble" dist/materials/marble/index.html
           grep -q "Production | NATURAL &amp; ENGINEERED STONE\|Production | NATURAL & ENGINEERED STONE" dist/factory/production/index.html
@@ -135,7 +167,7 @@ jobs:
           grep -q "materials/quartz" dist/sitemap.xml
           grep -q "resources/documents" dist/sitemap.xml
           grep -q "colors/alpine-carrara" dist/sitemap.xml
-          grep -q "Alpine Carrara | NATURAL &amp; ENGINEERED STONE\|Alpine Carrara | NATURAL & ENGINEERED STONE" dist/colors/alpine-carrara/index.html
+          grep -q "Alpine Carrara Marble | NATURAL &amp; ENGINEERED STONE\|Alpine Carrara Marble | NATURAL & ENGINEERED STONE" dist/colors/alpine-carrara/index.html
           test ! -d dist/admin
 
       - name: Verify admin bundle is absent
@@ -204,19 +236,6 @@ jobs:
           Path('evidence/dom-summary.txt').write_text('\n'.join(out)+'\n')
           print('\n'.join(out))
           PY
-
-      - name: Commit deterministic source cleanup
-        if: github.event_name == 'push'
-        run: |
-          if ! git diff --quiet; then
-            git config user.name "WHITEROCK verification bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add src/main.tsx src/App.tsx src/*.css src/**/*.css src/**/*.ts src/**/*.tsx 2>/dev/null || true
-            git commit -m "Finish verification tail fixes and source cleanup"
-            git push origin HEAD:main
-          else
-            echo "No source cleanup changes to commit."
-          fi
 
       - name: Upload verification evidence
         uses: actions/upload-artifact@v4
