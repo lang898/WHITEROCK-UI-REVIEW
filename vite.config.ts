@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { routes, type RouteDefinition } from './src/routes';
 import colorsData from './data/colors.json';
+import productsData from './data/products.json';
+import { productSlug } from './src/lib/productSlug';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const productionDomain = 'https://www.whiterockstone.com';
@@ -25,6 +27,7 @@ const legacyRedirects: Record<string, string> = {
 };
 
 type StaticColor = { slug: string; name: string; material: string; description: string; swatchImage: string; swatchWebp?: string; swatchAvif?: string };
+type StaticProduct = { title: string; sku: string; material: string; description: string; image: string; imageWebp?: string; imageAvif?: string };
 const publicAsset = (value: string) => value.startsWith('/') ? value : `/${value}`;
 const colorRoutes: RouteDefinition[] = (colorsData.colors as StaticColor[]).map((color) => ({
   id: 'colors',
@@ -34,7 +37,15 @@ const colorRoutes: RouteDefinition[] = (colorsData.colors as StaticColor[]).map(
   schemaType: 'Product',
   ogImage: publicAsset(color.swatchAvif || color.swatchWebp || color.swatchImage),
 }));
-const allStaticRoutes = [...routes, ...colorRoutes];
+const productRoutes: RouteDefinition[] = (productsData.products as StaticProduct[]).map((product) => ({
+  id: 'products',
+  path: `/products/${productSlug(product.sku)}/`,
+  title: `${product.title} | ${displayBrand}`,
+  description: `${product.description} Review material, size, fabrication, packing, and quotation details for ${product.sku}.`,
+  schemaType: 'Product',
+  ogImage: publicAsset(product.imageAvif || product.imageWebp || product.image),
+}));
+const allStaticRoutes = [...routes, ...colorRoutes, ...productRoutes];
 
 const escapeHtml = (value: string) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -54,7 +65,7 @@ function routeHtml(template: string, route: RouteDefinition) {
   html = upsertMeta(html, 'property', 'og:site_name', displayBrand);
   html = upsertMeta(html, 'property', 'og:description', route.description);
   html = upsertMeta(html, 'property', 'og:url', canonical);
-  html = upsertMeta(html, 'property', 'og:type', 'website');
+  html = upsertMeta(html, 'property', 'og:type', route.schemaType === 'Product' ? 'product' : 'website');
   html = upsertMeta(html, 'property', 'og:image', socialImage);
   html = upsertMeta(html, 'property', 'og:image:alt', `${route.title} social preview`);
   html = upsertMeta(html, 'name', 'twitter:card', 'summary_large_image');
