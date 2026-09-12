@@ -15,12 +15,15 @@ import { ImageLightbox, type LightboxImage } from './components/ImageLightbox';
 import { MobileActionBar } from './components/MobileActionBar';
 import { HomeView } from './views/HomeView';
 import { locales, siteConfig } from './data/site';
-import { colors } from './data';
+import { colors, products } from './data';
 import type { ProductItem, ColorItem, RfqCartItem, LocaleConfig, CompareEntry } from './types';
 import type { ShareContent } from './components/SocialShareModal';
 import { routeIdFromLocation, routePath, routesById, type RouteId } from './routes';
+import { productSlug } from './lib/productSlug';
 
 const AboutView = lazy(() => import('./views/AboutView').then((module) => ({ default: module.AboutView })));
+const CapabilitiesView = lazy(() => import('./views/about/CapabilitiesView').then((module) => ({ default: module.CapabilitiesView })));
+const ProductDetailView = lazy(() => import('./views/ProductDetailView').then((module) => ({ default: module.ProductDetailView })));
 const ProductsView = lazy(() => import('./views/ProductsView').then((module) => ({ default: module.ProductsView })));
 const MaterialsView = lazy(() => import('./views/MaterialsView').then((module) => ({ default: module.MaterialsView })));
 const ColorsView = lazy(() => import('./views/ColorsView').then((module) => ({ default: module.ColorsView })));
@@ -70,7 +73,16 @@ function colorSlugFromBrowser(): string | null {
   return decodeURIComponent(match[1]);
 }
 
+function productFromBrowser(): ProductItem | null {
+  if (typeof window === 'undefined') return null;
+  const match = window.location.pathname.match(/^\/products\/([^/]+)\/?$/);
+  if (!match) return null;
+  const slug = decodeURIComponent(match[1]);
+  return products.find((product) => productSlug(product.sku) === slug) || null;
+}
+
 function routeFromBrowser(): RouteId {
+  if (productFromBrowser()) return 'products';
   return colorSlugFromBrowser() ? 'colors' : routeIdFromLocation();
 }
 
@@ -79,6 +91,7 @@ function AppContent() {
   const [currentLocale, setCurrentLocale] = useState<LocaleConfig>(locales[0]);
   const [isRfqModalOpen, setIsRfqModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
+  const [productDetail, setProductDetail] = useState<ProductItem | null>(() => productFromBrowser());
   const [selectedColor, setSelectedColor] = useState<ColorItem | null>(() => {
     const slug = colorSlugFromBrowser();
     return slug ? colors.find((color) => color.slug === slug) || null : null;
@@ -98,15 +111,19 @@ function AppContent() {
 
   useEffect(() => {
     const syncRouteFromUrl = () => {
+      const product = productFromBrowser();
       const slug = colorSlugFromBrowser();
-      setCurrentTab(slug ? 'colors' : routeIdFromLocation());
+      setCurrentTab(product ? 'products' : slug ? 'colors' : routeIdFromLocation());
+      setProductDetail(product);
       setSelectedColor(slug ? colors.find((color) => color.slug === slug) || null : null);
+      setSelectedProduct(null);
     };
     window.addEventListener('popstate', syncRouteFromUrl);
     window.addEventListener('hashchange', syncRouteFromUrl);
     const initialSlug = colorSlugFromBrowser();
+    const initialProduct = productFromBrowser();
     const initialRoute = routeFromBrowser();
-    if (!initialSlug) {
+    if (!initialSlug && !initialProduct) {
       const canonical = routePath(initialRoute);
       if (window.location.hash || window.location.pathname.replace(/\/+$/, '/') !== canonical) window.history.replaceState({ routeId: initialRoute }, '', canonical);
     }
@@ -153,7 +170,7 @@ function AppContent() {
       (window as Window & { __wrRevealObserver?: IntersectionObserver }).__wrRevealObserver = observer;
     });
     return () => { window.cancelAnimationFrame(frame); (window as Window & { __wrRevealObserver?: IntersectionObserver }).__wrRevealObserver?.disconnect(); document.documentElement.classList.remove('wr-reveal-ready'); };
-  }, [currentTab]);
+  }, [currentTab, productDetail?.sku]);
 
   const toggleCompare = (entry: CompareEntry) => {
     setCompareItems((current) => {
@@ -167,6 +184,8 @@ function AppContent() {
 
   const handleSelectColor = (color: ColorItem) => {
     colorReturnPathRef.current = window.location.pathname;
+    setProductDetail(null);
+    setSelectedProduct(null);
     setSelectedColor(color);
     const colorPath = `/colors/${color.slug}/`;
     if (window.location.pathname !== colorPath) window.history.pushState({ colorSlug: color.slug }, '', colorPath);
@@ -180,6 +199,17 @@ function AppContent() {
       window.history.replaceState({ routeId: currentTab }, '', returnPath || fallback);
     }
     colorReturnPathRef.current = null;
+  };
+
+  const handleOpenProductDetail = (product: ProductItem) => {
+    const productPath = `/products/${productSlug(product.sku)}/`;
+    setSelectedProduct(null);
+    setSelectedColor(null);
+    colorReturnPathRef.current = null;
+    setProductDetail(product);
+    setCurrentTab('products');
+    if (window.location.pathname !== productPath || window.location.hash) window.history.pushState({ productSku: product.sku }, '', productPath);
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
 
   const handleAddToCart = (product: ProductItem | RfqCartItem) => {
@@ -224,6 +254,8 @@ function AppContent() {
   const handleTabChange = (tab: string) => {
     const nextRoute = routesById[tab as RouteId] ? (tab as RouteId) : 'home';
     const nextPath = routePath(nextRoute);
+    setProductDetail(null);
+    setSelectedProduct(null);
     setSelectedColor(null);
     colorReturnPathRef.current = null;
     setCurrentTab(nextRoute);
@@ -237,14 +269,16 @@ function AppContent() {
   return (
     <div className="hybrid-site min-h-screen flex flex-col font-sans antialiased">
       <a href="#main-content" className="skip-link">Skip to main content</a>
-      <PageSeo routeId={currentTab} language={currentLocale.id} selectedColor={selectedColor} />
+      <PageSeo routeId={currentTab} language={currentLocale.id} selectedColor={selectedColor} selectedProduct={productDetail} />
       <Header currentTab={currentTab} setCurrentTab={handleTabChange} cartCount={rfqCount} openCart={() => setIsRfqModalOpen(true)} sampleCount={sampleSlugs.length} openSamples={() => handleTabChange('samples')} currentLocale={currentLocale} setLocale={setCurrentLocale} onOpenShare={() => handleOpenShare()} onOpenSearch={() => setIsSearchOpen(true)} />
 
       <Suspense fallback={<RouteLoading />}>
         <main id="main-content" className="flex-1" tabIndex={-1}>
           {currentTab === 'home' && <HomeView setCurrentTab={handleTabChange} onSelectProduct={setSelectedProduct} onSelectColor={handleSelectColor} onAddToCart={handleAddToCart} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
-          {(currentTab === 'about' || currentTab.startsWith('about-')) && <AboutView currentLocale={currentLocale} setCurrentTab={handleTabChange} onOpenShareModal={handleOpenShare} section={aboutSectionByRoute[currentTab]} />}
-          {(currentTab === 'products' || currentTab.startsWith('product-')) && <ProductsView onSelectProduct={setSelectedProduct} onAddToCart={handleAddToCart} currentLocale={currentLocale} onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })} compareIds={compareIds} setCurrentTab={handleTabChange} program={productProgramByRoute[currentTab]} />}
+          {(currentTab === 'about' || currentTab === 'about-story' || currentTab === 'about-vietnam') && <AboutView currentLocale={currentLocale} setCurrentTab={handleTabChange} onOpenShareModal={handleOpenShare} section={aboutSectionByRoute[currentTab]} />}
+          {currentTab === 'about-capabilities' && <CapabilitiesView setCurrentTab={handleTabChange} />}
+          {currentTab === 'products' && productDetail && <ProductDetailView product={productDetail} onAddToCart={handleAddToCart} onShare={handleOpenShare} onSelectRelated={handleOpenProductDetail} onBackToProducts={() => handleTabChange('products')} />}
+          {!productDetail && (currentTab === 'products' || currentTab.startsWith('product-')) && <ProductsView onSelectProduct={setSelectedProduct} onAddToCart={handleAddToCart} currentLocale={currentLocale} onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })} compareIds={compareIds} setCurrentTab={handleTabChange} program={productProgramByRoute[currentTab]} />}
           {currentTab === 'materials' && <MaterialsView setCurrentTab={handleTabChange} />}
           {(currentTab === 'colors' || currentTab.startsWith('color-')) && <ColorsView onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} family={colorFamilyByRoute[currentTab]} />}
           {(currentTab === 'finishes' || currentTab.startsWith('finish-')) && <FinishesEdgesView setCurrentTab={handleTabChange} currentLocale={currentLocale} section={finishSectionByRoute[currentTab]} />}
@@ -269,7 +303,7 @@ function AppContent() {
 
       <Suspense fallback={null}>
         {isRfqModalOpen && <RfqModal isOpen onClose={() => setIsRfqModalOpen(false)} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onClearCart={handleClearCart} currentLocale={currentLocale} />}
-        {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} onSelectRelated={(product) => setSelectedProduct(product)} />}
+        {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} onSelectRelated={handleOpenProductDetail} />}
         {selectedColor && <ColorModal color={selectedColor} onClose={handleCloseColor} onRequestSample={handleAddColorSample} onAddToRfq={handleAddColorToRfq} onShare={handleOpenShare} />}
         {shareModalContent && <SocialShareModal isOpen onClose={() => setShareModalContent(null)} content={shareModalContent} />}
         {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />}
