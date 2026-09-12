@@ -2,6 +2,10 @@
 
 Static React and Vite website for WHITEROCK COMPANY LIMITED.
 
+## Brand typography
+
+The formal WHITEROCK display typeface is **Libre Baskerville** for primary headings, paired with **Inter** for body copy, navigation, labels, and interface text. The production site self-hosts both families from `assets/fonts/` and does not use EB Garamond.
+
 ## Local development
 
 Requirements: Node.js 20 or newer.
@@ -47,4 +51,4 @@ Publish the generated `dist/` directory. For Cloudflare Pages use:
 - Build output directory: `dist`
 - Environment variables: none required
 
-The Vite build creates static fallback entry files for the public routes and `/admin/`.
+The Vite build creates static fallback entry files for the public routes and legacy redirects.
