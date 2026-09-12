@@ -29,7 +29,7 @@ export function MaterialWall({ onSelectColor, onAddSample }: MaterialWallProps) 
     const half = rail.scrollWidth / 2;
     if (half <= 0) return;
     if (rail.scrollLeft >= half) rail.scrollLeft -= half;
-    if (rail.scrollLeft <= 0) rail.scrollLeft += half;
+    else if (rail.scrollLeft <= 0) rail.scrollLeft += half;
   };
 
   return (
