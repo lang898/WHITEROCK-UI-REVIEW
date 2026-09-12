@@ -111,7 +111,7 @@
 
 html { background: var(--wr-bg); }
 body, .hybrid-site { background: var(--wr-bg); color: var(--wr-ink); font-family: Inter, Manrope, "Segoe UI", sans-serif; font-size: var(--fs-body); line-height: var(--lh-normal); }
-.hybrid-site h1, .hybrid-site h2 { font-family: "EB Garamond", "Libre Baskerville", Georgia, serif; letter-spacing: var(--ls-tight); }
+.hybrid-site h1, .hybrid-site h2 { font-family: "Libre Baskerville", Georgia, serif; letter-spacing: var(--ls-tight); }
 .hybrid-site h1 { font-size: var(--fs-h1); line-height: var(--lh-tight); font-weight: 700; }
 .hybrid-site h2 { font-size: var(--fs-h2); line-height: var(--lh-snug); font-weight: 600; }
 .hybrid-site h3 { font-family: Inter, Manrope, sans-serif; font-size: var(--fs-h3); line-height: var(--lh-snug); font-weight: 600; }
@@ -241,7 +241,7 @@ body, .hybrid-site { background: var(--wr-bg); color: var(--wr-ink); font-family
 .wr-home-capability-band .wr-home-stat { padding: 36px 28px; border-right: 1px solid rgba(250,248,245,.18); color: var(--wr-bg); }
 .wr-home-capability-band .wr-home-stat:last-child { border-right: 0; }
 .wr-home-capability-band .wr-home-stat svg { color: var(--wr-accent); }
-.wr-home-capability-band .wr-home-stat strong { display: block; margin-top: 20px; font-family: "EB Garamond", Georgia, serif; font-size: clamp(48px,5vw,64px); line-height: 1; }
+.wr-home-capability-band .wr-home-stat strong { display: block; margin-top: 20px; font-family: "Libre Baskerville", Georgia, serif; font-size: clamp(48px,5vw,64px); line-height: 1; }
 .wr-home-capability-band .wr-home-stat span { display: block; margin-top: 10px; color: rgba(250,248,245,.62); font-size: var(--fs-small); }
 .wr-home-capability-stages { display: grid; grid-template-columns: repeat(5,1fr); margin: 0 0 48px; padding: 0; list-style: none; border-top: 1px solid rgba(250,248,245,.16); }
 .wr-home-capability-stages li { padding: 28px 22px; border-right: 1px solid rgba(250,248,245,.16); }
@@ -337,7 +337,7 @@ body, .hybrid-site { background: var(--wr-bg); color: var(--wr-ink); font-family
 .wr-swatch-card__actions { display: flex; gap: 8px; }
 .wr-stone-care { display: grid; grid-template-columns: .85fr 1.15fr; gap: 64px; align-items: start; }
 .wr-stone-care h2 { margin: 12px 0 20px; }
-.wr-stone-care > div p { color: var(--wr-ink-soft); }
+.wr-stone-care > div p { color: var(--wr-ink-soft); line-height: var(--lh-loose); }
 .wr-stone-care ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--wr-line); }
 .wr-stone-care li { display: flex; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--wr-line); }
 .wr-stone-care li svg { width: 18px; flex: 0 0 auto; color: var(--wr-accent); }
