@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent, TouchEvent } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
-import { factory } from '../data';
 import { siteConfig } from '../data/site';
 
 type HeroSlide = {
@@ -121,9 +120,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
 
   useEffect(() => {
     if (autoplayBlocked) return;
-    const timer = window.setTimeout(() => {
-      setActive((current) => (current + 1) % slides.length);
-    }, AUTOPLAY_MS);
+    const timer = window.setTimeout(() => setActive((current) => (current + 1) % slides.length), AUTOPLAY_MS);
     return () => window.clearTimeout(timer);
   }, [active, autoplayBlocked]);
 
@@ -154,7 +151,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
 
   return (
     <section
-      className="wr-trust-hero"
+      className={`wr-trust-hero wr-trust-hero--cinematic${userPaused || reduceMotion ? ' is-user-paused' : ''}`}
       aria-roledescription="carousel"
       aria-label="Stone manufacturing and project capabilities"
       tabIndex={0}
@@ -179,7 +176,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
       <div className="wr-trust-hero__inner">
         <div className="wr-trust-hero__copy">
           <p className="wr-trust-hero__eyebrow">{siteConfig.displayBrand} · Vietnam manufacturing</p>
-          <h1>Stone Selected. Made in Vietnam. Built to Drawing.</h1>
+          <h1>Stone, shaped to your drawing.</h1>
           <p className="wr-trust-hero__lead">Natural and engineered stone fabrication for vanity tops, countertops, furniture surfaces, and project programs.</p>
           <div className="wr-trust-hero__actions">
             <button className="wr-button wr-button--light" type="button" onClick={onRequestQuote}>Request a Quote</button>
@@ -215,10 +212,6 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
             <button type="button" onClick={next} aria-label="Next slide"><span>Next</span><ArrowRight size={18} aria-hidden="true" /></button>
           </div>
         </div>
-      </div>
-
-      <div className="wr-trust-hero__stats" aria-label="Manufacturing capability">
-        {factory.stats.slice(0, 4).map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
       </div>
     </section>
   );
