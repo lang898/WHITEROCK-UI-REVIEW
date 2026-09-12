@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, ChevronRight, FileText, Layers3, Package } from 'lucide-react';
 import { applications, colors } from '../data';
+import { LandingHero } from '../components/LandingHero';
 import { routePath } from '../routes';
 import { openRfqBuilder } from '../lib/uiEvents';
 import type { ApplicationItem, ColorItem, LocaleConfig } from '../types';
@@ -32,9 +33,10 @@ const belongsToCategory = (item: ApplicationItem, category: ApplicationCategory)
 
 export const ApplicationsView: React.FC<ApplicationsViewProps> = ({ onSelectColor, onAddColorSample, setCurrentTab, category }) => {
   if (!category) {
+    const hero = applications[0];
     return (
       <div className="wr-catalog-page wr-taxonomy-page">
-        <header className="wr-landing-hero wr-landing-hero--applications"><span className="wr-eyebrow">Applications</span><h1>Choose the space before the surface.</h1><p>Move from kitchen, bathroom, furniture, or commercial use into material directions, physical samples, and a drawing-led RFQ.</p></header>
+        <LandingHero eyebrow="Applications" title="Choose the space before the surface." description="Move from kitchen, bathroom, furniture, or commercial use into material directions, physical samples, and a drawing-led RFQ." image={hero.image} imageAlt={hero.imageAlt} />
         <section className="wr-taxonomy-grid" aria-label="Application categories">{applicationDefinitions.map((definition) => {
           const items = applications.filter((item) => belongsToCategory(item, definition.name));
           const representative = items[0] || applications[0];
@@ -47,11 +49,12 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({ onSelectColo
 
   const definition = applicationDefinitions.find((item) => item.name === category)!;
   const filteredApplications = applications.filter((item) => belongsToCategory(item, category));
+  const hero = filteredApplications[0] || applications[0];
 
   return (
     <div className="wr-applications-page">
+      <LandingHero eyebrow="Application category" title={category} description={definition.description} image={hero.image} imageAlt={hero.imageAlt} />
       <button className="wr-taxonomy-back" onClick={() => setCurrentTab('applications')}><ArrowLeft />All applications</button>
-      <header className="wr-catalog-hero wr-catalog-hero--centered"><div><span className="wr-eyebrow">Application category</span><h1>{category}</h1></div><p>{definition.description}</p></header>
       <nav className="wr-category-tabs" aria-label="Application categories">{applicationDefinitions.map((item) => <button className={item.name === category ? 'is-active' : ''} key={item.name} onClick={() => setCurrentTab(item.routeId)}>{item.name}</button>)}</nav>
       <section className="wr-application-grid" aria-live="polite">{filteredApplications.map((item) => {
         const matchedColor = colors.find((color) => color.slug === item.featuredColorSlug);
