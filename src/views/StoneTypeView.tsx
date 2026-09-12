@@ -18,12 +18,14 @@ interface StoneTypeViewProps {
   setCurrentTab: (tab: string) => void;
 }
 
+type ApplicationReference = { image: string; imageWebp?: string; alt: string; caption: string };
+
 const averageFromText = (value: string) => {
   const values = value.match(/\d+(?:\.\d+)?/g)?.map(Number) || [0];
   return values.reduce((sum, item) => sum + item, 0) / values.length;
 };
 
-const fallbackApplicationImages = [
+const fallbackApplicationImages: ApplicationReference[] = [
   { image: '/assets/applications/modern-kitchen-inspiration.jpg', alt: 'Kitchen stone application planning reference', caption: 'Kitchen application planning reference' },
   { image: '/assets/applications/master-bath-inspiration.jpg', alt: 'Bathroom stone application planning reference', caption: 'Bathroom application planning reference' },
   { image: '/assets/owner/countertops/oval-travertine-coffee-top.jpg', alt: 'Furniture stone application planning reference', caption: 'Furniture application planning reference' },
@@ -50,8 +52,8 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSel
   const carePoints = isEngineered
     ? ['Use a non-abrasive pH-neutral cleaner.', 'Avoid direct high heat and follow the selected product guidance.', 'Clean spills promptly and avoid aggressive chemicals.', 'Use the exact product care sheet for stain or chemical response.']
     : ['Use pH-neutral stone-care products.', 'Clean spills promptly and avoid acidic or aggressive cleaners.', 'Review sealing requirements for the selected stone, finish, and exposure.', 'Use the physical sample and material-specific care guidance before specification.'];
-  const applicationGallery = [
-    ...(stoneType.gallery || []),
+  const applicationGallery: ApplicationReference[] = [
+    ...(stoneType.gallery || []).map((item) => ({ image: item.image, imageWebp: item.imageWebp, alt: item.alt, caption: item.caption })),
     { image: stoneType.applicationImage.startsWith('/') ? stoneType.applicationImage : `/${stoneType.applicationImage}`, imageWebp: stoneType.applicationImageWebp, alt: stoneType.applicationAlt, caption: stoneType.applicationCaption },
     ...fallbackApplicationImages,
   ].filter((item, index, array) => array.findIndex((candidate) => candidate.image === item.image) === index).slice(0, 4);
@@ -80,7 +82,7 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSel
 
       <section className="wr-stone-type-fabrication wr-section-band" id="stone-finishes" aria-labelledby="stone-type-fabrication-title"><div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Fabrication direction</span><h2 id="stone-type-fabrication-title">Set the finish and edge after the color.</h2><p>Final availability is reviewed against the selected color, thickness, drawing, and physical sample.</p></div><div className="wr-stone-type-fabrication__grid"><article><span>Available finish directions</span><h3>{materialFinishes.length} finishes represented in this color library</h3><div className="wr-stone-type-option-list">{materialFinishes.map((finish) => <Tag key={finish}>{finish}</Tag>)}</div></article><article><span>Edge profiles to review</span><h3>Profiles are selected with the approved thickness and drawing</h3><div className="wr-stone-type-option-list">{edges.map((edge) => <Tag key={edge.slug}>{edge.name}</Tag>)}</div></article></div><div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('finishes')}>Review finishes and edge details<ArrowRight /></button></div></section>
 
-      <section className="wr-stone-type-gallery wr-section-band wr-section-band--mist" id="stone-applications" aria-labelledby="stone-type-gallery-title"><div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Application references</span><h2 id="stone-type-gallery-title">Review scale, movement, and setting.</h2><p>These images are application-planning references, not customer case studies.</p></div><div className="wr-stone-type-gallery__grid">{applicationGallery.map((item) => <figure key={`${stoneType.id}-${item.image}`}><picture>{'imageWebp' in item && item.imageWebp && <source srcSet={item.imageWebp} type="image/webp" />}<img src={item.image} alt={item.alt} width="1280" height="960" loading="lazy" /></picture><figcaption>{item.caption}</figcaption></figure>)}</div></section>
+      <section className="wr-stone-type-gallery wr-section-band wr-section-band--mist" id="stone-applications" aria-labelledby="stone-type-gallery-title"><div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Application references</span><h2 id="stone-type-gallery-title">Review scale, movement, and setting.</h2><p>These images are application-planning references, not customer case studies.</p></div><div className="wr-stone-type-gallery__grid">{applicationGallery.map((item) => <figure key={`${stoneType.id}-${item.image}`}><picture>{item.imageWebp && <source srcSet={item.imageWebp} type="image/webp" />}<img src={item.image} alt={item.alt} width="1280" height="960" loading="lazy" /></picture><figcaption>{item.caption}</figcaption></figure>)}</div></section>
 
       <section className="wr-stone-care wr-section-band" aria-labelledby="stone-care-title"><div><span className="wr-eyebrow">Care</span><h2 id="stone-care-title">Keep the care plan tied to the selected material.</h2><p>{stoneType.maintenance}</p></div><ul>{carePoints.map((point) => <li key={point}><ShieldCheck />{point}</li>)}</ul></section>
 
