@@ -84,7 +84,7 @@ function AnimatedStat({ value, prefix = '', suffix = '', label, Icon }: (typeof 
 
   return (
     <article ref={ref} className="wr-home-stat">
-      <Icon size={28} strokeWidth={1.35} aria-hidden="true" />
+      <Icon size={28} strokeWidth={1.35} aria-hidden={true} />
       <strong>{prefix}{displayValue.toLocaleString('en-US')}{suffix}</strong>
       <span>{label}</span>
     </article>
