@@ -16,6 +16,11 @@ interface StoneTypeViewProps {
   setCurrentTab: (tab: string) => void;
 }
 
+const averageFromText = (value: string) => {
+  const values = value.match(/\d+(?:\.\d+)?/g)?.map(Number) || [0];
+  return values.reduce((sum, item) => sum + item, 0) / values.length;
+};
+
 export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSelectColor, onAddColorSample, setCurrentTab }) => {
   const stoneType = stoneTypes.find((item) => item.id === stoneTypeId) || stoneTypes[0];
   const materialColors = colors.filter((color) => color.material === stoneType.name);
@@ -27,6 +32,13 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSel
     { id: 'sds', type: 'SDS', title: `${stoneType.name} product SDS`, status: 'available-on-request' as const, file: undefined },
     { id: 'cad', type: 'CAD', title: `${stoneType.name} fabrication / drawing support`, status: 'available-on-request' as const, file: undefined },
   ];
+
+  const technicalMetrics = [
+    { label: 'Mohs hardness', value: stoneType.hardness, Icon: Gauge, maximum: 10, scale: '0 — 10' },
+    { label: 'Water absorption', value: stoneType.absorption, Icon: Droplets, maximum: 3, scale: '0 — 3%' },
+    { label: 'Density', value: stoneType.density, Icon: Scale, maximum: 3, scale: '0 — 3 g/cm³' },
+    { label: 'Flexural strength', value: stoneType.flexuralStrength, Icon: Ruler, maximum: 40, scale: '0 — 40 MPa' },
+  ].map((metric) => ({ ...metric, position: Math.min(100, Math.max(3, (averageFromText(metric.value) / metric.maximum) * 100)) }));
 
   return (
     <div className="wr-stone-type-page">
@@ -43,8 +55,14 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSel
         </div>
       </nav>
 
-      <section className="wr-stone-type-specs" aria-label={`${stoneType.name} technical reference`}>
-        <article><Gauge /><span>Mohs hardness</span><p>{stoneType.hardness}</p></article><article><Droplets /><span>Water absorption</span><p>{stoneType.absorption}</p></article><article><Scale /><span>Density</span><p>{stoneType.density}</p></article><article><Ruler /><span>Flexural strength</span><p>{stoneType.flexuralStrength}</p></article>
+      <section className="wr-stone-tech-viz" aria-label={`${stoneType.name} technical reference`}>
+        {technicalMetrics.map(({ label, value, Icon, position, scale }) => (
+          <article key={label} className="wr-stone-tech-viz__metric">
+            <div className="wr-stone-tech-viz__heading"><Icon aria-hidden="true" /><span>{label}</span><strong>{value}</strong></div>
+            <div className="wr-stone-tech-viz__track"><i style={{ width: `${position}%` }} /><b style={{ left: `${position}%` }} /></div>
+            <small>{scale}</small>
+          </article>
+        ))}
       </section>
       <MaterialDisclaimer type="typical-technical-data" compact className="wr-stone-type-note" />
 
@@ -60,7 +78,7 @@ export const StoneTypeView: React.FC<StoneTypeViewProps> = ({ stoneTypeId, onSel
       </section>
 
       <section className="wr-stone-type-documents wr-section-band wr-section-band--mist" id="stone-documents" aria-labelledby="stone-documents-title">
-        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Technical documents</span><h2 id="stone-documents-title">Documents tied to the selected material.</h2><p>Public reference files can be downloaded now. Product-specific SDS, test reports, and drawing files are released only after their exact scope and revision are confirmed.</p></div>
+        <div className="wr-section-heading wr-section-intro"><span className="wr-eyebrow">Technical documents</span><h2 id="stone-documents-title">Documents tied to the selected material.</h2><p>Public reference files can be downloaded now. Product-specific SDS, test reports, and drawing files are available on request.</p></div>
         <div className="wr-document-grid">{relatedDocs.map((doc) => <article key={doc.id} className={doc.status === 'public' ? 'is-available' : 'is-request'}><header><FileText /><span>{doc.type}</span></header><h3>{doc.title}</h3><small>{doc.status === 'public' ? 'Public reference' : 'Available on request'}</small>{doc.file ? <a className="wr-button wr-button--primary" href={doc.file} download><Download />Download</a> : <a className="wr-button wr-button--secondary" href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(`${stoneType.name} document request: ${doc.title}`)}`}><Mail />Request document</a>}</article>)}</div>
         <div className="wr-section-action"><button className="wr-button wr-button--secondary" onClick={() => setCurrentTab('resources')}>Open document center<ArrowRight /></button></div>
       </section>
