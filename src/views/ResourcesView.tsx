@@ -54,7 +54,7 @@ export const ResourcesView: React.FC<ResourcesViewProps> = ({ currentLocale }) =
     <div className="wr-resources-page">
       <header className="wr-catalog-hero wr-catalog-hero--centered">
         <div><span className="wr-eyebrow">Technical document center</span><h1>Documents for specification, care, safety, packing, and fabrication.</h1></div>
-        <p>Public files are separated from request-only and order-specific records. Exact revision and scope remain tied to the selected material and order.</p>
+        <p>Public files are separated from request-only and order-specific records. Document scope follows the selected material and order requirements.</p>
       </header>
 
       <section className="wr-document-center" aria-labelledby="document-center-title">
@@ -76,7 +76,12 @@ export const ResourcesView: React.FC<ResourcesViewProps> = ({ currentLocale }) =
               <header><FileText /><span>{doc.documentType}</span></header>
               <h3>{doc.title}</h3>
               <p>{doc.description}</p>
-              <dl className="wr-document-meta"><div><dt>Access</dt><dd>{accessLabels[doc.access]}</dd></div><div><dt>Revision</dt><dd>{doc.revision}</dd></div>{doc.revisionDate && <div><dt>Date</dt><dd>{doc.revisionDate}</dd></div>}{doc.fileSize && <div><dt>Size</dt><dd>{doc.fileSize}</dd></div>}</dl>
+              <dl className="wr-document-meta">
+                <div><dt>Access</dt><dd>{accessLabels[doc.access]}</dd></div>
+                {doc.revision && <div><dt>Edition</dt><dd>{doc.revision}</dd></div>}
+                {doc.revisionDate && <div><dt>Date</dt><dd>{doc.revisionDate}</dd></div>}
+                {doc.fileSize && <div><dt>Size</dt><dd>{doc.fileSize}</dd></div>}
+              </dl>
               {doc.access === 'public' && doc.file
                 ? <a className="wr-button wr-button--primary" href={`/${doc.file.replace(/^\/+/, '')}`} download><Download />Download</a>
                 : <a className="wr-button wr-button--secondary" href={requestHref(doc)}><Mail />Request document</a>}
@@ -90,7 +95,7 @@ export const ResourcesView: React.FC<ResourcesViewProps> = ({ currentLocale }) =
         <div><span className="wr-eyebrow">Fabrication safety</span><h2>{complianceData.silicaTitle}</h2><p>{complianceData.silicaCopy}</p></div>
       </section>
 
-      <FaqSectionWithSchema currentLocale={currentLocale} title="Technical Data, Testing & Export Documentation FAQ" subtitle="Current answers on document status, material verification, and order-specific records." showSchemaInspector={false} />
+      <FaqSectionWithSchema currentLocale={currentLocale} title="Technical Data, Testing & Export Documentation FAQ" subtitle="Answers on technical data, testing, safety, and order-specific documentation." showSchemaInspector={false} />
     </div>
   );
 };
