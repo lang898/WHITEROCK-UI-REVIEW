@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ContactRail } from './components/ContactRail';
@@ -61,13 +61,29 @@ const resourceSectionByRoute: Partial<Record<RouteId, 'documents' | 'cad' | 'car
   'resources-documents': 'documents', 'resources-cad': 'cad', 'resources-care': 'care', 'resources-packing': 'packing', 'resources-samples': 'samples', 'resources-faq': 'faq',
 };
 const aboutSectionByRoute: Partial<Record<RouteId, 'story' | 'vietnam'>> = { 'about-story': 'story', 'about-vietnam': 'vietnam' };
+const colorFamilySlugs = new Set(['white', 'grey', 'black', 'beige', 'green', 'blue']);
+
+function colorSlugFromBrowser(): string | null {
+  if (typeof window === 'undefined') return null;
+  const match = window.location.pathname.match(/^\/colors\/([^/]+)\/?$/);
+  if (!match || colorFamilySlugs.has(match[1])) return null;
+  return decodeURIComponent(match[1]);
+}
+
+function routeFromBrowser(): RouteId {
+  return colorSlugFromBrowser() ? 'colors' : routeIdFromLocation();
+}
 
 function AppContent() {
-  const [currentTab, setCurrentTab] = useState<RouteId>(() => routeIdFromLocation());
+  const [currentTab, setCurrentTab] = useState<RouteId>(() => routeFromBrowser());
   const [currentLocale, setCurrentLocale] = useState<LocaleConfig>(locales[0]);
   const [isRfqModalOpen, setIsRfqModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
-  const [selectedColor, setSelectedColor] = useState<ColorItem | null>(null);
+  const [selectedColor, setSelectedColor] = useState<ColorItem | null>(() => {
+    const slug = colorSlugFromBrowser();
+    return slug ? colors.find((color) => color.slug === slug) || null : null;
+  });
+  const colorReturnPathRef = useRef<string | null>(null);
   const [shareModalContent, setShareModalContent] = useState<ShareContent | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [compareItems, setCompareItems] = useState<CompareEntry[]>([]);
@@ -81,12 +97,19 @@ function AppContent() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const syncRouteFromUrl = () => setCurrentTab(routeIdFromLocation());
+    const syncRouteFromUrl = () => {
+      const slug = colorSlugFromBrowser();
+      setCurrentTab(slug ? 'colors' : routeIdFromLocation());
+      setSelectedColor(slug ? colors.find((color) => color.slug === slug) || null : null);
+    };
     window.addEventListener('popstate', syncRouteFromUrl);
     window.addEventListener('hashchange', syncRouteFromUrl);
-    const initialRoute = routeIdFromLocation();
-    const canonical = routePath(initialRoute);
-    if (window.location.hash || window.location.pathname.replace(/\/+$/, '/') !== canonical) window.history.replaceState({ routeId: initialRoute }, '', canonical);
+    const initialSlug = colorSlugFromBrowser();
+    const initialRoute = routeFromBrowser();
+    if (!initialSlug) {
+      const canonical = routePath(initialRoute);
+      if (window.location.hash || window.location.pathname.replace(/\/+$/, '/') !== canonical) window.history.replaceState({ routeId: initialRoute }, '', canonical);
+    }
     return () => { window.removeEventListener('popstate', syncRouteFromUrl); window.removeEventListener('hashchange', syncRouteFromUrl); };
   }, []);
 
@@ -142,6 +165,23 @@ function AppContent() {
 
   const handleOpenShare = (content?: ShareContent) => setShareModalContent(content || { title: `${siteConfig.displayBrand} - ${siteConfig.tagline}`, text: 'Natural and engineered stone manufacturing in Vietnam for countertops, vanity tops, furniture surfaces, and custom fabrication.', type: 'site' });
 
+  const handleSelectColor = (color: ColorItem) => {
+    colorReturnPathRef.current = window.location.pathname;
+    setSelectedColor(color);
+    const colorPath = `/colors/${color.slug}/`;
+    if (window.location.pathname !== colorPath) window.history.pushState({ colorSlug: color.slug }, '', colorPath);
+  };
+
+  const handleCloseColor = () => {
+    setSelectedColor(null);
+    if (colorSlugFromBrowser()) {
+      const returnPath = colorReturnPathRef.current;
+      const fallback = currentTab === 'colors' ? routePath('colors') : routePath(currentTab);
+      window.history.replaceState({ routeId: currentTab }, '', returnPath || fallback);
+    }
+    colorReturnPathRef.current = null;
+  };
+
   const handleAddToCart = (product: ProductItem | RfqCartItem) => {
     if ('type' in product && product.type === 'product' && !('specs' in product)) { setCartItems((previous) => [...previous, product]); showToast(`Added ${product.title} to RFQ package`); return; }
     const item = product as ProductItem;
@@ -184,6 +224,8 @@ function AppContent() {
   const handleTabChange = (tab: string) => {
     const nextRoute = routesById[tab as RouteId] ? (tab as RouteId) : 'home';
     const nextPath = routePath(nextRoute);
+    setSelectedColor(null);
+    colorReturnPathRef.current = null;
     setCurrentTab(nextRoute);
     if (window.location.pathname !== nextPath || window.location.hash) window.history.pushState({ routeId: nextRoute }, '', nextPath);
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
@@ -195,24 +237,24 @@ function AppContent() {
   return (
     <div className="hybrid-site min-h-screen flex flex-col font-sans antialiased">
       <a href="#main-content" className="skip-link">Skip to main content</a>
-      <PageSeo routeId={currentTab} language={currentLocale.id} />
+      <PageSeo routeId={currentTab} language={currentLocale.id} selectedColor={selectedColor} />
       <Header currentTab={currentTab} setCurrentTab={handleTabChange} cartCount={rfqCount} openCart={() => setIsRfqModalOpen(true)} sampleCount={sampleSlugs.length} openSamples={() => handleTabChange('samples')} currentLocale={currentLocale} setLocale={setCurrentLocale} onOpenShare={() => handleOpenShare()} onOpenSearch={() => setIsSearchOpen(true)} />
 
       <Suspense fallback={<RouteLoading />}>
         <main id="main-content" className="flex-1" tabIndex={-1}>
-          {currentTab === 'home' && <HomeView setCurrentTab={handleTabChange} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} onAddToCart={handleAddToCart} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
+          {currentTab === 'home' && <HomeView setCurrentTab={handleTabChange} onSelectProduct={setSelectedProduct} onSelectColor={handleSelectColor} onAddToCart={handleAddToCart} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
           {(currentTab === 'about' || currentTab.startsWith('about-')) && <AboutView currentLocale={currentLocale} setCurrentTab={handleTabChange} onOpenShareModal={handleOpenShare} section={aboutSectionByRoute[currentTab]} />}
           {(currentTab === 'products' || currentTab.startsWith('product-')) && <ProductsView onSelectProduct={setSelectedProduct} onAddToCart={handleAddToCart} currentLocale={currentLocale} onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })} compareIds={compareIds} setCurrentTab={handleTabChange} program={productProgramByRoute[currentTab]} />}
           {currentTab === 'materials' && <MaterialsView setCurrentTab={handleTabChange} />}
-          {(currentTab === 'colors' || currentTab.startsWith('color-')) && <ColorsView onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} family={colorFamilyByRoute[currentTab]} />}
+          {(currentTab === 'colors' || currentTab.startsWith('color-')) && <ColorsView onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} family={colorFamilyByRoute[currentTab]} />}
           {(currentTab === 'finishes' || currentTab.startsWith('finish-')) && <FinishesEdgesView setCurrentTab={handleTabChange} currentLocale={currentLocale} section={finishSectionByRoute[currentTab]} />}
           {(currentTab === 'factory' || currentTab.startsWith('factory-')) && <FactoryView currentLocale={currentLocale} setCurrentTab={handleTabChange} section={factorySectionByRoute[currentTab]} />}
-          {(currentTab === 'applications' || currentTab.startsWith('application-')) && <ApplicationsView onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} setCurrentTab={handleTabChange} category={applicationCategoryByRoute[currentTab]} />}
+          {(currentTab === 'applications' || currentTab.startsWith('application-')) && <ApplicationsView onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} setCurrentTab={handleTabChange} category={applicationCategoryByRoute[currentTab]} />}
           {currentTab === 'partners' && <PartnersView setCurrentTab={handleTabChange} currentLocale={currentLocale} />}
           {(currentTab === 'resources' || currentTab.startsWith('resources-')) && <ResourcesView currentLocale={currentLocale} setCurrentTab={handleTabChange} section={resourceSectionByRoute[currentTab]} />}
           {currentTab === 'contact' && <ContactView currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
           {currentTab === 'samples' && <SampleRequestView samples={colors.filter((color) => sampleSlugs.includes(color.slug))} currentLocale={currentLocale} onRemove={(slug) => setSampleSlugs((current) => current.filter((item) => item !== slug))} onClear={() => setSampleSlugs([])} setCurrentTab={handleTabChange} onContinueToRfq={handleContinueSamplesToRfq} />}
-          {currentTab.startsWith('stone-') && <StoneTypeView stoneTypeId={currentTab.replace('stone-', '') as 'marble' | 'granite' | 'quartz' | 'quartzite' | 'travertine' | 'engineered-marble'} currentLocale={currentLocale} onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} />}
+          {currentTab.startsWith('stone-') && <StoneTypeView stoneTypeId={currentTab.replace('stone-', '') as 'marble' | 'granite' | 'quartz' | 'quartzite' | 'travertine' | 'engineered-marble'} currentLocale={currentLocale} onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} />}
           {currentTab === 'rfq' && <RfqLandingView setCurrentTab={handleTabChange} />}
           {currentTab === 'compare' && <CompareLandingView setCurrentTab={handleTabChange} selectionCount={compareItems.length} />}
           {currentTab === 'events' && <EventsView currentLocale={currentLocale} setCurrentTab={handleTabChange} />}
@@ -228,9 +270,9 @@ function AppContent() {
       <Suspense fallback={null}>
         {isRfqModalOpen && <RfqModal isOpen onClose={() => setIsRfqModalOpen(false)} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onClearCart={handleClearCart} currentLocale={currentLocale} />}
         {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} />}
-        {selectedColor && <ColorModal color={selectedColor} onClose={() => setSelectedColor(null)} onRequestSample={handleAddColorSample} onAddToRfq={handleAddColorToRfq} onShare={handleOpenShare} />}
+        {selectedColor && <ColorModal color={selectedColor} onClose={handleCloseColor} onRequestSample={handleAddColorSample} onAddToRfq={handleAddColorToRfq} onShare={handleOpenShare} />}
         {shareModalContent && <SocialShareModal isOpen onClose={() => setShareModalContent(null)} content={shareModalContent} />}
-        {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />}
+        {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={handleSelectColor} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />}
         <ComparePanel items={compareItems} locale={currentLocale} onRemove={(id) => setCompareItems((items) => items.filter((item) => item.id !== id))} onClear={() => setCompareItems([])} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />
       </Suspense>
 
