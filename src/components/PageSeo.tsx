@@ -31,11 +31,11 @@ function setCanonical(url: string) {
 export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
   useEffect(() => {
     const route = routesById[routeId];
-    const isColorDetail = routeId === 'colors' && selectedColor && /^\/colors\/[^/]+\/?$/.test(window.location.pathname) && !['white', 'grey', 'black', 'beige', 'green', 'blue'].includes(selectedColor.slug);
-    const title = isColorDetail ? `${selectedColor.name} ${selectedColor.material} | ${siteConfig.displayBrand}` : route.title;
-    const description = isColorDetail ? `Review ${selectedColor.name} ${selectedColor.material}, including finish, thickness, applications, sample options, and quotation support.` : route.description;
-    const path = isColorDetail ? `/colors/${selectedColor.slug}/` : route.path;
-    const image = isColorDetail ? (selectedColor.swatchAvif || selectedColor.swatchWebp || selectedColor.swatchImage) : route.ogImage;
+    const isColorDetail = Boolean(selectedColor && /^\/colors\/[^/]+\/?$/.test(window.location.pathname) && !['white', 'grey', 'black', 'beige', 'green', 'blue'].includes(selectedColor.slug));
+    const title = isColorDetail && selectedColor ? `${selectedColor.name} ${selectedColor.material} | ${siteConfig.displayBrand}` : route.title;
+    const description = isColorDetail && selectedColor ? `Review ${selectedColor.name} ${selectedColor.material}, including finish, thickness, applications, sample options, and quotation support.` : route.description;
+    const path = isColorDetail && selectedColor ? `/colors/${selectedColor.slug}/` : route.path;
+    const image = isColorDetail && selectedColor ? (selectedColor.swatchAvif || selectedColor.swatchWebp || selectedColor.swatchImage) : route.ogImage;
     const canonicalUrl = new URL(path, siteConfig.productionDomain).toString();
     const socialImage = new URL(image, siteConfig.productionDomain).toString();
 
@@ -57,37 +57,16 @@ export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
     setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: socialImage });
 
     document.getElementById('view-structured-data')?.remove();
-    const graph: Record<string, unknown>[] = [
-      {
-        '@type': isColorDetail ? 'Product' : route.schemaType,
-        '@id': `${canonicalUrl}#page`,
-        name: title,
-        description,
-        url: canonicalUrl,
-        image: socialImage,
-        isPartOf: { '@id': `${siteConfig.productionDomain}/#website` },
-        about: { '@id': `${siteConfig.productionDomain}/#organization` },
-      },
-    ];
+    const graph: Record<string, unknown>[] = [{ '@type': isColorDetail ? 'Product' : route.schemaType, '@id': `${canonicalUrl}#page`, name: title, description, url: canonicalUrl, image: socialImage, isPartOf: { '@id': `${siteConfig.productionDomain}/#website` }, about: { '@id': `${siteConfig.productionDomain}/#organization` } }];
 
-    if (routeId === 'home') {
+    if (routeId === 'home' && !isColorDetail) {
       graph.push(
-        {
-          '@type': 'Organization',
-          '@id': `${siteConfig.productionDomain}/#organization`,
-          name: siteConfig.legalName,
-          alternateName: siteConfig.displayBrand,
-          url: siteConfig.productionDomain,
-          email: siteConfig.email,
-          telephone: siteConfig.tel,
-          contactPoint: { '@type': 'ContactPoint', name: siteConfig.contactPerson, contactType: 'sales', telephone: siteConfig.tel, email: siteConfig.email },
-          address: { '@type': 'PostalAddress', streetAddress: siteConfig.address, addressCountry: 'VN' },
-        },
+        { '@type': 'Organization', '@id': `${siteConfig.productionDomain}/#organization`, name: siteConfig.legalName, alternateName: siteConfig.displayBrand, url: siteConfig.productionDomain, email: siteConfig.email, telephone: siteConfig.tel, contactPoint: { '@type': 'ContactPoint', name: siteConfig.contactPerson, contactType: 'sales', telephone: siteConfig.tel, email: siteConfig.email }, address: { '@type': 'PostalAddress', streetAddress: siteConfig.address, addressCountry: 'VN' } },
         { '@type': 'WebSite', '@id': `${siteConfig.productionDomain}/#website`, name: siteConfig.displayBrand, url: siteConfig.productionDomain, publisher: { '@id': `${siteConfig.productionDomain}/#organization` } },
       );
     } else {
       const crumbs: Record<string, unknown>[] = [{ '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.productionDomain }];
-      if (isColorDetail) crumbs.push({ '@type': 'ListItem', position: 2, name: 'Colors', item: new URL('/colors/', siteConfig.productionDomain).toString() }, { '@type': 'ListItem', position: 3, name: selectedColor.name, item: canonicalUrl });
+      if (isColorDetail && selectedColor) crumbs.push({ '@type': 'ListItem', position: 2, name: 'Colors', item: new URL('/colors/', siteConfig.productionDomain).toString() }, { '@type': 'ListItem', position: 3, name: selectedColor.name, item: canonicalUrl });
       else crumbs.push({ '@type': 'ListItem', position: 2, name: route.title, item: canonicalUrl });
       graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs });
     }
