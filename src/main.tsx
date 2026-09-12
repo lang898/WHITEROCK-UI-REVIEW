@@ -7,6 +7,7 @@ import './release-upgrade.css';
 import './editorial-upgrade.css';
 import './visual-upgrade.css';
 import './ultimate-rebuild.css';
+import './photography-rebuild.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
