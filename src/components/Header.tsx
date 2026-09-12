@@ -61,6 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
   const headerRef = useRef<HTMLElement>(null);
   const triggerRefs = useRef<Partial<Record<RouteId, HTMLAnchorElement | null>>>({});
   const closeTimerRef = useRef<number | null>(null);
+  const focusReturnRef = useRef<RouteId | null>(null);
 
   const cancelCloseTimer = () => {
     if (closeTimerRef.current !== null) {
@@ -99,9 +100,10 @@ export const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
+      event.preventDefault();
+      event.stopPropagation();
       if (openMenu) {
-        const trigger = triggerRefs.current[openMenu];
-        trigger?.focus({ preventScroll: true });
+        focusReturnRef.current = openMenu;
         setOpenMenu(null);
       }
       if (mobileMenuOpen) setMobileMenuOpen(false);
@@ -109,6 +111,17 @@ export const Header: React.FC<HeaderProps> = ({
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [openMenu, mobileMenuOpen]);
+
+  useEffect(() => {
+    if (openMenu !== null || !focusReturnRef.current) return;
+    const id = focusReturnRef.current;
+    focusReturnRef.current = null;
+    const timer = window.setTimeout(() => {
+      const trigger = triggerRefs.current[id] ?? document.querySelector<HTMLAnchorElement>(`[data-nav="${id}"]`);
+      trigger?.focus({ preventScroll: true });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [openMenu]);
 
   useEffect(() => {
     setOpenMenu(null);
