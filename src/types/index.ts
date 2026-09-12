@@ -218,20 +218,58 @@ export interface FurnitureTopVisual {
   imageAvif?: string;
   alt: string;
   caption: string;
-  material?: string;
+}
+
+export interface ResourceItem {
+  id?: string;
+  title: string;
+  category: string;
+  documentType?: string;
+  materialFamilies?: string[];
+  description: string;
+  revision?: string;
+  revisionDate?: string | null;
+  fileSize?: string | null;
+  access?: 'public' | 'available-on-request' | 'order-specific';
+  public?: boolean;
+  file?: string | null;
+}
+
+export interface NewsItem {
+  slug: string;
+  title: string;
+  date: string;
+  category: string;
+  excerpt: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  imageType: string;
+  caption: string;
+}
+
+export interface FaqItem {
+  q: string;
+  a: string;
+  question?: string;
+  answer?: string;
+  category?: string;
 }
 
 export interface RfqCartItem {
   id: string;
   title: string;
-  type: 'product' | 'color';
+  type: 'product' | 'color' | 'sample';
   sku?: string;
+  productSku?: string;
   material?: string;
+  category?: string;
   selectedColor?: string;
-  selectedThickness?: string;
   selectedFinish?: string;
   selectedEdge?: string;
+  selectedThickness?: string;
   quantity: number;
+  notes?: string;
   specSummary?: string;
 }
 
@@ -239,17 +277,18 @@ export type CompareEntry =
   | { id: string; kind: 'product'; item: ProductItem }
   | { id: string; kind: 'color'; item: ColorItem };
 
-export interface ResourceDocument {
-  id: string;
-  title: string;
-  category: string;
-  documentType: string;
-  materialFamilies: string[];
-  description: string;
-  revision: string;
-  revisionDate: string | null;
-  fileSize: string | null;
-  access: 'public' | 'available-on-request' | 'order-specific';
-  public: boolean;
-  file: string | null;
+export interface VanityConfig {
+  sizeKey: string;
+  label: string;
+  lengthInch: number;
+  widthInch: number;
+  bowlCount: 'Single' | 'Double';
+  sinkType: 'Undermount Rectangular UPC' | 'Undermount Oval UPC' | 'Top Mount Vessel' | 'No Sink (Cutout Only)';
+  color: string;
+  material: 'Engineered Quartz' | 'Carrara White Marble' | 'Calacatta Quartz' | 'Sintered Stone' | 'Pure Black Granite';
+  thickness: '2cm (3/4\")' | '3cm (1-1/4\")' | '4cm Mitered Laminated';
+  edge: 'Eased Flat' | 'Bevel 1/4\"' | 'Full Bullnose' | 'Ogee Edge' | 'Mitered 1.5\"';
+  backsplash: boolean;
+  sidesplash: boolean;
+  quantity: number;
 }
