@@ -1,19 +1,25 @@
 export type RouteId =
   | 'home'
-  | 'about'
   | 'products'
-  | 'product-vanity'
   | 'product-kitchen'
+  | 'product-vanity'
+  | 'product-table'
   | 'product-furniture'
-  | 'product-project'
+  | 'product-commercial'
   | 'materials'
+  | 'stone-marble'
+  | 'stone-granite'
+  | 'stone-quartz'
+  | 'stone-quartzite'
+  | 'stone-travertine'
+  | 'stone-engineered-marble'
   | 'colors'
   | 'color-white'
   | 'color-grey'
   | 'color-black'
   | 'color-beige'
   | 'color-green'
-  | 'factory'
+  | 'color-blue'
   | 'finishes'
   | 'finish-surfaces'
   | 'finish-edges'
@@ -21,19 +27,29 @@ export type RouteId =
   | 'applications'
   | 'application-kitchen'
   | 'application-bathroom'
-  | 'application-hotel'
+  | 'application-furniture'
   | 'application-commercial'
-  | 'partners'
+  | 'factory'
+  | 'factory-overview'
+  | 'factory-production'
+  | 'factory-quality'
+  | 'factory-compliance'
   | 'resources'
+  | 'resources-documents'
+  | 'resources-cad'
+  | 'resources-care'
+  | 'resources-packing'
+  | 'resources-samples'
+  | 'resources-faq'
+  | 'about'
+  | 'about-story'
+  | 'about-vietnam'
   | 'contact'
   | 'samples'
-  | 'events'
-  | 'stone-marble'
-  | 'stone-granite'
-  | 'stone-quartz'
-  | 'stone-quartzite'
-  | 'stone-travertine'
-  | 'stone-engineered-marble';
+  | 'rfq'
+  | 'compare'
+  | 'partners'
+  | 'events';
 
 export interface NavigationItem {
   id: RouteId;
@@ -42,7 +58,7 @@ export interface NavigationItem {
 
 export interface NavigationGroup {
   label: string;
-  id?: RouteId;
+  id: RouteId;
   items?: readonly NavigationItem[];
 }
 
@@ -56,10 +72,11 @@ export const stoneMaterialNavigation: readonly NavigationItem[] = [
 ] as const;
 
 export const productNavigation: readonly NavigationItem[] = [
-  { id: 'product-vanity', label: 'Vanity Tops' },
   { id: 'product-kitchen', label: 'Kitchen Countertops' },
-  { id: 'product-furniture', label: 'Furniture Tops' },
-  { id: 'product-project', label: 'Project Products' },
+  { id: 'product-vanity', label: 'Vanity Tops' },
+  { id: 'product-table', label: 'Table Tops' },
+  { id: 'product-furniture', label: 'Furniture Surfaces' },
+  { id: 'product-commercial', label: 'Commercial Programs' },
 ] as const;
 
 export const colorNavigation: readonly NavigationItem[] = [
@@ -68,6 +85,7 @@ export const colorNavigation: readonly NavigationItem[] = [
   { id: 'color-black', label: 'Black' },
   { id: 'color-beige', label: 'Beige' },
   { id: 'color-green', label: 'Green' },
+  { id: 'color-blue', label: 'Blue' },
 ] as const;
 
 export const finishNavigation: readonly NavigationItem[] = [
@@ -79,56 +97,42 @@ export const finishNavigation: readonly NavigationItem[] = [
 export const applicationNavigation: readonly NavigationItem[] = [
   { id: 'application-kitchen', label: 'Kitchen' },
   { id: 'application-bathroom', label: 'Bathroom' },
-  { id: 'application-hotel', label: 'Hotel' },
-  { id: 'application-commercial', label: 'Commercial' },
+  { id: 'application-furniture', label: 'Furniture' },
+  { id: 'application-commercial', label: 'Commercial & Hospitality' },
+] as const;
+
+export const factoryNavigation: readonly NavigationItem[] = [
+  { id: 'factory-overview', label: 'Overview' },
+  { id: 'factory-production', label: 'Production' },
+  { id: 'factory-quality', label: 'Quality Control' },
+  { id: 'factory-compliance', label: 'Compliance' },
+] as const;
+
+export const resourceNavigation: readonly NavigationItem[] = [
+  { id: 'resources-documents', label: 'Technical Documents' },
+  { id: 'resources-cad', label: 'CAD & DXF' },
+  { id: 'resources-care', label: 'Care & Maintenance' },
+  { id: 'resources-packing', label: 'Packing & Shipping' },
+  { id: 'resources-samples', label: 'Sample Program' },
+  { id: 'resources-faq', label: 'FAQ' },
+] as const;
+
+export const aboutNavigation: readonly NavigationItem[] = [
+  { id: 'about-story', label: 'Our Story' },
+  { id: 'about-vietnam', label: 'Vietnam Manufacturing' },
+  { id: 'contact', label: 'Contact' },
 ] as const;
 
 export const primaryNavigation: readonly NavigationGroup[] = [
-  { label: 'Products', id: 'products' },
+  { label: 'Products', id: 'products', items: productNavigation },
   { label: 'Materials', id: 'materials', items: stoneMaterialNavigation },
-  { label: 'Colors', id: 'colors' },
-  { label: 'Finishes & Edges', id: 'finishes' },
-  { label: 'Factory', id: 'factory' },
-  {
-    label: 'Resources',
-    items: [
-      { id: 'applications', label: 'Applications' },
-      { id: 'resources', label: 'Technical Resources' },
-      { id: 'partners', label: 'Trade Program' },
-    ],
-  },
-  {
-    label: 'About',
-    items: [
-      { id: 'about', label: 'About the manufacturer' },
-      { id: 'contact', label: 'Contact & support' },
-    ],
-  },
+  { label: 'Factory', id: 'factory', items: factoryNavigation },
+  { label: 'Resources', id: 'resources', items: resourceNavigation },
+  { label: 'About', id: 'about', items: aboutNavigation },
+  { label: 'Contact', id: 'contact' },
 ] as const;
 
-export const mobileNavigation: readonly NavigationGroup[] = [
-  { label: 'Products', items: [{ id: 'products', label: 'All Product Categories' }, ...productNavigation] },
-  { label: 'Materials', items: [{ id: 'materials', label: 'All Material Types' }, ...stoneMaterialNavigation] },
-  { label: 'Colors', items: [{ id: 'colors', label: 'All Color Families' }, ...colorNavigation] },
-  { label: 'Finishes & Edges', items: [{ id: 'finishes', label: 'All Fabrication Options' }, ...finishNavigation] },
-  {
-    label: 'Company',
-    items: [
-      { id: 'factory', label: 'Factory' },
-      { id: 'about', label: 'About the manufacturer' },
-      { id: 'contact', label: 'Contact & support' },
-    ],
-  },
-  {
-    label: 'Resources',
-    items: [
-      { id: 'applications', label: 'All Applications' },
-      ...applicationNavigation,
-      { id: 'resources', label: 'Technical Resources' },
-      { id: 'partners', label: 'Trade Program' },
-    ],
-  },
-] as const;
+export const mobileNavigation = primaryNavigation;
 
 export interface RouteDefinition {
   id: RouteId;
@@ -145,46 +149,88 @@ const kitchenOg = '/assets/owner/countertops/waterfall-kitchen-island.jpg';
 const vanityOg = '/assets/owner/enhanced/vanity-inspection-sequence-a-enhanced.jpg';
 const furnitureOg = '/assets/owner/countertops/oval-travertine-coffee-top.jpg';
 const materialOg = '/assets/materials/white-marble-v2.jpg';
+const resourceOg = '/assets/materials/quartz-v2.jpg';
+const aboutOg = '/assets/owner/enhanced/factory-exterior-enhanced.jpg';
+
+const route = (id: RouteId, path: string, title: string, description: string, schemaType = 'WebPage', ogImage = materialOg): RouteDefinition => ({
+  id, path, title: `${title} | ${brandSuffix}`, description, schemaType, ogImage,
+});
 
 export const routes: RouteDefinition[] = [
   { id: 'home', path: '/', title: `Stone Surfaces | ${brandSuffix}`, description: 'Natural and engineered stone fabrication in Vietnam for vanity tops, countertops, furniture surfaces, and project programs.', schemaType: 'WebPage', ogImage: '/assets/brand/whiterock-waterfall-social.jpg' },
-  { id: 'about', path: '/about/', title: `About the Manufacturer | ${brandSuffix}`, description: 'Review the legal entity, Vietnam manufacturing approach, factory scope, and drawing-led stone program support.', schemaType: 'AboutPage', ogImage: '/assets/owner/enhanced/factory-exterior-enhanced.jpg' },
-  { id: 'products', path: '/products/', title: `Products | ${brandSuffix}`, description: 'Browse vanity tops, kitchen countertops, furniture surfaces, and project stone products prepared for B2B quotation.', schemaType: 'CollectionPage', ogImage: kitchenOg },
-  { id: 'product-vanity', path: '/products/vanity-tops/', title: `Vanity Tops | ${brandSuffix}`, description: 'Review vanity top references, dimensions, materials, sink cutouts, finishes, and drawing-led fabrication options.', schemaType: 'CollectionPage', ogImage: vanityOg },
-  { id: 'product-kitchen', path: '/products/kitchen-countertops/', title: `Kitchen Countertops | ${brandSuffix}`, description: 'Review kitchen countertop, island, backsplash, waterfall, material, edge, and fabrication references.', schemaType: 'CollectionPage', ogImage: kitchenOg },
-  { id: 'product-furniture', path: '/products/furniture-tops/', title: `Furniture Tops | ${brandSuffix}`, description: 'Review stone furniture surfaces for dining, coffee, console, and hospitality programs made to approved drawings.', schemaType: 'CollectionPage', ogImage: furnitureOg },
-  { id: 'product-project', path: '/products/project-products/', title: `Project Products | ${brandSuffix}`, description: 'Review commercial, hospitality, architectural, cut-to-size, and custom project stone fabrication references.', schemaType: 'CollectionPage', ogImage: factoryOg },
-  { id: 'materials', path: '/materials/', title: `Stone Materials | ${brandSuffix}`, description: 'Compare marble, granite, quartz, quartzite, travertine, and engineered marble before reviewing colors and fabrication options.', schemaType: 'CollectionPage', ogImage: materialOg },
-  { id: 'colors', path: '/colors/', title: `Color Library | ${brandSuffix}`, description: 'Compare material, color family, finish, thickness, recommended use, and physical sample options.', schemaType: 'CollectionPage', ogImage: '/assets/colors/alpine-carrara.jpg' },
-  { id: 'color-white', path: '/colors/white/', title: `White Stone Colors | ${brandSuffix}`, description: 'Compare white natural and engineered stone color directions, finishes, thicknesses, uses, and sample options.', schemaType: 'CollectionPage', ogImage: '/assets/colors/alpine-carrara.jpg' },
-  { id: 'color-grey', path: '/colors/grey/', title: `Grey Stone Colors | ${brandSuffix}`, description: 'Compare grey stone color directions, finishes, thicknesses, uses, and physical sample options.', schemaType: 'CollectionPage', ogImage: '/assets/materials/granite-v2.jpg' },
-  { id: 'color-black', path: '/colors/black/', title: `Black Stone Colors | ${brandSuffix}`, description: 'Compare black stone color directions, finishes, thicknesses, uses, and physical sample options.', schemaType: 'CollectionPage', ogImage: '/assets/materials/granite-v2.jpg' },
-  { id: 'color-beige', path: '/colors/beige/', title: `Beige Stone Colors | ${brandSuffix}`, description: 'Compare beige and warm stone color directions, finishes, thicknesses, uses, and sample options.', schemaType: 'CollectionPage', ogImage: '/assets/owner/countertops/oval-travertine-coffee-top.jpg' },
-  { id: 'color-green', path: '/colors/green/', title: `Green Stone Colors | ${brandSuffix}`, description: 'Compare green natural-stone color directions, finishes, uses, and physical sample options.', schemaType: 'CollectionPage', ogImage: materialOg },
-  { id: 'factory', path: '/factory/', title: `Vietnam Stone Factory | ${brandSuffix}`, description: 'Review cutting, CNC, finishing, inspection, packing, production evidence, and drawing-led fabrication controls.', schemaType: 'AboutPage', ogImage: factoryOg },
-  { id: 'finishes', path: '/finishes/', title: `Finishes and Edges | ${brandSuffix}`, description: 'Compare stone surface finishes, edge profiles, sink details, and fabrication directions.', schemaType: 'CollectionPage', ogImage: '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg' },
-  { id: 'finish-surfaces', path: '/finishes/surface-finishes/', title: `Surface Finishes | ${brandSuffix}`, description: 'Review polished, honed, and textured stone surface finish references and specification considerations.', schemaType: 'CollectionPage', ogImage: '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg' },
-  { id: 'finish-edges', path: '/finishes/edge-profiles/', title: `Stone Edge Profiles | ${brandSuffix}`, description: 'Review stone edge profile directions and drawing-led fabrication considerations.', schemaType: 'CollectionPage', ogImage: '/assets/owner/enhanced/edge-polisher-close-enhanced.jpg' },
-  { id: 'finish-sink', path: '/finishes/sink-integration/', title: `Sink and Assembly Details | ${brandSuffix}`, description: 'Review sink cutout, faucet layout, assembly, and packing considerations for vanity top programs.', schemaType: 'CollectionPage', ogImage: vanityOg },
-  { id: 'applications', path: '/applications/', title: `Applications | ${brandSuffix}`, description: 'Explore kitchen, bathroom, hospitality, commercial, and furniture stone application directions.', schemaType: 'CollectionPage', ogImage: kitchenOg },
-  { id: 'application-kitchen', path: '/applications/kitchen/', title: `Kitchen Applications | ${brandSuffix}`, description: 'Explore stone kitchen countertops, islands, backsplashes, materials, and surface directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/modern-kitchen-inspiration.jpg' },
-  { id: 'application-bathroom', path: '/applications/bathroom/', title: `Bathroom Applications | ${brandSuffix}`, description: 'Explore vanity top, multi-family bathroom, and wet-area stone application directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/master-bath-inspiration.jpg' },
-  { id: 'application-hotel', path: '/applications/hotel/', title: `Hotel Applications | ${brandSuffix}`, description: 'Explore hotel bathroom, lobby, reception, and hospitality stone application directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/hotel-lobby-inspiration.jpg' },
-  { id: 'application-commercial', path: '/applications/commercial/', title: `Commercial Applications | ${brandSuffix}`, description: 'Explore commercial, retail, restaurant, furniture, and project stone application directions.', schemaType: 'CollectionPage', ogImage: '/assets/applications/restaurant-counter-inspiration.jpg' },
-  { id: 'partners', path: '/partners/', title: `Trade Program | ${brandSuffix}`, description: 'Review B2B support for importers, builders, distributors, designers, and repeat stone programs.', schemaType: 'WebPage', ogImage: factoryOg },
-  { id: 'resources', path: '/resources/', title: `Technical Resources | ${brandSuffix}`, description: 'Access or request product, care, safety, packing, CAD, and technical documents for stone programs.', schemaType: 'CollectionPage', ogImage: '/assets/materials/quartz-v2.jpg' },
-  { id: 'contact', path: '/contact/', title: `Contact & Support | ${brandSuffix}`, description: 'Contact the Vietnam manufacturing team for samples, technical documents, supplier qualification, and existing-order support.', schemaType: 'ContactPage', ogImage: '/assets/owner/enhanced/factory-exterior-enhanced.jpg' },
-  { id: 'samples', path: '/samples/', title: `Order Stone Samples | ${brandSuffix}`, description: 'Build a physical sample box to confirm shortlisted natural and engineered stone directions before quotation.', schemaType: 'WebPage', ogImage: materialOg },
-  { id: 'events', path: '/events/', title: `Fairs and Events | ${brandSuffix}`, description: 'Review confirmed future meeting and exhibition updates from the Vietnam stone manufacturing team.', schemaType: 'WebPage', ogImage: '/assets/owner/enhanced/factory-exterior-enhanced.jpg' },
-  { id: 'stone-marble', path: '/stone-types/marble/', title: `Marble | ${brandSuffix}`, description: 'Review marble properties, care, applications, colors, finishes, samples, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/white-marble-v2.jpg' },
-  { id: 'stone-granite', path: '/stone-types/granite/', title: `Granite | ${brandSuffix}`, description: 'Review granite properties, care, applications, colors, finishes, samples, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/granite-v2.jpg' },
-  { id: 'stone-quartz', path: '/stone-types/quartz/', title: `Quartz | ${brandSuffix}`, description: 'Review engineered quartz properties, care, applications, colors, finishes, samples, and document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/quartz-v2.jpg' },
-  { id: 'stone-quartzite', path: '/stone-types/quartzite/', title: `Quartzite | ${brandSuffix}`, description: 'Review quartzite properties, material variation, applications, colors, samples, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/brand/hero-stone-v2.jpg' },
-  { id: 'stone-travertine', path: '/stone-types/travertine/', title: `Travertine | ${brandSuffix}`, description: 'Review travertine properties, fill and finish considerations, furniture applications, samples, and document status.', schemaType: 'CollectionPage', ogImage: '/assets/owner/countertops/fluted-travertine-dining-top.jpg' },
-  { id: 'stone-engineered-marble', path: '/stone-types/engineered-marble/', title: `Engineered Marble | ${brandSuffix}`, description: 'Review engineered marble properties, repeat-program applications, samples, care, and technical-document status.', schemaType: 'CollectionPage', ogImage: '/assets/materials/engineered-marble-v2.jpg' },
+
+  route('products', '/products/', 'Products', 'Browse kitchen countertops, vanity tops, table tops, furniture surfaces, and commercial stone programs.', 'CollectionPage', kitchenOg),
+  route('product-kitchen', '/products/kitchen-countertops/', 'Kitchen Countertops', 'Stone countertops, islands, waterfall ends, backsplashes, cutouts, and edge details made to approved drawings.', 'CollectionPage', kitchenOg),
+  route('product-vanity', '/products/vanity-tops/', 'Vanity Tops', 'Single- and double-bowl vanity tops with sink cutouts, backsplashes, edge details, and dimensions confirmed by drawing.', 'CollectionPage', vanityOg),
+  route('product-table', '/products/table-tops/', 'Table Tops', 'Stone table tops for dining, coffee, console, hospitality, and custom furniture programs.', 'CollectionPage', furnitureOg),
+  route('product-furniture', '/products/furniture-surfaces/', 'Furniture Surfaces', 'Natural and engineered stone surfaces fabricated for furniture and repeat production programs.', 'CollectionPage', furnitureOg),
+  route('product-commercial', '/products/commercial/', 'Commercial Programs', 'Cut-to-size and custom stone components for commercial, hospitality, retail, and project programs.', 'CollectionPage', factoryOg),
+
+  route('materials', '/materials/', 'Materials', 'Compare marble, granite, quartz, quartzite, travertine, and engineered marble by color, finish, care, and application.', 'CollectionPage', materialOg),
+  route('stone-marble', '/materials/marble/', 'Marble', 'Review marble properties, colors, finishes, care, applications, samples, and technical documents.', 'CollectionPage', '/assets/materials/white-marble-v2.jpg'),
+  route('stone-granite', '/materials/granite/', 'Granite', 'Review granite properties, colors, finishes, care, applications, samples, and technical documents.', 'CollectionPage', '/assets/materials/granite-v2.jpg'),
+  route('stone-quartz', '/materials/quartz/', 'Quartz', 'Review engineered quartz properties, colors, finishes, care, applications, samples, and technical documents.', 'CollectionPage', '/assets/materials/quartz-v2.jpg'),
+  route('stone-quartzite', '/materials/quartzite/', 'Quartzite', 'Review quartzite properties, material movement, applications, samples, and technical documents.', 'CollectionPage', '/assets/brand/hero-stone-v2.jpg'),
+  route('stone-travertine', '/materials/travertine/', 'Travertine', 'Review travertine properties, fill and finish choices, furniture applications, care, samples, and documents.', 'CollectionPage', '/assets/owner/countertops/fluted-travertine-dining-top.jpg'),
+  route('stone-engineered-marble', '/materials/engineered-marble/', 'Engineered Marble', 'Review engineered marble properties, repeat-program applications, care, samples, and technical documents.', 'CollectionPage', '/assets/materials/engineered-marble-v2.jpg'),
+
+  route('colors', '/colors/', 'Color Library', 'Browse stone colors by material, color family, finish, thickness, and recommended use.', 'CollectionPage', '/assets/colors/alpine-carrara.jpg'),
+  route('color-white', '/colors/white/', 'White Stone Colors', 'Compare white natural and engineered stone colors, finishes, thicknesses, uses, and sample options.', 'CollectionPage', '/assets/colors/alpine-carrara.jpg'),
+  route('color-grey', '/colors/grey/', 'Grey Stone Colors', 'Compare grey stone colors, finishes, thicknesses, uses, and sample options.', 'CollectionPage', '/assets/materials/granite-v2.jpg'),
+  route('color-black', '/colors/black/', 'Black Stone Colors', 'Compare black stone colors, finishes, thicknesses, uses, and sample options.', 'CollectionPage', '/assets/materials/granite-v2.jpg'),
+  route('color-beige', '/colors/beige/', 'Beige Stone Colors', 'Compare beige and warm stone colors, finishes, thicknesses, uses, and sample options.', 'CollectionPage', furnitureOg),
+  route('color-green', '/colors/green/', 'Green Stone Colors', 'Compare green stone colors, finishes, uses, and physical sample options.', 'CollectionPage', materialOg),
+  route('color-blue', '/colors/blue/', 'Blue Stone Colors', 'Compare blue stone colors, finishes, uses, and physical sample options.', 'CollectionPage', '/assets/brand/hero-stone-v2.jpg'),
+
+  route('finishes', '/finishes/', 'Finishes & Edges', 'Compare stone surface finishes, edge profiles, sink details, and fabrication directions.', 'CollectionPage', '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg'),
+  route('finish-surfaces', '/finishes/surface-finishes/', 'Surface Finishes', 'Review polished, honed, and textured finish directions.', 'CollectionPage', '/assets/owner/enhanced/manual-profile-polishing-enhanced.jpg'),
+  route('finish-edges', '/finishes/edge-profiles/', 'Edge Profiles', 'Review stone edge profile directions and drawing-led fabrication considerations.', 'CollectionPage', '/assets/owner/enhanced/edge-polisher-close-enhanced.jpg'),
+  route('finish-sink', '/finishes/sink-integration/', 'Sink & Assembly Details', 'Review sink cutout, faucet layout, assembly, and packing considerations.', 'CollectionPage', vanityOg),
+
+  route('applications', '/applications/', 'Applications', 'Explore kitchen, bathroom, furniture, commercial, and hospitality stone applications.', 'CollectionPage', kitchenOg),
+  route('application-kitchen', '/applications/kitchen/', 'Kitchen Applications', 'Explore kitchen countertops, islands, backsplashes, materials, and surface directions.', 'CollectionPage', '/assets/applications/modern-kitchen-inspiration.jpg'),
+  route('application-bathroom', '/applications/bathroom/', 'Bathroom Applications', 'Explore vanity tops, wet-area surfaces, and bathroom stone directions.', 'CollectionPage', '/assets/applications/master-bath-inspiration.jpg'),
+  route('application-furniture', '/applications/furniture/', 'Furniture Applications', 'Explore stone surfaces for dining, coffee, console, and hospitality furniture.', 'CollectionPage', furnitureOg),
+  route('application-commercial', '/applications/commercial/', 'Commercial Applications', 'Explore commercial, retail, restaurant, hospitality, and project stone applications.', 'CollectionPage', '/assets/applications/restaurant-counter-inspiration.jpg'),
+
+  route('factory', '/factory/', 'Vietnam Stone Factory', 'Review the Vietnam manufacturing site, production, quality controls, compliance records, and shipment preparation.', 'AboutPage', factoryOg),
+  route('factory-overview', '/factory/overview/', 'Factory Overview', 'Review the Vietnam facility, manufacturing scope, and core stone programs.', 'AboutPage', factoryOg),
+  route('factory-production', '/factory/production/', 'Production', 'Review cutting, CNC, polishing, fabrication, and packing stages.', 'AboutPage', '/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg'),
+  route('factory-quality', '/factory/quality/', 'Quality Control', 'Review dimensional inspection, finish checks, production evidence, and order controls.', 'AboutPage', '/assets/owner/qc/digital-thickness-inspection.jpg'),
+  route('factory-compliance', '/factory/compliance/', 'Compliance', 'Review available supply-chain, responsible-sourcing, quality-system, and safety documentation.', 'AboutPage', factoryOg),
+
+  route('resources', '/resources/', 'Resources', 'Access technical documents, CAD support, care guidance, packing information, sample support, and FAQs.', 'CollectionPage', resourceOg),
+  route('resources-documents', '/resources/documents/', 'Technical Documents', 'Access or request TDS, SDS, product, safety, and technical documents.', 'CollectionPage', resourceOg),
+  route('resources-cad', '/resources/cad/', 'CAD & DXF', 'Request CAD and DXF fabrication and drawing support for stone programs.', 'CollectionPage', factoryOg),
+  route('resources-care', '/resources/care/', 'Care & Maintenance', 'Review stone care, cleaning, sealing, and maintenance guidance.', 'CollectionPage', materialOg),
+  route('resources-packing', '/resources/packing/', 'Packing & Shipping', 'Review packing, protection, marks, bracing, and shipment preparation guidance.', 'CollectionPage', '/assets/owner/enhanced/material-staging-hall-enhanced.jpg'),
+  route('resources-samples', '/resources/samples/', 'Sample Program', 'Build a physical sample shortlist before quotation or specification.', 'CollectionPage', materialOg),
+  route('resources-faq', '/resources/faq/', 'FAQ', 'Review common questions about materials, documents, samples, production, and export support.', 'FAQPage', resourceOg),
+
+  route('about', '/about/', 'About', 'Learn about the legal entity, Vietnam manufacturing approach, stone experience, and drawing-led production model.', 'AboutPage', aboutOg),
+  route('about-story', '/about/story/', 'Our Story', 'Learn how stone experience, drawing control, and Vietnam manufacturing come together.', 'AboutPage', aboutOg),
+  route('about-vietnam', '/about/vietnam/', 'Vietnam Manufacturing', 'Review the Dong Nai manufacturing base and direct production model.', 'AboutPage', factoryOg),
+  route('contact', '/contact/', 'Contact', 'Contact the Vietnam team for project support, samples, technical documents, and quotation preparation.', 'ContactPage', aboutOg),
+  route('samples', '/samples/', 'Samples', 'Build a physical sample box to confirm shortlisted material directions.', 'WebPage', materialOg),
+  route('rfq', '/rfq/', 'Request a Quote', 'Prepare a stone RFQ with selected materials, products, drawings, quantities, and project details.', 'WebPage', kitchenOg),
+  route('compare', '/compare/', 'Compare Materials & Products', 'Compare shortlisted stone colors and products side by side before sampling or quotation.', 'WebPage', materialOg),
+  route('partners', '/partners/', 'Trade Program', 'B2B support for importers, builders, distributors, designers, and repeat stone programs.', 'WebPage', factoryOg),
+  route('events', '/events/', 'Fairs & Events', 'Confirmed future meeting and exhibition updates from the Vietnam stone manufacturing team.', 'WebPage', aboutOg),
 ];
 
-export const routesById = Object.fromEntries(routes.map((route) => [route.id, route])) as Record<RouteId, RouteDefinition>;
+export const routesById = Object.fromEntries(routes.map((item) => [item.id, item])) as Record<RouteId, RouteDefinition>;
+
+const legacyPathToRoute: Record<string, RouteId> = {
+  '/products/furniture-tops': 'product-table',
+  '/products/project-products': 'product-commercial',
+  '/stone-types/marble': 'stone-marble',
+  '/stone-types/granite': 'stone-granite',
+  '/stone-types/quartz': 'stone-quartz',
+  '/stone-types/quartzite': 'stone-quartzite',
+  '/stone-types/travertine': 'stone-travertine',
+  '/stone-types/engineered-marble': 'stone-engineered-marble',
+  '/applications/hotel': 'application-commercial',
+};
 
 export function routePath(routeId: string): string {
   return routesById[routeId as RouteId]?.path ?? routesById.home.path;
@@ -195,6 +241,8 @@ export function routeIdFromLocation(location: Location = window.location): Route
   if (legacyHash && legacyHash in routesById) return legacyHash as RouteId;
 
   const pathname = location.pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '') || '/';
-  const match = routes.find((route) => route.path.replace(/\/+$/, '') === pathname.replace(/\/+$/, ''));
+  const legacy = legacyPathToRoute[pathname];
+  if (legacy) return legacy;
+  const match = routes.find((item) => item.path.replace(/\/+$/, '') === pathname);
   return match?.id ?? 'home';
 }
