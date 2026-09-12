@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, FileText, Filter, GitCompare, Search, X } from 'lucide-react';
 import { products } from '../data';
+import { LandingHero } from '../components/LandingHero';
 import { t } from '../i18n';
 import { routePath } from '../routes';
 import { formatMeasurement } from '../utils/measurements';
@@ -54,11 +55,12 @@ export const ProductsView: React.FC<ProductsViewProps> = ({ onSelectProduct, onA
   const finishes = useMemo(() => ['All', ...Array.from(new Set(programProducts.map((item) => textValue(item, 'finish')))).sort()], [programProducts]);
   const sizes = useMemo(() => ['All', ...Array.from(new Set(programProducts.map((item) => textValue(item, 'size')))).sort()], [programProducts]);
   const uses = useMemo(() => ['All', ...Array.from(new Set(programProducts.map((item) => textValue(item, 'use')))).sort()], [programProducts]);
+  const landingRepresentative = products.find((product) => product.category === 'Kitchen Countertop') || products[0];
 
   if (!program) {
     return (
       <div className="wr-catalog-page wr-taxonomy-page">
-        <header className="wr-landing-hero wr-landing-hero--product"><span className="wr-eyebrow">Product programs</span><h1>Stone products built around the drawing.</h1><p>Choose the product family first, then narrow material, finish, dimensions, and use before adding references to an RFQ.</p></header>
+        <LandingHero eyebrow="Product programs" title="Stone products built around the drawing." description="Choose the product family first, then narrow material, finish, dimensions, and use before adding references to an RFQ." image={landingRepresentative.image} imageWebp={landingRepresentative.imageWebp} imageAvif={landingRepresentative.imageAvif} imageAlt={landingRepresentative.imageAlt || landingRepresentative.title} />
         <section className="wr-taxonomy-grid wr-product-program-grid" aria-label="Product categories">{programDefinitions.map((definition) => {
           const matching = products.filter((item) => productProgramFor(item) === definition.name);
           const representative = matching[0] || products[0];
@@ -79,12 +81,13 @@ export const ProductsView: React.FC<ProductsViewProps> = ({ onSelectProduct, onA
   });
   const activeFilters = [searchQuery, material !== 'All', finish !== 'All', size !== 'All', use !== 'All'].filter(Boolean).length;
   const definition = programDefinitions.find((item) => item.name === program)!;
+  const heroProduct = programProducts[0] || landingRepresentative;
   const clearFilters = () => { setSearchQuery(''); setMaterial('All'); setFinish('All'); setSize('All'); setUse('All'); };
 
   return (
     <div className="wr-catalog-page">
+      <LandingHero eyebrow="Product program" title={program} description={definition.description} image={heroProduct.image} imageWebp={heroProduct.imageWebp} imageAvif={heroProduct.imageAvif} imageAlt={heroProduct.imageAlt || heroProduct.title} />
       <button className="wr-taxonomy-back" onClick={() => setCurrentTab('products')}><ArrowLeft />All product programs</button>
-      <header className="wr-catalog-hero wr-catalog-hero--centered"><div><span className="wr-eyebrow">Product program</span><h1>{program}</h1></div><p>{definition.description}</p></header>
       <div className="wr-mobile-filter-toolbar"><button className="wr-button wr-button--secondary" onClick={() => setFiltersOpen(true)}><Filter />Filters{activeFilters ? ` (${activeFilters})` : ''}</button><span>{filteredProducts.length} results</span></div>
       <div className="wr-product-filter-summary">{filteredProducts.length} results · {activeFilters} filters</div>
       <div className="wr-catalog-layout">
