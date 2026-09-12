@@ -1,0 +1,69 @@
+name: Apply seven visual data fixes
+
+on:
+  push:
+    branches: [chatgpt/seven-visual-fixes]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply deterministic source/data patches
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+
+          const indexPath = 'src/index.css';
+          let css = fs.readFileSync(indexPath, 'utf8');
+          if (!css.includes('--space-xs:')) {
+            css = css.replace(':root {', `:root {\n  --space-xs: 8px;\n  --space-sm: 16px;\n  --space-md: 24px;\n  --space-lg: 40px;\n  --space-xl: 64px;\n  --space-2xl: 96px;\n  --space-3xl: 128px;\n  --section-gap: clamp(80px, 10vw, 160px);`);
+            fs.writeFileSync(indexPath, css);
+          }
+
+          const productsPath = 'data/products.json';
+          const data = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+          const placeholders = [
+            { src: 'assets/placeholders/product-side-view.svg', alt: '45 degree product view placeholder', label: '45° side view', caption: 'Real angle photograph is not yet available.', placeholder: true },
+            { src: 'assets/placeholders/product-texture-detail.svg', alt: 'Product texture detail placeholder', label: 'Texture detail', caption: 'Real texture close-up is not yet available.', placeholder: true },
+            { src: 'assets/placeholders/product-application-view.svg', alt: 'Product application view placeholder', label: 'Application view', caption: 'Real installed application photograph is not yet available.', placeholder: true },
+            { src: 'assets/placeholders/product-edge-detail.svg', alt: 'Product edge detail placeholder', label: 'Edge detail', caption: 'Real edge detail photograph is not yet available.', placeholder: true },
+          ];
+          for (const product of data.products) {
+            product.images = [
+              { src: product.image, webp: product.imageWebp, avif: product.imageAvif, alt: product.imageAlt || product.title, label: 'Primary reference', caption: product.caption || '', placeholder: false },
+              ...placeholders,
+            ];
+          }
+          fs.writeFileSync(productsPath, JSON.stringify(data, null, 2) + '\n');
+
+          const factoryPath = 'src/views/FactoryView.tsx';
+          let factory = fs.readFileSync(factoryPath, 'utf8');
+          factory = factory.replace('<header className="wr-factory-page__hero">', '<header className="wr-factory-page__hero" data-landing-hero>');
+          fs.writeFileSync(factoryPath, factory);
+          NODE
+      - name: Verify source
+        run: |
+          npm ci
+          npx tsc --noEmit
+          npm run build
+          grep -q -- '--space-xs: 8px' src/index.css
+          grep -q '"images"' data/products.json
+          grep -q 'data-landing-hero' src/views/FactoryView.tsx
+      - name: Commit applied fixes
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add src/index.css src/views/FactoryView.tsx data/products.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Apply spacing tokens and product gallery metadata"
+          git push origin HEAD:chatgpt/seven-visual-fixes
