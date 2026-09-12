@@ -98,7 +98,6 @@ jobs:
           node --input-type=module <<'NODE'
           import { chromium } from 'playwright';
           import fs from 'node:fs/promises';
-          import path from 'node:path';
 
           const base = process.env.BASE_URL;
           const executablePath = '/usr/bin/google-chrome';
@@ -120,7 +119,6 @@ jobs:
             await page.waitForTimeout(500);
           }
 
-          // Six primary navigation items and independent landing pages.
           const page = await newPage();
           await load(page, '/', 'h1');
           evidence.home = {
@@ -156,7 +154,6 @@ jobs:
             await page.screenshot({ path: `evidence/${name}-landing-final.png`, fullPage: true });
           }
 
-          // Dropdown close behavior: outside, Escape/focus return, switch, route, mouseleave 200ms, scroll >100px.
           await load(page, '/', 'h1');
           const item = id => page.locator(`[data-nav="${id}"]`).locator('xpath=ancestor::div[contains(@class,"wr-nav__item")]');
           const productsLink = page.locator('[data-nav="products"]');
@@ -166,7 +163,12 @@ jobs:
           closeChecks.opened = await item('products').evaluate(el => el.classList.contains('is-open'));
           await page.evaluate(() => document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })));
           closeChecks.outside = !(await item('products').evaluate(el => el.classList.contains('is-open')));
-          await productsLink.hover(); await page.keyboard.press('Escape'); await page.waitForTimeout(50);
+          await productsLink.focus();
+          await page.keyboard.press('ArrowDown');
+          await page.waitForTimeout(30);
+          closeChecks.keyboardOpened = await item('products').evaluate(el => el.classList.contains('is-open'));
+          await page.keyboard.press('Escape');
+          await page.waitForTimeout(80);
           closeChecks.escape = !(await item('products').evaluate(el => el.classList.contains('is-open')));
           closeChecks.escapeFocusReturned = await page.evaluate(() => document.activeElement?.getAttribute('data-nav') === 'products');
           await productsLink.hover(); await materialsLink.hover();
@@ -181,7 +183,6 @@ jobs:
           evidence.dropdownClose = closeChecks;
           if (Object.values(closeChecks).some(v => v !== true)) throw new Error(`Dropdown close verification failed: ${JSON.stringify(closeChecks)}`);
 
-          // Stone page modules.
           await load(page, '/materials/marble/', 'main h1');
           const stoneSelectors = ['.wr-stone-type-hero','.wr-stone-character','.wr-stone-tech-viz','.wr-stone-type-colors','.wr-stone-type-fabrication','.wr-stone-type-gallery','.wr-stone-care','.wr-stone-type-documents','.wr-stone-type-applications','.wr-stone-final-cta'];
           evidence.stone = { title: await page.title(), h1: await page.locator('main h1').first().innerText(), modules: {} };
@@ -189,7 +190,6 @@ jobs:
           if (Object.values(evidence.stone.modules).some(v => v < 1)) throw new Error(`Stone modules missing: ${JSON.stringify(evidence.stone.modules)}`);
           await page.screenshot({ path: 'evidence/marble-final.png', fullPage: true });
 
-          // Factory four subpages, Resources six subpages, About pages + Contact.
           const groups = {
             factory: ['/factory/overview/','/factory/production/','/factory/quality/','/factory/compliance/'],
             resources: ['/resources/documents/','/resources/cad/','/resources/care/','/resources/packing/','/resources/samples/','/resources/faq/'],
@@ -206,13 +206,11 @@ jobs:
             }
           }
 
-          // Independent color URL with modal detail and static metadata.
           await load(page, '/colors/alpine-carrara/', '[role="dialog"]');
           evidence.colorDetail = { path: new URL(page.url()).pathname, title: await page.title(), dialogText: (await page.locator('[role="dialog"]').innerText()).slice(0, 500) };
           if (!evidence.colorDetail.dialogText.includes('Alpine Carrara')) throw new Error('Color detail modal did not open for slug URL');
           await page.screenshot({ path: 'evidence/color-detail-final.png', fullPage: true });
 
-          // Related Products: button must change the visible ProductModal product.
           await load(page, '/products/kitchen-countertops/', 'main h1');
           await page.locator('.wr-catalog-card__media').first().click();
           await page.locator('.wr-detail-dialog--product').waitFor({ state: 'visible' });
@@ -226,7 +224,6 @@ jobs:
           if (!evidence.relatedProduct.changed) throw new Error('Related product selection did not change ProductModal content');
           await page.getByRole('button', { name: 'Close product details' }).click();
 
-          // Compare -> Sample -> RFQ flow using color cards.
           await load(page, '/colors/white/', 'main h1');
           const compareButtons = page.getByRole('button', { name: /^Compare$/ });
           const compareCount = await compareButtons.count();
@@ -251,7 +248,6 @@ jobs:
           evidence.compareFlow.rfqDialogOpened = true;
           await page.screenshot({ path: 'evidence/compare-rfq-final.png', fullPage: true });
 
-          // 390px and 1024px overflow checks + screenshots.
           for (const [label, viewport] of Object.entries({ mobile390: { width: 390, height: 844 }, tablet1024: { width: 1024, height: 1000 } })) {
             const p2 = await newPage(viewport);
             await load(p2, '/', 'h1');
@@ -262,7 +258,6 @@ jobs:
             await p2.close();
           }
 
-          // Five explicit F-section captures.
           const capture = [
             ['index','/','h1'], ['factory','/factory/','main h1'], ['marble','/materials/marble/','main h1'], ['alpine','/colors/alpine-carrara/','[role="dialog"]'], ['resource-docs','/resources/documents/','main h1']
           ];
