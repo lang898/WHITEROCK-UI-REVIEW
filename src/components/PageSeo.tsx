@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { siteConfig } from '../data/site';
 import { routesById, type RouteId } from '../routes';
-import type { ColorItem } from '../types';
+import type { ColorItem, ProductItem } from '../types';
+import { productSlug } from '../lib/productSlug';
 
 interface PageSeoProps {
   routeId: RouteId;
   language: string;
   selectedColor?: ColorItem | null;
+  selectedProduct?: ProductItem | null;
 }
 
 function setMeta(selector: string, attributes: Record<string, string>) {
@@ -28,16 +30,33 @@ function setCanonical(url: string) {
   canonical.href = url;
 }
 
-export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
+export function PageSeo({ routeId, language, selectedColor, selectedProduct }: PageSeoProps) {
   useEffect(() => {
     const route = routesById[routeId];
     const isColorDetail = Boolean(selectedColor && /^\/colors\/[^/]+\/?$/.test(window.location.pathname) && !['white', 'grey', 'black', 'beige', 'green', 'blue'].includes(selectedColor.slug));
-    const title = isColorDetail && selectedColor ? `${selectedColor.name} ${selectedColor.material} | ${siteConfig.displayBrand}` : route.title;
-    const description = isColorDetail && selectedColor ? `Review ${selectedColor.name} ${selectedColor.material}, including finish, thickness, applications, sample options, and quotation support.` : route.description;
-    const path = isColorDetail && selectedColor ? `/colors/${selectedColor.slug}/` : route.path;
-    const image = isColorDetail && selectedColor ? (selectedColor.swatchAvif || selectedColor.swatchWebp || selectedColor.swatchImage) : route.ogImage;
+    const isProductDetail = Boolean(selectedProduct && /^\/products\/[^/]+\/?$/.test(window.location.pathname));
+    const title = isProductDetail && selectedProduct
+      ? `${selectedProduct.title} | ${siteConfig.displayBrand}`
+      : isColorDetail && selectedColor
+        ? `${selectedColor.name} ${selectedColor.material} | ${siteConfig.displayBrand}`
+        : route.title;
+    const description = isProductDetail && selectedProduct
+      ? `${selectedProduct.description} Review material, size, fabrication, packing, and quotation details for ${selectedProduct.sku}.`
+      : isColorDetail && selectedColor
+        ? `Review ${selectedColor.name} ${selectedColor.material}, including finish, thickness, applications, sample options, and quotation support.`
+        : route.description;
+    const path = isProductDetail && selectedProduct
+      ? `/products/${productSlug(selectedProduct.sku)}/`
+      : isColorDetail && selectedColor
+        ? `/colors/${selectedColor.slug}/`
+        : route.path;
+    const image = isProductDetail && selectedProduct
+      ? (selectedProduct.imageAvif || selectedProduct.imageWebp || selectedProduct.image)
+      : isColorDetail && selectedColor
+        ? (selectedColor.swatchAvif || selectedColor.swatchWebp || selectedColor.swatchImage)
+        : route.ogImage;
     const canonicalUrl = new URL(path, siteConfig.productionDomain).toString();
-    const socialImage = new URL(image, siteConfig.productionDomain).toString();
+    const socialImage = new URL(image.startsWith('/') ? image : `/${image}`, siteConfig.productionDomain).toString();
 
     document.title = title;
     document.documentElement.lang = language;
@@ -48,7 +67,7 @@ export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
     setMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: siteConfig.displayBrand });
     setMeta('meta[property="og:description"]', { property: 'og:description', content: description });
     setMeta('meta[property="og:url"]', { property: 'og:url', content: canonicalUrl });
-    setMeta('meta[property="og:type"]', { property: 'og:type', content: 'website' });
+    setMeta('meta[property="og:type"]', { property: 'og:type', content: isProductDetail || isColorDetail ? 'product' : 'website' });
     setMeta('meta[property="og:image"]', { property: 'og:image', content: socialImage });
     setMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: `${title} social preview` });
     setMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
@@ -57,9 +76,9 @@ export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
     setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: socialImage });
 
     document.getElementById('view-structured-data')?.remove();
-    const graph: Record<string, unknown>[] = [{ '@type': isColorDetail ? 'Product' : route.schemaType, '@id': `${canonicalUrl}#page`, name: title, description, url: canonicalUrl, image: socialImage, isPartOf: { '@id': `${siteConfig.productionDomain}/#website` }, about: { '@id': `${siteConfig.productionDomain}/#organization` } }];
+    const graph: Record<string, unknown>[] = [{ '@type': isProductDetail || isColorDetail ? 'Product' : route.schemaType, '@id': `${canonicalUrl}#page`, name: title, description, url: canonicalUrl, image: socialImage, isPartOf: { '@id': `${siteConfig.productionDomain}/#website` }, about: { '@id': `${siteConfig.productionDomain}/#organization` } }];
 
-    if (routeId === 'home' && !isColorDetail) {
+    if (routeId === 'home' && !isColorDetail && !isProductDetail) {
       graph.push(
         { '@type': 'Organization', '@id': `${siteConfig.productionDomain}/#organization`, name: siteConfig.legalName, alternateName: siteConfig.displayBrand, url: siteConfig.productionDomain, email: siteConfig.email, telephone: siteConfig.tel, contactPoint: { '@type': 'ContactPoint', name: siteConfig.contactPerson, contactType: 'sales', telephone: siteConfig.tel, email: siteConfig.email }, address: { '@type': 'PostalAddress', streetAddress: siteConfig.address, addressCountry: 'VN' } },
         { '@type': 'WebSite', '@id': `${siteConfig.productionDomain}/#website`, name: siteConfig.displayBrand, url: siteConfig.productionDomain, publisher: { '@id': `${siteConfig.productionDomain}/#organization` } },
@@ -67,6 +86,7 @@ export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
     } else {
       const crumbs: Record<string, unknown>[] = [{ '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.productionDomain }];
       if (isColorDetail && selectedColor) crumbs.push({ '@type': 'ListItem', position: 2, name: 'Colors', item: new URL('/colors/', siteConfig.productionDomain).toString() }, { '@type': 'ListItem', position: 3, name: selectedColor.name, item: canonicalUrl });
+      else if (isProductDetail && selectedProduct) crumbs.push({ '@type': 'ListItem', position: 2, name: 'Products', item: new URL('/products/', siteConfig.productionDomain).toString() }, { '@type': 'ListItem', position: 3, name: selectedProduct.title, item: canonicalUrl });
       else crumbs.push({ '@type': 'ListItem', position: 2, name: route.title, item: canonicalUrl });
       graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs });
     }
@@ -76,7 +96,7 @@ export function PageSeo({ routeId, language, selectedColor }: PageSeoProps) {
     schema.type = 'application/ld+json';
     schema.text = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
     document.head.appendChild(schema);
-  }, [language, routeId, selectedColor?.slug]);
+  }, [language, routeId, selectedColor?.slug, selectedProduct?.sku]);
 
   return null;
 }
