@@ -1,7 +1,7 @@
 {
   "eyebrow": "Retail Program Assessment Experience",
   "title": "Retail & Supply Chain Compliance",
-  "intro": "Manufacturing, quality, and supply-chain controls are documented for qualified buyer review. Current scope and document status are confirmed before release.",
+  "intro": "Manufacturing, quality, and supply-chain controls are documented for qualified buyer review. Supporting records are available on request.",
   "programs": [
     {
       "code": "SCAN",
@@ -30,5 +30,5 @@
   "silicaTitle": "Crystalline silica safety",
   "silicaCopy": "Cutting, grinding, drilling, or polishing stone can generate respirable crystalline silica dust. Fabricators must use the exact product SDS and the controls required by applicable law and work conditions.",
   "prop65Title": "California Proposition 65",
-  "prop65Copy": "California warning and labeling requirements must be confirmed for each exact product before sale or shipment. Owner-approved notices are published only when their scope and revision are verified."
+  "prop65Copy": "California warning and labeling information is provided for the applicable product and shipment when required."
 }
