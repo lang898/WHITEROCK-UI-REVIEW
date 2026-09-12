@@ -1,0 +1,166 @@
+name: Full visual audit evidence
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript
+        run: npx tsc --noEmit
+      - name: Build
+        run: npm run build
+      - name: Start preview
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/whiterock-preview.log 2>&1 &
+          for i in {1..30}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/whiterock-preview.log
+          exit 1
+      - name: Audit every requested page in Chromium
+        env:
+          BASE_URL: http://127.0.0.1:4173
+        run: |
+          mkdir -p visual-audit/screens-1440 visual-audit/screens-390
+          node --input-type=module <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const base = process.env.BASE_URL;
+          const products = JSON.parse(fs.readFileSync('data/products.json','utf8')).products;
+          const colors = JSON.parse(fs.readFileSync('data/colors.json','utf8')).colors;
+          const slug = s => String(s).trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+          const productPages = products.map(p => ({ url:`/products/${slug(p.sku)}/`, kind:'product-detail', label:p.sku }));
+          const colorSamples = colors.slice(0,3).map(c => ({ url:`/colors/${c.slug}/`, kind:'color-detail', label:c.name }));
+          const pages = [
+            ...['/products/','/materials/','/factory/','/resources/','/about/','/contact/'].map(url=>({url,kind:'landing'})),
+            ...['/products/kitchen-countertops/','/products/vanity-tops/','/products/table-tops/','/products/furniture-surfaces/','/products/commercial/'].map(url=>({url,kind:'product-category'})),
+            ...productPages,
+            ...['/materials/marble/','/materials/granite/','/materials/quartz/','/materials/quartzite/','/materials/travertine/','/materials/engineered-marble/'].map(url=>({url,kind:'material'})),
+            {url:'/colors/',kind:'colors'}, ...colorSamples,
+            ...['/applications/kitchen/','/applications/bathroom/','/applications/furniture/','/applications/commercial/'].map(url=>({url,kind:'application'})),
+            ...['/factory/overview/','/factory/production/','/factory/quality/','/factory/compliance/'].map(url=>({url,kind:'factory-child'})),
+            ...['/resources/documents/','/resources/cad/','/resources/care/','/resources/packing/','/resources/samples/','/resources/faq/'].map(url=>({url,kind:'resource-child'})),
+            ...['/about/story/','/about/vietnam/','/about/capabilities/'].map(url=>({url,kind:'about-child'})),
+            ...['/rfq/','/samples/','/compare/'].map(url=>({url,kind:'function'})),
+          ];
+
+          const browser = await chromium.launch({ executablePath:'/usr/bin/google-chrome', headless:true, args:['--no-sandbox'] });
+          const report = [];
+          const consoleErrors = [];
+
+          async function inspectAt(pageInfo, width, height) {
+            const context = await browser.newContext({ viewport:{width,height} });
+            const page = await context.newPage();
+            const errors = [];
+            page.on('console', msg => { if (msg.type()==='error') errors.push(msg.text()); });
+            page.on('pageerror', err => errors.push(err.message));
+            const response = await page.goto(base+pageInfo.url,{waitUntil:'networkidle'});
+            const ok = Boolean(response?.ok());
+            await page.locator('main').first().waitFor({state:'visible',timeout:15000}).catch(()=>{});
+            await page.waitForTimeout(300);
+            const data = await page.evaluate(({kind}) => {
+              const visible = el => { const r=el.getBoundingClientRect(); const s=getComputedStyle(el); return r.width>0 && r.height>0 && s.display!=='none' && s.visibility!=='hidden'; };
+              const brandMark = document.querySelectorAll('.wr-brand__mark').length;
+              const brandText = (document.querySelector('.wr-brand')?.textContent || '').replace(/\s+/g,' ').trim();
+              const hero = document.querySelector('.wr-landing-hero,.wr-trust-hero,.wr-stone-type-hero,.wr-product-detail-hero,[data-landing-hero]');
+              const heroRect = hero?.getBoundingClientRect();
+              const heroImages = hero ? [...hero.querySelectorAll('img')] : [];
+              const heroBg = hero ? getComputedStyle(hero).backgroundImage : 'none';
+              const heroHasImage = heroImages.length>0 || (heroBg && heroBg!=='none');
+              const heroImageFit = heroImages.every(img => { const cs=getComputedStyle(img); return cs.objectFit==='cover' && (cs.objectPosition.includes('center') || cs.objectPosition==='50% 50%'); });
+              const imgs=[...document.images].filter(visible);
+              const broken=imgs.filter(img=>!img.complete || img.naturalWidth===0).map(img=>img.currentSrc||img.src);
+              const distorted=imgs.filter(img=>{ const cs=getComputedStyle(img); if(cs.objectFit && cs.objectFit!=='fill') return false; if(!img.naturalWidth||!img.naturalHeight) return false; const r=img.getBoundingClientRect(); return Math.abs((r.width/r.height)-(img.naturalWidth/img.naturalHeight))>0.08; }).length;
+              const paragraphs=[...document.querySelectorAll('p')].filter(visible);
+              const lineRatios=paragraphs.map(p=>{ const cs=getComputedStyle(p); const fs=parseFloat(cs.fontSize)||16; const lh=parseFloat(cs.lineHeight)||fs*1.2; return lh/fs; });
+              const textNodes=[...document.querySelectorAll('body *')].filter(el=>visible(el) && el.children.length===0 && (el.textContent||'').trim());
+              const smallText=textNodes.filter(el=>parseFloat(getComputedStyle(el).fontSize)<12).map(el=>(el.textContent||'').trim().slice(0,60));
+              const textOverflow=textNodes.filter(el=>el.scrollWidth>el.clientWidth+2).map(el=>(el.textContent||'').trim().slice(0,60));
+              const sections=[...document.querySelectorAll('main section, main > div > section')].filter(visible);
+              const sectionPads=sections.map(el=>{ const cs=getComputedStyle(el); return (parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0); });
+              const grids=[...document.querySelectorAll('[class*="grid"]')].filter(el=>visible(el) && el.children.length>1);
+              const gridGaps=grids.map(el=>parseFloat(getComputedStyle(el).gap)||0).filter(n=>n>0);
+              const galleryThumbs=document.querySelectorAll('.wr-product-gallery [data-gallery-thumb],.wr-product-gallery button,.wr-product-gallery__thumb').length;
+              const galleryMain=document.querySelectorAll('.wr-product-gallery').length;
+              const materialGallery=document.querySelectorAll('.wr-stone-type-gallery img,.wr-photo-reference-rail img').length;
+              const hasLightbox=Boolean(document.querySelector('.wr-product-gallery [data-lightbox-trigger],.wr-product-gallery__main button,[data-lightbox-trigger]'));
+              return {
+                title:document.title, h1:document.querySelector('main h1')?.textContent?.trim()||'',
+                brandMark, brandText,
+                hero:{exists:Boolean(hero),height:heroRect?.height||0,hasImage:heroHasImage,imageFit:heroImageFit},
+                images:{count:imgs.length,broken,distorted},
+                typography:{smallTextCount:smallText.length,smallText:smallText.slice(0,10),textOverflowCount:textOverflow.length,textOverflow:textOverflow.slice(0,10),minLineRatio:lineRatios.length?Math.min(...lineRatios):null},
+                spacing:{minSectionPad:sectionPads.length?Math.min(...sectionPads):null,minGridGap:gridGaps.length?Math.min(...gridGaps):null},
+                gallery:{galleryMain,galleryThumbs,materialGallery,hasLightbox},
+                viewport:{innerWidth:window.innerWidth,scrollWidth:document.documentElement.scrollWidth},
+                kind,
+              };
+            }, {kind:pageInfo.kind});
+            data.httpOk=ok; data.errors=errors;
+            if (width===1440 || width===390) {
+              const safe=(pageInfo.url==='/'?'home':pageInfo.url.replace(/^\/|\/$/g,'').replace(/[^a-z0-9]+/gi,'_')) || 'home';
+              await page.screenshot({path:`visual-audit/screens-${width}/${safe}.png`,fullPage:false});
+            }
+            await context.close();
+            return data;
+          }
+
+          for (const info of pages) {
+            const widths = [[1440,1100],[1024,1000],[768,900],[390,844]];
+            const runs=[];
+            for (const [w,h] of widths) runs.push(await inspectAt(info,w,h));
+            const desktop=runs[0];
+            // Measure the Materials dropdown on desktop for every page.
+            const context = await browser.newContext({viewport:{width:1440,height:1000}}); const p=await context.newPage();
+            await p.goto(base+info.url,{waitUntil:'networkidle'}); await p.waitForTimeout(200);
+            let menuWidth=0;
+            const materials=p.locator('[data-nav="materials"]');
+            if(await materials.count()) { await materials.hover(); await p.waitForTimeout(80); const menu=p.locator('.wr-nav__mega--materials'); if(await menu.count()) menuWidth=(await menu.boundingBox())?.width||0; }
+            await context.close();
+
+            const functional=info.kind==='function';
+            const A = desktop.brandMark===0 && /WHITEROCK/i.test(desktop.brandText);
+            const B = functional ? null : desktop.hero.exists && desktop.hero.height>=480 && desktop.hero.hasImage;
+            const C = runs.every(r=>r.images.broken.length===0 && r.images.distorted===0) && (!desktop.hero.exists || desktop.hero.imageFit);
+            let D = null;
+            if(info.kind==='product-detail') D = desktop.gallery.galleryMain>0 && desktop.gallery.galleryThumbs>=4 && desktop.gallery.hasLightbox;
+            else if(info.kind==='material') D = desktop.gallery.materialGallery>=3;
+            const E = menuWidth>0 && menuWidth<=480;
+            const F = (desktop.typography.minLineRatio===null || desktop.typography.minLineRatio>=1.6) && (desktop.spacing.minGridGap===null || desktop.spacing.minGridGap>=24) && (desktop.spacing.minSectionPad===null || desktop.spacing.minSectionPad>=80);
+            const G = runs.every(r=>r.typography.smallTextCount===0 && r.typography.textOverflowCount===0);
+            const H = runs.every(r=>r.httpOk && r.errors.length===0 && r.viewport.scrollWidth<=r.viewport.innerWidth+1);
+            report.push({url:info.url,kind:info.kind,label:info.label||'',A,B,C,D,E,F,G,H,menuWidth,desktop,runs:runs.map(r=>({w:r.viewport.innerWidth,scrollWidth:r.viewport.scrollWidth,small:r.typography.smallTextCount,overflowText:r.typography.textOverflowCount,errors:r.errors}))});
+          }
+          await browser.close();
+          fs.writeFileSync('visual-audit/audit.json',JSON.stringify({head:process.env.GITHUB_SHA,pages:report},null,2));
+          const q=v => `"${String(v??'').replaceAll('"','""')}"`;
+          const header=['URL','Kind','A','B','C','D','E','F','G','H','MenuWidth','H1','SmallText','MinLineRatio','MinSectionPad','MinGridGap'];
+          const rows=report.map(r=>[r.url,r.kind,r.A,r.B===null?'N/A':r.B,r.C,r.D===null?'N/A':r.D,r.E,r.F,r.G,r.H,Math.round(r.menuWidth),r.desktop.h1,r.desktop.typography.smallTextCount,r.desktop.typography.minLineRatio,r.desktop.spacing.minSectionPad,r.desktop.spacing.minGridGap].map(q).join(','));
+          fs.writeFileSync('visual-audit/audit.csv',[header.join(','),...rows].join('\n'));
+          const summary={pages:report.length, failures:{A:report.filter(r=>r.A===false).length,B:report.filter(r=>r.B===false).length,C:report.filter(r=>r.C===false).length,D:report.filter(r=>r.D===false).length,E:report.filter(r=>r.E===false).length,F:report.filter(r=>r.F===false).length,G:report.filter(r=>r.G===false).length,H:report.filter(r=>r.H===false).length}};
+          fs.writeFileSync('visual-audit/summary.json',JSON.stringify(summary,null,2));
+          console.log(JSON.stringify(summary,null,2));
+          NODE
+      - name: Upload audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: whiterock-full-visual-audit-${{ github.sha }}
+          path: visual-audit/
+          retention-days: 7
