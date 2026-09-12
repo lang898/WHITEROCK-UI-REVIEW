@@ -5,6 +5,7 @@ import type { ProductItem } from '../types';
 import type { ShareContent } from '../components/SocialShareModal';
 import { ShareButton } from '../components/ShareButton';
 import { MaterialDisclaimer } from '../components/MaterialDisclaimer';
+import { ProductGallery } from '../components/ProductGallery';
 import { Button } from '../components/ui/Button';
 import { formatMeasurement } from '../utils/measurements';
 
@@ -27,7 +28,6 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, o
   const leadTime = product.leadTime || product.specs.LeadTime || 'Confirm by quotation';
   const packaging = product.packaging || product.specs.Packaging || 'Order-specific export packing';
   const relatedProducts = products.filter((item) => item.sku !== product.sku && (item.category === product.category || item.material === product.material)).slice(0, 3);
-  const image = assetUrl(product.imageAvif || product.imageWebp || product.image);
   const shareContent: ShareContent = {
     title: `${product.title} (${product.sku})`,
     text: `${product.title} (${product.sku}) - ${product.material}. Final specifications and availability are confirmed in the written quotation.`,
@@ -39,19 +39,16 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({ product, o
 
   return (
     <div className="wr-landing-page wr-product-detail-page">
-      <section className="wr-section-band">
+      <section className="wr-section-band wr-product-detail-hero" data-landing-hero>
         <button type="button" className="wr-text-link" onClick={onBackToProducts}><ArrowLeft />Back to products</button>
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16 mt-8">
-          <figure className="m-0 overflow-hidden border border-black/10 bg-stone-100">
-            <img src={image} alt={product.imageAlt || product.title} width={product.imageWidth || 1600} height={product.imageHeight || 1200} fetchPriority="high" className="h-full w-full object-cover" />
-            {product.caption && <figcaption className="p-3 text-stone-600">{product.caption}</figcaption>}
-          </figure>
-          <div>
+        <div className="wr-product-detail-layout">
+          <ProductGallery product={product} />
+          <div className="wr-product-detail-copy">
             <span className="wr-eyebrow">{product.sku} · {product.material}</span>
-            <h1 className="mt-4">{product.title}</h1>
-            <p className="mt-6 text-stone-600">{formatMeasurement(product.description)}</p>
+            <h1>{product.title}</h1>
+            <p>{formatMeasurement(product.description)}</p>
             <MaterialDisclaimer type="quotation-confirmation" compact />
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="wr-product-detail-actions">
               <Button onClick={() => onAddToCart(product)}><FileText />Add to RFQ</Button>
               {onShare && <ShareButton content={shareContent} onShare={onShare} variant="pill" label="Share Product" />}
             </div>
