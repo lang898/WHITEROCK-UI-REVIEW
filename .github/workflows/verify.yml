@@ -37,9 +37,12 @@ jobs:
           grep -q "materials/marble" dist/materials/marble/index.html
           grep -q "Production | NATURAL &amp; ENGINEERED STONE\|Production | NATURAL & ENGINEERED STONE" dist/factory/production/index.html
           grep -q "factory/production" dist/factory/production/index.html
+          grep -q "Alpine Carrara Marble" dist/colors/alpine-carrara/index.html
+          grep -q "colors/alpine-carrara" dist/colors/alpine-carrara/index.html
           grep -q "materials/marble" dist/stone-types/marble/index.html
           grep -q "products/table-tops" dist/products/furniture-tops/index.html
           grep -q "materials/quartz" dist/sitemap.xml
+          grep -q "colors/alpine-carrara" dist/sitemap.xml
           grep -q "resources/documents" dist/sitemap.xml
           test ! -d dist/admin
 
