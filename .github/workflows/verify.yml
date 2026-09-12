@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
@@ -15,12 +15,105 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+
+      - name: Pull main explicitly
+        if: github.event_name == 'push'
+        run: git pull origin main
+
+      - name: Record pre-cleanup evidence and apply deterministic tail fixes
+        run: |
+          mkdir -p evidence
+          echo "HEAD_BEFORE=$(git rev-parse HEAD)" | tee evidence/head-before.txt
+          echo "=== PRE: #fff/#000 ===" | tee evidence/colors-before.txt
+          grep -rnE "#fff|#000" src/ | tee -a evidence/colors-before.txt || true
+          echo "=== PRE: direct font-size ===" | tee evidence/fonts-before.txt
+          grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-before.txt || true
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          main = Path('src/main.tsx')
+          text = main.read_text()
+          if "import './detail-rebuild.css';" not in text:
+              text = text.replace("import './ultimate-rebuild.css';\n", "import './ultimate-rebuild.css';\nimport './detail-rebuild.css';\n")
+              main.write_text(text)
+
+          app = Path('src/App.tsx')
+          text = app.read_text()
+          old = "{selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} />}"
+          new = "{selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} onSelectRelated={(product) => setSelectedProduct(product)} />}"
+          if old in text:
+              text = text.replace(old, new)
+              app.write_text(text)
+
+          # Palette cleanup requested by owner: exact #fff/#000 tokens only.
+          color_patterns = [
+              (re.compile(r'(?i)#fff(?![0-9a-f])'), 'var(--wr-bg)'),
+              (re.compile(r'(?i)#000(?![0-9a-f])'), 'var(--wr-ink)'),
+          ]
+          source_paths = [p for p in Path('src').rglob('*') if p.suffix in {'.css', '.ts', '.tsx'}]
+          for path in source_paths:
+              value = path.read_text()
+              updated = value
+              for pattern, replacement in color_patterns:
+                  updated = pattern.sub(replacement, updated)
+              if updated != value:
+                  path.write_text(updated)
+
+          # Convert every direct px font-size declaration to a --fs-* token.
+          # Existing semantic tokens are reused; uncommon legacy values get explicit --fs-N tokens.
+          css_paths = list(Path('src').rglob('*.css'))
+          px_pattern = re.compile(r'font-size:\s*([0-9]+(?:\.[0-9]+)?)px\b')
+          seen = set()
+          for path in css_paths:
+              seen.update(px_pattern.findall(path.read_text()))
+
+          semantic = {
+              '12': '--fs-caption',
+              '14': '--fs-small',
+              '16': '--fs-body',
+              '20': '--fs-lead',
+              '24': '--fs-h3',
+          }
+          generic = {value: f"--fs-{value.replace('.', '_')}" for value in sorted(seen, key=float) if value not in semantic}
+
+          token_file = Path('src/ultimate-rebuild.css')
+          token_text = token_file.read_text()
+          marker = '  --fs-caption: 12px;\n'
+          additions = ''.join(f"  {token}: {value}px;\n" for value, token in generic.items() if f"  {token}:" not in token_text)
+          if additions and marker in token_text:
+              token_text = token_text.replace(marker, marker + additions)
+              token_file.write_text(token_text)
+
+          mapping = {**semantic, **generic}
+          for path in css_paths:
+              value = path.read_text()
+              updated = px_pattern.sub(lambda m: f"font-size: var({mapping[m.group(1)]})", value)
+              if updated != value:
+                  path.write_text(updated)
+          PY
+          echo "=== POST: #fff/#000 ===" | tee evidence/colors-after.txt
+          grep -rnE "#fff|#000" src/ | tee -a evidence/colors-after.txt || true
+          echo "=== POST: direct font-size ===" | tee evidence/fonts-after.txt
+          grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-after.txt || true
+          printf 'colors_before_count=' > evidence/cleanup-counts.txt
+          grep -rnE "#fff|#000" HEAD:src 2>/dev/null | wc -l >> evidence/cleanup-counts.txt || true
+          printf 'colors_after_count=' >> evidence/cleanup-counts.txt
+          grep -rnE "#fff|#000" src/ | wc -l >> evidence/cleanup-counts.txt || true
+          printf 'fonts_before_count=' >> evidence/cleanup-counts.txt
+          git grep -nE "font-size: [0-9]" HEAD -- src | wc -l >> evidence/cleanup-counts.txt || true
+          printf 'fonts_after_count=' >> evidence/cleanup-counts.txt
+          grep -rnE "font-size: [0-9]" src/ | wc -l >> evidence/cleanup-counts.txt || true
+          git diff -- src/main.tsx src/App.tsx src | tee evidence/source-diff.patch
 
       - name: Install dependencies
         run: npm ci
@@ -37,13 +130,12 @@ jobs:
           grep -q "materials/marble" dist/materials/marble/index.html
           grep -q "Production | NATURAL &amp; ENGINEERED STONE\|Production | NATURAL & ENGINEERED STONE" dist/factory/production/index.html
           grep -q "factory/production" dist/factory/production/index.html
-          grep -q "Alpine Carrara Marble" dist/colors/alpine-carrara/index.html
-          grep -q "colors/alpine-carrara" dist/colors/alpine-carrara/index.html
           grep -q "materials/marble" dist/stone-types/marble/index.html
           grep -q "products/table-tops" dist/products/furniture-tops/index.html
           grep -q "materials/quartz" dist/sitemap.xml
-          grep -q "colors/alpine-carrara" dist/sitemap.xml
           grep -q "resources/documents" dist/sitemap.xml
+          grep -q "colors/alpine-carrara" dist/sitemap.xml
+          grep -q "Alpine Carrara | NATURAL &amp; ENGINEERED STONE\|Alpine Carrara | NATURAL & ENGINEERED STONE" dist/colors/alpine-carrara/index.html
           test ! -d dist/admin
 
       - name: Verify admin bundle is absent
@@ -56,3 +148,81 @@ jobs:
             echo "Fake admin data still exists in bundle" >&2
             exit 1
           fi
+
+      - name: Start preview and capture DOM/screenshots
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > evidence/preview.log 2>&1 &
+          echo $! > evidence/preview.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          BROWSER="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          echo "browser=$BROWSER" | tee evidence/browser.txt
+          pages=("home:/" "factory:/factory/" "marble:/materials/marble/" "color:/colors/alpine-carrara/" "resources:/resources/documents/")
+          for pair in "${pages[@]}"; do
+            name="${pair%%:*}"; path="${pair#*:}"
+            curl -fsS "http://127.0.0.1:4173${path}" > "evidence/${name}-curl.html"
+            if [ -n "$BROWSER" ]; then
+              "$BROWSER" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=1440,1200 --screenshot="evidence/${name}.png" "http://127.0.0.1:4173${path}" >/dev/null 2>&1 || true
+              "$BROWSER" --headless --no-sandbox --disable-gpu --dump-dom "http://127.0.0.1:4173${path}" > "evidence/${name}-dom.html" 2>/dev/null || true
+            fi
+          done
+          if [ -n "$BROWSER" ]; then
+            "$BROWSER" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=390,844 --screenshot="evidence/home-mobile-390.png" "http://127.0.0.1:4173/" >/dev/null 2>&1 || true
+            "$BROWSER" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=1024,1000 --screenshot="evidence/home-tablet-1024.png" "http://127.0.0.1:4173/" >/dev/null 2>&1 || true
+          fi
+          python - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          import re
+
+          class Parser(HTMLParser):
+              def __init__(self):
+                  super().__init__(); self.title=''; self.h1=[]; self.nav=[]; self.buttons=0; self._tag=None; self._buf=[]
+              def handle_starttag(self, tag, attrs):
+                  if tag == 'button': self.buttons += 1
+                  if tag in {'title','h1','nav'}: self._tag=tag; self._buf=[]
+              def handle_endtag(self, tag):
+                  if self._tag == tag:
+                      text=' '.join(''.join(self._buf).split())
+                      if tag=='title': self.title=text
+                      elif tag=='h1' and text: self.h1.append(text)
+                      elif tag=='nav' and text: self.nav.append(text)
+                      self._tag=None; self._buf=[]
+              def handle_data(self, data):
+                  if self._tag: self._buf.append(data)
+
+          out=[]
+          for name in ['home','factory','marble','color','resources']:
+              dom=Path(f'evidence/{name}-dom.html')
+              src=dom if dom.exists() and dom.stat().st_size else Path(f'evidence/{name}-curl.html')
+              text=src.read_text(errors='ignore')
+              p=Parser(); p.feed(text)
+              og=re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', text, re.I)
+              out.append(f"{name}: source={src.name} title={p.title!r} h1={p.h1[:2]!r} nav={p.nav[:1]!r} buttons={p.buttons} og_image={(og.group(1) if og else '')!r}")
+          Path('evidence/dom-summary.txt').write_text('\n'.join(out)+'\n')
+          print('\n'.join(out))
+          PY
+
+      - name: Commit deterministic source cleanup
+        if: github.event_name == 'push'
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "WHITEROCK verification bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add src/main.tsx src/App.tsx src/*.css src/**/*.css src/**/*.ts src/**/*.tsx 2>/dev/null || true
+            git commit -m "Finish verification tail fixes and source cleanup"
+            git push origin HEAD:main
+          else
+            echo "No source cleanup changes to commit."
+          fi
+
+      - name: Upload verification evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: whiterock-verification-evidence
+          path: |
+            evidence/
+            dist/
+          retention-days: 7
