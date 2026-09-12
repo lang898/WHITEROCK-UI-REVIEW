@@ -1,16 +1,18 @@
 import React, { useMemo, useState } from 'react';
 import { Maximize2 } from 'lucide-react';
-import type { ProductImage, ProductItem } from '../types';
-import { ImageLightbox } from './ImageLightbox';
+import type { ProductItem } from '../types';
+import { ImageLightbox, type ProductImage } from './ImageLightbox';
 
 interface ProductGalleryProps {
   product: ProductItem;
 }
 
+type ProductWithImages = ProductItem & { images?: ProductImage[] };
 const assetUrl = (value: string) => value.startsWith('/') ? value : `/${value}`;
 
 export const ProductGallery: React.FC<ProductGalleryProps> = ({ product }) => {
-  const images = useMemo<ProductImage[]>(() => product.images?.length ? product.images : [{
+  const productWithImages = product as ProductWithImages;
+  const images = useMemo<ProductImage[]>(() => productWithImages.images?.length ? productWithImages.images : [{
     src: product.image,
     webp: product.imageWebp,
     avif: product.imageAvif,
@@ -18,7 +20,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({ product }) => {
     caption: product.caption,
     label: 'Primary reference',
     placeholder: false,
-  }], [product]);
+  }], [product, productWithImages.images]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const active = images[activeIndex];
