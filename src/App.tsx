@@ -35,7 +35,6 @@ const StoneTypeView = lazy(() => import('./views/StoneTypeView').then((module) =
 const EventsView = lazy(() => import('./views/EventsView').then((module) => ({ default: module.EventsView })));
 const RfqLandingView = lazy(() => import('./views/RfqLandingView').then((module) => ({ default: module.RfqLandingView })));
 const CompareLandingView = lazy(() => import('./views/CompareLandingView').then((module) => ({ default: module.CompareLandingView })));
-
 const RfqModal = lazy(() => import('./components/RfqModal').then((module) => ({ default: module.RfqModal })));
 const ProductModal = lazy(() => import('./components/ProductModal').then((module) => ({ default: module.ProductModal })));
 const ColorModal = lazy(() => import('./components/ColorModal').then((module) => ({ default: module.ColorModal })));
@@ -44,36 +43,24 @@ const GlobalSearch = lazy(() => import('./components/GlobalSearch').then((module
 const ComparePanel = lazy(() => import('./components/ComparePanel').then((module) => ({ default: module.ComparePanel })));
 
 const productProgramByRoute: Partial<Record<RouteId, 'Kitchen Countertops' | 'Vanity Tops' | 'Table Tops' | 'Furniture Surfaces' | 'Commercial Programs'>> = {
-  'product-kitchen': 'Kitchen Countertops',
-  'product-vanity': 'Vanity Tops',
-  'product-table': 'Table Tops',
-  'product-furniture': 'Furniture Surfaces',
-  'product-commercial': 'Commercial Programs',
+  'product-kitchen': 'Kitchen Countertops', 'product-vanity': 'Vanity Tops', 'product-table': 'Table Tops', 'product-furniture': 'Furniture Surfaces', 'product-commercial': 'Commercial Programs',
 };
-
 const colorFamilyByRoute: Partial<Record<RouteId, ColorItem['colorFamily']>> = {
   'color-white': 'White', 'color-grey': 'Grey', 'color-black': 'Black', 'color-beige': 'Beige', 'color-green': 'Green', 'color-blue': 'Blue',
 };
-
 const finishSectionByRoute: Partial<Record<RouteId, 'surface-finishes' | 'edge-profiles' | 'sink-integration'>> = {
   'finish-surfaces': 'surface-finishes', 'finish-edges': 'edge-profiles', 'finish-sink': 'sink-integration',
 };
-
 const applicationCategoryByRoute: Partial<Record<RouteId, 'Kitchen' | 'Bathroom' | 'Furniture' | 'Commercial'>> = {
   'application-kitchen': 'Kitchen', 'application-bathroom': 'Bathroom', 'application-furniture': 'Furniture', 'application-commercial': 'Commercial',
 };
-
 const factorySectionByRoute: Partial<Record<RouteId, 'overview' | 'production' | 'quality' | 'compliance'>> = {
   'factory-overview': 'overview', 'factory-production': 'production', 'factory-quality': 'quality', 'factory-compliance': 'compliance',
 };
-
 const resourceSectionByRoute: Partial<Record<RouteId, 'documents' | 'cad' | 'care' | 'packing' | 'samples' | 'faq'>> = {
   'resources-documents': 'documents', 'resources-cad': 'cad', 'resources-care': 'care', 'resources-packing': 'packing', 'resources-samples': 'samples', 'resources-faq': 'faq',
 };
-
-const aboutSectionByRoute: Partial<Record<RouteId, 'story' | 'vietnam'>> = {
-  'about-story': 'story', 'about-vietnam': 'vietnam',
-};
+const aboutSectionByRoute: Partial<Record<RouteId, 'story' | 'vietnam'>> = { 'about-story': 'story', 'about-vietnam': 'vietnam' };
 
 function AppContent() {
   const [currentTab, setCurrentTab] = useState<RouteId>(() => routeIdFromLocation());
@@ -173,14 +160,19 @@ function AppContent() {
 
   const handleAddColorToRfq = (color: ColorItem) => {
     const id = `color:${color.slug}`;
-    if (cartItems.some((item) => item.id === id)) { showToast(`${color.name} is already in the RFQ`); return; }
-    setCartItems((previous) => [...previous, { id, title: color.name, type: 'color', material: color.material, selectedColor: color.name, selectedFinish: color.finishes[0] || 'To be confirmed', selectedThickness: 'To be confirmed', quantity: 1, specSummary: `${color.material} · ${color.name}` }]);
+    setCartItems((previous) => {
+      if (previous.some((item) => item.id === id)) return previous;
+      return [...previous, { id, title: color.name, type: 'color', material: color.material, selectedColor: color.name, selectedFinish: color.finishes[0] || 'To be confirmed', selectedThickness: 'To be confirmed', quantity: 1, specSummary: `${color.material} · ${color.name}` }];
+    });
     showToast(`Added ${color.name} to RFQ`);
   };
 
   const handleContinueSamplesToRfq = () => {
-    colors.filter((color) => sampleSlugs.includes(color.slug)).forEach((color) => {
-      if (!cartItems.some((item) => item.id === `color:${color.slug}`)) handleAddColorToRfq(color);
+    const selectedSamples = colors.filter((color) => sampleSlugs.includes(color.slug));
+    setCartItems((previous) => {
+      const existingIds = new Set(previous.map((item) => item.id));
+      const additions: RfqCartItem[] = selectedSamples.filter((color) => !existingIds.has(`color:${color.slug}`)).map((color) => ({ id: `color:${color.slug}`, title: color.name, type: 'color', material: color.material, selectedColor: color.name, selectedFinish: color.finishes[0] || 'To be confirmed', selectedThickness: 'To be confirmed', quantity: 1, specSummary: `${color.material} · ${color.name} · physical sample selected` }));
+      return [...previous, ...additions];
     });
     setIsRfqModalOpen(true);
   };
@@ -198,6 +190,7 @@ function AppContent() {
   };
 
   const rfqCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const compareIds = compareItems.map((item) => item.id);
 
   return (
     <div className="hybrid-site min-h-screen flex flex-col font-sans antialiased">
@@ -209,9 +202,9 @@ function AppContent() {
         <main id="main-content" className="flex-1" tabIndex={-1}>
           {currentTab === 'home' && <HomeView setCurrentTab={handleTabChange} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} onAddToCart={handleAddToCart} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
           {(currentTab === 'about' || currentTab.startsWith('about-')) && <AboutView currentLocale={currentLocale} setCurrentTab={handleTabChange} onOpenShareModal={handleOpenShare} section={aboutSectionByRoute[currentTab]} />}
-          {(currentTab === 'products' || currentTab.startsWith('product-')) && <ProductsView onSelectProduct={setSelectedProduct} onAddToCart={handleAddToCart} currentLocale={currentLocale} onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })} compareIds={compareItems.map((item) => item.id)} setCurrentTab={handleTabChange} program={productProgramByRoute[currentTab]} />}
+          {(currentTab === 'products' || currentTab.startsWith('product-')) && <ProductsView onSelectProduct={setSelectedProduct} onAddToCart={handleAddToCart} currentLocale={currentLocale} onToggleCompare={(product) => toggleCompare({ id: `product:${product.sku}`, kind: 'product', item: product })} compareIds={compareIds} setCurrentTab={handleTabChange} program={productProgramByRoute[currentTab]} />}
           {currentTab === 'materials' && <MaterialsView setCurrentTab={handleTabChange} />}
-          {(currentTab === 'colors' || currentTab.startsWith('color-')) && <ColorsView onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareItems.map((item) => item.id)} setCurrentTab={handleTabChange} family={colorFamilyByRoute[currentTab]} />}
+          {(currentTab === 'colors' || currentTab.startsWith('color-')) && <ColorsView onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} family={colorFamilyByRoute[currentTab]} />}
           {(currentTab === 'finishes' || currentTab.startsWith('finish-')) && <FinishesEdgesView setCurrentTab={handleTabChange} currentLocale={currentLocale} section={finishSectionByRoute[currentTab]} />}
           {(currentTab === 'factory' || currentTab.startsWith('factory-')) && <FactoryView currentLocale={currentLocale} setCurrentTab={handleTabChange} section={factorySectionByRoute[currentTab]} />}
           {(currentTab === 'applications' || currentTab.startsWith('application-')) && <ApplicationsView onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} currentLocale={currentLocale} setCurrentTab={handleTabChange} category={applicationCategoryByRoute[currentTab]} />}
@@ -219,7 +212,7 @@ function AppContent() {
           {(currentTab === 'resources' || currentTab.startsWith('resources-')) && <ResourcesView currentLocale={currentLocale} setCurrentTab={handleTabChange} section={resourceSectionByRoute[currentTab]} />}
           {currentTab === 'contact' && <ContactView currentLocale={currentLocale} onOpenShareModal={handleOpenShare} />}
           {currentTab === 'samples' && <SampleRequestView samples={colors.filter((color) => sampleSlugs.includes(color.slug))} currentLocale={currentLocale} onRemove={(slug) => setSampleSlugs((current) => current.filter((item) => item !== slug))} onClear={() => setSampleSlugs([])} setCurrentTab={handleTabChange} onContinueToRfq={handleContinueSamplesToRfq} />}
-          {currentTab.startsWith('stone-') && <StoneTypeView stoneTypeId={currentTab.replace('stone-', '') as 'marble' | 'granite' | 'quartz' | 'quartzite' | 'travertine' | 'engineered-marble'} currentLocale={currentLocale} onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} setCurrentTab={handleTabChange} />}
+          {currentTab.startsWith('stone-') && <StoneTypeView stoneTypeId={currentTab.replace('stone-', '') as 'marble' | 'granite' | 'quartz' | 'quartzite' | 'travertine' | 'engineered-marble'} currentLocale={currentLocale} onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} onToggleCompare={(color) => toggleCompare({ id: `color:${color.slug}`, kind: 'color', item: color })} compareIds={compareIds} setCurrentTab={handleTabChange} />}
           {currentTab === 'rfq' && <RfqLandingView setCurrentTab={handleTabChange} />}
           {currentTab === 'compare' && <CompareLandingView setCurrentTab={handleTabChange} selectionCount={compareItems.length} />}
           {currentTab === 'events' && <EventsView currentLocale={currentLocale} setCurrentTab={handleTabChange} />}
@@ -237,7 +230,7 @@ function AppContent() {
         {selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} />}
         {selectedColor && <ColorModal color={selectedColor} onClose={() => setSelectedColor(null)} onRequestSample={handleAddColorSample} onAddToRfq={handleAddColorToRfq} onShare={handleOpenShare} />}
         {shareModalContent && <SocialShareModal isOpen onClose={() => setShareModalContent(null)} content={shareModalContent} />}
-        {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} />}
+        {isSearchOpen && <GlobalSearch isOpen locale={currentLocale} onClose={() => setIsSearchOpen(false)} onNavigate={handleTabChange} onOpenRfq={() => setIsRfqModalOpen(true)} onSelectProduct={setSelectedProduct} onSelectColor={setSelectedColor} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />}
         <ComparePanel items={compareItems} locale={currentLocale} onRemove={(id) => setCompareItems((items) => items.filter((item) => item.id !== id))} onClear={() => setCompareItems([])} onAddColorSample={handleAddColorSample} onAddColorToRfq={handleAddColorToRfq} />
       </Suspense>
 
