@@ -101,8 +101,8 @@ export const Header: React.FC<HeaderProps> = ({
       if (event.key !== 'Escape') return;
       if (openMenu) {
         const trigger = triggerRefs.current[openMenu];
+        trigger?.focus({ preventScroll: true });
         setOpenMenu(null);
-        window.requestAnimationFrame(() => trigger?.focus());
       }
       if (mobileMenuOpen) setMobileMenuOpen(false);
     };
