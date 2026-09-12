@@ -81,7 +81,6 @@ const slideNumber = (index: number) => String(index + 1).padStart(2, '0');
 
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, onRequestQuote }) => {
   const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const [manualPaused, setManualPaused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -116,7 +115,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
 
   const previous = useCallback(() => goTo(active - 1), [active, goTo]);
   const next = useCallback(() => goTo(active + 1), [active, goTo]);
-  const autoplayBlocked = reduceMotion || hovered || manualPaused || userPaused;
+  const autoplayBlocked = reduceMotion || manualPaused || userPaused;
 
   useEffect(() => {
     if (autoplayBlocked) return;
@@ -156,8 +155,6 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onExploreProducts, o
       aria-label="Stone manufacturing and project capabilities"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
