@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Building2, Check, CheckCircle2, Copy, FileText, HelpCircle, Mail, MapPin, MessageSquare, Package, Phone, Send } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Building2, Check, CheckCircle2, Copy, FileText, HelpCircle, Mail, MapPin, MessageSquare, Package, Phone, Send } from 'lucide-react';
 import { FaqSectionWithSchema } from '../components/FaqSectionWithSchema';
 import { WhatsAppIcon } from '../components/SocialIcons';
 import { Input } from '../components/ui/Input';
@@ -67,7 +67,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentLocale, onOpenS
         </div>
       </section>
 
-      <section className="wr-contact-shortcuts wr-section-band"><a href={routePath('samples')}><Package /><h3>Sample program</h3><p>Build a physical material shortlist.</p><ArrowRight /></a><a href={routePath('resources-faq')}><HelpCircle /><h3>FAQ</h3><p>Materials, documents, production, and export answers.</p><ArrowRight /></a></section>
+      <section className="wr-contact-shortcuts wr-section-band"><a href={routePath('samples')}><Package /><div><h3>Sample program</h3><p>Build a physical material shortlist.</p></div><ArrowRight /></a><a href={routePath('resources-faq')}><HelpCircle /><div><h3>FAQ</h3><p>Materials, documents, production, and export answers.</p></div><ArrowRight /></a></section>
       <section className="wr-contact-faq wr-section-band"><FaqSectionWithSchema currentLocale={currentLocale} title="Procurement and manufacturing FAQ" subtitle="Direct answers about materials, drawings, samples, packing, and order-specific documents." showSchemaInspector={false} /></section>
     </div>
   );
