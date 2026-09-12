@@ -30,8 +30,8 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({ setCurrentTa
         <h1>Manufacturing capacity for repeat stone programs.</h1>
         <p>WHITEROCK combines material review, drawing control, fabrication, inspection, packing, and export preparation at its Dong Nai manufacturing base.</p>
         <div className="wr-landing-hero__actions">
-          <Button variant="primary" onClick={() => setCurrentTab('factory')}>Review the factory<ArrowRight /></Button>
-          <Button variant="secondary" onClick={() => setCurrentTab('contact')}>Discuss a program</Button>
+          <Button className="wr-button--light" onClick={() => setCurrentTab('factory')}>Review the factory<ArrowRight /></Button>
+          <Button variant="ghost" className="wr-button--outline-light" onClick={() => setCurrentTab('contact')}>Discuss a program</Button>
         </div>
       </header>
 
