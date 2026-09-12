@@ -33,9 +33,14 @@ jobs:
 
       - name: Verify static route metadata
         run: |
-          grep -q "Marble | NATURAL &amp; ENGINEERED STONE\|Marble | NATURAL & ENGINEERED STONE" dist/stone-types/marble/index.html
-          grep -q "stone-types/marble" dist/stone-types/marble/index.html
-          grep -q "Vietnam Stone Factory" dist/factory/index.html
+          grep -q "Marble | NATURAL &amp; ENGINEERED STONE\|Marble | NATURAL & ENGINEERED STONE" dist/materials/marble/index.html
+          grep -q "materials/marble" dist/materials/marble/index.html
+          grep -q "Production | NATURAL &amp; ENGINEERED STONE\|Production | NATURAL & ENGINEERED STONE" dist/factory/production/index.html
+          grep -q "factory/production" dist/factory/production/index.html
+          grep -q "materials/marble" dist/stone-types/marble/index.html
+          grep -q "products/table-tops" dist/products/furniture-tops/index.html
+          grep -q "materials/quartz" dist/sitemap.xml
+          grep -q "resources/documents" dist/sitemap.xml
           test ! -d dist/admin
 
       - name: Verify admin bundle is absent
