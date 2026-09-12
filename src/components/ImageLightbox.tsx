@@ -105,7 +105,9 @@ const GalleryImageLightbox: React.FC<GalleryImageLightboxProps> = ({ images, ind
 };
 
 export const ImageLightbox: React.FC<ImageLightboxProps> = (props) => {
-  if ('images' in props && props.images) return <GalleryImageLightbox {...props} />;
+  if (props.images !== undefined) {
+    return <GalleryImageLightbox images={props.images} index={props.index} onIndexChange={props.onIndexChange} onClose={props.onClose} />;
+  }
   if (!props.image) return null;
   return (
     <Modal onClose={props.onClose} ariaLabel={props.image.alt || 'Expanded image'} className="wr-image-lightbox" panelClassName="wr-image-lightbox__panel">
