@@ -1,8 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, FileText, Mail, Menu, Package, Search, X } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
 import { siteConfig } from '../data/site';
-import { productNavigation, routePath, stoneMaterialNavigation, type NavigationGroup } from '../routes';
+import {
+  aboutNavigation,
+  applicationNavigation,
+  colorNavigation,
+  factoryNavigation,
+  finishNavigation,
+  primaryNavigation,
+  productNavigation,
+  resourceNavigation,
+  routePath,
+  stoneMaterialNavigation,
+  type RouteId,
+} from '../routes';
 import { t } from '../i18n';
 import type { LocaleConfig } from '../types';
 import { OPEN_RFQ_EVENT } from '../lib/uiEvents';
@@ -21,98 +33,87 @@ interface HeaderProps {
   onOpenSearch: () => void;
 }
 
-const desktopNavigation: readonly NavigationGroup[] = [
-  {
-    label: 'Products',
-    items: [
-      { id: 'products', label: 'All Products' },
-      ...productNavigation,
-    ],
-  },
-  {
-    label: 'Materials',
-    items: [
-      { id: 'materials', label: 'All Materials' },
-      ...stoneMaterialNavigation,
-      { id: 'colors', label: 'Colors' },
-      { id: 'finishes', label: 'Finishes & Edges' },
-      { id: 'applications', label: 'Applications' },
-      { id: 'samples', label: 'Samples' },
-      { id: 'resources', label: 'Technical Documents' },
-    ],
-  },
-  { label: 'Factory', id: 'factory' },
-  {
-    label: 'Resources',
-    items: [
-      { id: 'applications', label: 'Applications' },
-      { id: 'resources', label: 'Technical Resources' },
-      { id: 'partners', label: 'Trade Program' },
-    ],
-  },
-  {
-    label: 'About',
-    items: [
-      { id: 'about', label: 'About the manufacturer' },
-      { id: 'contact', label: 'Contact & support' },
-    ],
-  },
-] as const;
+const byColor = [...colorNavigation, { id: 'colors' as RouteId, label: 'View all colors' }];
+const byApplication = applicationNavigation;
 
-const materialMegaColumns = [
-  {
-    title: 'Stone type',
-    items: [{ id: 'materials', label: 'All Materials' }, ...stoneMaterialNavigation],
-  },
-  {
-    title: 'Explore',
-    items: [
-      { id: 'colors', label: 'Colors' },
-      { id: 'finishes', label: 'Finishes' },
-      { id: 'finish-edges', label: 'Edge Profiles' },
-      { id: 'applications', label: 'Applications' },
-    ],
-  },
-  {
-    title: 'Specify',
-    items: [
-      { id: 'samples', label: 'Samples' },
-      { id: 'resources', label: 'Technical Documents' },
-      { id: 'resources', label: 'Care & Maintenance' },
-    ],
-  },
-] as const;
+const simpleMenus: Partial<Record<RouteId, readonly { id: RouteId; label: string }[]>> = {
+  products: [...productNavigation, { id: 'products', label: 'View all products' }],
+  factory: factoryNavigation,
+  resources: resourceNavigation,
+  about: aboutNavigation,
+};
 
 export const Header: React.FC<HeaderProps> = ({
-  currentTab, setCurrentTab, cartCount, openCart, sampleCount, openSamples, currentLocale, onOpenSearch
+  currentTab,
+  setCurrentTab,
+  cartCount,
+  openCart,
+  sampleCount,
+  openSamples,
+  currentLocale,
+  onOpenSearch,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<RouteId | null>(null);
+  const [openMobileGroup, setOpenMobileGroup] = useState<RouteId | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [openMobileGroups, setOpenMobileGroups] = useState<string[]>(['Products']);
+  const navRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const triggerRefs = useRef<Partial<Record<RouteId, HTMLAnchorElement | null>>>({});
+  const closeTimerRef = useRef<number | null>(null);
+
+  const cancelCloseTimer = () => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
+  const scheduleClose = () => {
+    cancelCloseTimer();
+    closeTimerRef.current = window.setTimeout(() => setOpenMenu(null), 200);
+  };
+
+  useEffect(() => () => cancelCloseTimer(), []);
 
   useEffect(() => {
-    const updateHeader = () => setIsScrolled(window.scrollY > 24);
-    updateHeader();
-    window.addEventListener('scroll', updateHeader, { passive: true });
-    return () => window.removeEventListener('scroll', updateHeader);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 24);
+      if (window.scrollY > 100) setOpenMenu(null);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => event.key === 'Escape' && setMobileMenuOpen(false);
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
+    const handleMouseDown = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (!navRef.current?.contains(target)) setOpenMenu(null);
+      if (mobileMenuOpen && !headerRef.current?.contains(target)) setMobileMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleMouseDown);
+    return () => document.removeEventListener('mousedown', handleMouseDown);
   }, [mobileMenuOpen]);
 
   useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const activeGroup = desktopNavigation.find((group) =>
-      group.items?.some((item) => item.id === currentTab) || group.id === currentTab
-    );
-    if (activeGroup?.items?.length) {
-      setOpenMobileGroups((groups) => groups.includes(activeGroup.label) ? groups : [...groups, activeGroup.label]);
-    }
-  }, [currentTab, mobileMenuOpen]);
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (openMenu) {
+        const trigger = triggerRefs.current[openMenu];
+        setOpenMenu(null);
+        window.requestAnimationFrame(() => trigger?.focus());
+      }
+      if (mobileMenuOpen) setMobileMenuOpen(false);
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [openMenu, mobileMenuOpen]);
+
+  useEffect(() => {
+    setOpenMenu(null);
+    setMobileMenuOpen(false);
+  }, [currentTab]);
 
   useEffect(() => {
     const handleOpenRfq = () => openCart();
@@ -120,22 +121,70 @@ export const Header: React.FC<HeaderProps> = ({
     return () => window.removeEventListener(OPEN_RFQ_EVENT, handleOpenRfq);
   }, [openCart]);
 
-  const navigate = (id: string) => {
-    setCurrentTab(id);
+  const navigate = (id: RouteId) => {
+    setOpenMenu(null);
     setMobileMenuOpen(false);
+    setCurrentTab(id);
   };
 
-  const closeParentMenu = (target: HTMLElement) => target.closest('details')?.removeAttribute('open');
+  const isNavigationActive = (id: RouteId) => {
+    if (currentTab === id) return true;
+    if (id === 'products') return currentTab.startsWith('product-');
+    if (id === 'materials') return currentTab.startsWith('stone-') || currentTab === 'colors' || currentTab.startsWith('color-') || currentTab === 'finishes' || currentTab.startsWith('finish-') || currentTab === 'applications' || currentTab.startsWith('application-');
+    if (id === 'factory') return currentTab.startsWith('factory-');
+    if (id === 'resources') return currentTab.startsWith('resources-');
+    if (id === 'about') return currentTab.startsWith('about-');
+    return false;
+  };
 
-  const isNavigationActive = (id: string) => currentTab === id ||
-    (id === 'products' && currentTab.startsWith('product-')) ||
-    (id === 'materials' && currentTab.startsWith('stone-')) ||
-    (id === 'colors' && currentTab.startsWith('color-')) ||
-    (id === 'finishes' && currentTab.startsWith('finish-')) ||
-    (id === 'applications' && currentTab.startsWith('application-'));
+  const handlePrimaryKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>, id: RouteId, hasMenu: boolean) => {
+    if (!hasMenu) return;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      setOpenMenu(id);
+    }
+  };
+
+  const renderSimpleMenu = (id: RouteId) => {
+    const entries = simpleMenus[id] || [];
+    return (
+      <div className="wr-nav__menu wr-nav__menu--simple">
+        {entries.map((entry) => (
+          <a key={`${id}-${entry.id}-${entry.label}`} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>
+        ))}
+      </div>
+    );
+  };
+
+  const renderMaterialsMenu = () => (
+    <div className="wr-nav__menu wr-nav__mega wr-nav__mega--materials">
+      <div className="wr-nav__mega-column">
+        <strong>Stone Type</strong>
+        {stoneMaterialNavigation.map((entry) => <a key={entry.id} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}
+      </div>
+      <div className="wr-nav__mega-column">
+        <strong>By Color</strong>
+        {byColor.map((entry) => <a key={`${entry.id}-${entry.label}`} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}
+      </div>
+      <div className="wr-nav__mega-column">
+        <strong>By Application</strong>
+        {byApplication.map((entry) => <a key={entry.id} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}
+      </div>
+      <div className="wr-nav__mega-footer">
+        <a href={routePath('colors')} onClick={(event) => { event.preventDefault(); navigate('colors'); }}>Explore Full Color Library</a>
+        <a href={routePath('compare')} onClick={(event) => { event.preventDefault(); navigate('compare'); }}>Compare Materials</a>
+        <a href={routePath('finishes')} onClick={(event) => { event.preventDefault(); navigate('finishes'); }}>Finishes &amp; Edges</a>
+      </div>
+    </div>
+  );
+
+  const mobileEntries = (id: RouteId) => {
+    if (id === 'materials') return [...stoneMaterialNavigation, ...byColor, ...byApplication, ...finishNavigation];
+    return simpleMenus[id] || [];
+  };
 
   return (
-    <header className={`wr-header ${isScrolled ? 'is-scrolled' : ''}`.trim()}>
+    <header ref={headerRef} className={`wr-header ${isScrolled ? 'is-scrolled' : ''}`.trim()}>
       <div className="wr-header__utility">
         <p>{siteConfig.legalName} · Dong Nai, Vietnam</p>
         <div>
@@ -150,41 +199,37 @@ export const Header: React.FC<HeaderProps> = ({
           <span><strong>{siteConfig.displayBrand}</strong><small>{siteConfig.tagline}</small></span>
         </a>
 
-        <nav className="wr-nav" aria-label="Primary navigation">
-          {desktopNavigation.map((item) => {
-            if (!item.items?.length && item.id) {
-              return <a key={item.label} className={isNavigationActive(item.id) ? 'is-active' : ''} href={routePath(item.id)} onClick={(event) => { event.preventDefault(); navigate(item.id); }}>{item.label}</a>;
-            }
-            const isActive = Boolean(item.id && isNavigationActive(item.id)) || item.items?.some((child) => isNavigationActive(child.id));
-            const isMaterials = item.label === 'Materials';
+        <nav ref={navRef} className="wr-nav" aria-label="Primary navigation">
+          {primaryNavigation.map((item) => {
+            const hasMenu = Boolean(item.items?.length);
+            const isOpen = openMenu === item.id;
+            const active = isNavigationActive(item.id);
             return (
-              <details key={item.label} className={isActive ? 'is-active' : ''}>
-                <summary><span>{item.label}</span><ChevronDown aria-hidden="true" /></summary>
-                {isMaterials ? (
-                  <div className="wr-nav__menu wr-nav__mega">
-                    {materialMegaColumns.map((column) => (
-                      <div key={column.title} className="wr-nav__mega-column">
-                        <strong>{column.title}</strong>
-                        {column.items.map((child, index) => (
-                          <a key={`${column.title}-${child.id}-${index}`} href={routePath(child.id)} onClick={(event) => { event.preventDefault(); navigate(child.id); closeParentMenu(event.currentTarget); }}>{child.label}</a>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="wr-nav__menu">
-                    {item.items?.map((child) => (
-                      <a key={child.id} href={routePath(child.id)} onClick={(event) => { event.preventDefault(); navigate(child.id); closeParentMenu(event.currentTarget); }}>{child.label}</a>
-                    ))}
-                  </div>
-                )}
-              </details>
+              <div
+                key={item.id}
+                className={`wr-nav__item${active ? ' is-active' : ''}${isOpen ? ' is-open' : ''}`}
+                onMouseEnter={() => { cancelCloseTimer(); if (hasMenu) setOpenMenu(item.id); }}
+                onMouseLeave={hasMenu ? scheduleClose : undefined}
+              >
+                <div className="wr-nav__primary-row">
+                  <a
+                    ref={(node) => { triggerRefs.current[item.id] = node; }}
+                    data-nav={item.id}
+                    href={routePath(item.id)}
+                    className={active ? 'is-active' : ''}
+                    onClick={(event) => { event.preventDefault(); navigate(item.id); }}
+                    onKeyDown={(event) => handlePrimaryKeyDown(event, item.id, hasMenu)}
+                  >{item.label}</a>
+                  {hasMenu && <button type="button" className="wr-nav__toggle" aria-label={`Open ${item.label} menu`} aria-expanded={isOpen} onClick={() => setOpenMenu((current) => current === item.id ? null : item.id)}><ChevronDown aria-hidden="true" /></button>}
+                </div>
+                {hasMenu && isOpen && (item.id === 'materials' ? renderMaterialsMenu() : renderSimpleMenu(item.id))}
+              </div>
             );
           })}
         </nav>
 
         <div className="wr-header__actions">
-          <button className="wr-icon-button" onClick={onOpenSearch} aria-label={t(currentLocale, 'search')} title={t(currentLocale, 'search')}><Search /></button>
+          <button className="wr-icon-button wr-header__search" onClick={onOpenSearch} aria-label={`${t(currentLocale, 'search')} (Ctrl+K)`} title={`${t(currentLocale, 'search')} (Ctrl+K)`}><Search /></button>
           <button className="wr-button wr-button--secondary wr-header__samples" onClick={openSamples} aria-label={`${t(currentLocale, 'samples')} (${sampleCount})`}><Package /><span>{t(currentLocale, 'samples')}</span>{sampleCount > 0 && <b>{sampleCount}</b>}</button>
           <button className="wr-button wr-button--primary wr-header__rfq" onClick={openCart} aria-label={`${t(currentLocale, 'rfq')} (${cartCount})`}><FileText /><span>{t(currentLocale, 'rfq')}</span>{cartCount > 0 && <b>{cartCount}</b>}</button>
           <button className="wr-icon-button wr-header__menu-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen} aria-label="Toggle menu">{mobileMenuOpen ? <X /> : <Menu />}</button>
@@ -192,32 +237,31 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {mobileMenuOpen && (
-        <nav className="wr-mobile-nav" aria-label="Mobile navigation">
-          {desktopNavigation.map((group) => {
-            if (!group.items?.length && group.id) {
-              return <a key={group.label} className={isNavigationActive(group.id) ? 'is-active' : ''} href={routePath(group.id)} onClick={(event) => { event.preventDefault(); navigate(group.id!); }}>{group.label}</a>;
-            }
-            return (
-              <details
-                key={group.label}
-                open={openMobileGroups.includes(group.label)}
-                onToggle={(event) => {
-                  const isOpen = event.currentTarget.open;
-                  setOpenMobileGroups((groups) => isOpen
-                    ? Array.from(new Set([...groups, group.label]))
-                    : groups.filter((label) => label !== group.label));
-                }}
-              >
-                <summary>{group.label}<ChevronDown aria-hidden="true" /></summary>
-                <div>{group.items?.map((entry, index) => <a key={`${entry.id}-${index}`} className={isNavigationActive(entry.id) ? 'is-active' : ''} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}</div>
-              </details>
-            );
-          })}
-          <div className="wr-mobile-nav__actions">
-            <button className="wr-button wr-button--secondary" onClick={openSamples}><Package />{t(currentLocale, 'samples')} ({sampleCount})</button>
-            <button className="wr-button wr-button--primary" onClick={openCart}><FileText />Request a Quote ({cartCount})</button>
-          </div>
-        </nav>
+        <div className="wr-mobile-nav-shell" onMouseDown={(event) => { if (event.target === event.currentTarget) setMobileMenuOpen(false); }}>
+          <nav className="wr-mobile-nav" aria-label="Mobile navigation">
+            <div className="wr-mobile-nav__header"><strong>{siteConfig.displayBrand}</strong><button className="wr-icon-button" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu"><X /></button></div>
+            <div className="wr-mobile-nav__groups">
+              {primaryNavigation.map((group) => {
+                const children = mobileEntries(group.id);
+                const expanded = openMobileGroup === group.id;
+                return (
+                  <section className="wr-mobile-nav__group" key={group.id}>
+                    <div className="wr-mobile-nav__primary">
+                      <a href={routePath(group.id)} onClick={(event) => { event.preventDefault(); navigate(group.id); }}>{group.label}</a>
+                      {children.length > 0 && <button type="button" aria-label={`${expanded ? 'Collapse' : 'Expand'} ${group.label}`} aria-expanded={expanded} onClick={() => setOpenMobileGroup((current) => current === group.id ? null : group.id)}><ChevronDown className={expanded ? 'is-rotated' : ''} /></button>}
+                    </div>
+                    {expanded && children.length > 0 && <div className="wr-mobile-nav__children">{children.map((entry, index) => <a key={`${group.id}-${entry.id}-${index}`} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}</div>}
+                  </section>
+                );
+              })}
+            </div>
+            <div className="wr-mobile-nav__actions">
+              <button className="wr-button wr-button--secondary" onClick={() => { onOpenSearch(); setMobileMenuOpen(false); }}><Search />Search</button>
+              <button className="wr-button wr-button--secondary" onClick={() => { openSamples(); setMobileMenuOpen(false); }}><Package />Samples {sampleCount > 0 && `(${sampleCount})`}</button>
+              <button className="wr-button wr-button--primary" onClick={() => { openCart(); setMobileMenuOpen(false); }}><FileText />RFQ {cartCount > 0 && `(${cartCount})`}</button>
+            </div>
+          </nav>
+        </div>
       )}
     </header>
   );
