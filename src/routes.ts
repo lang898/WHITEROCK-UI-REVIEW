@@ -44,6 +44,7 @@ export type RouteId =
   | 'about'
   | 'about-story'
   | 'about-vietnam'
+  | 'about-capabilities'
   | 'contact'
   | 'samples'
   | 'rfq'
@@ -120,6 +121,7 @@ export const resourceNavigation: readonly NavigationItem[] = [
 export const aboutNavigation: readonly NavigationItem[] = [
   { id: 'about-story', label: 'Our Story' },
   { id: 'about-vietnam', label: 'Vietnam Manufacturing' },
+  { id: 'about-capabilities', label: 'Capabilities' },
   { id: 'contact', label: 'Contact' },
 ] as const;
 
@@ -210,6 +212,7 @@ export const routes: RouteDefinition[] = [
   route('about', '/about/', 'About', 'Learn about the legal entity, Vietnam manufacturing approach, stone experience, and drawing-led production model.', 'AboutPage', aboutOg),
   route('about-story', '/about/story/', 'Our Story', 'Learn how stone experience, drawing control, and Vietnam manufacturing come together.', 'AboutPage', aboutOg),
   route('about-vietnam', '/about/vietnam/', 'Vietnam Manufacturing', 'Review the Dong Nai manufacturing base and direct production model.', 'AboutPage', factoryOg),
+  route('about-capabilities', '/about/capabilities/', 'Manufacturing Capabilities', 'Review published Vietnam plant area, annual production capacity, monthly container output, and the production controls behind repeat stone programs.', 'AboutPage', factoryOg),
   route('contact', '/contact/', 'Contact', 'Contact the Vietnam team for project support, samples, technical documents, and quotation preparation.', 'ContactPage', aboutOg),
   route('samples', '/samples/', 'Samples', 'Build a physical sample box to confirm shortlisted material directions.', 'WebPage', materialOg),
   route('rfq', '/rfq/', 'Request a Quote', 'Prepare a stone RFQ with selected materials, products, drawings, quantities, and project details.', 'WebPage', kitchenOg),
