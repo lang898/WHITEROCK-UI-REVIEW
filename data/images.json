@@ -1,0 +1,84 @@
+{
+  "items": [
+    {
+      "id": "home-hero-application",
+      "src": "/assets/owner/countertops/waterfall-kitchen-island.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK visual library",
+      "aspectRatio": "16:9",
+      "usedIn": "Home hero / application reference"
+    },
+    {
+      "id": "factory-production",
+      "src": "/assets/owner/enhanced/cnc-cutting-line-enhanced.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK visual library",
+      "aspectRatio": "3:2",
+      "usedIn": "Factory / material fabrication reference"
+    },
+    {
+      "id": "factory-exterior",
+      "src": "/assets/owner/enhanced/factory-exterior-enhanced.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK visual library",
+      "aspectRatio": "4:3",
+      "usedIn": "About"
+    },
+    {
+      "id": "factory-qc",
+      "src": "/assets/owner/qc/digital-thickness-inspection.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK visual library",
+      "aspectRatio": "3:2",
+      "usedIn": "Factory quality control"
+    },
+    {
+      "id": "material-marble",
+      "src": "/assets/materials/white-marble-v2.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK material library",
+      "aspectRatio": "1:1",
+      "usedIn": "Marble / material library"
+    },
+    {
+      "id": "material-granite",
+      "src": "/assets/materials/granite-v2.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK material library",
+      "aspectRatio": "1:1",
+      "usedIn": "Granite / material library"
+    },
+    {
+      "id": "material-quartz",
+      "src": "/assets/materials/quartz-v2.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK material library",
+      "aspectRatio": "1:1",
+      "usedIn": "Quartz / material library"
+    },
+    {
+      "id": "application-kitchen",
+      "src": "/assets/applications/modern-kitchen-inspiration.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK application library",
+      "aspectRatio": "3:2",
+      "usedIn": "Kitchen applications"
+    },
+    {
+      "id": "application-bathroom",
+      "src": "/assets/applications/master-bath-inspiration.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK application library",
+      "aspectRatio": "3:2",
+      "usedIn": "Bathroom applications"
+    },
+    {
+      "id": "application-furniture",
+      "src": "/assets/owner/countertops/oval-travertine-coffee-top.jpg",
+      "placeholder": false,
+      "source": "WHITEROCK visual library",
+      "aspectRatio": "3:2",
+      "usedIn": "Furniture applications"
+    }
+  ]
+}
