@@ -1,0 +1,26 @@
+/* Apply one restrained photographic grade to editorial/factory scenes only.
+   Material swatches and color references are intentionally excluded so specification colors remain unfiltered. */
+.wr-trust-hero__slide img,
+.wr-home-brand-story img,
+.wr-home-before-after__stage > img,
+.wr-home-before-after__preview > img,
+.wr-home-applications img,
+.wr-factory-page__hero img,
+.wr-factory-tab-panel img,
+.wr-photo-reference-rail img,
+.wr-about-hero img,
+.wr-about-story img,
+.wr-resource-feature img,
+.wr-application-card__media img,
+.wr-stone-character img,
+.wr-stone-type-gallery img,
+.wr-stone-type-application-layout img {
+  filter: saturate(.9) contrast(.97) brightness(1.015);
+}
+
+.wr-trust-hero__slide img,
+.wr-home-applications img,
+.wr-about-hero img,
+.wr-factory-page__hero img {
+  object-position: center;
+}
