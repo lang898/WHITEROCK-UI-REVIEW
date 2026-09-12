@@ -36,14 +36,21 @@ jobs:
           grep -rnE "#fff|#000" src/ | tee -a evidence/colors-final.txt || true
           echo "=== FINAL: direct font-size ===" | tee evidence/fonts-final.txt
           grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-final.txt || true
+          echo "=== FINAL: EB Garamond ===" | tee evidence/font-family-final.txt
+          grep -rn "EB Garamond" src/ | tee -a evidence/font-family-final.txt || true
           test "$(grep -rnE '#fff|#000' src/ | wc -l)" -eq 0
           test "$(grep -rnE 'font-size: [0-9]' src/ | wc -l)" -eq 0
+          test "$(grep -rn 'EB Garamond' src/ | wc -l)" -eq 0
           grep -q "import './ultimate-rebuild.css';" src/main.tsx
           grep -q "import './detail-rebuild.css';" src/main.tsx
-          grep -q "onSelectRelated={(product) => setSelectedProduct(product)}" src/App.tsx
+          grep -q "onSelectRelated={handleOpenProductDetail}" src/App.tsx
+          grep -q '"playwright": "1.63.0"' package.json
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high
 
       - name: TypeScript
         run: npx tsc --noEmit
@@ -60,10 +67,14 @@ jobs:
           grep -q "assets/materials/white-marble-v2.jpg" dist/materials/marble/index.html
           grep -q "Alpine Carrara Marble | NATURAL &amp; ENGINEERED STONE\|Alpine Carrara Marble | NATURAL & ENGINEERED STONE" dist/colors/alpine-carrara/index.html
           grep -q "Technical Documents | NATURAL &amp; ENGINEERED STONE\|Technical Documents | NATURAL & ENGINEERED STONE" dist/resources/documents/index.html
+          grep -q "Manufacturing Capabilities | NATURAL &amp; ENGINEERED STONE\|Manufacturing Capabilities | NATURAL & ENGINEERED STONE" dist/about/capabilities/index.html
+          grep -q "WR-VT24 Single Sink Vanity Top | NATURAL &amp; ENGINEERED STONE\|WR-VT24 Single Sink Vanity Top | NATURAL & ENGINEERED STONE" dist/products/wr-vt24/index.html
           grep -q "materials/marble" dist/stone-types/marble/index.html
           grep -q "products/table-tops" dist/products/furniture-tops/index.html
           grep -q "colors/alpine-carrara" dist/sitemap.xml
           grep -q "resources/documents" dist/sitemap.xml
+          grep -q "about/capabilities" dist/sitemap.xml
+          grep -q "products/wr-vt24" dist/sitemap.xml
           test ! -d dist/admin
 
       - name: Verify admin bundle is absent
@@ -76,9 +87,6 @@ jobs:
             echo "Fake admin data still exists in bundle" >&2
             exit 1
           fi
-
-      - name: Install browser harness
-        run: npm install --no-save --package-lock=false playwright@1.55.0
 
       - name: Start preview
         run: |
@@ -133,12 +141,12 @@ jobs:
             fonts: await page.evaluate(() => ({
               h1Family: getComputedStyle(document.querySelector('h1')).fontFamily,
               bodyFamily: getComputedStyle(document.body).fontFamily,
-              ebLoaded: document.fonts.check('40px "EB Garamond"'),
               libreLoaded: document.fonts.check('40px "Libre Baskerville"'),
               interLoaded: document.fonts.check('16px Inter'),
             })),
             childOrder: await page.locator('.wr-home').evaluate(el => Array.from(el.children).map(node => node.className || node.tagName)),
           };
+          if (!evidence.home.fonts.h1Family.includes('Libre Baskerville') || !evidence.home.fonts.libreLoaded || !evidence.home.fonts.interLoaded) throw new Error(`Font verification failed: ${JSON.stringify(evidence.home.fonts)}`);
           await page.screenshot({ path: 'evidence/home-final.png', fullPage: true });
 
           const landingPaths = {
@@ -193,7 +201,7 @@ jobs:
           const groups = {
             factory: ['/factory/overview/','/factory/production/','/factory/quality/','/factory/compliance/'],
             resources: ['/resources/documents/','/resources/cad/','/resources/care/','/resources/packing/','/resources/samples/','/resources/faq/'],
-            about: ['/about/','/about/story/','/about/vietnam/','/contact/'],
+            about: ['/about/','/about/story/','/about/vietnam/','/about/capabilities/','/contact/'],
           };
           evidence.routeGroups = {};
           for (const [group, paths] of Object.entries(groups)) {
@@ -212,17 +220,26 @@ jobs:
           await page.screenshot({ path: 'evidence/color-detail-final.png', fullPage: true });
 
           await load(page, '/products/kitchen-countertops/', 'main h1');
+          const categoryPath = new URL(page.url()).pathname;
           await page.locator('.wr-catalog-card__media').first().click();
           await page.locator('.wr-detail-dialog--product').waitFor({ state: 'visible' });
           const beforeProduct = await page.locator('.wr-modal-header h3').innerText();
           const relatedButton = page.locator('.wr-related-products__grid button').first();
           await relatedButton.scrollIntoViewIfNeeded();
           await relatedButton.click();
-          await page.waitForTimeout(150);
-          const afterProduct = await page.locator('.wr-modal-header h3').innerText();
-          evidence.relatedProduct = { beforeProduct, afterProduct, changed: beforeProduct !== afterProduct };
-          if (!evidence.relatedProduct.changed) throw new Error('Related product selection did not change ProductModal content');
-          await page.getByRole('button', { name: 'Close product details' }).click();
+          await page.waitForFunction((oldPath) => window.location.pathname !== oldPath && /^\/products\/[^/]+\/$/.test(window.location.pathname), categoryPath);
+          await page.locator('main h1').first().waitFor({ state: 'visible', timeout: 15000 });
+          const detailPath = new URL(page.url()).pathname;
+          const detailH1 = await page.locator('main h1').first().innerText();
+          const detailTitle = await page.title();
+          if (detailPath === categoryPath || !detailH1 || detailH1 === beforeProduct) throw new Error(`Related product URL navigation failed: ${JSON.stringify({ categoryPath, detailPath, beforeProduct, detailH1 })}`);
+          await page.reload({ waitUntil: 'networkidle' });
+          await page.locator('main h1').first().waitFor({ state: 'visible', timeout: 15000 });
+          const refreshedPath = new URL(page.url()).pathname;
+          const refreshedH1 = await page.locator('main h1').first().innerText();
+          evidence.relatedProduct = { beforeProduct, detailPath, detailH1, detailTitle, refreshedPath, refreshedH1, refreshStable: detailPath === refreshedPath && detailH1 === refreshedH1 };
+          if (!evidence.relatedProduct.refreshStable) throw new Error(`Product detail refresh failed: ${JSON.stringify(evidence.relatedProduct)}`);
+          await page.screenshot({ path: 'evidence/product-detail-final.png', fullPage: true });
 
           await load(page, '/colors/white/', 'main h1');
           const compareButtons = page.getByRole('button', { name: /^Compare$/ });
@@ -259,7 +276,7 @@ jobs:
           }
 
           const capture = [
-            ['index','/','h1'], ['factory','/factory/','main h1'], ['marble','/materials/marble/','main h1'], ['alpine','/colors/alpine-carrara/','[role="dialog"]'], ['resource-docs','/resources/documents/','main h1']
+            ['index','/','h1'], ['factory','/factory/','main h1'], ['marble','/materials/marble/','main h1'], ['alpine','/colors/alpine-carrara/','[role="dialog"]'], ['resource-docs','/resources/documents/','main h1'], ['capabilities','/about/capabilities/','main h1'], ['product','/products/wr-vt24/','main h1']
           ];
           evidence.explicitPages = {};
           for (const [name, pathname, ready] of capture) {
