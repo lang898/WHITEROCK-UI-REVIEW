@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   verify:
@@ -16,122 +16,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Pull main explicitly
         if: github.event_name == 'push'
         run: git pull origin main
 
-      - name: Record pre-cleanup evidence and apply deterministic tail fixes
+      - name: Verify source cleanup
         run: |
           mkdir -p evidence
-          echo "HEAD_BEFORE=$(git rev-parse HEAD)" | tee evidence/head-before.txt
-          echo "=== PRE: #fff/#000 ===" | tee evidence/colors-before.txt
-          grep -rnE "#fff|#000" src/ | tee -a evidence/colors-before.txt || true
-          echo "=== PRE: direct font-size ===" | tee evidence/fonts-before.txt
-          grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-before.txt || true
-          printf 'colors_before_count=' > evidence/cleanup-counts.txt
-          grep -rnE "#fff|#000" src/ | wc -l >> evidence/cleanup-counts.txt || true
-          printf 'fonts_before_count=' >> evidence/cleanup-counts.txt
-          grep -rnE "font-size: [0-9]" src/ | wc -l >> evidence/cleanup-counts.txt || true
-          python - <<'PY'
-          from pathlib import Path
-          import re
-
-          main = Path('src/main.tsx')
-          text = main.read_text()
-          if "import './detail-rebuild.css';" not in text:
-              text = text.replace("import './ultimate-rebuild.css';\n", "import './ultimate-rebuild.css';\nimport './detail-rebuild.css';\n")
-              main.write_text(text)
-
-          app = Path('src/App.tsx')
-          text = app.read_text()
-          old = "{selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} />}"
-          new = "{selectedProduct && <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={handleAddToCart} onShare={handleOpenShare} onSelectRelated={(product) => setSelectedProduct(product)} />}"
-          if old in text:
-              text = text.replace(old, new)
-              app.write_text(text)
-
-          # Eliminate grep-visible #fff/#000 prefixes while preserving non-white/black colors.
-          hex_pattern = re.compile(r'(?i)#(?:[0-9a-f]{6}|[0-9a-f]{3})(?![0-9a-f])')
-          def replace_hex(match):
-              token = match.group(0)
-              raw = token[1:].lower()
-              if raw in {'fff', 'ffffff'}:
-                  return 'var(--wr-bg)'
-              if raw in {'000', '000000'}:
-                  return 'var(--wr-ink)'
-              if raw.startswith(('fff', '000')):
-                  if len(raw) == 3:
-                      raw = ''.join(c * 2 for c in raw)
-                  r, g, b = int(raw[0:2], 16), int(raw[2:4], 16), int(raw[4:6], 16)
-                  return f'rgb({r} {g} {b})'
-              return token
-
-          source_paths = [p for p in Path('src').rglob('*') if p.suffix in {'.css', '.ts', '.tsx', '.html'}]
-          for path in source_paths:
-              value = path.read_text()
-              updated = hex_pattern.sub(replace_hex, value)
-              if updated != value:
-                  path.write_text(updated)
-
-          # Variableize all direct px/rem/em font-size declarations.
-          css_paths = list(Path('src').rglob('*.css'))
-          size_pattern = re.compile(r'font-size:\s*([0-9]+(?:\.[0-9]+)?)(px|rem|em)\b')
-          seen = set()
-          for path in css_paths:
-              seen.update(size_pattern.findall(path.read_text()))
-
-          semantic = {
-              ('12', 'px'): '--fs-caption',
-              ('14', 'px'): '--fs-small',
-              ('16', 'px'): '--fs-body',
-              ('20', 'px'): '--fs-lead',
-              ('24', 'px'): '--fs-h3',
-          }
-          generic = {}
-          for value, unit in sorted(seen, key=lambda item: (item[1], float(item[0]))):
-              key = (value, unit)
-              if key in semantic:
-                  continue
-              safe = value.replace('.', '_')
-              generic[key] = f'--fs-{unit}-{safe}'
-
-          token_file = Path('src/ultimate-rebuild.css')
-          token_text = token_file.read_text()
-          marker = '  --fs-caption: 12px;\n'
-          additions = ''.join(
-              f"  {token}: {value}{unit};\n"
-              for (value, unit), token in generic.items()
-              if f"  {token}:" not in token_text
-          )
-          if additions and marker in token_text:
-              token_text = token_text.replace(marker, marker + additions)
-              token_file.write_text(token_text)
-
-          mapping = {**semantic, **generic}
-          for path in css_paths:
-              value = path.read_text()
-              updated = size_pattern.sub(lambda m: f"font-size: var({mapping[(m.group(1), m.group(2))]})", value)
-              if updated != value:
-                  path.write_text(updated)
-          PY
-          echo "=== POST: #fff/#000 ===" | tee evidence/colors-after.txt
-          grep -rnE "#fff|#000" src/ | tee -a evidence/colors-after.txt || true
-          echo "=== POST: direct font-size ===" | tee evidence/fonts-after.txt
-          grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-after.txt || true
-          printf 'colors_after_count=' >> evidence/cleanup-counts.txt
-          grep -rnE "#fff|#000" src/ | wc -l >> evidence/cleanup-counts.txt || true
-          printf 'fonts_after_count=' >> evidence/cleanup-counts.txt
-          grep -rnE "font-size: [0-9]" src/ | wc -l >> evidence/cleanup-counts.txt || true
-          git diff -- src | tee evidence/source-diff.patch
+          echo "HEAD=$(git rev-parse HEAD)" | tee evidence/head.txt
+          echo "=== FINAL: #fff/#000 ===" | tee evidence/colors-final.txt
+          grep -rnE "#fff|#000" src/ | tee -a evidence/colors-final.txt || true
+          echo "=== FINAL: direct font-size ===" | tee evidence/fonts-final.txt
+          grep -rnE "font-size: [0-9]" src/ | tee -a evidence/fonts-final.txt || true
+          test "$(grep -rnE '#fff|#000' src/ | wc -l)" -eq 0
+          test "$(grep -rnE 'font-size: [0-9]' src/ | wc -l)" -eq 0
+          grep -q "import './ultimate-rebuild.css';" src/main.tsx
+          grep -q "import './detail-rebuild.css';" src/main.tsx
+          grep -q "onSelectRelated={(product) => setSelectedProduct(product)}" src/App.tsx
 
       - name: Install dependencies
         run: npm ci
@@ -142,32 +51,19 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Commit deterministic source cleanup
-        if: github.event_name == 'push'
-        run: |
-          if ! git diff --quiet -- src; then
-            git config user.name "WHITEROCK verification bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add src
-            git commit -m "Finish verification tail fixes and source cleanup"
-            git push origin HEAD:main
-          else
-            echo "No source cleanup changes to commit."
-          fi
-
       - name: Verify static route metadata
         run: |
           set -e
+          grep -q "Stone Surfaces | NATURAL &amp; ENGINEERED STONE\|Stone Surfaces | NATURAL & ENGINEERED STONE" dist/index.html
+          grep -q "Vietnam Stone Factory | NATURAL &amp; ENGINEERED STONE\|Vietnam Stone Factory | NATURAL & ENGINEERED STONE" dist/factory/index.html
           grep -q "Marble | NATURAL &amp; ENGINEERED STONE\|Marble | NATURAL & ENGINEERED STONE" dist/materials/marble/index.html
-          grep -q "materials/marble" dist/materials/marble/index.html
-          grep -q "Production | NATURAL &amp; ENGINEERED STONE\|Production | NATURAL & ENGINEERED STONE" dist/factory/production/index.html
-          grep -q "factory/production" dist/factory/production/index.html
+          grep -q "assets/materials/white-marble-v2.jpg" dist/materials/marble/index.html
+          grep -q "Alpine Carrara Marble | NATURAL &amp; ENGINEERED STONE\|Alpine Carrara Marble | NATURAL & ENGINEERED STONE" dist/colors/alpine-carrara/index.html
+          grep -q "Technical Documents | NATURAL &amp; ENGINEERED STONE\|Technical Documents | NATURAL & ENGINEERED STONE" dist/resources/documents/index.html
           grep -q "materials/marble" dist/stone-types/marble/index.html
           grep -q "products/table-tops" dist/products/furniture-tops/index.html
-          grep -q "materials/quartz" dist/sitemap.xml
-          grep -q "resources/documents" dist/sitemap.xml
           grep -q "colors/alpine-carrara" dist/sitemap.xml
-          grep -q "Alpine Carrara Marble | NATURAL &amp; ENGINEERED STONE\|Alpine Carrara Marble | NATURAL & ENGINEERED STONE" dist/colors/alpine-carrara/index.html
+          grep -q "resources/documents" dist/sitemap.xml
           test ! -d dist/admin
 
       - name: Verify admin bundle is absent
@@ -181,66 +77,220 @@ jobs:
             exit 1
           fi
 
-      - name: Start preview and capture DOM/screenshots
+      - name: Install browser harness
+        run: npm install --no-save --package-lock=false playwright@1.55.0
+
+      - name: Start preview
         run: |
           npm run preview -- --host 127.0.0.1 --port 4173 > evidence/preview.log 2>&1 &
           echo $! > evidence/preview.pid
           for i in {1..30}; do
-            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
             sleep 1
           done
-          BROWSER="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
-          echo "browser=$BROWSER" | tee evidence/browser.txt
-          pages=("home:/" "factory:/factory/" "marble:/materials/marble/" "color:/colors/alpine-carrara/" "resources:/resources/documents/")
-          for pair in "${pages[@]}"; do
-            name="${pair%%:*}"; path="${pair#*:}"
-            curl -fsS "http://127.0.0.1:4173${path}" > "evidence/${name}-curl.html"
-            if [ -n "$BROWSER" ]; then
-              "$BROWSER" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=1440,1200 --screenshot="evidence/${name}.png" "http://127.0.0.1:4173${path}" >/dev/null 2>&1 || true
-              "$BROWSER" --headless --no-sandbox --disable-gpu --dump-dom "http://127.0.0.1:4173${path}" > "evidence/${name}-dom.html" 2>/dev/null || true
-            fi
-          done
-          if [ -n "$BROWSER" ]; then
-            "$BROWSER" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=390,844 --screenshot="evidence/home-mobile-390.png" "http://127.0.0.1:4173/" >/dev/null 2>&1 || true
-            "$BROWSER" --headless --no-sandbox --disable-gpu --hide-scrollbars --window-size=1024,1000 --screenshot="evidence/home-tablet-1024.png" "http://127.0.0.1:4173/" >/dev/null 2>&1 || true
-          fi
-          python - <<'PY'
-          from pathlib import Path
-          from html.parser import HTMLParser
-          import re
+          echo "Preview failed to start" >&2
+          exit 1
 
-          class Parser(HTMLParser):
-              def __init__(self):
-                  super().__init__(); self.title=''; self.h1=[]; self.nav=[]; self.buttons=0; self._tag=None; self._buf=[]
-              def handle_starttag(self, tag, attrs):
-                  if tag == 'button': self.buttons += 1
-                  if tag in {'title','h1','nav'}: self._tag=tag; self._buf=[]
-              def handle_endtag(self, tag):
-                  if self._tag == tag:
-                      text=' '.join(''.join(self._buf).split())
-                      if tag=='title': self.title=text
-                      elif tag=='h1' and text: self.h1.append(text)
-                      elif tag=='nav' and text: self.nav.append(text)
-                      self._tag=None; self._buf=[]
-              def handle_data(self, data):
-                  if self._tag: self._buf.append(data)
+      - name: Browser verification
+        env:
+          BASE_URL: http://127.0.0.1:4173
+        run: |
+          node --input-type=module <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs/promises';
+          import path from 'node:path';
 
-          out=[]
-          for name in ['home','factory','marble','color','resources']:
-              dom=Path(f'evidence/{name}-dom.html')
-              src=dom if dom.exists() and dom.stat().st_size else Path(f'evidence/{name}-curl.html')
-              text=src.read_text(errors='ignore')
-              p=Parser(); p.feed(text)
-              og=re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', text, re.I)
-              out.append(f"{name}: source={src.name} title={p.title!r} h1={p.h1[:2]!r} nav={p.nav[:1]!r} buttons={p.buttons} og_image={(og.group(1) if og else '')!r}")
-          Path('evidence/dom-summary.txt').write_text('\n'.join(out)+'\n')
-          print('\n'.join(out))
-          PY
+          const base = process.env.BASE_URL;
+          const executablePath = '/usr/bin/google-chrome';
+          const browser = await chromium.launch({ executablePath, headless: true, args: ['--no-sandbox'] });
+          const evidence = {};
+          const errors = [];
 
-      - name: Upload verification evidence
+          async function newPage(viewport = { width: 1440, height: 1100 }) {
+            const page = await browser.newPage({ viewportSize: viewport });
+            page.on('console', msg => { if (msg.type() === 'error') errors.push(`console:${page.url()}:${msg.text()}`); });
+            page.on('pageerror', err => errors.push(`pageerror:${page.url()}:${err.message}`));
+            return page;
+          }
+
+          async function load(page, pathname, ready = 'main') {
+            const response = await page.goto(`${base}${pathname}`, { waitUntil: 'networkidle' });
+            if (!response || !response.ok()) throw new Error(`${pathname} response ${response?.status()}`);
+            await page.locator(ready).first().waitFor({ state: 'visible', timeout: 15000 });
+            await page.waitForTimeout(500);
+          }
+
+          // Six primary navigation items and independent landing pages.
+          const page = await newPage();
+          await load(page, '/', 'h1');
+          evidence.home = {
+            title: await page.title(),
+            h1: await page.locator('h1').first().innerText(),
+            nav: await page.locator('nav[aria-label="Primary navigation"] [data-nav]').allInnerTexts(),
+            buttons: await page.locator('button').count(),
+            palette: await page.evaluate(() => {
+              const cs = getComputedStyle(document.documentElement);
+              return ['--wr-bg','--wr-bg-alt','--wr-ink','--wr-accent'].map(k => [k, cs.getPropertyValue(k).trim()]);
+            }),
+            fonts: await page.evaluate(() => ({
+              h1Family: getComputedStyle(document.querySelector('h1')).fontFamily,
+              bodyFamily: getComputedStyle(document.body).fontFamily,
+              ebLoaded: document.fonts.check('40px "EB Garamond"'),
+              libreLoaded: document.fonts.check('40px "Libre Baskerville"'),
+              interLoaded: document.fonts.check('16px Inter'),
+            })),
+            childOrder: await page.locator('.wr-home').evaluate(el => Array.from(el.children).map(node => node.className || node.tagName)),
+          };
+          await page.screenshot({ path: 'evidence/home-final.png', fullPage: true });
+
+          const landingPaths = {
+            products: '/products/', materials: '/materials/', factory: '/factory/', resources: '/resources/', about: '/about/', contact: '/contact/'
+          };
+          evidence.landings = {};
+          for (const [name, pathname] of Object.entries(landingPaths)) {
+            await load(page, pathname, 'main');
+            const h1 = page.locator('main h1').first();
+            await h1.waitFor({ state: 'visible', timeout: 15000 });
+            evidence.landings[name] = { requested: pathname, finalUrl: new URL(page.url()).pathname, title: await page.title(), h1: await h1.innerText() };
+            if (new URL(page.url()).pathname !== pathname) throw new Error(`${name} redirected to ${page.url()}`);
+            await page.screenshot({ path: `evidence/${name}-landing-final.png`, fullPage: true });
+          }
+
+          // Dropdown close behavior: outside, Escape/focus return, switch, route, mouseleave 200ms, scroll >100px.
+          await load(page, '/', 'h1');
+          const item = id => page.locator(`[data-nav="${id}"]`).locator('xpath=ancestor::div[contains(@class,"wr-nav__item")]');
+          const productsLink = page.locator('[data-nav="products"]');
+          const materialsLink = page.locator('[data-nav="materials"]');
+          const closeChecks = {};
+          await productsLink.hover();
+          closeChecks.opened = await item('products').evaluate(el => el.classList.contains('is-open'));
+          await page.evaluate(() => document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })));
+          closeChecks.outside = !(await item('products').evaluate(el => el.classList.contains('is-open')));
+          await productsLink.hover(); await page.keyboard.press('Escape'); await page.waitForTimeout(50);
+          closeChecks.escape = !(await item('products').evaluate(el => el.classList.contains('is-open')));
+          closeChecks.escapeFocusReturned = await page.evaluate(() => document.activeElement?.getAttribute('data-nav') === 'products');
+          await productsLink.hover(); await materialsLink.hover();
+          closeChecks.switch = !(await item('products').evaluate(el => el.classList.contains('is-open'))) && (await item('materials').evaluate(el => el.classList.contains('is-open')));
+          await productsLink.hover(); await productsLink.click(); await page.waitForURL('**/products/');
+          closeChecks.route = (await page.locator('.wr-nav__item.is-open').count()) === 0;
+          await load(page, '/', 'h1');
+          await productsLink.hover(); await page.mouse.move(1430, 900); await page.waitForTimeout(260);
+          closeChecks.mouseleave200 = !(await item('products').evaluate(el => el.classList.contains('is-open')));
+          await productsLink.hover(); await page.evaluate(() => window.scrollTo(0, 180)); await page.waitForTimeout(100);
+          closeChecks.scroll100 = !(await item('products').evaluate(el => el.classList.contains('is-open')));
+          evidence.dropdownClose = closeChecks;
+          if (Object.values(closeChecks).some(v => v !== true)) throw new Error(`Dropdown close verification failed: ${JSON.stringify(closeChecks)}`);
+
+          // Stone page modules.
+          await load(page, '/materials/marble/', 'main h1');
+          const stoneSelectors = ['.wr-stone-type-hero','.wr-stone-character','.wr-stone-tech-viz','.wr-stone-type-colors','.wr-stone-type-fabrication','.wr-stone-type-gallery','.wr-stone-care','.wr-stone-type-documents','.wr-stone-type-applications','.wr-stone-final-cta'];
+          evidence.stone = { title: await page.title(), h1: await page.locator('main h1').first().innerText(), modules: {} };
+          for (const selector of stoneSelectors) evidence.stone.modules[selector] = await page.locator(selector).count();
+          if (Object.values(evidence.stone.modules).some(v => v < 1)) throw new Error(`Stone modules missing: ${JSON.stringify(evidence.stone.modules)}`);
+          await page.screenshot({ path: 'evidence/marble-final.png', fullPage: true });
+
+          // Factory four subpages, Resources six subpages, About pages + Contact.
+          const groups = {
+            factory: ['/factory/overview/','/factory/production/','/factory/quality/','/factory/compliance/'],
+            resources: ['/resources/documents/','/resources/cad/','/resources/care/','/resources/packing/','/resources/samples/','/resources/faq/'],
+            about: ['/about/','/about/story/','/about/vietnam/','/contact/'],
+          };
+          evidence.routeGroups = {};
+          for (const [group, paths] of Object.entries(groups)) {
+            evidence.routeGroups[group] = [];
+            for (const pathname of paths) {
+              await load(page, pathname, 'main');
+              const h1 = page.locator('main h1').first();
+              await h1.waitFor({ state: 'visible', timeout: 15000 });
+              evidence.routeGroups[group].push({ path: pathname, title: await page.title(), h1: await h1.innerText() });
+            }
+          }
+
+          // Independent color URL with modal detail and static metadata.
+          await load(page, '/colors/alpine-carrara/', '[role="dialog"]');
+          evidence.colorDetail = { path: new URL(page.url()).pathname, title: await page.title(), dialogText: (await page.locator('[role="dialog"]').innerText()).slice(0, 500) };
+          if (!evidence.colorDetail.dialogText.includes('Alpine Carrara')) throw new Error('Color detail modal did not open for slug URL');
+          await page.screenshot({ path: 'evidence/color-detail-final.png', fullPage: true });
+
+          // Related Products: button must change the visible ProductModal product.
+          await load(page, '/products/kitchen-countertops/', 'main h1');
+          await page.locator('.wr-catalog-card__media').first().click();
+          await page.locator('.wr-detail-dialog--product').waitFor({ state: 'visible' });
+          const beforeProduct = await page.locator('.wr-modal-header h3').innerText();
+          const relatedButton = page.locator('.wr-related-products__grid button').first();
+          await relatedButton.scrollIntoViewIfNeeded();
+          await relatedButton.click();
+          await page.waitForTimeout(150);
+          const afterProduct = await page.locator('.wr-modal-header h3').innerText();
+          evidence.relatedProduct = { beforeProduct, afterProduct, changed: beforeProduct !== afterProduct };
+          if (!evidence.relatedProduct.changed) throw new Error('Related product selection did not change ProductModal content');
+          await page.getByRole('button', { name: 'Close product details' }).click();
+
+          // Compare -> Sample -> RFQ flow using color cards.
+          await load(page, '/colors/white/', 'main h1');
+          const compareButtons = page.getByRole('button', { name: /^Compare$/ });
+          const compareCount = await compareButtons.count();
+          if (compareCount < 2) throw new Error(`Need 2 color compare buttons; found ${compareCount}`);
+          await compareButtons.nth(0).click();
+          await compareButtons.nth(1).click();
+          const tray = page.locator('.wr-compare-tray');
+          await tray.waitFor({ state: 'visible' });
+          await tray.getByRole('button', { name: /^Compare$/ }).click();
+          const compareDialog = page.locator('.wr-compare-dialog');
+          await compareDialog.waitFor({ state: 'visible' });
+          await compareDialog.getByRole('button', { name: 'Add colors to Sample Box' }).click();
+          await compareDialog.getByRole('button', { name: 'Add colors to RFQ' }).click();
+          evidence.compareFlow = await page.evaluate(() => ({
+            sampleBox: JSON.parse(localStorage.getItem('whiterock_sample_box') || '[]'),
+            rfqCart: JSON.parse(localStorage.getItem('whiterock_rfq_cart') || '[]'),
+          }));
+          if (evidence.compareFlow.sampleBox.length < 2 || evidence.compareFlow.rfqCart.length < 2) throw new Error(`Compare flow storage not populated: ${JSON.stringify(evidence.compareFlow)}`);
+          await compareDialog.getByRole('button', { name: 'Done' }).click();
+          await page.getByRole('button', { name: /RFQ/ }).last().click();
+          await page.locator('[role="dialog"]').last().waitFor({ state: 'visible' });
+          evidence.compareFlow.rfqDialogOpened = true;
+          await page.screenshot({ path: 'evidence/compare-rfq-final.png', fullPage: true });
+
+          // 390px and 1024px overflow checks + screenshots.
+          for (const [label, viewport] of Object.entries({ mobile390: { width: 390, height: 844 }, tablet1024: { width: 1024, height: 1000 } })) {
+            const p2 = await newPage(viewport);
+            await load(p2, '/', 'h1');
+            const dims = await p2.evaluate(() => ({ innerWidth: window.innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+            evidence[label] = dims;
+            if (dims.scrollWidth > dims.innerWidth + 1) throw new Error(`${label} horizontal overflow ${JSON.stringify(dims)}`);
+            await p2.screenshot({ path: `evidence/${label}-final.png`, fullPage: true });
+            await p2.close();
+          }
+
+          // Five explicit F-section captures.
+          const capture = [
+            ['index','/','h1'], ['factory','/factory/','main h1'], ['marble','/materials/marble/','main h1'], ['alpine','/colors/alpine-carrara/','[role="dialog"]'], ['resource-docs','/resources/documents/','main h1']
+          ];
+          evidence.explicitPages = {};
+          for (const [name, pathname, ready] of capture) {
+            await load(page, pathname, ready);
+            evidence.explicitPages[name] = {
+              title: await page.title(),
+              h1: await page.locator('main h1').count() ? await page.locator('main h1').first().innerText() : null,
+              nav: await page.locator('nav[aria-label="Primary navigation"] [data-nav]').allInnerTexts(),
+              buttons: await page.locator('button').count(),
+              ogImage: await page.locator('meta[property="og:image"]').getAttribute('content'),
+            };
+            await page.screenshot({ path: `evidence/${name}-final.png`, fullPage: true });
+          }
+
+          await fs.writeFile('evidence/browser-verification.json', JSON.stringify(evidence, null, 2));
+          await fs.writeFile('evidence/browser-errors.txt', errors.join('\n') + (errors.length ? '\n' : ''));
+          console.log(JSON.stringify(evidence, null, 2));
+          if (errors.length) throw new Error(`Browser console/page errors: ${errors.join(' | ')}`);
+          await browser.close();
+          NODE
+
+      - name: Upload final verification evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: whiterock-verification-evidence
+          name: whiterock-final-verification-evidence
           path: |
             evidence/
             dist/
