@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronDown, FileText, Mail, Menu, Package, Search, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, Mail, Menu, Package, Search, X } from 'lucide-react';
 import { WhatsAppIcon } from './SocialIcons';
+import { colors } from '../data';
 import { siteConfig } from '../data/site';
 import {
   aboutNavigation,
@@ -56,6 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<RouteId | null>(null);
   const [openMobileGroup, setOpenMobileGroup] = useState<RouteId | null>(null);
+  const [hoveredMaterial, setHoveredMaterial] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLElement>(null);
@@ -76,6 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   useEffect(() => () => cancelCloseTimer(), []);
+  useEffect(() => { if (openMenu !== 'materials') setHoveredMaterial(null); }, [openMenu]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,24 +172,40 @@ export const Header: React.FC<HeaderProps> = ({
     );
   };
 
+  const materialSwatches = hoveredMaterial ? colors.filter((color) => color.material === hoveredMaterial).slice(0, 4) : [];
   const renderMaterialsMenu = () => (
     <div className="wr-nav__menu wr-nav__mega wr-nav__mega--materials">
-      <div className="wr-nav__mega-column">
-        <strong>Stone Type</strong>
-        {stoneMaterialNavigation.map((entry) => <a key={entry.id} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}
-      </div>
-      <div className="wr-nav__mega-column">
-        <strong>By Color</strong>
-        {byColor.map((entry) => <a key={`${entry.id}-${entry.label}`} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}
-      </div>
-      <div className="wr-nav__mega-column">
-        <strong>By Application</strong>
-        {byApplication.map((entry) => <a key={entry.id} href={routePath(entry.id)} onClick={(event) => { event.preventDefault(); navigate(entry.id); }}>{entry.label}</a>)}
-      </div>
-      <div className="wr-nav__mega-footer">
-        <a href={routePath('colors')} onClick={(event) => { event.preventDefault(); navigate('colors'); }}>Explore Full Color Library</a>
-        <a href={routePath('compare')} onClick={(event) => { event.preventDefault(); navigate('compare'); }}>Compare Materials</a>
-        <a href={routePath('finishes')} onClick={(event) => { event.preventDefault(); navigate('finishes'); }}>Finishes &amp; Edges</a>
+      <div className="wr-material-cascade">
+        <div className="wr-material-cascade__primary">
+          {stoneMaterialNavigation.map((entry) => (
+            <a
+              key={entry.id}
+              className={hoveredMaterial === entry.label ? 'is-active' : ''}
+              href={routePath(entry.id)}
+              onMouseEnter={() => setHoveredMaterial(entry.label)}
+              onFocus={() => setHoveredMaterial(entry.label)}
+              onClick={(event) => { event.preventDefault(); navigate(entry.id); }}
+            >
+              <span>{entry.label}</span><ChevronRight aria-hidden="true" />
+            </a>
+          ))}
+          <span className="wr-material-cascade__divider" aria-hidden="true" />
+          <a href={routePath('materials')} onClick={(event) => { event.preventDefault(); navigate('materials'); }}>View all materials</a>
+          <a href={routePath('colors')} onClick={(event) => { event.preventDefault(); navigate('colors'); }}>Colors library</a>
+        </div>
+        {hoveredMaterial && (
+          <div className="wr-material-cascade__panel">
+            <strong>{hoveredMaterial} colors</strong>
+            <div className="wr-material-cascade__swatches">
+              {materialSwatches.map((color) => (
+                <a key={color.slug} href={`/colors/${color.slug}/`}>
+                  <img src={color.swatchWebp || color.swatchImage} alt={`${color.name} ${color.material} swatch`} width="160" height="160" loading="lazy" />
+                  <span>{color.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -207,9 +226,8 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="wr-header__main">
-        <a className="wr-brand" href={routePath('home')} aria-label={`${siteConfig.displayBrand} home`} onClick={(event) => { event.preventDefault(); navigate('home'); }}>
-          <img className="wr-brand__mark" src="/assets/brand/whiterock-mark-refined.svg" alt="Stone manufacturer mark" width="80" height="80" />
-          <span><strong>{siteConfig.displayBrand}</strong><small>{siteConfig.tagline}</small></span>
+        <a className="wr-brand" href={routePath('home')} aria-label="WHITEROCK home" onClick={(event) => { event.preventDefault(); navigate('home'); }}>
+          <span className="wr-brand__wordmark"><strong>WHITEROCK</strong><small>Natural &amp; Engineered Stone</small></span>
         </a>
 
         <nav ref={navRef} className="wr-nav" aria-label="Primary navigation">
@@ -252,7 +270,7 @@ export const Header: React.FC<HeaderProps> = ({
       {mobileMenuOpen && (
         <div className="wr-mobile-nav-shell" onMouseDown={(event) => { if (event.target === event.currentTarget) setMobileMenuOpen(false); }}>
           <nav className="wr-mobile-nav" aria-label="Mobile navigation">
-            <div className="wr-mobile-nav__header"><strong>{siteConfig.displayBrand}</strong><button className="wr-icon-button" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu"><X /></button></div>
+            <div className="wr-mobile-nav__header"><strong>WHITEROCK</strong><button className="wr-icon-button" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu"><X /></button></div>
             <div className="wr-mobile-nav__groups">
               {primaryNavigation.map((group) => {
                 const children = mobileEntries(group.id);
