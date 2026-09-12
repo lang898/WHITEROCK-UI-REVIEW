@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { routes, type RouteDefinition } from './src/routes';
+import colorsData from './data/colors.json';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const productionDomain = 'https://www.whiterockstone.com';
@@ -22,6 +23,18 @@ const legacyRedirects: Record<string, string> = {
   '/stone-types/engineered-marble/': '/materials/engineered-marble/',
   '/applications/hotel/': '/applications/commercial/',
 };
+
+type StaticColor = { slug: string; name: string; material: string; description: string; swatchImage: string; swatchWebp?: string; swatchAvif?: string };
+const publicAsset = (value: string) => value.startsWith('/') ? value : `/${value}`;
+const colorRoutes: RouteDefinition[] = (colorsData.colors as StaticColor[]).map((color) => ({
+  id: 'colors',
+  path: `/colors/${color.slug}/`,
+  title: `${color.name} ${color.material} | ${displayBrand}`,
+  description: `Review ${color.name} ${color.material}, including finish, thickness, applications, sample options, and quotation support.`,
+  schemaType: 'Product',
+  ogImage: publicAsset(color.swatchAvif || color.swatchWebp || color.swatchImage),
+}));
+const allStaticRoutes = [...routes, ...colorRoutes];
 
 const escapeHtml = (value: string) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -54,7 +67,7 @@ function routeHtml(template: string, route: RouteDefinition) {
   html = canonicalExpression.test(html) ? html.replace(canonicalExpression, canonicalTag) : html.replace('</head>', `    ${canonicalTag}\n  </head>`);
   html = html.replace(/\s*<script id="static-route-structured-data" type="application\/ld\+json">[\s\S]*?<\/script>/i, '');
 
-  const graph: Record<string, unknown>[] = [{ '@type': route.schemaType, '@id': `${canonical}#page`, name: route.title, description: route.description, url: canonical, isPartOf: { '@id': `${productionDomain}/#website` }, about: { '@id': `${productionDomain}/#organization` } }];
+  const graph: Record<string, unknown>[] = [{ '@type': route.schemaType, '@id': `${canonical}#page`, name: route.title, description: route.description, url: canonical, image: socialImage, isPartOf: { '@id': `${productionDomain}/#website` }, about: { '@id': `${productionDomain}/#organization` } }];
   if (route.id === 'home') graph.push({ '@type': 'Organization', '@id': `${productionDomain}/#organization`, name: legalName, alternateName: displayBrand, url: productionDomain }, { '@type': 'WebSite', '@id': `${productionDomain}/#website`, name: displayBrand, url: productionDomain, publisher: { '@id': `${productionDomain}/#organization` } });
   else graph.push({ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: productionDomain }, { '@type': 'ListItem', position: 2, name: route.title, item: canonical }] });
   const schema = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
@@ -72,7 +85,7 @@ const staticRoutePages = () => ({
   async closeBundle() {
     const distDir = path.resolve(rootDir, 'dist');
     const template = await readFile(path.join(distDir, 'index.html'), 'utf8');
-    await Promise.all(routes.map(async (route) => {
+    await Promise.all(allStaticRoutes.map(async (route) => {
       const relativePath = route.path.replace(/^\/+|\/+$/g, '');
       const outputDirectory = relativePath ? path.join(distDir, relativePath) : distDir;
       await mkdir(outputDirectory, { recursive: true });
@@ -83,7 +96,7 @@ const staticRoutePages = () => ({
       await mkdir(outputDirectory, { recursive: true });
       await writeFile(path.join(outputDirectory, 'index.html'), redirectHtml(target), 'utf8');
     }));
-    const sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...routes.map((route) => `  <url><loc>${new URL(route.path, productionDomain).toString()}</loc></url>`), '</urlset>', ''].join('\n');
+    const sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...allStaticRoutes.map((route) => `  <url><loc>${new URL(route.path, productionDomain).toString()}</loc></url>`), '</urlset>', ''].join('\n');
     await writeFile(path.join(distDir, 'sitemap.xml'), sitemap, 'utf8');
   },
 });
